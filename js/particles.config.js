@@ -126,6 +126,6 @@ particlesJS("particles-js", particleSettings);
 document.addEventListener("DOMContentLoaded", function() {
    var elements = document.querySelectorAll('a');
    [].forEach.call(elements, function(value){
-     value.style.color = randomColor;
+     value.style.color = '#ad0f0f';
    });
 });
