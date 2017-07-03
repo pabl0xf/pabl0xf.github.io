@@ -114,6 +114,19 @@
                         return characteristic.writeValue(uint8);
                     })
             }
+            if (device && e.keyCode === 40) {
+                device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+                    .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
+                    .then(characteristic => {
+                        // Take off
+                        var uint8 = new Uint8Array(3);
+                        uint8[0] = 0x11;
+                        uint8[1] = 0x24;
+                        uint8[2] = 0x51;
+
+                        return characteristic.writeValue(uint8);
+                    })
+            }
         });
     </script>
 </body>
