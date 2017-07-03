@@ -71,6 +71,7 @@
 
         $('#disconnectButton').click(function(e) {
           device.disconnect();
+          $('#controlsSection').hide();
         });
 
         $("body").keyup(function(e) {
