@@ -103,7 +103,6 @@
         $("body").keyup(function(e) {
             if (device && e.keyCode === 38) {
                 device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
-                    .then(server => server.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f'))
                     .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
                     .then(characteristic => {
                         // Take off
