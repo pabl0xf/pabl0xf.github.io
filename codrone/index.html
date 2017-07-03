@@ -63,41 +63,14 @@
                     $('#controlsSection').show();
 
                 })
-                // .then(server => server.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f'))
-                // .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
-                // .then(characteristic => {
-                //     // Writing 1 is the signal to reset energy expended.
-                //     var uint8 = new Uint8Array(3);
-                //     uint8[0] = 17;
-                //     uint8[1] = 34;
-                //     uint8[2] = 1;
-                //
-                //     return characteristic.writeValue(uint8);
-                // })
-                // .then(server => {
-                //   // Note that we could also get all services that match a specific UUID by
-                //   // passing it to getPrimaryServices().
-                //   console.log('Getting Services...');
-                //   return server.getPrimaryServices();
-                // })
-                // .then(services => {
-                //   console.log('Getting Characteristics...');
-                //   let queue = Promise.resolve();
-                //   services.forEach(service => {
-                //     queue = queue.then(_ => service.getCharacteristics().then(characteristics => {
-                //       console.log('> Service: ' + service.uuid);
-                //       characteristics.forEach(characteristic => {
-                //         console.log('>> Characteristic: ' + characteristic.uuid + ' ' +
-                //             getSupportedProperties(characteristic));
-                //       });
-                //     }));
-                //   });
-                //   return queue;
-                // })
                 .catch(error => {
                     console.log('Argh! ' + error);
                     alert(error);
                 });
+        });
+
+        $('#disconnectButton').click(function(e) {
+          device.gatt.disconnect();
         });
 
         $("body").keyup(function(e) {
