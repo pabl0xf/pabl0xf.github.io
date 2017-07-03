@@ -59,7 +59,7 @@
                     return device.gatt.connect();
                 })
                 .then(server => {
-                    a = server;
+                    device = server;
                     $('#controlsSection').show();
 
                 })
