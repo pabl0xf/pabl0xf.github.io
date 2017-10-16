@@ -91,26 +91,54 @@ function getSupportedProperties(characteristic) {
 }
 $('#scanButton').click(function(e) {
     e.preventDefault();
-    console.log('Requesting any Bluetooth Device...');
-    navigator.bluetooth.requestDevice({
-            // filters: [...] <- Prefer filters to save energy & show relevant devices.
-            acceptAllDevices: true,
-            optionalServices: ['c320df00-7891-11e5-8bcf-feff819cdc9f']
-        })
-        .then(device => {
-            console.log('Connecting to GATT Server...');
-            return device.gatt.connect();
-        })
-        .then(server => {
-            Code.device = server;
-            $('#controlsSection').show();
-        })
-        .catch(error => {
-            console.log('Argh! ' + error);
-            alert(error);
-        });
+    if(Code.device){
+        Code.device.disconnect();
+        Code.device = null;
+        $('#scanButton').text('Connect');
+        $('#coDroneLabel').hide();
+        $('#forceLanding').prop( "disabled", true );
+    }
+    else{
+      console.log('Requesting any Bluetooth Device...');
+      navigator.bluetooth.requestDevice({
+              // filters: [...] <- Prefer filters to save energy & show relevant devices.
+              acceptAllDevices: true,
+              optionalServices: ['c320df00-7891-11e5-8bcf-feff819cdc9f']
+          })
+          .then(device => {
+              console.log('Connecting to GATT Server...');
+              return device.gatt.connect();
+              console.log(device);
+          })
+          .then(server => {
+              Code.device = server;
+              console.log(server);
+              Code.deviceConnected = server.device.name;
+
+              $('#scanButton').text('Disconnect');
+              $('#coDroneLabel').show();
+              $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
+              $('#forceLanding').prop( "disabled", false );
+          })
+          .catch(error => {
+              console.log('Argh! ' + error);
+              alert(error);
+          });
+        }
 }.bind(this));
 
+$('#forceLanding').click(function(e) {
+    Code.device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+         .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
+         .then(characteristic => {
+             // Take off
+             var uint8 = new Uint8Array(3);
+             uint8[0] = 0x11;
+             uint8[1] = 0x24;
+             uint8[2] = 0x51;
+             return characteristic.writeValue(uint8);
+         })
+}.bind(this));
 /**
  * List of RTL languages.
  */
@@ -273,7 +301,7 @@ Code.LANG = Code.getLang();
  * List of tab names.
  * @private
  */
-Code.TABS_ = ['blocks', 'javascript', 'php', 'python', 'dart', 'lua', 'xml'];
+Code.TABS_ = ['blocks', 'javascript'];
 
 Code.selected = 'blocks';
 
@@ -282,27 +310,6 @@ Code.selected = 'blocks';
  * @param {string} clickedName Name of tab clicked.
  */
 Code.tabClick = function(clickedName) {
-  // If the XML tab was open, save and render the content.
-  if (document.getElementById('tab_xml').className == 'tabon') {
-    var xmlTextarea = document.getElementById('content_xml');
-    var xmlText = xmlTextarea.value;
-    var xmlDom = null;
-    try {
-      xmlDom = Blockly.Xml.textToDom(xmlText);
-    } catch (e) {
-      var q =
-          window.confirm(MSG['badXml'].replace('%1', e));
-      if (!q) {
-        // Leave the user on the XML tab.
-        return;
-      }
-    }
-    if (xmlDom) {
-      Code.workspace.clear();
-      Blockly.Xml.domToWorkspace(xmlDom, Code.workspace);
-    }
-  }
-
   if (document.getElementById('tab_blocks').className == 'tabon') {
     Code.workspace.setVisible(false);
   }

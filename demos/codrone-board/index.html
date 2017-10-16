@@ -15,19 +15,29 @@
   <script src="../../blockly_compressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
-  <script src="../../python_compressed.js"></script>
-  <script src="../../php_compressed.js"></script>
-  <script src="../../lua_compressed.js"></script>
-  <script src="../../dart_compressed.js"></script>
 
 </head>
-<body style="padding-left:15px">
-  <table width="100%" height="100%">
-    <h3>Blocky for CoDrone <span class="label label-default"> Demo</span></h3>
+<style>
+  .main-title {
+    display:inline;
+  }
+
+  #coDroneLabel {
+    display:inline;
+    color: green;
+    margin-left: 15px;
+  }
+</style>
+<body style="padding-left:15px;margin-top:15px;">
+  <table width="80%" height="100%">
+    <h3 class="main-title">Blocky for CoDrone <span class="label label-default"> Demo</span></h3>
+     <h4 id="coDroneLabel"></h4>
     <tr>
       <td>
         <nav class="navbar">
          	<button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button>
+         	&nbsp;&nbsp;<button type="button" id="forceLanding" class="btn btn-danger navbar-btn" disabled>Emergency landing</button>
+
         </nav>
         </h1>
       </td>
@@ -43,15 +53,6 @@
             <td class="tabmin">&nbsp;</td>
             <td id="tab_javascript" class="taboff">JavaScript</td>
             <td class="tabmin">&nbsp;</td>
-            <td id="tab_python" class="taboff">Python</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_php" class="taboff">PHP</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_lua" class="taboff">Lua</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_dart" class="taboff">Dart</td>
-            <td class="tabmin">&nbsp;</td>
-            <td id="tab_xml" class="taboff">XML</td>
             <td class="tabmax">
               <button id="trashButton" class="notext" title="...">
                 <img src='../../media/1x1.gif' class="trash icon21">
@@ -72,17 +73,13 @@
       </td>
     </tr>
   </table>
+
   <div id="content_blocks" class="content"></div>
   <pre id="content_javascript" class="content"></pre>
-  <pre id="content_python" class="content"></pre>
-  <pre id="content_php" class="content"></pre>
-  <pre id="content_lua" class="content"></pre>
-  <pre id="content_dart" class="content"></pre>
-  <textarea id="content_xml" class="content" wrap="off"></textarea>
 
   <xml id="toolbox" style="display: none">
-    <category name="Fly" colour="%{BKY_TEXTS_HUE}">
-      <block type="takeoff"></block>
+    <category name="CoDrone" colour="%{BKY_TEXTS_HUE}">
+      <block type="take_off"></block>
 
     </category>
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
@@ -388,6 +385,17 @@
     <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
   </xml>
+  <div style="position:absolute;text-align:center;top:0;left:80%;width:20%;height:100%;">
+    <div style="height:180px;">
+
+    </div>
+    <div style="height:200px;border:solid 1px black;">
+    Sensors output
+    </div>
+    <div style="height:200px;border:solid 1px black;">
+     Secondary output
+    </div>
+  </div>
   <script src="code.js"></script>
 </body>
 </html>
