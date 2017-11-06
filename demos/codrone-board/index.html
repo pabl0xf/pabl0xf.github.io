@@ -80,16 +80,24 @@
   <xml id="toolbox" style="display: none">
     <category name="CoDrone" colour="%{BKY_TEXTS_HUE}">
       <block type="take_off"></block>
+      <block type="variables_get_roll"></block>
+      <block type="variables_set_roll"></block>
+      <block type="variables_get_pitch"></block>
+      <block type="variables_set_pitch"></block>
+      <block type="variables_get_yaw"></block>
+      <block type="variables_set_yaw"></block>
+      <block type="variables_get_throttle"></block>
+      <block type="variables_set_throttle"></block>
       <block type="pitch"></block>
       <block type="yaw"></block>
       <block type="roll"></block>
       <block type="throttle"></block>
-      <block type="fly_4"></block>
-      <block type="fly_5"></block>
       <block type="fly"></block>
       <block type="fly_5plain"></block>
       <block type="fly_4plain"></block>
       <block type="send_command"></block>
+
+
     </category>
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
@@ -391,7 +399,9 @@
       </block>
     </category>
     <sep></sep>
-    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE">
+
+    </category>
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
   </xml>
   <div style="position:absolute;text-align:center;top:0;left:80%;width:20%;height:100%;">
