@@ -16,6 +16,7 @@
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
 
+
 </head>
 <style>
   .main-title {
@@ -78,6 +79,28 @@
   <pre id="content_javascript" class="content"></pre>
 
   <xml id="toolbox" style="display: none">
+    <category name="Robo Master">
+       <category name="Control">
+         <block type="controls_if"></block>
+         <block type="controls_whileUntil"></block>
+       </category>
+       <category name="Logic">
+         <block type="logic_compare"></block>
+         <block type="logic_operation"></block>
+         <block type="logic_boolean"></block>
+       </category>
+     </category>
+     <category name="Cadet">
+       <block type="start"></block>
+       <category name="Move">
+         <block type="move_forward"></block>
+         <block type="move_backward"></block>
+       </category>
+       <category name="Turn">
+         <block type="turn_left"></block>
+         <block type="turn_right"></block>
+       </category>
+     </category>
     <category name="CoDrone" colour="%{BKY_TEXTS_HUE}">
       <block type="take_off"></block>
       <block type="variables_get_roll"></block>
@@ -88,10 +111,7 @@
       <block type="variables_set_yaw"></block>
       <block type="variables_get_throttle"></block>
       <block type="variables_set_throttle"></block>
-      <block type="pitch"></block>
-      <block type="yaw"></block>
-      <block type="roll"></block>
-      <block type="throttle"></block>
+
       <block type="fly"></block>
       <block type="fly_5plain"></block>
       <block type="fly_4plain"></block>
@@ -399,9 +419,10 @@
       </block>
     </category>
     <sep></sep>
-    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE">
-
+    <category name="Variables" custom="VARIABLE">
+  <block type="variables_get_blah"></block>
     </category>
+
     <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
   </xml>
   <div style="position:absolute;text-align:center;top:0;left:80%;width:20%;height:100%;">
@@ -415,6 +436,8 @@
      Secondary output
     </div>
   </div>
+    <script src="predefinedVars.js"></script>
   <script src="code.js"></script>
+
 </body>
 </html>
