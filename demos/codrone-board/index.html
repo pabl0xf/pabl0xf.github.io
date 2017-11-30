@@ -79,28 +79,43 @@
   <pre id="content_javascript" class="content"></pre>
 
   <xml id="toolbox" style="display: none">
-    <category name="Robo Master">
-       <category name="Control">
-         <block type="controls_if"></block>
-         <block type="controls_whileUntil"></block>
-       </category>
-       <category name="Logic">
-         <block type="logic_compare"></block>
-         <block type="logic_operation"></block>
-         <block type="logic_boolean"></block>
-       </category>
-     </category>
-    <category name="CoDrone" colour="%{BKY_TEXTS_HUE}">
-      <block type="take_off"></block>
-      <block type="land"></block>
-      <block type="go"></block>
-      <block type="go_5"></block>
-      <block type="go_direction_junior_3"></block>
+    <category name="Junior" colour="%{BKY_TEXTS_HUE}">
       <block type="turn_junior_3"></block>
       <block type="turn_degree_junior_2"></block>
       <block type="turn_90_junior"></block>
       <block type="rotate_junior"></block>
       <block type="gotoheight_junior"></block>
+      <block type="getHeight_junior"></block>
+      <block type="setArmColor_junior"></block>
+      <block type="setLEDto_junior"></block>
+    </category>
+    <category name="Senior" colour="%{BKY_LOGIC_HUE}">
+      <block type="go"></block>
+      <block type="go_5"></block>
+      <block type="getHeight_senior"></block>
+      <block type="getBarometer_senior"></block>
+      <block type="getTemperature_senior"></block>
+      <block type="getAngles_senior"></block>
+      <block type="getAccelerometer_senior"></block>
+      <block type="getBatteryPercentage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getTrim_senior"></block>
+      <block type="setArmRGB_senior"></block>
+      <block type="setEyeRGB_senior"></block>
+      <block type="setLEDMode_senior"></block>
+      <block type="resetLED_senior"></block>
+      <block type="flash_senior"></block>
+     </category>
+    <category name="Robo Master">
+
+     </category>
+    <category name="CoDrone" colour="60">
+      <block type="take_off"></block>
+      <block type="land"></block>
+
+      <block type="go_direction_junior_3"></block>
+
       <block type="send_command"></block>
     </category>
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">

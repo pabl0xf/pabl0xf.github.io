@@ -123,6 +123,8 @@ pre.content {
 }
 #content_blocks {
   padding: 0;
+  top: 106px;
+  height: 79% !important;
 }
 .blocklySvg {
   border-top: none !important;
