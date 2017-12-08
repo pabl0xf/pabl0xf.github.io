@@ -89,7 +89,12 @@ function getSupportedProperties(characteristic) {
     }
     return '[' + supportedProperties.join(', ') + ']';
 }
+Blockly.Variables.predefinedVars.push("MyVariableName");
+    //Blockly.Variables.createVariable(Code.workspace, null, 'abcd');
+
 $('#scanButton').click(function(e) {
+    console.log(Blockly.Variables.allVariables);
+    return;
     e.preventDefault();
     if(Code.device){
         Code.device.disconnect();
@@ -489,6 +494,11 @@ Code.init = function() {
 
   // Lazy-load the syntax-highlighting.
   window.setTimeout(Code.importPrettify, 1);
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'pitch');
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'roll');
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'yaw');
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'throttle');
+
 };
 
 /**
