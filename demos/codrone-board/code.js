@@ -89,6 +89,14 @@ function getSupportedProperties(characteristic) {
     }
     return '[' + supportedProperties.join(', ') + ']';
 }
+
+var showNotification = function(Text){
+  var element = $('#notification');
+  element.find('span').text(Text);
+  element.addClass('show');
+  setTimeout(function(){ element.removeClass('show'); }, 3000);
+}
+
 Blockly.Variables.predefinedVars.push("MyVariableName");
     //Blockly.Variables.createVariable(Code.workspace, null, 'abcd');
 
@@ -143,6 +151,12 @@ $('#forceLanding').click(function(e) {
              uint8[2] = 0x51;
              return characteristic.writeValue(uint8);
          })
+}.bind(this));
+
+$('#saveWorkspace').click(function(e) {
+  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+  localStorage.setItem('coDrone', Blockly.Xml.domToText(xml));
+  showNotification('Success.');
 }.bind(this));
 /**
  * List of RTL languages.
@@ -499,6 +513,8 @@ Code.init = function() {
   Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'yaw');
   Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'throttle');
 
+  Code.loadWorkspace();
+
 };
 
 /**
@@ -544,6 +560,20 @@ Code.initLanguage = function() {
   document.getElementById('linkButton').title = MSG['linkTooltip'];
   document.getElementById('runButton').title = MSG['runTooltip'];
   document.getElementById('trashButton').title = MSG['trashTooltip'];
+};
+
+Code.loadWorkspace = function() {
+  Blockly.mainWorkspace.clear();
+  var projectName = 'coDrone';
+
+  if (typeof(Storage) !== 'undefined') {
+    if (localStorage.data !== null) {
+      var xml = Blockly.Xml.textToDom(localStorage.getItem(projectName));
+      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    }
+  } else {
+    console.log('Storage is not support.');
+  }
 };
 
 /**

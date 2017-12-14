@@ -28,16 +28,30 @@
     color: green;
     margin-left: 15px;
   }
+
+  .alert {
+    float: right;
+    display: none;
+  }
+
+  .alert.show {
+    display: block;
+  }
+
 </style>
 <body style="padding-left:15px;margin-top:15px;">
   <table width="80%" height="100%">
     <h3 class="main-title">Blockly for CoDrone <span class="label label-default"> Demo</span></h3>
      <h4 id="coDroneLabel"></h4>
+     <div id="notification" class="alert alert-success">
+       <span></span>
+     </div>
     <tr>
       <td>
         <nav class="navbar">
          	<button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button>
          	&nbsp;&nbsp;<button type="button" id="forceLanding" class="btn btn-danger navbar-btn" disabled>Emergency landing</button>
+         	&nbsp;&nbsp;<button type="button" id="saveWorkspace" class="btn btn-default navbar-btn">  <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
 
         </nav>
         </h1>
@@ -115,9 +129,6 @@
       <block type="playsound_senior"></block>
       <block type="playmysound_senior"></block>
       <block type="setvolume_senior"></block>
-     </category>
-    <category name="Robo Master">
-
      </category>
     <category name="CoDrone" colour="60">
       <block type="take_off"></block>
