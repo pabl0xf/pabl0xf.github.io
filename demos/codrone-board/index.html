@@ -15,6 +15,7 @@
   <script src="../../blockly_compressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
+  <script src="../../python_compressed.js"></script>
 
 
 </head>
@@ -51,8 +52,12 @@
         <nav class="navbar">
          	<button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button>
          	&nbsp;&nbsp;<button type="button" id="forceLanding" class="btn btn-danger navbar-btn" disabled>Emergency landing</button>
-         	&nbsp;&nbsp;<button type="button" id="saveWorkspace" class="btn btn-default navbar-btn">  <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-
+         	&nbsp;&nbsp;
+          <label class="btn btn-default">
+              <span class="glyphicon glyphicon-folder-open"></span>&nbsp; Open <input type="file" id="file-input" style="display: none;">
+          </label>
+          &nbsp;&nbsp;
+          <button type="button" id="saveWorkspace" class="btn btn-default navbar-btn">  <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
         </nav>
         </h1>
       </td>
@@ -67,6 +72,8 @@
             <td id="tab_blocks" class="tabon">...</td>
             <td class="tabmin">&nbsp;</td>
             <td id="tab_javascript" class="taboff">JavaScript</td>
+            <td class="tabmin">&nbsp;</td>
+            <td id="tab_python" class="taboff">Python</td>
             <td class="tabmin">&nbsp;</td>
             <td class="tabmax">
               <button id="trashButton" class="notext" title="...">
@@ -91,9 +98,11 @@
 
   <div id="content_blocks" class="content"></div>
   <pre id="content_javascript" class="content"></pre>
+  <pre id="content_python" class="content"></pre>
 
   <xml id="toolbox" style="display: none">
     <category name="Junior" colour="%{BKY_TEXTS_HUE}">
+      <block type="take_off_junior"></block>
       <block type="turn_junior_3"></block>
       <block type="turn_degree_junior_2"></block>
       <block type="turn_90_junior"></block>
@@ -457,6 +466,7 @@
   </div>
     <script src="predefinedVars.js"></script>
   <script src="code.js"></script>
+  <script src="lib/ble.js"></script>
 
 </body>
 </html>

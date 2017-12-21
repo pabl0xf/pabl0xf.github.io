@@ -153,10 +153,56 @@ $('#forceLanding').click(function(e) {
          })
 }.bind(this));
 
+// Open XML
+
+var readSingleFile = function(e) {
+  var file = e.target.files[0];
+  if (!file) {
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var contents = e.target.result;
+    displayContents(contents);
+  };
+  reader.readAsText(file);
+}
+
+var displayContents = function(contents) {
+  var xml = Blockly.Xml.textToDom(contents);
+  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+}
+
+document.getElementById('file-input')
+  .addEventListener('change', readSingleFile, false);
+
+var createAndOpenFile = function(filename, xml) {
+  var xmltext = Blockly.Xml.domToText(xml);
+  var pom = document.createElement('a');
+
+  var filename = filename + ".xml";
+  var pom = document.createElement('a');
+  var bb = new Blob([xmltext], {type: 'text/plain'});
+
+  pom.setAttribute('href', window.URL.createObjectURL(bb));
+  pom.setAttribute('download', filename);
+
+  pom.dataset.downloadurl = ['text/plain', pom.download, pom.href].join(':');
+  pom.draggable = true; 
+  pom.classList.add('dragout');
+
+  pom.click();
+}
+
 $('#saveWorkspace').click(function(e) {
-  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-  localStorage.setItem('coDrone', Blockly.Xml.domToText(xml));
-  showNotification('Success.');
+  var filename = prompt("File name: ");
+  if (filename == null || filename == "") {
+  } else {
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    localStorage.setItem('coDrone', Blockly.Xml.domToText(xml));
+    createAndOpenFile(filename, xml);
+    showNotification('Success.');
+  }
 }.bind(this));
 /**
  * List of RTL languages.
@@ -320,7 +366,7 @@ Code.LANG = Code.getLang();
  * List of tab names.
  * @private
  */
-Code.TABS_ = ['blocks', 'javascript'];
+Code.TABS_ = ['blocks', 'javascript', 'python'];
 
 Code.selected = 'blocks';
 
