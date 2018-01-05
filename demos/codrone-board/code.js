@@ -100,6 +100,36 @@ var showNotification = function(Text){
 Blockly.Variables.predefinedVars.push("MyVariableName");
     //Blockly.Variables.createVariable(Code.workspace, null, 'abcd');
 
+$('.show-right-panel').click(function(e) {
+  e.preventDefault();
+  $('.content-2').removeClass('active');
+  $('.content-3').removeClass('active');
+  $('.content-1').addClass('active');
+  $('#rightPanel-1').addClass('active');
+});
+
+$('.show-right-panel2').click(function(e) {
+  e.preventDefault();
+  $('.content-1').removeClass('active');
+  $('.content-3').removeClass('active');
+  $('.content-2').addClass('active');
+  Code.tabClick('javascript');
+  $('#rightPanel-1').addClass('active');
+});
+
+$('.show-right-panel3').click(function(e) {
+  e.preventDefault();
+  $('.content-1').removeClass('active');
+  $('.content-2').removeClass('active');
+  $('.content-3').addClass('active');
+  Code.tabClick('python');
+  $('#rightPanel-1').addClass('active');
+});
+
+$('.close-right-panel').click(function(e) {
+  $('#rightPanel-1').removeClass('active');
+});
+
 $('#scanButton').click(function(e) {
     console.log(Blockly.Variables.allVariables);
     return;
@@ -194,7 +224,14 @@ var createAndOpenFile = function(filename, xml) {
   pom.click();
 }
 
-$('#saveWorkspace').click(function(e) {
+$('#openWorkspace').click(function(e){
+  e.preventDefault();
+  $('#file-input').click();
+
+}.bind(this));
+
+$('#saveWorkspace, #saveWorkspaceBtn').click(function(e) {
+  e.preventDefault();
   var filename = prompt("File name: ");
   if (filename == null || filename == "") {
   } else {
@@ -375,19 +412,19 @@ Code.selected = 'blocks';
  * @param {string} clickedName Name of tab clicked.
  */
 Code.tabClick = function(clickedName) {
-  if (document.getElementById('tab_blocks').className == 'tabon') {
-    Code.workspace.setVisible(false);
-  }
+  // if (document.getElementById('tab_blocks').className == 'tabon') {
+  //   Code.workspace.setVisible(false);
+  // }
   // Deselect all tabs and hide all panes.
-  for (var i = 0; i < Code.TABS_.length; i++) {
-    var name = Code.TABS_[i];
-    document.getElementById('tab_' + name).className = 'taboff';
-    document.getElementById('content_' + name).style.visibility = 'hidden';
-  }
+  // for (var i = 0; i < Code.TABS_.length; i++) {
+  //   var name = Code.TABS_[i];
+  //   document.getElementById('tab_' + name).className = 'taboff';
+  //   document.getElementById('content_' + name).style.visibility = 'hidden';
+  // }
 
   // Select the active tab.
   Code.selected = clickedName;
-  document.getElementById('tab_' + clickedName).className = 'tabon';
+  // document.getElementById('tab_' + clickedName).className = 'tabon';
   // Show the selected pane.
   document.getElementById('content_' + clickedName).style.visibility =
       'visible';
@@ -498,7 +535,7 @@ Code.init = function() {
   }
 
   // Construct the toolbox XML.
-  var toolboxText = document.getElementById('toolbox').outerHTML;
+  var toolboxText = document.getElementById('juniorXml').outerHTML;
   var toolboxXml = Blockly.Xml.textToDom(toolboxText);
 
   Code.workspace = Blockly.inject('content_blocks',
@@ -525,6 +562,24 @@ Code.init = function() {
     // Hook a save function onto unload.
     BlocklyStorage.backupOnUnload(Code.workspace);
   }
+
+  $('#juniorXmlBtn').click(function(e){
+    var toolboxText = document.getElementById('juniorXml').outerHTML;
+    var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+    Code.workspace.updateToolbox(toolboxXml);
+  });
+
+  $('#seniorXmlBtn').click(function(e){
+    var toolboxText = document.getElementById('seniorXml').outerHTML;
+    var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+    Code.workspace.updateToolbox(toolboxXml);
+  });
+
+  $('#masterXmlBtn').click(function(e){
+    var toolboxText = document.getElementById('masterXml').outerHTML;
+    var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+    Code.workspace.updateToolbox(toolboxXml);
+  });
 
   Code.tabClick(Code.selected);
 

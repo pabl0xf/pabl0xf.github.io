@@ -30,6 +30,10 @@
     margin-left: 15px;
   }
 
+  .blocklyFlyout {
+    z-index: 999;
+  }
+
   .alert {
     float: right;
     display: none;
@@ -39,9 +43,188 @@
     display: block;
   }
 
+  #content_blocks .title {
+    width: 185px;
+    position: absolute;
+    z-index: 999;
+    border: 2px solid #cfcfcf;
+    margin: 7px;
+    text-align: center;
+    padding: 4px;
+    color: #929292;
+  }
+
+  .blocklyToolboxDiv {
+    padding-top: 75px;
+  }
+
+  .interactive-menu-button {
+    position: relative;
+    padding: 10px;
+    height: 40px;
+    display: block;
+    width: 50px;
+    left: 230px;
+    position: absolute;
+    top: 16px;
+    z-index: 999;
+  }
+  .interactive-menu-button a {
+    width: 35px;
+    height: 35px;
+    display: block;
+    position: relative;
+    text-decoration: none;
+    color: #757575;
+    font-weight: 400;
+  }
+  .interactive-menu-button a span {
+    height: 5px;
+    position: absolute;
+    background: #bfbfbf;
+    text-indent: -999em;
+    width: 100%;
+    top: 5px;
+    transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
+  }
+  .interactive-menu-button a span:before,
+  .interactive-menu-button a span:after {
+    content: '';
+    height: 5px;
+    background: #bfbfbf;
+    width: 100%;
+    position: absolute;
+    top: -9px;
+    left: 0;
+    transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
+  }
+  .interactive-menu-button a span:after {
+    top: 9px;
+  }
+  .interactive-menu-button .menu {
+    display: none;
+    position: absolute;
+    /*background: #efefef;*/
+    padding: 20px 25px;
+    width: 200px;
+    top: 48px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #efefef;
+  }
+  .interactive-menu-button .menu ul {
+    padding: 0;
+    margin: 0;
+  }
+  .interactive-menu-button .menu ul li {
+    list-style: none;
+  }
+  .interactive-menu-button .menu ul li.separator {
+    height: 19px;
+  }
+  .interactive-menu-button .menu.active {
+    display: block;
+  }
+  .interactive-menu-button .menu.active:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -30px;
+    left: -1px;
+    border-top: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #efefef;
+    border-left: 15px solid transparent;
+  }
+  .interactive-menu-button a.active span {
+    background: transparent;
+  }
+  .interactive-menu-button a.active span:before {
+    transform: translateY(6px) translateX(1px) rotate(45deg);
+  }
+  .interactive-menu-button a.active span:after {
+    transform: translateY(-6px) translateX(1px) rotate(-45deg);
+  }
+  .navbar-btn-xml {
+    position: absolute;
+    z-index: 999;
+    left: 2px;
+    top: 45px;
+  }
+
+  #rightPanel-1 .content-1, #rightPanel-1 .content-2, #rightPanel-1 .content-3 {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    top: 0;
+    position: absolute;
+  }
+
+  #rightPanel-1 .content-1.active, #rightPanel-1 .content-2.active, #rightPanel-1 .content-3.active {
+    display: block;
+  }
+
+  #rightPanel-1 {
+    position: absolute;
+    right: -50%;
+    background: red;
+    z-index: 999;
+    height: 100%;
+    width: 50%;
+
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+  
+  #rightPanel-1.active {
+    right: 0;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+
+  #rightPanel-1 .show-right-panel, #rightPanel-1 .show-right-panel2, #rightPanel-1 .show-right-panel3 {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    left: -70px;
+    top: 0px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  #rightPanel-1 .close-right-panel {
+    position: absolute;
+    z-index: 9999;
+    font-size: 23px;
+    margin-left: 4px;
+    color: #808080;
+  }
+
+  #rightPanel-1 .show-right-panel2 {
+    display: block;
+  }
+
+  #rightPanel-1 #content_javascript, #rightPanel-1 #content_python {
+    visibility: visible !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    margin-top: 25px;
+    border: 0;
+  }
+
 </style>
 <body style="padding-left:15px;margin-top:15px;">
-  <table width="80%" height="100%">
+  <table width="100%" height="100%">
     <h3 class="main-title">Blockly for CoDrone <span class="label label-default"> Demo</span></h3>
      <h4 id="coDroneLabel"></h4>
      <div id="notification" class="alert alert-success">
@@ -67,7 +250,7 @@
     </tr>
     <tr>
       <td colspan=2>
-        <table width="100%">
+        <table width="100%" style="display: none;">
           <tr id="tabRow" height="1em">
             <td id="tab_blocks" class="tabon">...</td>
             <td class="tabmin">&nbsp;</td>
@@ -96,12 +279,48 @@
     </tr>
   </table>
 
-  <div id="content_blocks" class="content"></div>
-  <pre id="content_javascript" class="content"></pre>
+
+  <div id="content_blocks" class="content">
+    <div id="rightPanel-1">
+      <a href="#" class="close-right-panel"><i class="glyphicon glyphicon-remove"></i></a>
+      <button class="show-right-panel">Tuts</button>
+      <button class="show-right-panel2">''</button>
+      <button class="show-right-panel3">''</button>
+      <div class="content-1"></div>
+      <div class="content-2">
+        <pre id="content_javascript" class="content"></pre>
+      </div>
+      <div class="content-3">
+        <pre id="content_python" class="content"></pre>
+      </div>
+    </div>
+    <div class="title"><span>Branding</span></div>
+    <div class="navbar-btn-xml">
+      <button id="juniorXmlBtn">Junior</button>
+      <button id="seniorXmlBtn">Senior</button>
+      <button id="masterXmlBtn">Master</button>
+    </div>
+    
+    <div class="interactive-menu-button">
+      <a href="#">
+        <span>Menu</span>
+      </a>
+      <div class="menu">
+        <ul>
+          <a id="saveWorkspaceBtn" href="#"><li>Save</li></a>
+          <a id="openWorkspace" href=""><li>Open...</li></a>
+          <a href=""><li>New</li></a>
+          <li class="separator"></li>
+          <a href=""><li>Undo</li></a>
+          <a href=""><li>Redo</li></a>
+        </ul>
+      </div>
+    </div>
+  </div>
   <pre id="content_python" class="content"></pre>
 
-  <xml id="toolbox" style="display: none">
-    <category name="Junior" colour="%{BKY_TEXTS_HUE}">
+  <xml id="juniorXml" style="display: none">
+    <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
       <block type="take_off_junior"></block>
       <block type="turn_junior_3"></block>
       <block type="turn_degree_junior_2"></block>
@@ -118,7 +337,7 @@
       <block type="flyRoulette_junior"></block>
       <block type="turtleTurn_junior"></block>
     </category>
-    <category name="Senior" colour="%{BKY_LOGIC_HUE}">
+    <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
       <block type="go"></block>
       <block type="go_5"></block>
       <block type="getHeight_senior"></block>
@@ -138,8 +357,8 @@
       <block type="playsound_senior"></block>
       <block type="playmysound_senior"></block>
       <block type="setvolume_senior"></block>
-     </category>
-    <category name="CoDrone" colour="60">
+    </category>
+    <category name="Flight Events" colour="60">
       <block type="take_off"></block>
       <block type="land"></block>
 
@@ -147,7 +366,7 @@
 
       <block type="send_command"></block>
     </category>
-    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+    <category name="Sensors / Status" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -156,7 +375,7 @@
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+    <category name="LEDs" colour="%{BKY_LOOPS_HUE}">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -185,7 +404,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+   <!--  <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -448,12 +667,108 @@
     </category>
     <sep></sep>
     <category name="Variables" custom="VARIABLE">
+    <block type="variables_get_blah"></block>
+    </category>
+
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category> -->
+  </xml>
+
+  <xml id="seniorXml" style="display: none">
+    <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
+      <block type="take_off_junior"></block>
+      <block type="turn_junior_3"></block>
+      <block type="turn_degree_junior_2"></block>
+      <block type="turn_90_junior"></block>
+      <block type="rotate_junior"></block>
+      <block type="gotoheight_junior"></block>
+      <block type="getHeight_junior"></block>
+      <block type="setArmColor_junior"></block>
+      <block type="setLEDto_junior"></block>
+      <block type="playsound_junior"></block>
+      <block type="playmysound_junior"></block>
+      <block type="setvolume_junior"></block>
+      <block type="flySequence_junior"></block>
+      <block type="flyRoulette_junior"></block>
+      <block type="turtleTurn_junior"></block>
+    </category>
+    <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
+      <block type="go"></block>
+      <block type="go_5"></block>
+      <block type="getHeight_senior"></block>
+      <block type="getBarometer_senior"></block>
+      <block type="getTemperature_senior"></block>
+      <block type="getAngles_senior"></block>
+      <block type="getAccelerometer_senior"></block>
+      <block type="getBatteryPercentage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getTrim_senior"></block>
+      <block type="setArmRGB_senior"></block>
+      <block type="setEyeRGB_senior"></block>
+      <block type="setLEDMode_senior"></block>
+      <block type="resetLED_senior"></block>
+      <block type="flash_senior"></block>
+      <block type="playsound_senior"></block>
+      <block type="playmysound_senior"></block>
+      <block type="setvolume_senior"></block>
+    </category>
+    <category name="Flight Events" custom="VARIABLE">
   <block type="variables_get_blah"></block>
     </category>
 
-    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+    <category name="Sensors / Status" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
   </xml>
-  <div style="position:absolute;text-align:center;top:0;left:80%;width:20%;height:100%;">
+
+  <xml id="masterXml" style="display: none">
+    <category name="Flight Sequences" colour="%{BKY_LOGIC_HUE}">
+      <block type="go"></block>
+      <block type="go_5"></block>
+      <block type="getHeight_senior"></block>
+      <block type="getBarometer_senior"></block>
+      <block type="getTemperature_senior"></block>
+      <block type="getAngles_senior"></block>
+      <block type="getAccelerometer_senior"></block>
+      <block type="getBatteryPercentage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getTrim_senior"></block>
+      <block type="setArmRGB_senior"></block>
+      <block type="setEyeRGB_senior"></block>
+      <block type="setLEDMode_senior"></block>
+      <block type="resetLED_senior"></block>
+      <block type="flash_senior"></block>
+      <block type="playsound_senior"></block>
+      <block type="playmysound_senior"></block>
+      <block type="setvolume_senior"></block>
+    </category>
+    <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
+      <block type="go"></block>
+      <block type="go_5"></block>
+      <block type="getHeight_senior"></block>
+      <block type="getBarometer_senior"></block>
+      <block type="getTemperature_senior"></block>
+      <block type="getAngles_senior"></block>
+      <block type="getAccelerometer_senior"></block>
+      <block type="getBatteryPercentage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getTrim_senior"></block>
+      <block type="setArmRGB_senior"></block>
+      <block type="setEyeRGB_senior"></block>
+      <block type="setLEDMode_senior"></block>
+      <block type="resetLED_senior"></block>
+      <block type="flash_senior"></block>
+      <block type="playsound_senior"></block>
+      <block type="playmysound_senior"></block>
+      <block type="setvolume_senior"></block>
+    </category>
+      <category name="Flight Events" custom="VARIABLE">
+    <block type="variables_get_blah"></block>
+      </category>
+
+  </xml>
+  
+  <!-- <div style="position:absolute;text-align:center;top:0;left:80%;width:20%;height:100%;">
     <div style="height:144px;">
 
     </div>
@@ -463,10 +778,16 @@
     <div style="height:50%;border:solid 1px #E2E2E2;border-left:none !important;">
      Secondary output
     </div>
-  </div>
+  </div> -->
     <script src="predefinedVars.js"></script>
   <script src="code.js"></script>
   <script src="lib/ble.js"></script>
+  <script type="text/javascript">
+    $('.interactive-menu-button a').click(function() {
+      // $(this).toggleClass('active');
+      $(this).parent().find('.menu').toggleClass('active');
+    });
+  </script>
 
 </body>
 </html>
