@@ -220,7 +220,7 @@ var createAndOpenFile = function(filename, xml) {
   pom.setAttribute('download', filename);
 
   pom.dataset.downloadurl = ['text/plain', pom.download, pom.href].join(':');
-  pom.draggable = true; 
+  pom.draggable = true;
   pom.classList.add('dragout');
 
   pom.click();
@@ -640,20 +640,20 @@ Code.initLanguage = function() {
     if (a[0] < b[0]) return -1;
     return 0;
   };
-  languages.sort(comp);
-  // Populate the language selection menu.
-  var languageMenu = document.getElementById('languageMenu');
-  languageMenu.options.length = 0;
-  for (var i = 0; i < languages.length; i++) {
-    var tuple = languages[i];
-    var lang = tuple[tuple.length - 1];
-    var option = new Option(tuple[0], lang);
-    if (lang == Code.LANG) {
-      option.selected = true;
-    }
-    languageMenu.options.add(option);
-  }
-  languageMenu.addEventListener('change', Code.changeLanguage, true);
+  // languages.sort(comp);
+  // // Populate the language selection menu.
+  // var languageMenu = document.getElementById('languageMenu');
+  // languageMenu.options.length = 0;
+  // for (var i = 0; i < languages.length; i++) {
+  //   var tuple = languages[i];
+  //   var lang = tuple[tuple.length - 1];
+  //   var option = new Option(tuple[0], lang);
+  //   if (lang == Code.LANG) {
+  //     option.selected = true;
+  //   }
+  //   languageMenu.options.add(option);
+  // }
+  // languageMenu.addEventListener('change', Code.changeLanguage, true);
 
   // Inject language strings.
   document.title += ' ' + MSG['title'];
