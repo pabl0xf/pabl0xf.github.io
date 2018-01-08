@@ -222,6 +222,62 @@
     border: 0;
   }
 
+  #connectMenu p {
+    width: 100%;
+    padding: 35px;
+    font-family: sans-serif;
+    color: #8a8a8a;
+    font-size: 16px;
+  }
+
+  #connectMenu.connected p, #connectMenu.connected #reconnectButton {
+    display: none;
+  }
+
+  #connectMenu.connected {
+    height: 50px;
+
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+
+  #connectMenu {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background: #ddd;
+    width: 200px;
+    border-top: 1px solid #ccc;
+    height: 200px;
+    text-align: center;
+
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+
+  #forceLanding {
+    background: #ccc;
+    border-color: #ccc;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    display: block;
+    position: relative;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 400;
+    top: -50px;
+    left: 60px;
+    font-size: 13px;
+  }
+
 </style>
 <body style="padding-left:15px;margin-top:15px;">
   <table width="100%" height="100%">
@@ -233,14 +289,14 @@
     <tr>
       <td>
         <nav class="navbar">
-         	<button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button>
-         	&nbsp;&nbsp;<button type="button" id="forceLanding" class="btn btn-danger navbar-btn" disabled>Emergency landing</button>
-         	&nbsp;&nbsp;
-          <label class="btn btn-default">
+         	<!-- <button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button> -->
+         	<!-- &nbsp;&nbsp;<button type="button" id="forceLanding" class="btn btn-danger navbar-btn" disabled>Emergency landing</button>
+         	&nbsp;&nbsp; -->
+          <label class="btn btn-default" style="display: none;">
               <span class="glyphicon glyphicon-folder-open"></span>&nbsp; Open <input type="file" id="file-input" style="display: none;">
           </label>
-          &nbsp;&nbsp;
-          <button type="button" id="saveWorkspace" class="btn btn-default navbar-btn">  <span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+          <!-- &nbsp;&nbsp;
+          <button type="button" id="saveWorkspace" class="btn btn-default navbar-btn">  <span class="glyphicon glyphicon-floppy-disk"></span> Save</button> -->
         </nav>
         </h1>
       </td>
@@ -294,6 +350,12 @@
         <pre id="content_python" class="content"></pre>
       </div>
     </div>
+    <div id="connectMenu">
+      <p>Current Drone sensor data</p>
+      <button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button>
+
+      <button type="button" id="reconnectButton" class="btn btn-default navbar-btn">Reconnect</button>
+    </div>
     <div class="title"><span>Branding</span></div>
     <div class="navbar-btn-xml">
       <button id="juniorXmlBtn">Junior</button>
@@ -315,6 +377,7 @@
           <a href=""><li>Redo</li></a>
         </ul>
       </div>
+      <div class="forceLanding"><button type="button" id="forceLanding" class="btn btn-danger navbar-btn">!</button></div>
     </div>
   </div>
   <pre id="content_python" class="content"></pre>

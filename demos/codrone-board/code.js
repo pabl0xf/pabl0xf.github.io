@@ -140,6 +140,7 @@ $('#scanButton').click(function(e) {
         $('#scanButton').text('Connect');
         $('#coDroneLabel').hide();
         $('#forceLanding').prop( "disabled", true );
+        $('#connectMenu').removeClass('connected');
     }
     else{
       console.log('Requesting any Bluetooth Device...');
@@ -162,6 +163,7 @@ $('#scanButton').click(function(e) {
               $('#coDroneLabel').show();
               $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
               $('#forceLanding').prop( "disabled", false );
+              $('#connectMenu').addClass('connected');
           })
           .catch(error => {
               console.log('Argh! ' + error);
