@@ -104,6 +104,7 @@ $('.show-right-panel').click(function(e) {
   e.preventDefault();
   $('.content-2').removeClass('active');
   $('.content-3').removeClass('active');
+  $('.content-4').removeClass('active');
   $('.content-1').addClass('active');
   $('#rightPanel-1').addClass('active');
 });
@@ -112,6 +113,7 @@ $('.show-right-panel2').click(function(e) {
   e.preventDefault();
   $('.content-1').removeClass('active');
   $('.content-3').removeClass('active');
+  $('.content-4').removeClass('active');
   $('.content-2').addClass('active');
   Code.tabClick('javascript');
   $('#rightPanel-1').addClass('active');
@@ -121,8 +123,18 @@ $('.show-right-panel3').click(function(e) {
   e.preventDefault();
   $('.content-1').removeClass('active');
   $('.content-2').removeClass('active');
+  $('.content-4').removeClass('active');
   $('.content-3').addClass('active');
   Code.tabClick('python');
+  $('#rightPanel-1').addClass('active');
+});
+
+$('.show-right-panel4').click(function(e) {
+  e.preventDefault();
+  $('.content-3').removeClass('active');
+  $('.content-2').removeClass('active');
+  $('.content-1').removeClass('active');
+  $('.content-4').addClass('active');
   $('#rightPanel-1').addClass('active');
 });
 
@@ -132,7 +144,6 @@ $('.close-right-panel').click(function(e) {
 
 $('#scanButton').click(function(e) {
     console.log(Blockly.Variables.allVariables);
-    return;
     e.preventDefault();
     if(Code.device){
         Code.device.disconnect();

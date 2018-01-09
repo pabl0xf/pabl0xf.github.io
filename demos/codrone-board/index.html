@@ -43,6 +43,10 @@
     display: block;
   }
 
+  #content_blocks {
+    margin-top: 30px;
+  }
+
   #content_blocks .title {
     width: 185px;
     position: absolute;
@@ -70,7 +74,7 @@
     z-index: 999;
   }
   .interactive-menu-button a {
-    width: 35px;
+    width: 38px;
     height: 35px;
     display: block;
     position: relative;
@@ -79,27 +83,27 @@
     font-weight: 400;
   }
   .interactive-menu-button a span {
-    height: 5px;
+    height: 7px;
     position: absolute;
     background: #bfbfbf;
     text-indent: -999em;
     width: 100%;
-    top: 5px;
+    top: 8px;
     transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
   }
   .interactive-menu-button a span:before,
   .interactive-menu-button a span:after {
     content: '';
-    height: 5px;
+    height: 7px;
     background: #bfbfbf;
     width: 100%;
     position: absolute;
-    top: -9px;
+    top: -13px;
     left: 0;
     transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
   }
   .interactive-menu-button a span:after {
-    top: 9px;
+    top: 13px;
   }
   .interactive-menu-button .menu {
     display: none;
@@ -107,7 +111,7 @@
     /*background: #efefef;*/
     padding: 20px 25px;
     width: 200px;
-    top: 48px;
+    top: 53px;
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid #efefef;
   }
@@ -152,7 +156,7 @@
     top: 45px;
   }
 
-  #rightPanel-1 .content-1, #rightPanel-1 .content-2, #rightPanel-1 .content-3 {
+  #rightPanel-1 .content-1, #rightPanel-1 .content-2, #rightPanel-1 .content-3, #rightPanel-1 .content-4 {
     display: none;
     width: 100%;
     height: 100%;
@@ -161,7 +165,7 @@
     position: absolute;
   }
 
-  #rightPanel-1 .content-1.active, #rightPanel-1 .content-2.active, #rightPanel-1 .content-3.active {
+  #rightPanel-1 .content-1.active, #rightPanel-1 .content-2.active, #rightPanel-1 .content-3.active, #rightPanel-1 .content-4.active {
     display: block;
   }
 
@@ -189,12 +193,13 @@
     transition: all 1s ease;
   }
 
-  #rightPanel-1 .show-right-panel, #rightPanel-1 .show-right-panel2, #rightPanel-1 .show-right-panel3 {
+  #rightPanel-1 .show-right-panel, #rightPanel-1 .show-right-panel2, #rightPanel-1 .show-right-panel3,  #rightPanel-1 .show-right-panel4 {
     position: relative;
     width: 70px;
     height: 70px;
     left: -70px;
     top: 0px;
+    display: block;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
   }
@@ -262,12 +267,13 @@
     transition: all 1s ease;
   }
 
-  #forceLanding {
+
+  #forceLanding, #runButton {
     background: #ccc;
     border-color: #ccc;
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 35px;
+    height: 35px;
     display: block;
     position: relative;
     text-decoration: none;
@@ -278,15 +284,31 @@
     font-size: 13px;
   }
 
+  #forceLanding {
+    font-weight: bolder;
+    font-size: 24px;
+    padding: 0px;
+    left: 117px;
+  }
+
+  #runButton {
+    padding: 4px 5px;
+    font-size: 18px;
+    top: -93px;
+
+  }
+
+
+
 </style>
 <body style="padding-left:15px;margin-top:15px;">
-  <table width="100%" height="100%">
+  <table width="100%" height="100%"  >
     <h3 class="main-title">Blockly for CoDrone <span class="label label-default"> Demo</span></h3>
      <h4 id="coDroneLabel"></h4>
      <div id="notification" class="alert alert-success">
        <span></span>
      </div>
-    <tr>
+    <tr style="display: none;">
       <td>
         <nav class="navbar">
          	<!-- <button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button> -->
@@ -301,10 +323,10 @@
         </h1>
       </td>
       <td class="farSide">
-    
+
       </td>
     </tr>
-    <tr>
+    <tr style="display: none;">
       <td colspan=2>
         <table width="100%" style="display: none;">
           <tr id="tabRow" height="1em">
@@ -321,9 +343,9 @@
               <button id="linkButton" class="notext" title="...">
                 <img src='../../media/1x1.gif' class="link icon21">
               </button>
-              <button id="runButton" class="notext primary" title="...">
+              <!-- <button id="runButton" class="notext primary" title="...">
                 <img src='../../media/1x1.gif' class="run icon21">
-              </button>
+              </button> -->
             </td>
           </tr>
         </table>
@@ -340,14 +362,20 @@
     <div id="rightPanel-1">
       <a href="#" class="close-right-panel"><i class="glyphicon glyphicon-remove"></i></a>
       <button class="show-right-panel">Tuts</button>
-      <button class="show-right-panel2">''</button>
-      <button class="show-right-panel3">''</button>
-      <div class="content-1"></div>
+      <button class="show-right-panel2">'J'</button>
+      <button class="show-right-panel3">'P'</button>
+      <button class="show-right-panel4">'S'</button>
+      <div class="content-1">
+        <h1 style="text-align: center;">Tutorials</h1>
+      </div>
       <div class="content-2">
         <pre id="content_javascript" class="content"></pre>
       </div>
       <div class="content-3">
         <pre id="content_python" class="content"></pre>
+      </div>
+      <div class="content-4">
+          <h3 style="text-align: center;">Sensor data as a right panel</h3>
       </div>
     </div>
     <div id="connectMenu">
@@ -378,6 +406,7 @@
         </ul>
       </div>
       <div class="forceLanding"><button type="button" id="forceLanding" class="btn btn-danger navbar-btn">!</button></div>
+      <div class="playButton"><button type="button" id="runButton" class="btn btn-danger navbar-btn"><i class="glyphicon glyphicon-play"></i></button></div>
     </div>
   </div>
   <pre id="content_python" class="content"></pre>
