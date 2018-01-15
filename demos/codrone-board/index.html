@@ -16,294 +16,10 @@
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
   <script src="../../python_compressed.js"></script>
-
-
 </head>
-<style>
-  .main-title {
-    display:inline;
-  }
-
-  #coDroneLabel {
-    display:inline;
-    color: green;
-    margin-left: 15px;
-  }
-
-  .blocklyFlyout {
-    z-index: 999;
-  }
-
-  .alert {
-    float: right;
-    display: none;
-  }
-
-  .alert.show {
-    display: block;
-  }
-
-  #content_blocks {
-    margin-top: 30px;
-  }
-
-  #content_blocks .title {
-    width: 185px;
-    position: absolute;
-    z-index: 999;
-    border: 2px solid #cfcfcf;
-    margin: 7px;
-    text-align: center;
-    padding: 4px;
-    color: #929292;
-  }
-
-  .blocklyToolboxDiv {
-    padding-top: 75px;
-  }
-
-  .interactive-menu-button {
-    position: relative;
-    padding: 10px;
-    height: 40px;
-    display: block;
-    width: 50px;
-    left: 230px;
-    position: absolute;
-    top: 16px;
-    z-index: 999;
-  }
-  .interactive-menu-button a {
-    width: 38px;
-    height: 35px;
-    display: block;
-    position: relative;
-    text-decoration: none;
-    color: #757575;
-    font-weight: 400;
-  }
-  .interactive-menu-button a span {
-    height: 7px;
-    position: absolute;
-    background: #bfbfbf;
-    text-indent: -999em;
-    width: 100%;
-    top: 8px;
-    transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
-  }
-  .interactive-menu-button a span:before,
-  .interactive-menu-button a span:after {
-    content: '';
-    height: 7px;
-    background: #bfbfbf;
-    width: 100%;
-    position: absolute;
-    top: -13px;
-    left: 0;
-    transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
-  }
-  .interactive-menu-button a span:after {
-    top: 13px;
-  }
-  .interactive-menu-button .menu {
-    display: none;
-    position: absolute;
-    /*background: #efefef;*/
-    padding: 20px 25px;
-    width: 200px;
-    top: 53px;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid #efefef;
-  }
-  .interactive-menu-button .menu ul {
-    padding: 0;
-    margin: 0;
-  }
-  .interactive-menu-button .menu ul li {
-    list-style: none;
-  }
-  .interactive-menu-button .menu ul li.separator {
-    height: 19px;
-  }
-  .interactive-menu-button .menu.active {
-    display: block;
-  }
-  .interactive-menu-button .menu.active:before {
-    content: "";
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    top: -30px;
-    left: -1px;
-    border-top: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 15px solid #efefef;
-    border-left: 15px solid transparent;
-  }
-  .interactive-menu-button a.active span {
-    background: transparent;
-  }
-  .interactive-menu-button a.active span:before {
-    transform: translateY(6px) translateX(1px) rotate(45deg);
-  }
-  .interactive-menu-button a.active span:after {
-    transform: translateY(-6px) translateX(1px) rotate(-45deg);
-  }
-  .navbar-btn-xml {
-    position: absolute;
-    z-index: 999;
-    left: 2px;
-    top: 45px;
-  }
-
-  #rightPanel-1 .content-1, #rightPanel-1 .content-2, #rightPanel-1 .content-3, #rightPanel-1 .content-4 {
-    display: none;
-    width: 100%;
-    height: 100%;
-    background: #f5f5f5;
-    top: 0;
-    position: absolute;
-  }
-
-  #rightPanel-1 .content-1.active, #rightPanel-1 .content-2.active, #rightPanel-1 .content-3.active, #rightPanel-1 .content-4.active {
-    display: block;
-  }
-
-  #rightPanel-1 {
-    position: absolute;
-    right: -50%;
-    background: red;
-    z-index: 999;
-    height: 100%;
-    width: 50%;
-
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    -ms-transition: all 1s ease;
-    transition: all 1s ease;
-  }
-
-  #rightPanel-1.active {
-    right: 0;
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    -ms-transition: all 1s ease;
-    transition: all 1s ease;
-  }
-
-  #rightPanel-1 .show-right-panel, #rightPanel-1 .show-right-panel2, #rightPanel-1 .show-right-panel3,  #rightPanel-1 .show-right-panel4 {
-    position: relative;
-    width: 70px;
-    height: 70px;
-    left: -70px;
-    top: 0px;
-    display: block;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-  }
-
-  #rightPanel-1 .close-right-panel {
-    position: absolute;
-    z-index: 9999;
-    font-size: 23px;
-    margin-left: 4px;
-    color: #808080;
-  }
-
-  #rightPanel-1 .show-right-panel2 {
-    display: block;
-  }
-
-  #rightPanel-1 #content_javascript, #rightPanel-1 #content_python {
-    visibility: visible !important;
-    top: 0 !important;
-    left: 0 !important;
-    height: 100% !important;
-    width: 100% !important;
-    border-radius: 0 !important;
-    margin-top: 25px;
-    border: 0;
-  }
-
-  #connectMenu p {
-    width: 100%;
-    padding: 35px;
-    font-family: sans-serif;
-    color: #8a8a8a;
-    font-size: 16px;
-  }
-
-  #connectMenu.connected p, #connectMenu.connected #reconnectButton {
-    display: none;
-  }
-
-  #connectMenu.connected {
-    height: 50px;
-
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    -ms-transition: all 1s ease;
-    transition: all 1s ease;
-  }
-
-  #connectMenu {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-    background: #ddd;
-    width: 200px;
-    border-top: 1px solid #ccc;
-    height: 200px;
-    text-align: center;
-
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    -ms-transition: all 1s ease;
-    transition: all 1s ease;
-  }
-
-
-  #forceLanding, #runButton {
-    background: #ccc;
-    border-color: #ccc;
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    display: block;
-    position: relative;
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 400;
-    top: -50px;
-    left: 60px;
-    font-size: 13px;
-  }
-
-  #forceLanding {
-    font-weight: bolder;
-    font-size: 24px;
-    padding: 0px;
-    left: 117px;
-  }
-
-  #runButton {
-    padding: 4px 5px;
-    font-size: 18px;
-    top: -93px;
-
-  }
-
-
-
-</style>
-<body style="padding-left:15px;margin-top:15px;">
+<body>
   <table width="100%" height="100%"  >
-    <h3 class="main-title">Blockly for CoDrone <span class="label label-default"> Demo</span></h3>
+    <!-- <h3 class="main-title">Blockly for CoDrone <span class="label label-default"> Demo</span></h3> -->
      <h4 id="coDroneLabel"></h4>
      <div id="notification" class="alert alert-success">
        <span></span>
@@ -311,14 +27,9 @@
     <tr style="display: none;">
       <td>
         <nav class="navbar">
-         	<!-- <button type="button" id="scanButton" class="btn btn-default navbar-btn">Connect</button> -->
-         	<!-- &nbsp;&nbsp;<button type="button" id="forceLanding" class="btn btn-danger navbar-btn" disabled>Emergency landing</button>
-         	&nbsp;&nbsp; -->
           <label class="btn btn-default" style="display: none;">
               <span class="glyphicon glyphicon-folder-open"></span>&nbsp; Open <input type="file" id="file-input" style="display: none;">
           </label>
-          <!-- &nbsp;&nbsp;
-          <button type="button" id="saveWorkspace" class="btn btn-default navbar-btn">  <span class="glyphicon glyphicon-floppy-disk"></span> Save</button> -->
         </nav>
         </h1>
       </td>
@@ -343,9 +54,6 @@
               <button id="linkButton" class="notext" title="...">
                 <img src='../../media/1x1.gif' class="link icon21">
               </button>
-              <!-- <button id="runButton" class="notext primary" title="...">
-                <img src='../../media/1x1.gif' class="run icon21">
-              </button> -->
             </td>
           </tr>
         </table>
@@ -413,52 +121,27 @@
 
   <xml id="juniorXml" style="display: none">
     <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
-      <block type="take_off_junior"></block>
       <block type="turn_junior_3"></block>
       <block type="turn_degree_junior_2"></block>
       <block type="turn_90_junior"></block>
       <block type="rotate_junior"></block>
       <block type="gotoheight_junior"></block>
-      <block type="getHeight_junior"></block>
-      <block type="setArmColor_junior"></block>
-      <block type="setLEDto_junior"></block>
-      <block type="playsound_junior"></block>
-      <block type="playmysound_junior"></block>
-      <block type="setvolume_junior"></block>
-      <block type="flySequence_junior"></block>
-      <block type="flyRoulette_junior"></block>
       <block type="turtleTurn_junior"></block>
     </category>
     <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
       <block type="go"></block>
       <block type="go_5"></block>
-      <block type="getHeight_senior"></block>
-      <block type="getBarometer_senior"></block>
-      <block type="getTemperature_senior"></block>
-      <block type="getAngles_senior"></block>
-      <block type="getAccelerometer_senior"></block>
-      <block type="getBatteryPercentage_senior"></block>
-      <block type="getBatteryVoltage_senior"></block>
-      <block type="getBatteryVoltage_senior"></block>
-      <block type="getTrim_senior"></block>
-      <block type="setArmRGB_senior"></block>
-      <block type="setEyeRGB_senior"></block>
-      <block type="setLEDMode_senior"></block>
-      <block type="resetLED_senior"></block>
-      <block type="flash_senior"></block>
-      <block type="playsound_senior"></block>
-      <block type="playmysound_senior"></block>
-      <block type="setvolume_senior"></block>
     </category>
     <category name="Flight Events" colour="60">
-      <block type="take_off"></block>
+      <block type="take_off_junior"></block>
       <block type="land"></block>
-
       <block type="go_direction_junior_3"></block>
-
       <block type="send_command"></block>
     </category>
     <category name="Sensors / Status" colour="%{BKY_LOGIC_HUE}">
+      <block type="getHeight_junior"></block>
+    </category>
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -467,7 +150,7 @@
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="LEDs" colour="%{BKY_LOOPS_HUE}">
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -496,7 +179,88 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-   <!--  <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+    <category name="LEDs" colour="%{BKY_LOOPS_HUE}">
+      <block type="setLEDto_junior"></block>
+    </category>
+    <category name="Sound Commands" colour="%{BKY_LOGIC_HUE}">
+      <block type="playsound_junior"></block>
+      <block type="playmysound_junior"></block>
+      <block type="setvolume_junior"></block>
+    </category>
+    <category name="Variables" custom="VARIABLE">
+      <block type="variables_get_blah"></block>
+    </category>
+  </xml>
+
+  <xml id="seniorXml" style="display: none">
+    <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
+      <block type="turn_junior_3"></block>
+      <block type="turn_degree_junior_2"></block>
+      <block type="turn_90_junior"></block>
+      <block type="rotate_junior"></block>
+      <block type="gotoheight_junior"></block>
+      <block type="turtleTurn_junior"></block>
+    </category>
+    <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
+      <block type="go"></block>
+      <block type="go_5"></block>
+    </category>
+    <category name="Flight Events" colour="60">
+      <block type="take_off_junior"></block>
+      <block type="land"></block>
+      <block type="go_direction_junior_3"></block>
+      <block type="send_command"></block>
+    </category>
+    <category name="Sensors / Status" colour="%{BKY_LOGIC_HUE}">
+      <block type="getHeight_senior"></block>
+      <block type="getBarometer_senior"></block>
+      <block type="getTemperature_senior"></block>
+      <block type="getAngles_senior"></block>
+      <block type="getAccelerometer_senior"></block>
+      <block type="getBatteryPercentage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getBatteryVoltage_senior"></block>
+      <block type="getTrim_senior"></block>
+    </category>
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+        <value name="BY">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -583,189 +347,156 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
-      <block type="text"></block>
-      <block type="text_join"></block>
-      <block type="text_append">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-        <value name="FIND">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_print">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_prompt_ext">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
+    <category name="LEDs" colour="%{BKY_LOOPS_HUE}">
+      <block type="setArmRGB_senior"></block>
+      <block type="setEyeRGB_senior"></block>
+      <block type="setLEDMode_senior"></block>
+      <block type="resetLED_senior"></block>
     </category>
+    <category name="Sound Commands" colour="%{BKY_LOGIC_HUE}">
+      <block type="playsound_senior"></block>
+      <block type="playmysound_senior"></block>
+      <block type="setvolume_senior"></block>
+    </category>
+    <category name="Variables" custom="VARIABLE">
+      <block type="variables_get_blah"></block>
+    </category>
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+  </xml>
 
-    <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
-      <block type="lists_create_with">
-        <mutation items="0"></mutation>
-      </block>
-      <block type="lists_create_with"></block>
-      <block type="lists_split">
-        <value name="DELIM">
-          <shadow type="codrone">
-            <field name="CODRONE">,</field>
+  <xml id="masterXml" style="display: none">
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
           </shadow>
         </value>
       </block>
-      <block type="lists_repeat">
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+        <value name="BY">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+      <block type="math_number"></block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_single">
         <value name="NUM">
           <shadow type="math_number">
-            <field name="NUM">5</field>
+            <field name="NUM">9</field>
           </shadow>
         </value>
       </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{listVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_getIndex">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{listVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_setIndex">
-        <value name="LIST">
-          <block type="variables_get">
-            <field name="VAR">{listVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_getSublist">
-        <value name="LIST">
-          <block type="variables_get">
-            <field name="VAR">{listVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_split">
-        <value name="DELIM">
-          <shadow type="text">
-            <field name="TEXT">,</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="lists_sort"></block>
-    </category>
-    <category name="%{BKY_CATCOLOUR}" colour="%{BKY_COLOUR_HUE}">
-      <block type="colour_picker"></block>
-      <block type="colour_random"></block>
-      <block type="colour_rgb">
-        <value name="RED">
+      <block type="math_trig">
+        <value name="NUM">
           <shadow type="math_number">
-            <field name="NUM">100</field>
+            <field name="NUM">45</field>
           </shadow>
         </value>
-        <value name="GREEN">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-        <value name="BLUE">
+      </block>
+      <block type="math_constant"></block>
+      <block type="math_number_property">
+        <value name="NUMBER_TO_CHECK">
           <shadow type="math_number">
             <field name="NUM">0</field>
           </shadow>
         </value>
       </block>
-      <block type="colour_blend">
-        <value name="COLOUR1">
-          <shadow type="colour_picker">
-            <field name="COLOUR">#ff0000</field>
-          </shadow>
-        </value>
-        <value name="COLOUR2">
-          <shadow type="colour_picker">
-            <field name="COLOUR">#3333ff</field>
-          </shadow>
-        </value>
-        <value name="RATIO">
+      <block type="math_round">
+        <value name="NUM">
           <shadow type="math_number">
-            <field name="NUM">0.5</field>
+            <field name="NUM">3.1</field>
           </shadow>
         </value>
       </block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo">
+        <value name="DIVIDEND">
+          <shadow type="math_number">
+            <field name="NUM">64</field>
+          </shadow>
+        </value>
+        <value name="DIVISOR">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constrain">
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="LOW">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="HIGH">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
     </category>
-    <sep></sep>
     <category name="Variables" custom="VARIABLE">
-    <block type="variables_get_blah"></block>
+      <block type="variables_get_blah"></block>
     </category>
-
-    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category> -->
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
   </xml>
 
-  <xml id="seniorXml" style="display: none">
+  <!-- <xml id="seniorXml" style="display: none">
     <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
       <block type="take_off_junior"></block>
       <block type="turn_junior_3"></block>
@@ -786,32 +517,149 @@
     <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
       <block type="go"></block>
       <block type="go_5"></block>
-      <block type="getHeight_senior"></block>
-      <block type="getBarometer_senior"></block>
-      <block type="getTemperature_senior"></block>
-      <block type="getAngles_senior"></block>
-      <block type="getAccelerometer_senior"></block>
-      <block type="getBatteryPercentage_senior"></block>
-      <block type="getBatteryVoltage_senior"></block>
-      <block type="getBatteryVoltage_senior"></block>
-      <block type="getTrim_senior"></block>
-      <block type="setArmRGB_senior"></block>
-      <block type="setEyeRGB_senior"></block>
-      <block type="setLEDMode_senior"></block>
-      <block type="resetLED_senior"></block>
       <block type="flash_senior"></block>
-      <block type="playsound_senior"></block>
-      <block type="playmysound_senior"></block>
-      <block type="setvolume_senior"></block>
     </category>
-    <category name="Flight Events" custom="VARIABLE">
-  <block type="variables_get_blah"></block>
-    </category>
+    <category name="Flight Events" colour="60">
+      <block type="take_off"></block>
+      <block type="land"></block>
 
+      <block type="go_direction_junior_3"></block>
+
+      <block type="send_command"></block>
+    </category>
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+        <value name="BY">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+      <block type="math_number"></block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_single">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">9</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_trig">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">45</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constant"></block>
+      <block type="math_number_property">
+        <value name="NUMBER_TO_CHECK">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_round">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">3.1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo">
+        <value name="DIVIDEND">
+          <shadow type="math_number">
+            <field name="NUM">64</field>
+          </shadow>
+        </value>
+        <value name="DIVISOR">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constrain">
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="LOW">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="HIGH">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
     <category name="Sensors / Status" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
-  </xml>
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+    <category name="Variables" custom="VARIABLE">
+      <block type="variables_get_blah"></block>
+    </category>
+  </xml> -->
 
-  <xml id="masterXml" style="display: none">
+  <!-- <xml id="masterXml" style="display: none">
     <category name="Flight Sequences" colour="%{BKY_LOGIC_HUE}">
       <block type="go"></block>
       <block type="go_5"></block>
@@ -854,11 +702,11 @@
       <block type="playmysound_senior"></block>
       <block type="setvolume_senior"></block>
     </category>
-      <category name="Flight Events" custom="VARIABLE">
-    <block type="variables_get_blah"></block>
-      </category>
+    <category name="Flight Events" custom="VARIABLE">
+      <block type="variables_get_blah"></block>
+    </category>
 
-  </xml>
+  </xml> -->
 
   <!-- <div style="position:absolute;text-align:center;top:0;left:80%;width:20%;height:100%;">
     <div style="height:144px;">
