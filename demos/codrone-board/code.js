@@ -78,6 +78,31 @@ Code.LANGUAGE_NAME = {
   'zh-hant': '正體中文'
 };
 
+var refreshTabCode = function(event) {
+  if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.MOVE) {
+    if (Code.selected) {
+      var content = document.getElementById('content_' + Code.selected);
+
+      if (content.id == 'content_javascript') {
+          var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+          content.textContent = code;
+          if (typeof PR.prettyPrintOne == 'function') {
+            code = content.textContent;
+            code = PR.prettyPrintOne(code, 'js');
+            content.innerHTML = code;
+          }
+        } else if (content.id == 'content_python') {
+          code = Blockly.Python.workspaceToCode(Code.workspace);
+          content.textContent = code;
+          if (typeof PR.prettyPrintOne == 'function') {
+            code = content.textContent;
+            code = PR.prettyPrintOne(code, 'py');
+            content.innerHTML = code;
+          }
+        }
+    }
+  }
+};
 
 let device = null;
 function getSupportedProperties(characteristic) {
@@ -136,6 +161,16 @@ $('.show-right-panel4').click(function(e) {
   $('.content-1').removeClass('active');
   $('.content-4').addClass('active');
   $('#rightPanel-1').addClass('active');
+});
+
+$('#undoButton').click(function(e){
+  e.preventDefault();
+  Code.workspace.undo();
+});
+
+$('#redoButton').click(function(e){
+  e.preventDefault();
+  Code.workspace.undo(true);
 });
 
 $('.close-right-panel').click(function(e) {
@@ -570,6 +605,8 @@ Code.init = function() {
   Blockly.JavaScript.addReservedWords('code,timeouts,checkTimeout');
 
   Code.loadBlocks('');
+
+  Code.workspace.addChangeListener(refreshTabCode);
 
   if ('BlocklyStorage' in window) {
     // Hook a save function onto unload.
