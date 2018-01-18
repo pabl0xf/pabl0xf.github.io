@@ -115,7 +115,7 @@ function getSupportedProperties(characteristic) {
     return '[' + supportedProperties.join(', ') + ']';
 }
 
-var showNotification = function(Text){
+Code.showNotification = function(Text){
   var element = $('#notification');
   element.find('span').text(Text);
   element.addClass('show');
@@ -127,51 +127,29 @@ Blockly.Variables.predefinedVars.push("MyVariableName");
 
 $('.show-right-panel').click(function(e) {
   e.preventDefault();
-  $('.content-2').removeClass('active');
-  $('.content-3').removeClass('active');
-  $('.content-4').removeClass('active');
-  $('.content-1').addClass('active');
+  var panelId = e.target.dataset.panelId;
+  var tab = e.target.dataset.tab;
+
+  $('.content-panel').removeClass('active');
+  $('.content-' + panelId).addClass('active');
+  
+  if (tab) {
+    Code.tabClick(tab);
+  }
+
   $('#rightPanel-1').addClass('active');
 });
 
-$('.show-right-panel2').click(function(e) {
-  e.preventDefault();
-  $('.content-1').removeClass('active');
-  $('.content-3').removeClass('active');
-  $('.content-4').removeClass('active');
-  $('.content-2').addClass('active');
-  Code.tabClick('javascript');
-  $('#rightPanel-1').addClass('active');
-});
+// $('.undo-redo-button').click(function(e){
+//   e.preventDefault();
+//   var action = e.target.parentElement.dataset.actionButton;
 
-$('.show-right-panel3').click(function(e) {
-  e.preventDefault();
-  $('.content-1').removeClass('active');
-  $('.content-2').removeClass('active');
-  $('.content-4').removeClass('active');
-  $('.content-3').addClass('active');
-  Code.tabClick('python');
-  $('#rightPanel-1').addClass('active');
-});
-
-$('.show-right-panel4').click(function(e) {
-  e.preventDefault();
-  $('.content-3').removeClass('active');
-  $('.content-2').removeClass('active');
-  $('.content-1').removeClass('active');
-  $('.content-4').addClass('active');
-  $('#rightPanel-1').addClass('active');
-});
-
-$('#undoButton').click(function(e){
-  e.preventDefault();
-  Code.workspace.undo();
-});
-
-$('#redoButton').click(function(e){
-  e.preventDefault();
-  Code.workspace.undo(true);
-});
+//   if (action == 'redo') {
+//     Code.workspace.undo(true);
+//   } else {
+//     Code.workspace.undo();
+//   }
+// });
 
 $('.close-right-panel').click(function(e) {
   $('#rightPanel-1').removeClass('active');
@@ -254,7 +232,7 @@ var displayContents = function(contents) {
 document.getElementById('file-input')
   .addEventListener('change', readSingleFile, false);
 
-var createAndOpenFile = function(filename, xml) {
+Code.createAndOpenFile = function(filename, xml) {
   var xmltext = Blockly.Xml.domToText(xml);
   var pom = document.createElement('a');
 
@@ -272,23 +250,23 @@ var createAndOpenFile = function(filename, xml) {
   pom.click();
 }
 
-$('#openWorkspace').click(function(e){
-  e.preventDefault();
-  $('#file-input').click();
+// $('#openWorkspace').click(function(e){
+//   e.preventDefault();
+//   $('#file-input').click();
 
-}.bind(this));
+// }.bind(this));
 
-$('#saveWorkspace, #saveWorkspaceBtn').click(function(e) {
-  e.preventDefault();
-  var filename = prompt("File name: ");
-  if (filename == null || filename == "") {
-  } else {
-    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-    localStorage.setItem('coDrone', Blockly.Xml.domToText(xml));
-    createAndOpenFile(filename, xml);
-    showNotification('Success.');
-  }
-}.bind(this));
+// $('#saveWorkspace, #saveWorkspaceBtn').click(function(e) {
+//   e.preventDefault();
+//   var filename = prompt("File name: ");
+//   if (filename == null || filename == "") {
+//   } else {
+//     var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+//     localStorage.setItem('coDrone', Blockly.Xml.domToText(xml));
+//     createAndOpenFile(filename, xml);
+//     showNotification('Success.');
+//   }
+// }.bind(this));
 /**
  * List of RTL languages.
  */
@@ -541,32 +519,58 @@ Code.renderContent = function() {
 /**
  * Initialize Blockly.  Called on page load.
  */
+
+Code.onresize = function(e) {
+  var container = document.getElementById('content_area');
+  var bBox = Code.getBBox_(container);
+  for (var i = 0; i < Code.TABS_.length; i++) {
+   var el = document.getElementById('content_' + Code.TABS_[i]);
+   if (el) {
+     el.style.top = bBox.y + 'px';
+     el.style.left = bBox.x + 'px';
+     // Height and width need to be set, read back, then set again to
+     // compensate for scrollbars.
+     el.style.height = bBox.height + 'px';
+     el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
+     el.style.width = bBox.width + 'px';
+     el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
+   }
+  }
+  // Make the 'Blocks' tab line up with the toolbox.
+  if (Code.workspace && Code.workspace.toolbox_.width) {
+   document.getElementById('tab_blocks').style.minWidth =
+       (Code.workspace.toolbox_.width - 38) + 'px';
+       // Account for the 19 pixel margin and on each side.
+  }
+  };
+
+
 Code.init = function() {
   Code.initLanguage();
 
   var rtl = Code.isRtl();
   var container = document.getElementById('content_area');
-  var onresize = function(e) {
-    var bBox = Code.getBBox_(container);
-    for (var i = 0; i < Code.TABS_.length; i++) {
-      var el = document.getElementById('content_' + Code.TABS_[i]);
-      el.style.top = bBox.y + 'px';
-      el.style.left = bBox.x + 'px';
-      // Height and width need to be set, read back, then set again to
-      // compensate for scrollbars.
-      el.style.height = bBox.height + 'px';
-      el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
-      el.style.width = bBox.width + 'px';
-      el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
-    }
-    // Make the 'Blocks' tab line up with the toolbox.
-    if (Code.workspace && Code.workspace.toolbox_.width) {
-      document.getElementById('tab_blocks').style.minWidth =
-          (Code.workspace.toolbox_.width - 38) + 'px';
-          // Account for the 19 pixel margin and on each side.
-    }
-  };
-  window.addEventListener('resize', onresize, false);
+  // var onresize = function(e) {
+  //   var bBox = Code.getBBox_(container);
+  //   for (var i = 0; i < Code.TABS_.length; i++) {
+  //     var el = document.getElementById('content_' + Code.TABS_[i]);
+  //     el.style.top = bBox.y + 'px';
+  //     el.style.left = bBox.x + 'px';
+  //     // Height and width need to be set, read back, then set again to
+  //     // compensate for scrollbars.
+  //     el.style.height = bBox.height + 'px';
+  //     el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
+  //     el.style.width = bBox.width + 'px';
+  //     el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
+  //   }
+  //   // Make the 'Blocks' tab line up with the toolbox.
+  //   if (Code.workspace && Code.workspace.toolbox_.width) {
+  //     document.getElementById('tab_blocks').style.minWidth =
+  //         (Code.workspace.toolbox_.width - 38) + 'px';
+  //         // Account for the 19 pixel margin and on each side.
+  //   }
+  // };
+  // window.addEventListener('resize', onresize, false);
 
   // The toolbox XML specifies each category name using Blockly's messaging
   // format (eg. `<category name="%{BKY_CATLOGIC}">`).
@@ -654,7 +658,7 @@ Code.init = function() {
     Code.bindClick('tab_' + name,
         function(name_) {return function() {Code.tabClick(name_);};}(name));
   }
-  onresize();
+  Code.onresize();
   Blockly.svgResize(Code.workspace);
 
   // Lazy-load the syntax-highlighting.

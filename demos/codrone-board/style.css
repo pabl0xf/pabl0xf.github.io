@@ -364,13 +364,15 @@ button {
 
 #rightPanel-1 #content_javascript, #rightPanel-1 #content_python {
   visibility: visible !important;
-  top: 0 !important;
+  top: 45px !important;
   left: 0 !important;
   height: 100% !important;
   width: 100% !important;
   border-radius: 0 !important;
   margin-top: 25px;
   border: 0;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
 }
 
 #connectMenu p {
