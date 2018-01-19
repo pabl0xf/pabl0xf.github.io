@@ -1,3 +1,45 @@
+class ContentTutorials extends React.Component {
+  render() {
+    return (
+      <div className="content-panel content-1">
+        <h1 style={{textAlign: 'center'}}>Tutorials</h1>
+      </div>
+    );
+  }
+}
+
+class ContentJavascript extends React.Component {
+  render() {
+    return (
+      <div className="content-panel content-2">
+        <h1 style={{textAlign: 'center'}}>JavaScript</h1>
+        <pre id="content_javascript" className="content"></pre>
+      </div>
+    );
+  }
+}
+
+class ContentPython extends React.Component {
+  render() {
+    return (
+      <div className="content-panel content-3">
+        <h1 style={{textAlign: 'center'}}>Python</h1>
+        <pre id="content_python" className="content"></pre>
+      </div>
+    );
+  }
+}
+
+class ContentSensor extends React.Component {
+  render() {
+    return (
+      <div className="content-panel content-4">
+          <h3 style={{textAlign: 'center'}}>Sensor data as a right panel</h3>
+      </div>
+    );
+  }
+}
+
 class Panel extends React.Component {
   constructor(props) {
    super(props);
@@ -46,20 +88,11 @@ class Panel extends React.Component {
           <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}>'J'</button>
           <button className="show-right-panel" data-panel-id="3" data-tab="python" onClick={this.handleClick}>'P'</button>
           <button className="show-right-panel" data-panel-id="4" onClick={this.handleClick}>'S'</button>
-          <div className="content-panel content-1">
-            <h1 style={{textAlign: 'center'}}>Tutorials</h1>
-          </div>
-          <div className="content-panel content-2">
-            <h1 style={{textAlign: 'center'}}>JavaScript</h1>
-            <pre id="content_javascript" className="content"></pre>
-          </div>
-          <div className="content-panel content-3">
-            <h1 style={{textAlign: 'center'}}>Python</h1>
-            <pre id="content_python" className="content"></pre>
-          </div>
-          <div className="content-panel content-4">
-              <h3 style={{textAlign: 'center'}}>Sensor data as a right panel</h3>
-          </div>
+
+          <ContentTutorials />
+          <ContentJavascript />
+          <ContentPython />
+          <ContentSensor />
         </div>
     );
   }

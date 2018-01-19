@@ -12,7 +12,7 @@
   var bytesRedDimming = new Uint8Array(4);
   bytesRedDimming = bytesLedDimming;
   bytesRedDimming[1] = 0x45;
-  bytesRedDimming[2] = 0x8B;
+  bytesRedDimming[2] = 0x72;
 
 
   var packages = {
