@@ -5,6 +5,7 @@ class Burger extends React.Component {
 
    // This binding is necessary to make `this` work in the callback
    this.handleClick = this.handleClick.bind(this);
+   this.handleRunClick = this.handleRunClick.bind(this);
   }
 
   handleClick(el) {
@@ -40,6 +41,10 @@ class Burger extends React.Component {
     }
   }
 
+  handleRunClick(el) {
+     Code.runJS();
+  }
+
   render() {
     return (
         <div className="interactive-menu-button">
@@ -57,7 +62,7 @@ class Burger extends React.Component {
             </ul>
           </div>
           <div className="forceLanding"><button type="button" id="forceLanding" className="btn btn-danger navbar-btn">!</button></div>
-          <div className="playButton"><button type="button" id="runButton" className="btn btn-danger navbar-btn"><i className="glyphicon glyphicon-play"></i></button></div>
+          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"><i className="glyphicon glyphicon-play"></i></button></div>
         </div>
     );
   }
