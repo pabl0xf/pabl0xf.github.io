@@ -116,12 +116,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var packages = {
-  'bytesLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js___default.a,
-  'bytesTakeOff': __WEBPACK_IMPORTED_MODULE_2__types_flyEventsTypes_js___default.a
+  'bytesLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__["bytesLedPackage"],
+  'bytesResetLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__["bytesResetLedPackage"],
+  'bytesTakeOff': __WEBPACK_IMPORTED_MODULE_2__types_flyEventsTypes_js__["bytesTakeOff"]
 }
 
 function getBytesFromType(type) {
-    return packages[type][type];
+    return packages[type];
 }
 
 global.takeOff = function (){
@@ -143,23 +144,49 @@ global.setArmColor = function (type) {
   })
 }
 
-global.setLEDMode = function (type) {
+global.setLEDto = function (type) {
   var ledPackage = getBytesFromType('bytesLedPackage');
-  ledPackage[1] = BLINKING.armCode;
+  ledPackage[2] = COLORS[type];
+  Code.device.getPrimaryService(PRIMARY_SERVICE)
+  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
+  .then(characteristic => {
+     characteristic.writeValue(ledPackage).then(_ => {
+       ledPackage[1] = HOLD.eyeCode;
+       ledPackage[2] = COLORS[type];
+       Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
+       .then(characteristic => {
+          return characteristic.writeValue(ledPackage);
+       })
+     })
+  })
+}
+
+global.setLEDMode = function (type) {
+  var resetPackage = getBytesFromType('bytesLedPackage');
+  ledPackage[1] = type.armCode;
   Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
   .then(characteristic => {
-     return characteristic.writeValue(ledPackage);
+     characteristic.writeValue(ledPackage).then(_ => {
+       ledPackage[1] = type.eyeCode;
+       Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
+       .then(characteristic => {
+          return characteristic.writeValue(ledPackage);
+       })
+     })
   })
-  setInterval(function(){
+}
 
-    ledPackage[1] = BLINKING.eyeCode;
-    Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-    .then(characteristic => {
-       return characteristic.writeValue(ledPackage);
-    })
-
-  }.bind(this), 2000);
-
+global.resetLED = function () {
+  var resetEyePackage = getBytesFromType('bytesResetLedPackage');
+  Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
+  .then(characteristic => {
+     characteristic.writeValue(resetEyePackage.arms).then(_ => {
+       Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
+       .then(characteristic => {
+          return characteristic.writeValue(resetEyePackage.eye);
+       })
+     })
+  })
 }
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
@@ -171,7 +198,14 @@ global.setLEDMode = function (type) {
 /* WEBPACK VAR INJECTION */(function(global) {global.PRIMARY_SERVICE = 'c320df00-7891-11e5-8bcf-feff819cdc9f';
 global.WRITE_CHARACTERISTIC = 'c320df02-7891-11e5-8bcf-feff819cdc9f';
 
-global.BLINKING = {armCode: 0x43, eyeCode: 0x13  };
+global.HOLD = {armCode: 0x41, eyeCode: 0x11};
+global.OFF = {armCode: 0x40, eyeCode: 0x10};
+global.BLINKING = {armCode: 0x43, eyeCode: 0x13};
+global.DOUBLE_BLINK = {armCode: 0x44, eyeCode: 0x14};
+global.PULSING = {armCode: 0x45, eyeCode: 0x15};
+global.FLOW = {armCode: 0x46, eyeCode: 0x16};
+global.REVERSE_FLOW = {armCode: 0x47, eyeCode: 0x17};
+global.MIX = {armCode: 0x42, eyeCode: 0x12};
 
 global.RED = 'Red';
 global.YELLOW = 'Yellow';
@@ -195,15 +229,29 @@ global.COLORS = {
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-var dataArray = new Uint8Array(4);
+/* WEBPACK VAR INJECTION */(function(global) {var dataArray = new Uint8Array(4);
 dataArray[0] = 0x20;
 dataArray[1] = 0x41;
 dataArray[2] = 0x00;
 dataArray[3] = 0x15;
 exports.bytesLedPackage = dataArray;
 
+var resetEyeArray = new Uint8Array(4);
+resetEyeArray[0] = 0x20;
+resetEyeArray[1] = 0x11;
+resetEyeArray[2] = global.COLORS.Red;
+resetEyeArray[3] = 0x15;
+
+var resetArmsArray = new Uint8Array(4);
+resetArmsArray[0] = 0x20;
+resetArmsArray[1] = 0x41;
+resetArmsArray[2] = global.COLORS.Red;
+resetArmsArray[3] = 0x15;
+exports.bytesResetLedPackage = {eye: resetEyeArray, arms: resetArmsArray};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 5 */
@@ -213,7 +261,7 @@ var dataArray = new Uint8Array(3);
 dataArray[0] = 17;
 dataArray[1] = 34;
 dataArray[2] = 1;
-exports.bytesTakeOff = dataArray;
+exports.bytesTakeOff = bytesTakeOff;
 
 
 /***/ })
