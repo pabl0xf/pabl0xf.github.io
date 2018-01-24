@@ -1,6 +1,9 @@
 import '../constants/consts.js';
 import { bytesLedPackage, bytesResetLedPackage } from '../types/ledTypes.js';
+import { dataLedMode } from '../model/ledData.js';
 import { bytesTakeOff } from '../types/flyEventsTypes.js';
+
+this.data = {ledMode: dataLedMode};
 
 var packages = {
   'bytesLedPackage': bytesLedPackage,
@@ -8,9 +11,11 @@ var packages = {
   'bytesTakeOff': bytesTakeOff
 }
 
+
 function getBytesFromType(type) {
     return packages[type];
 }
+
 
 global.takeOff = function (){
   var takeOffPackage = getBytesFromType('bytesTakeOff');
@@ -19,26 +24,28 @@ global.takeOff = function (){
   .then(characteristic => {
    return characteristic.writeValue(takeOffPackage);
   })
-}
+}.bind(this);
 
 global.setArmColor = function (type) {
   var ledPackage = getBytesFromType('bytesLedPackage');
+  ledPackage[1] = this.data.ledMode.arms;
   ledPackage[2] = COLORS[type];
   Code.device.getPrimaryService(PRIMARY_SERVICE)
   .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
   .then(characteristic => {
      return characteristic.writeValue(ledPackage);
   })
-}
+}.bind(this);
 
 global.setLEDto = function (type) {
   var ledPackage = getBytesFromType('bytesLedPackage');
+  ledPackage[1] = this.data.ledMode.arms;
   ledPackage[2] = COLORS[type];
   Code.device.getPrimaryService(PRIMARY_SERVICE)
   .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
   .then(characteristic => {
      characteristic.writeValue(ledPackage).then(_ => {
-       ledPackage[1] = HOLD.eyeCode;
+       ledPackage[1] = this.data.ledMode.eye;
        ledPackage[2] = COLORS[type];
        Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
        .then(characteristic => {
@@ -46,22 +53,24 @@ global.setLEDto = function (type) {
        })
      })
   })
-}
+}.bind(this);
 
 global.setLEDMode = function (type) {
-  var resetPackage = getBytesFromType('bytesLedPackage');
-  ledPackage[1] = type.armCode;
+  var ledModePackage = getBytesFromType('bytesLedPackage');
+  ledModePackage[1] = type.armCode;
+  this.data.ledMode.arms = type.armCode
   Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
   .then(characteristic => {
-     characteristic.writeValue(ledPackage).then(_ => {
-       ledPackage[1] = type.eyeCode;
+     characteristic.writeValue(ledModePackage).then(_ => {
+       ledModePackage[1] = type.eyeCode;
+       this.data.ledMode.eye = type.eyeCode;
        Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
        .then(characteristic => {
-          return characteristic.writeValue(ledPackage);
+          return characteristic.writeValue(ledModePackage);
        })
      })
   })
-}
+}.bind(this);
 
 global.resetLED = function () {
   var resetEyePackage = getBytesFromType('bytesResetLedPackage');
@@ -74,4 +83,12 @@ global.resetLED = function () {
        })
      })
   })
-}
+}.bind(this);
+
+global.setArmRGB = function (red, green, blue) {
+  alert('red:'+ red + ' green:'+ green + ' blue:'+ blue)
+}.bind(this);
+
+global.setEyeRGB = function (red, green, blue) {
+  alert('red:'+ red + ' green:'+ green + ' blue:'+ blue)
+}.bind(this);
