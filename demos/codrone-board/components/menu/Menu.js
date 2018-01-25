@@ -41,8 +41,29 @@ class Burger extends React.Component {
     }
   }
 
+  handleForceLandingClick(el) {
+    if (Code.device != null) {
+      Code.device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+        .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
+        .then(characteristic => {
+           // Take off
+           var uint8 = new Uint8Array(3);
+           uint8[0] = 0x11;
+           uint8[1] = 0x24;
+           uint8[2] = 0x51;
+           return characteristic.writeValue(uint8);
+        })
+    } else {
+      alert('CoDrone is not connected, please connect and try again.');
+    }
+  }
+
   handleRunClick(el) {
-     Code.runJS();
+    if (Code.device != null) {
+      Code.runJS();
+    } else {
+      alert('CoDrone is not connected, please connect and try again.');
+    }
   }
 
   render() {
@@ -61,7 +82,7 @@ class Burger extends React.Component {
               <a href="#" id="redoButton" data-action-button="redo" onClick={this.handleUndoRedoClick}><li>Redo</li></a>
             </ul>
           </div>
-          <div className="forceLanding"><button type="button" id="forceLanding" className="btn btn-danger navbar-btn">!</button></div>
+          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn">!</button></div>
           <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"><i className="glyphicon glyphicon-play"></i></button></div>
         </div>
     );

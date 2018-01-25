@@ -125,36 +125,6 @@ Code.showNotification = function(Text){
 Blockly.Variables.predefinedVars.push("MyVariableName");
     //Blockly.Variables.createVariable(Code.workspace, null, 'abcd');
 
-$('.show-right-panel').click(function(e) {
-  e.preventDefault();
-  var panelId = e.target.dataset.panelId;
-  var tab = e.target.dataset.tab;
-
-  $('.content-panel').removeClass('active');
-  $('.content-' + panelId).addClass('active');
-  
-  if (tab) {
-    Code.tabClick(tab);
-  }
-
-  $('#rightPanel-1').addClass('active');
-});
-
-// $('.undo-redo-button').click(function(e){
-//   e.preventDefault();
-//   var action = e.target.parentElement.dataset.actionButton;
-
-//   if (action == 'redo') {
-//     Code.workspace.undo(true);
-//   } else {
-//     Code.workspace.undo();
-//   }
-// });
-
-$('.close-right-panel').click(function(e) {
-  $('#rightPanel-1').removeClass('active');
-});
-
 $('#scanButton').click(function(e) {
     console.log(Blockly.Variables.allVariables);
     e.preventDefault();
@@ -180,7 +150,7 @@ $('#scanButton').click(function(e) {
           })
           .then(server => {
               Code.device = server;
-              console.log(server);
+              console.log('server', server);
               Code.deviceConnected = server.device.name;
 
               $('#scanButton').text('Disconnect');
@@ -196,22 +166,10 @@ $('#scanButton').click(function(e) {
         }
 }.bind(this));
 
-$('#forceLanding').click(function(e) {
-    Code.device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
-         .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
-         .then(characteristic => {
-             // Take off
-             var uint8 = new Uint8Array(3);
-             uint8[0] = 0x11;
-             uint8[1] = 0x24;
-             uint8[2] = 0x51;
-             return characteristic.writeValue(uint8);
-         })
-}.bind(this));
-
 // Open XML
 
 var readSingleFile = function(e) {
+  Blockly.mainWorkspace.clear();
   var file = e.target.files[0];
   if (!file) {
     return;
@@ -250,23 +208,6 @@ Code.createAndOpenFile = function(filename, xml) {
   pom.click();
 }
 
-// $('#openWorkspace').click(function(e){
-//   e.preventDefault();
-//   $('#file-input').click();
-
-// }.bind(this));
-
-// $('#saveWorkspace, #saveWorkspaceBtn').click(function(e) {
-//   e.preventDefault();
-//   var filename = prompt("File name: ");
-//   if (filename == null || filename == "") {
-//   } else {
-//     var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-//     localStorage.setItem('coDrone', Blockly.Xml.domToText(xml));
-//     createAndOpenFile(filename, xml);
-//     showNotification('Success.');
-//   }
-// }.bind(this));
 /**
  * List of RTL languages.
  */
@@ -550,28 +491,6 @@ Code.init = function() {
 
   var rtl = Code.isRtl();
   var container = document.getElementById('content_area');
-  // var onresize = function(e) {
-  //   var bBox = Code.getBBox_(container);
-  //   for (var i = 0; i < Code.TABS_.length; i++) {
-  //     var el = document.getElementById('content_' + Code.TABS_[i]);
-  //     el.style.top = bBox.y + 'px';
-  //     el.style.left = bBox.x + 'px';
-  //     // Height and width need to be set, read back, then set again to
-  //     // compensate for scrollbars.
-  //     el.style.height = bBox.height + 'px';
-  //     el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
-  //     el.style.width = bBox.width + 'px';
-  //     el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
-  //   }
-  //   // Make the 'Blocks' tab line up with the toolbox.
-  //   if (Code.workspace && Code.workspace.toolbox_.width) {
-  //     document.getElementById('tab_blocks').style.minWidth =
-  //         (Code.workspace.toolbox_.width - 38) + 'px';
-  //         // Account for the 19 pixel margin and on each side.
-  //   }
-  // };
-  // window.addEventListener('resize', onresize, false);
-
   // The toolbox XML specifies each category name using Blockly's messaging
   // format (eg. `<category name="%{BKY_CATLOGIC}">`).
   // These message keys need to be defined in `Blockly.Msg` in order to
