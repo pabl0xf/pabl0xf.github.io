@@ -1,3 +1,27 @@
+@font-face {
+    font-family: 'futura_mdcn_btmedium';
+    src: url('fonts/futura_medium_condensed_bt-webfont.woff2') format('woff2'),
+         url('fonts/futura_medium_condensed_bt-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'futuralight';
+    src: url('fonts/futura_light_bt-webfont.woff2') format('woff2'),
+         url('fonts/futura_light_bt-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'futura_ltcn_btlight';
+    src: url('fonts/futura_light_font-webfont.woff2') format('woff2'),
+         url('fonts/futura_light_font-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html, body {
   height: 100%;
 }
@@ -446,3 +470,23 @@ button {
 
 }
 
+.blocklyToolboxDiv .blocklyTreeRoot div[role="group"] div[role="treeitem"]:first-child:before {
+  content: "DRONE BLOCKS";
+  font-size: 15px;
+  padding-left: 19px;
+  color: #9c9c9c;
+  margin-bottom: 5px;
+  margin-top: 6px;
+  display: block;
+}
+
+.blocklyToolboxDiv[role="junior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(7):before,
+.blocklyToolboxDiv[role="senior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(5):before {
+  content: "PROGRAMING BLOCKS";
+  font-size: 15px;
+  padding-left: 19px;
+  color: #9c9c9c;
+  margin-bottom: 5px;
+  margin-top: 6px;
+  display: block;
+}

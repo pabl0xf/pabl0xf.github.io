@@ -110,7 +110,11 @@
   <pre id="content_python" class="content"></pre>
 
   <xml id="juniorXml" style="display: none">
-    <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
+    <category name="Flight Commands" colour="#3368DA">
+      <block type="go"></block>
+      <block type="go_5"></block>
+    </category>
+    <category name="Flight Sequences" colour="#3399e4">
       <block type="turn_junior_3"></block>
       <block type="turn_degree_junior_2"></block>
       <block type="turn_90_junior"></block>
@@ -118,19 +122,24 @@
       <block type="gotoheight_junior"></block>
       <block type="turtleTurn_junior"></block>
     </category>
-    <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
-      <block type="go"></block>
-      <block type="go_5"></block>
-    </category>
-    <category name="Flight Events" colour="60">
+    <category name="Events" colour="#ed5b2a">
       <block type="take_off_junior"></block>
       <block type="land"></block>
       <block type="go_direction_junior_3"></block>
     </category>
-    <category name="Sensors / Status" colour="%{BKY_LOGIC_HUE}">
+    <category name="Sensors" colour="#F19327">
       <block type="getHeight_junior"></block>
     </category>
-    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+    <category name="Lights" colour="#B359D8">
+      <block type="setLEDto_junior"></block>
+      <block type="setArmColor_junior"></block>
+    </category>
+    <category name="Sound" colour="#ee42ae">
+      <block type="playsound_junior"></block>
+      <block type="playmysound_junior"></block>
+      <block type="setvolume_junior"></block>
+    </category>
+    <category name="%{BKY_CATLOGIC}" colour="#B1B1B1">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -139,7 +148,7 @@
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+    <category name="%{BKY_CATLOOPS}" colour="#FCC075">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -168,22 +177,104 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="LEDs" colour="%{BKY_LOOPS_HUE}">
-      <block type="setLEDto_junior"></block>
-      <block type="setArmColor_junior"></block>
+    <category name="%{BKY_CATMATH}" colour="#8B90A9">
+      <block type="math_number"></block>
+      <block type="math_arithmetic">
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_single">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">9</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_trig">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">45</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constant"></block>
+      <block type="math_number_property">
+        <value name="NUMBER_TO_CHECK">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_round">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">3.1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo">
+        <value name="DIVIDEND">
+          <shadow type="math_number">
+            <field name="NUM">64</field>
+          </shadow>
+        </value>
+        <value name="DIVISOR">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_constrain">
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="LOW">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="HIGH">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="TO">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
     </category>
-    <category name="Sound Commands" colour="%{BKY_LOGIC_HUE}">
-      <block type="playsound_junior"></block>
-      <block type="playmysound_junior"></block>
-      <block type="setvolume_junior"></block>
-    </category>
-    <category name="Variables" custom="VARIABLE">
+    <!-- <category name="Variables" custom="VARIABLE">
       <block type="variables_get_blah"></block>
-    </category>
+    </category> -->
   </xml>
 
   <xml id="seniorXml" style="display: none">
-    <category name="Flight Sequences" colour="%{BKY_TEXTS_HUE}">
+    <category name="Flight Commands" colour="#3368DA">
+      <block type="go"></block>
+      <block type="go_5"></block>
+    </category>
+    <category name="Flight Sequences" colour="#3399e4">
       <block type="turn_junior_3"></block>
       <block type="turn_degree_junior_2"></block>
       <block type="turn_90_junior"></block>
@@ -191,16 +282,12 @@
       <block type="gotoheight_junior"></block>
       <block type="turtleTurn_junior"></block>
     </category>
-    <category name="Flight Commands" colour="%{BKY_LOGIC_HUE}">
-      <block type="go"></block>
-      <block type="go_5"></block>
-    </category>
-    <category name="Flight Events" colour="60">
+    <category name="Events" colour="#ed5b2a">
       <block type="take_off_junior"></block>
       <block type="land"></block>
       <block type="go_direction_junior_3"></block>
     </category>
-    <category name="Sensors / Status" colour="%{BKY_LOGIC_HUE}">
+    <category name="Sensors" colour="#F19327">
       <block type="getHeight_senior"></block>
       <block type="getBarometer_senior"></block>
       <block type="getTemperature_senior"></block>
@@ -210,7 +297,7 @@
       <block type="getBatteryVoltage_senior"></block>
       <block type="getTrim_senior"></block>
     </category>
-    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+    <category name="%{BKY_CATLOGIC}" colour="#B1B1B1">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -219,7 +306,7 @@
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+    <category name="%{BKY_CATLOOPS}" colour="#FCC075">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -248,7 +335,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+    <category name="%{BKY_CATMATH}" colour="#8B90A9">
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -335,26 +422,26 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="LEDs" colour="%{BKY_LOOPS_HUE}">
+    <category name="Lights" colour="#B359D8">
       <block type="setArmRGB_senior"></block>
       <block type="setEyeRGB_senior"></block>
       <block type="setLEDMode_senior"></block>
       <block type="resetLED_senior"></block>
       <block type="flash_senior"></block>
     </category>
-    <category name="Sound Commands" colour="%{BKY_LOGIC_HUE}">
+    <category name="Sound" colour="#EE43AE">
       <block type="playsound_senior"></block>
       <block type="playmysound_senior"></block>
       <block type="setvolume_senior"></block>
     </category>
-    <category name="Variables" custom="VARIABLE">
+    <category name="Variables" colour="#E19090" custom="VARIABLE">
       <block type="variables_get_blah"></block>
     </category>
-    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+    <category name="%{BKY_CATFUNCTIONS}" colour="#DB8AB3" custom="PROCEDURE"></category>
   </xml>
 
   <xml id="masterXml" style="display: none">
-    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+    <category name="%{BKY_CATLOGIC}" colour="#B1B1B1">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -363,7 +450,7 @@
       <block type="logic_null"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+    <category name="%{BKY_CATLOOPS}" colour="#FCC075">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -392,7 +479,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
+    <category name="%{BKY_CATMATH}" colour="#8B90A9">
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -479,10 +566,10 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="Variables" custom="VARIABLE">
+    <category name="Variables" colour="#E19090"  custom="VARIABLE">
       <block type="variables_get_blah"></block>
     </category>
-    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+    <category name="%{BKY_CATFUNCTIONS}" colour="#DB8AB3" custom="PROCEDURE"></category>
   </xml>
     <script src="predefinedVars.js"></script>
     <!-- <script src="constants/consts.js"></script>

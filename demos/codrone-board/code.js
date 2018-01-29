@@ -508,6 +508,7 @@ Code.init = function() {
   // Construct the toolbox XML.
   var toolboxText = document.getElementById('juniorXml').outerHTML;
   var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+  
 
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
@@ -539,18 +540,21 @@ Code.init = function() {
   $('#juniorXmlBtn').click(function(e){
     var toolboxText = document.getElementById('juniorXml').outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+    $('.blocklyToolboxDiv').attr('role', 'junior');
     Code.workspace.updateToolbox(toolboxXml);
   });
 
   $('#seniorXmlBtn').click(function(e){
     var toolboxText = document.getElementById('seniorXml').outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+    $('.blocklyToolboxDiv').attr('role', 'senior');
     Code.workspace.updateToolbox(toolboxXml);
   });
 
   $('#masterXmlBtn').click(function(e){
     var toolboxText = document.getElementById('masterXml').outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+    $('.blocklyToolboxDiv').attr('role', 'master');
     Code.workspace.updateToolbox(toolboxXml);
   });
 
@@ -588,6 +592,7 @@ Code.init = function() {
   Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'throttle');
 
   Code.loadWorkspace();
+  $('.blocklyToolboxDiv').attr('role', 'junior');
 
 };
 
