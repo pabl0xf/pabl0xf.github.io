@@ -139,6 +139,83 @@
       <block type="playmysound_junior"></block>
       <block type="setvolume_junior"></block>
     </category>
+    <category name="Keyboard Input" colour="#CACACA">
+      <block type="text"></block>
+      <block type="text_join"></block>
+      <block type="text_append">
+        <value name="TEXT">
+          <shadow type="text"></shadow>
+        </value>
+      </block>
+      <block type="text_length">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_isEmpty">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+        <value name="FIND">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_charAt">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_getSubstring">
+        <value name="STRING">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_changeCase">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_trim">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_print">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_prompt_ext">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
     <category name="%{BKY_CATLOGIC}" colour="#B1B1B1">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -297,6 +374,95 @@
       <block type="getBatteryVoltage_senior"></block>
       <block type="getTrim_senior"></block>
     </category>
+    <category name="Lights" colour="#B359D8">
+      <block type="setArmRGB_senior"></block>
+      <block type="setEyeRGB_senior"></block>
+      <block type="setLEDMode_senior"></block>
+      <block type="resetLED_senior"></block>
+      <block type="flash_senior"></block>
+    </category>
+    <category name="Sound" colour="#EE43AE">
+      <block type="playsound_senior"></block>
+      <block type="playmysound_senior"></block>
+      <block type="setvolume_senior"></block>
+    </category>
+    <category name="Keyboard Input" colour="#CACACA">
+      <block type="text"></block>
+      <block type="text_join"></block>
+      <block type="text_append">
+        <value name="TEXT">
+          <shadow type="text"></shadow>
+        </value>
+      </block>
+      <block type="text_length">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_isEmpty">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+        <value name="FIND">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_charAt">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_getSubstring">
+        <value name="STRING">
+          <block type="variables_get">
+            <field name="VAR">{textVariable}</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_changeCase">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_trim">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_print">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="text_prompt_ext">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT">abc</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
     <category name="%{BKY_CATLOGIC}" colour="#B1B1B1">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -421,18 +587,6 @@
         </value>
       </block>
       <block type="math_random_float"></block>
-    </category>
-    <category name="Lights" colour="#B359D8">
-      <block type="setArmRGB_senior"></block>
-      <block type="setEyeRGB_senior"></block>
-      <block type="setLEDMode_senior"></block>
-      <block type="resetLED_senior"></block>
-      <block type="flash_senior"></block>
-    </category>
-    <category name="Sound" colour="#EE43AE">
-      <block type="playsound_senior"></block>
-      <block type="playmysound_senior"></block>
-      <block type="setvolume_senior"></block>
     </category>
     <category name="Variables" colour="#E19090" custom="VARIABLE">
       <block type="variables_get_blah"></block>

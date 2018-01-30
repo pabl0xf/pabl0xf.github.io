@@ -481,7 +481,7 @@ button {
 }
 
 .blocklyToolboxDiv[role="junior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(7):before,
-.blocklyToolboxDiv[role="senior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(5):before {
+.blocklyToolboxDiv[role="senior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(7):before {
   content: "PROGRAMING BLOCKS";
   font-size: 15px;
   padding-left: 19px;
