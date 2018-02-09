@@ -11,7 +11,6 @@
   crossorigin="anonymous"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="/storage.js"></script>
   <script src="../../blockly_compressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
@@ -112,7 +111,7 @@
   <xml id="juniorXml" style="display: none">
     <category name="Flight Commands" colour="#3368DA">
       <block type="take_off_junior"></block>
-      <block type="land"></block>
+      <block type="land_junior"></block>
       <block type="emergencyStop_junior"></block>
       <block type="go_direction_junior"></block>
       <block type="go_direction_junior_3"></block>
@@ -140,95 +139,21 @@
     <category name="Sensors" colour="#F19327">
       <block type="getHeight_junior"></block>
       <block type="getBatteryPercentage_junior"></block>
-      <block type="getGyroData"></block>
+      <block type="getGyroData_junior"></block>
     </category>
     <category name="Lights" colour="#B359D8">
       <block type="setArmColor_junior"></block>
       <block type="setEyeColor_junior"></block>
       <block type="setLEDMode_junior"></block>
       <block type="setAllLED_junior"></block>
-      <block type="flash_junior"></block>
     </category>
     <category name="Sound" colour="#EE43AE">
       <block type="playsound_junior"></block>
       <block type="setvolume_junior"></block>
     </category>
     <category name="Keyboard Input" colour="#CACACA">
-      <block type="text"></block>
-      <block type="text_join"></block>
-      <block type="text_append">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-        <value name="FIND">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_print">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_prompt_ext">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
+      <block type="whenKeyPress_junior"></block>
+      <block type="whenKeyPressGet_junior"></block>
     </category>
     <category name="%{BKY_CATLOGIC}" colour="#a0a1d9">
       <block type="controls_if"></block>
@@ -236,8 +161,6 @@
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
       <block type="logic_boolean"></block>
-      <block type="logic_null"></block>
-      <block type="logic_ternary"></block>
     </category>
     <category name="%{BKY_CATLOOPS}" colour="#FCC075">
       <block type="controls_repeat_ext">
@@ -362,8 +285,8 @@
 
   <xml id="seniorXml" style="display: none">
     <category name="Flight Commands" colour="#3368DA">
-      <block type="take_off_junior"></block>
-      <block type="land"></block>
+      <block type="take_off_senior"></block>
+      <block type="land_senior"></block>
       <block type="emergencyStop_senior"></block>
       <block type="move_senior"></block>
       <block type="turn_senior"></block>
@@ -392,6 +315,7 @@
       <block type="onLanding_senior"></block>
       <block type="onEmergencyStop_senior"></block>
       <block type="onCrash_senior"></block>
+      <block type="onFreeFall_senior"></block>
       <block type="onIdle_senior"></block>
       <block type="onLowBattery_senior"></block>
     </category>
@@ -412,87 +336,14 @@
       <block type="setEyeRGB_senior"></block>
       <block type="setLEDMode_senior"></block>
       <block type="setAllRGB_senior"></block>
-      <block type="resetLED_senior"></block>
     </category>
     <category name="Sound" colour="#EE43AE">
+      <block type="playsound_senior"></block>
       <block type="setvolume_senior"></block>
     </category>
     <category name="Keyboard Input" colour="#CACACA">
-      <block type="text"></block>
-      <block type="text_join"></block>
-      <block type="text_append">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-        <value name="FIND">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <block type="variables_get">
-            <field name="VAR">{textVariable}</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_print">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_prompt_ext">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
+      <block type="whenKeyPress_junior"></block>
+      <block type="whenKeyPressGet_junior"></block>
     </category>
     <category name="%{BKY_CATLOGIC}" colour="#a0a1d9">
       <block type="controls_if"></block>
