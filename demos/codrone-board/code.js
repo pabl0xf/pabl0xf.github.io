@@ -32,53 +32,17 @@ var Code = {};
  * Lookup for names of supported languages.  Keys should be in ISO 639 format.
  */
 Code.LANGUAGE_NAME = {
-  'ar': 'العربية',
-  'be-tarask': 'Taraškievica',
-  'br': 'Brezhoneg',
-  'ca': 'Català',
-  'cs': 'Česky',
-  'da': 'Dansk',
-  'de': 'Deutsch',
-  'el': 'Ελληνικά',
-  'en': 'English',
-  'es': 'Español',
-  'et': 'Eesti',
-  'fa': 'فارسی',
-  'fr': 'Français',
-  'he': 'עברית',
-  'hrx': 'Hunsrik',
-  'hu': 'Magyar',
-  'ia': 'Interlingua',
-  'is': 'Íslenska',
-  'it': 'Italiano',
-  'ja': '日本語',
-  'kab': 'Kabyle',
-  'ko': '한국어',
-  'mk': 'Македонски',
-  'ms': 'Bahasa Melayu',
-  'nb': 'Norsk Bokmål',
-  'nl': 'Nederlands, Vlaams',
-  'oc': 'Lenga d\'òc',
-  'pl': 'Polski',
-  'pms': 'Piemontèis',
-  'pt-br': 'Português Brasileiro',
-  'ro': 'Română',
-  'ru': 'Русский',
-  'sc': 'Sardu',
-  'sk': 'Slovenčina',
-  'sr': 'Српски',
-  'sv': 'Svenska',
-  'ta': 'தமிழ்',
-  'th': 'ภาษาไทย',
-  'tlh': 'tlhIngan Hol',
-  'tr': 'Türkçe',
-  'uk': 'Українська',
-  'vi': 'Tiếng Việt',
-  'zh-hans': '简体中文',
-  'zh-hant': '正體中文'
+  'en': 'English'
 };
 
 var refreshTabCode = function(event) {
+  if( event.type === Blockly.Events.CREATE ) {
+    if(event.xml.getAttribute('type') === 'send_command') {
+      var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+      AddkeyPressEvent(KEY[event.xml.innerText]);
+    }
+
+  }
   if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.MOVE) {
     if (Code.selected) {
       var content = document.getElementById('content_' + Code.selected);
@@ -123,50 +87,6 @@ Code.showNotification = function(Text){
 }
 
 Blockly.Variables.predefinedVars.push("MyVariableName");
-    //Blockly.Variables.createVariable(Code.workspace, null, 'abcd');
-
-$('#scanButton').click(function(e) {
-    console.log(Blockly.Variables.allVariables);
-    e.preventDefault();
-    if(Code.device){
-        Code.device.disconnect();
-        Code.device = null;
-        $('#scanButton').text('Connect');
-        $('#coDroneLabel').hide();
-        $('#forceLanding').prop( "disabled", true );
-        $('#connectMenu').removeClass('connected');
-    }
-    else{
-      console.log('Requesting any Bluetooth Device...');
-      navigator.bluetooth.requestDevice({
-              // filters: [...] <- Prefer filters to save energy & show relevant devices.
-              acceptAllDevices: true,
-              optionalServices: ['c320df00-7891-11e5-8bcf-feff819cdc9f']
-          })
-          .then(device => {
-              console.log('Connecting to GATT Server...');
-              return device.gatt.connect();
-              console.log(device);
-          })
-          .then(server => {
-              Code.device = server;
-              console.log('server', server);
-              Code.deviceConnected = server.device.name;
-
-              $('#scanButton').text('Disconnect');
-              $('#coDroneLabel').show();
-              $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
-              $('#forceLanding').prop( "disabled", false );
-              $('#connectMenu').addClass('connected');
-          })
-          .catch(error => {
-              console.log('Argh! ' + error);
-              alert(error);
-          });
-        }
-}.bind(this));
-
-// Open XML
 
 var readSingleFile = function(e) {
   Blockly.mainWorkspace.clear();
@@ -508,7 +428,7 @@ Code.init = function() {
   // Construct the toolbox XML.
   var toolboxText = document.getElementById('juniorXml').outerHTML;
   var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-  
+
 
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
@@ -671,6 +591,23 @@ Code.runJS = function() {
   Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
   try {
     eval(code);
+  } catch (e) {
+    alert(MSG['badCode'].replace('%1', e));
+  }
+};
+
+Code.runJSMethod = function(method) {
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
+  var timeouts = 0;
+  var checkTimeout = function() {
+    if (timeouts++ > 1000000) {
+      throw MSG['timeout'];
+    }
+  };
+  var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+  try {
+    eval(code+method);
   } catch (e) {
     alert(MSG['badCode'].replace('%1', e));
   }

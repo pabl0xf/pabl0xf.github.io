@@ -131,6 +131,20 @@ function getBytesFromType(type) {
     return packages[type];
 }
 
+global.AddkeyPressEvent = function (keyPress){
+  document.body.onkeyup = function(e){
+      if(e.keyCode == keyPress){
+        var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+        try {
+          var codeSnipped = eval('('+code+')');
+          codeSnipped();
+        } catch (e) {
+          alert(MSG['badCode'].replace('%1', e));
+        }
+      }
+  }
+}
+
 
 global.takeOff = function (){
   var takeOffPackage = getBytesFromType('bytesTakeOff');
@@ -228,11 +242,14 @@ global.MIX = {armCode: 0x42, eyeCode: 0x12};
 
 global.RED = 'Red';
 global.YELLOW = 'Yellow';
+global.ENTER = 'Yellow';
 global.ORANGE = 'Orange';
 global.GREEN = 'Green';
 global.BLUE = 'Blue';
 global.INDIGO = 'Indigo';
 global.VIOLET = 'Violet';
+
+global.KEY = {BACKSPACE: 8, ENTER: 13};
 
 global.COLORS = {
 	Blue : 9,

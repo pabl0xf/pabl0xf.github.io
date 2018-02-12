@@ -16,6 +16,20 @@ function getBytesFromType(type) {
     return packages[type];
 }
 
+global.AddkeyPressEvent = function (keyPress){
+  document.body.onkeyup = function(e){
+      if(e.keyCode == keyPress){
+        var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+        try {
+          var codeSnipped = eval('('+code+')');
+          codeSnipped();
+        } catch (e) {
+          alert(MSG['badCode'].replace('%1', e));
+        }
+      }
+  }
+}
+
 
 global.takeOff = function (){
   var takeOffPackage = getBytesFromType('bytesTakeOff');

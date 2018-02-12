@@ -12,11 +12,14 @@ global.MIX = {armCode: 0x42, eyeCode: 0x12};
 
 global.RED = 'Red';
 global.YELLOW = 'Yellow';
+global.ENTER = 'Yellow';
 global.ORANGE = 'Orange';
 global.GREEN = 'Green';
 global.BLUE = 'Blue';
 global.INDIGO = 'Indigo';
 global.VIOLET = 'Violet';
+
+global.KEY = {BACKSPACE: 8, ENTER: 13};
 
 global.COLORS = {
 	Blue : 9,

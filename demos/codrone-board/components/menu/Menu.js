@@ -59,11 +59,7 @@ class Burger extends React.Component {
   }
 
   handleRunClick(el) {
-    if (Code.device != null) {
       Code.runJS();
-    } else {
-      alert('CoDrone is not connected, please connect and try again.');
-    }
   }
 
   render() {
