@@ -17,12 +17,13 @@ function getBytesFromType(type) {
 }
 
 global.AddkeyPressEvent = function (keyPress){
+  document.body.onkeyup = null;
   document.body.onkeyup = function(e){
       if(e.keyCode == keyPress){
         var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
         try {
-          var codeSnipped = eval('('+code+')');
-          codeSnipped();
+          var event = new Event('whenKeyPress');
+          global.dispatchEvent(event);
         } catch (e) {
           alert(MSG['badCode'].replace('%1', e));
         }
@@ -32,6 +33,7 @@ global.AddkeyPressEvent = function (keyPress){
 
 
 global.takeOff = function (){
+  alert('takeOff');
   var takeOffPackage = getBytesFromType('bytesTakeOff');
   Code.device.getPrimaryService(PRIMARY_SERVICE)
   .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))

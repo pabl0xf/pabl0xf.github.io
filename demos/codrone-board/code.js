@@ -41,7 +41,11 @@ var refreshTabCode = function(event) {
       var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
       AddkeyPressEvent(KEY[event.xml.innerText]);
     }
-
+  }
+  if( event.type === Blockly.Events.CHANGE ) {
+    if(event.name === 'WHENKEYPRESSVAR') {
+      AddkeyPressEvent(KEY[event.newValue]);
+    }
   }
   if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.MOVE) {
     if (Code.selected) {
