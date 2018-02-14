@@ -9,7 +9,12 @@ global.PULSING = {armCode: 0x45, eyeCode: 0x15};
 global.FLOW = {armCode: 0x46, eyeCode: 0x16};
 global.REVERSE_FLOW = {armCode: 0x47, eyeCode: 0x17};
 global.MIX = {armCode: 0x42, eyeCode: 0x12};
-global.addEvent = window.addEventListener;
+Code.keyPressEventsArray = [];
+
+global.addEvent = function(event, callback){
+  window.addEventListener(event, callback);
+  Code.keyPressEventsArray.push(callback);
+};
 
 global.RED = 'Red';
 global.YELLOW = 'Yellow';

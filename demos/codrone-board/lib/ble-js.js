@@ -16,6 +16,12 @@ function getBytesFromType(type) {
     return packages[type];
 }
 
+global.removeAllEventListener = function (){
+  Code.keyPressEventsArray.forEach(function(item){
+     removeEventListener('whenKeyPress',item);
+   });
+}
+
 global.AddkeyPressEvent = function (keyPress){
   document.body.onkeyup = null;
   document.body.onkeyup = function(e){

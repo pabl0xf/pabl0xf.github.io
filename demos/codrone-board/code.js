@@ -35,9 +35,15 @@ Code.LANGUAGE_NAME = {
   'en': 'English'
 };
 
+Code.eventListeners = [];
+
 var refreshTabCode = function(event) {
+  if(event.type === Blockly.Events.DELETE){
+     removeAllEventListener();
+     Code.runJS();
+  }
   if( event.type === Blockly.Events.CREATE ) {
-    if(event.xml.getAttribute('type') === 'send_command') {
+    if(event.xml.getAttribute('type') === 'whenKeyPress_junior') {
       var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
       AddkeyPressEvent(KEY[event.xml.innerText]);
     }
