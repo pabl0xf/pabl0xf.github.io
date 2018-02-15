@@ -17,24 +17,22 @@ function getBytesFromType(type) {
 }
 
 global.removeAllEventListener = function (){
-  Code.keyPressEventsArray.forEach(function(item){
-     removeEventListener('whenKeyPress',item);
-   });
+  removeEventListener('keydown', keydownCallback);
+  keyPressEventsArray = {};
 }
 
-global.AddkeyPressEvent = function (keyPress){
-  document.body.onkeyup = null;
-  document.body.onkeyup = function(e){
-      if(e.keyCode == keyPress){
-        var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+global.AddkeyPressEvent = function (callback){
+  global.keydownCallback = function(e){
+      if (keyPressEventsArray && keyPressEventsArray[e.keyCode]){
         try {
-          var event = new Event('whenKeyPress');
-          global.dispatchEvent(event);
+          keyPressEventsArray[e.keyCode].callback();
         } catch (e) {
           alert(MSG['badCode'].replace('%1', e));
         }
       }
-  }
+  };
+
+  global.addEventListener("keydown", keydownCallback);
 }
 
 

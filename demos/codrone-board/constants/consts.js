@@ -9,11 +9,11 @@ global.PULSING = {armCode: 0x45, eyeCode: 0x15};
 global.FLOW = {armCode: 0x46, eyeCode: 0x16};
 global.REVERSE_FLOW = {armCode: 0x47, eyeCode: 0x17};
 global.MIX = {armCode: 0x42, eyeCode: 0x12};
-Code.keyPressEventsArray = [];
+global.keyPressEventsArray = {};
 
-global.addEvent = function(event, callback){
-  window.addEventListener(event, callback);
-  Code.keyPressEventsArray.push(callback);
+global.onKeyPressEvent = function(keypress, callback){
+  global.keyPressEventsArray[keypress] =  {event: 'keyPressEvent', callback: callback};
+  global.AddkeyPressEvent (callback);
 };
 
 global.RED = 'Red';
@@ -25,6 +25,11 @@ global.BLUE = 'Blue';
 global.INDIGO = 'Indigo';
 global.VIOLET = 'Violet';
 
+global.CRASH = 1;
+global.LOW_BATTERY = 2;
+
+global.BACKSPACE = 8;
+global.ENTER = 13;
 global.KEY = {BACKSPACE: 8, ENTER: 13};
 
 global.COLORS = {
