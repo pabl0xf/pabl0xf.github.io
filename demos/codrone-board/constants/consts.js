@@ -11,11 +11,6 @@ global.REVERSE_FLOW = {armCode: 0x47, eyeCode: 0x17};
 global.MIX = {armCode: 0x42, eyeCode: 0x12};
 global.keyPressEventsArray = {};
 
-global.onKeyPressEvent = function(keypress, callback){
-  global.keyPressEventsArray[keypress] =  {event: 'keyPressEvent', callback: callback};
-  global.AddkeyPressEvent (callback);
-};
-
 global.RED = 'Red';
 global.YELLOW = 'Yellow';
 global.ENTER = 'Yellow';
@@ -25,12 +20,13 @@ global.BLUE = 'Blue';
 global.INDIGO = 'Indigo';
 global.VIOLET = 'Violet';
 
-global.CRASH = 1;
-global.LOW_BATTERY = 2;
+global.TAKEOFF = 1;
+global.CRASH = 2;
+global.UPSIDE_DOWN = 3;
+global.LOW_BATTERY = 4;
 
 global.BACKSPACE = 8;
 global.ENTER = 13;
-global.KEY = {BACKSPACE: 8, ENTER: 13};
 
 global.COLORS = {
 	Blue : 9,

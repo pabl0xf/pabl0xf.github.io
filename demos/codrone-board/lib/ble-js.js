@@ -16,6 +16,11 @@ function getBytesFromType(type) {
     return packages[type];
 }
 
+global.onKeyPressEvent = function(keypress, callback){
+  global.keyPressEventsArray[keypress] =  {event: 'keyPressEvent', callback: callback};
+  global.AddkeyPressEvent (callback);
+};
+
 global.removeAllEventListener = function (){
   removeEventListener('keydown', keydownCallback);
   keyPressEventsArray = {};
