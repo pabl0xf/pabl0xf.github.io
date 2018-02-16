@@ -16,31 +16,6 @@ function getBytesFromType(type) {
     return packages[type];
 }
 
-global.onKeyPressEvent = function(keypress, callback){
-  global.keyPressEventsArray[keypress] =  {event: 'keyPressEvent', callback: callback};
-  global.AddkeyPressEvent (callback);
-};
-
-global.removeAllEventListener = function (){
-  removeEventListener('keydown', keydownCallback);
-  keyPressEventsArray = {};
-}
-
-global.AddkeyPressEvent = function (callback){
-  global.keydownCallback = function(e){
-      if (keyPressEventsArray && keyPressEventsArray[e.keyCode]){
-        try {
-          keyPressEventsArray[e.keyCode].callback();
-        } catch (e) {
-          alert(MSG['badCode'].replace('%1', e));
-        }
-      }
-  };
-
-  global.addEventListener("keydown", keydownCallback);
-}
-
-
 global.takeOff = function (){
   alert('takeOff');
   var takeOffPackage = getBytesFromType('bytesTakeOff');
@@ -48,6 +23,22 @@ global.takeOff = function (){
   .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
   .then(characteristic => {
    return characteristic.writeValue(takeOffPackage);
+  })
+}.bind(this);
+
+global.land = function (){
+  alert('land');
+}.bind(this);
+
+global.getBatteryPercentage = function (){
+   var dataArray = new Uint8Array(3);
+   dataArray[0] = 17;
+   dataArray[1] = 144;
+   dataArray[2] = 49;
+  Code.device.getPrimaryService(PRIMARY_SERVICE)
+  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
+  .then(characteristic => {
+   return characteristic.writeValue(dataArray);
   })
 }.bind(this);
 

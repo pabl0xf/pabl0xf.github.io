@@ -26,7 +26,7 @@
 /**
  * Create a namespace for the application.
  */
-var Code = {};
+global.Code = {};
 
 /**
  * Lookup for names of supported languages.  Keys should be in ISO 639 format.
@@ -43,9 +43,7 @@ var refreshTabCode = function(event) {
      Code.runJS();
   }
   if( event.type === Blockly.Events.CHANGE ) {
-    if(event.name === 'WHENKEYPRESSVAR') {
-      AddkeyPressEvent(KEY[event.newValue]);
-    }
+
   }
   if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.MOVE) {
     if (Code.selected) {
