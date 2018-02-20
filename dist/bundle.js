@@ -856,16 +856,49 @@ global.land = function (){
   alert('land');
 }.bind(this);
 
-global.getBatteryPercentage = function (){
+global.getBatteryPercentage = async function (){
+  try {
+  console.log('Getting Service...');
+   const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
+
+   console.log('Getting Control Point Characteristic...');
+    const characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
+
+    console.log('Writing Control Point Characteristic...');
+   // Writing 1 is the signal to reset energy expended.
    var dataArray = new Uint8Array(3);
    dataArray[0] = 17;
    dataArray[1] = 144;
    dataArray[2] = 49;
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-   return characteristic.writeValue(dataArray);
-  })
+   await characteristic.writeValue(dataArray);
+
+   console.log('> Finish send package');
+ } catch(error) {
+   console.log('BLE Write error ' + error);
+ }
+
+ try {
+   console.log('Getting Service...');
+    const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
+
+
+    console.log('Getting Battery Level Characteristic...');
+    const characteristic = await service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
+
+    console.log('Reading Battery Level...');
+    const value = await characteristic.readValue();
+
+    var arrayResult = new Uint8Array(value.buffer);
+    console.log('Battery percentage is ' + arrayResult);
+    $('#testSensorBatteryLabel').show();
+    let batteryPorcentageValue = arrayResult[7] & 0xFF;
+    $('#batteryPercentageValue').html(batteryPorcentageValue);
+    return batteryPorcentageValue;
+  } catch(error) {
+    log('Argh! ' + error);
+  }
+
+console.log('finish everything...');
 }.bind(this);
 
 global.setArmColor = function (type) {
@@ -996,6 +1029,8 @@ exports.bytesTakeOff = dataArray;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__constants_consts_js__);
 
 var EventLib = {};
+EventLib.LowBatteryCallback = null;
+const batteryLowLevelValue = 20;
 
 global.onKeyPressEvent = function(keyCode, callback){
   global.keyPressMap[keyCode] =  {callback: callback};
@@ -1007,48 +1042,21 @@ global.onKeyPressEvent = function(keyCode, callback){
 
 global.onEvent = function(eventType, callback){
 
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => {
-  // Getting Battery Level Characteristic...
-     return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
-   })
-  .then(characteristic => {
-    // Reading Battery Level...
-    return characteristic.readValue();
-  })
-  .then(value => {
-    console.log('Battery percentage is ' + value.getUint8(0));
-  })
-
-return;
-
-//   Code.device.getPrimaryService(PRIMARY_SERVICE)
-//   .then(service => {
-//   // Getting Battery Level Characteristic...
-//      return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
-//    })
-// .then(characteristic => characteristic.startNotifications())
-// .then(characteristic => {
-//   characteristic.addEventListener('characteristicvaluechanged',
-//                                   handleCharacteristicValueChanged);
-//   console.log('Notifications have been started.');
-// })
-// .catch(error => { console.log(error); });
-//
-// function handleCharacteristicValueChanged(event) {
-//   var value = event.target.value;
-//   console.log('Received ' + value);
-//   // TODO: Parse Heart Rate Measurement value.
-//   // See https://github.com/WebBluetoothCG/demos/blob/gh-pages/heart-rate-sensor/heartRateSensor.js
-// }
-
-
-return;
-  global.keyPressMap[keyCode] =  {callback: callback};
-  if(EventLib.keydownCallback){
-    return;
-  }
-  EventLib.AddKeyPressEvent (callback);
+  switch (eventType) {
+   case LOW_BATTERY:
+     EventLib.LowBatteryCallback = callback;
+     global.LowBatteryLoop = setInterval(async function(){
+       console.log('start iteration: ');
+       var batteryPorcentage = await getBatteryPercentage();
+       if(EventLib.LowBatteryCallback && batteryPorcentage<batteryLowLevelValue) {
+         EventLib.LowBatteryCallback();
+         clearInterval(global.LowBatteryLoop);
+         EventLib.LowBatteryCallback = null;
+       }
+       console.log('end iteration: ');
+     }.bind(this), 1500);
+          break;
+   }
 };
 
 global.removeAllEventListener = function (){
@@ -1056,7 +1064,10 @@ global.removeAllEventListener = function (){
     removeEventListener('keydown', EventLib.keydownCallback);
     global.keyPressMap = {};
     EventLib.keydownCallback = null;
-    //keyEventsArray = {};
+  }
+  if(global.LowBatteryLoop){
+    EventLib.LowBatteryCallback = null;
+    clearInterval(global.LowBatteryLoop);
   }
 }
 

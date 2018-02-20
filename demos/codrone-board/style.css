@@ -491,7 +491,10 @@ button {
   padding: 4px 5px;
   font-size: 18px;
   top: -93px;
+}
 
+#testSensorBatteryLabel {
+  display: none;  
 }
 
 .blocklyToolboxDiv .blocklyTreeRoot div[role="group"] div[role="treeitem"]:first-child:before {

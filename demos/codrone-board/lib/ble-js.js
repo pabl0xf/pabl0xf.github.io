@@ -30,16 +30,49 @@ global.land = function (){
   alert('land');
 }.bind(this);
 
-global.getBatteryPercentage = function (){
+global.getBatteryPercentage = async function (){
+  try {
+  console.log('Getting Service...');
+   const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
+
+   console.log('Getting Control Point Characteristic...');
+    const characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
+
+    console.log('Writing Control Point Characteristic...');
+   // Writing 1 is the signal to reset energy expended.
    var dataArray = new Uint8Array(3);
    dataArray[0] = 17;
    dataArray[1] = 144;
    dataArray[2] = 49;
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-   return characteristic.writeValue(dataArray);
-  })
+   await characteristic.writeValue(dataArray);
+
+   console.log('> Finish send package');
+ } catch(error) {
+   console.log('BLE Write error ' + error);
+ }
+
+ try {
+   console.log('Getting Service...');
+    const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
+
+
+    console.log('Getting Battery Level Characteristic...');
+    const characteristic = await service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
+
+    console.log('Reading Battery Level...');
+    const value = await characteristic.readValue();
+
+    var arrayResult = new Uint8Array(value.buffer);
+    console.log('Battery percentage is ' + arrayResult);
+    $('#testSensorBatteryLabel').show();
+    let batteryPorcentageValue = arrayResult[7] & 0xFF;
+    $('#batteryPercentageValue').html(batteryPorcentageValue);
+    return batteryPorcentageValue;
+  } catch(error) {
+    log('Argh! ' + error);
+  }
+
+console.log('finish everything...');
 }.bind(this);
 
 global.setArmColor = function (type) {

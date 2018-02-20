@@ -35,6 +35,7 @@ class ContentSensor extends React.Component {
     return (
       <div className="content-panel content-4">
           <h3 style={{textAlign: 'center'}}>Sensor data as a right panel</h3>
+          <div id="testSensorBatteryLabel">Battery porcentaje: <span id="batteryPercentageValue"></span></div>
       </div>
     );
   }
@@ -66,13 +67,13 @@ class Panel extends React.Component {
 
     var activeTab = document.getElementsByClassName('content-panel active')[0];
     var contentTab = document.getElementsByClassName('content-' + panelId)[0];
-    
+
     if (activeTab) {
       activeTab.classList.remove('active');
     }
 
     contentTab.classList.add('active');
-    
+
     if (tab) {
       Code.tabClick(tab);
     }
