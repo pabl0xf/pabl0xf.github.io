@@ -2,77 +2,99 @@ import '../constants/consts.js';
 import { bytesLedPackage, bytesResetLedPackage } from '../types/ledTypes.js';
 import { dataLedMode } from '../model/ledData.js';
 import { bytesTakeOff } from '../types/flyEventsTypes.js';
+import { bytesRotate180 } from '../types/flyEventsTypes.js';
+import { sensorBattery } from '../types/sensorTypes.js';
 
 this.data = {ledMode: dataLedMode};
 
 var packages = {
   'bytesLedPackage': bytesLedPackage,
   'bytesResetLedPackage': bytesResetLedPackage,
-  'bytesTakeOff': bytesTakeOff
+  'bytesTakeOff': bytesTakeOff,
+  'bytesRotate180': bytesRotate180,
+  'sensorBattery': sensorBattery
 }
 
+global.executionInProgress = false;
+global.bleCommand = [];
 
 function getBytesFromType(type) {
     return packages[type];
 }
 
+var execute = async function(packageData, readValue){
+
+  if(global.executionInProgress){
+    bleCommand.push({package: packageData, readValue: readValue});
+    return;
+  }
+
+  global.executionInProgress  = true;
+  const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
+
+  console.log('Getting Write Characteristic...');
+  let characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
+
+  console.log('Writing takeOff package...');
+
+  await characteristic.writeValue(packageData);
+
+  // READ VALUE
+  if(readValue){
+      console.log('Getting Battery Level Characteristic...');
+      characteristic = await service.getCharacteristic(NOTIIFY_CHARACTERISTIC);
+
+      console.log('Reading Battery Level...');
+      const value = await characteristic.readValue();
+
+      var arrayResult = new Uint8Array(value.buffer);
+      console.log('Battery percentage is ' + arrayResult);
+      $('#testSensorBatteryLabel').show();
+      let batteryPorcentageValue = arrayResult[7] & 0xFF;
+      $('#batteryPercentageValue').html(batteryPorcentageValue);
+      var event = new CustomEvent('batteryPorcentage', { detail: batteryPorcentageValue });
+      dispatchEvent(event);
+  }
+
+  // END READ VALUE
+
+  global.executionInProgress  = false;
+  if(bleCommand && bleCommand.length>0){
+    let command = bleCommand.pop();
+    execute(command.package, command.readValue);
+  }
+}
+
 global.takeOff = function (){
-  alert('takeOff');
   var takeOffPackage = getBytesFromType('bytesTakeOff');
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-   return characteristic.writeValue(takeOffPackage);
-  })
-}.bind(this);
+  execute(takeOffPackage);
+}
+
+global.rotate180 = function(){
+  var rotate180Package = getBytesFromType('bytesRotate180');
+  execute(rotate180Package);
+}
 
 global.land = function (){
   alert('land');
 }.bind(this);
 
+//eval('(async function(){battery = await window.getBatteryPercentage2(); alert(battery)})()')
+
 global.getBatteryPercentage = async function (){
   try {
-  console.log('Getting Service...');
-   const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
-
-   console.log('Getting Control Point Characteristic...');
-    const characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
-
-    console.log('Writing Control Point Characteristic...');
-   // Writing 1 is the signal to reset energy expended.
-   var dataArray = new Uint8Array(3);
-   dataArray[0] = 17;
-   dataArray[1] = 144;
-   dataArray[2] = 49;
-   await characteristic.writeValue(dataArray);
-
-   console.log('> Finish send package');
- } catch(error) {
-   console.log('BLE Write error ' + error);
- }
-
- try {
-   console.log('Getting Service...');
-    const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
-
-
-    console.log('Getting Battery Level Characteristic...');
-    const characteristic = await service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
-
-    console.log('Reading Battery Level...');
-    const value = await characteristic.readValue();
-
-    var arrayResult = new Uint8Array(value.buffer);
-    console.log('Battery percentage is ' + arrayResult);
-    $('#testSensorBatteryLabel').show();
-    let batteryPorcentageValue = arrayResult[7] & 0xFF;
-    $('#batteryPercentageValue').html(batteryPorcentageValue);
-    return batteryPorcentageValue;
-  } catch(error) {
+    var sensorBatteryPackage = getBytesFromType('sensorBattery');
+    var batteryValue = await new Promise(function(resolve, reject) {
+          execute(sensorBatteryPackage, true);
+          addEventListener('batteryPorcentage', function (e) {
+            resolve(e.detail);
+           }, false);
+     });
+     return batteryValue;
+   } catch(error) {
     log('Argh! ' + error);
-  }
+   }
 
-console.log('finish everything...');
 }.bind(this);
 
 global.setArmColor = function (type) {

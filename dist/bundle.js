@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -140,16 +140,33 @@ global.COLORS = {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+var dataArray = new Uint8Array(3);
+dataArray[0] = 17;
+dataArray[1] = 34;
+dataArray[2] = 1;
+exports.bytesTakeOff = dataArray;
+
+var dataArray = new Uint8Array(3);
+dataArray[0] = 17;
+dataArray[1] = 34;
+dataArray[2] = 14;
+exports.bytesRotate180 = dataArray;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__code_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__code_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__code_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__code_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commons_utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commons_utils_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commons_utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__commons_utils_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_ble_js_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_events_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_ble_js_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_events_js__ = __webpack_require__(10);
 
 
 
@@ -157,7 +174,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -755,7 +772,8 @@ Code.runJS = function() {
   var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
   Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
   try {
-    eval(code);
+    eval('(async function(){'+code+'})()');
+    //eval(code);
   } catch (e) {
     alert(MSG['badCode'].replace('%1', e));
   }
@@ -802,7 +820,7 @@ window.addEventListener('load', Code.init);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {global.runJS = function(){
@@ -812,18 +830,22 @@ window.addEventListener('load', Code.init);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__constants_consts_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_ledData_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_ledData_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_ledData_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__model_ledData_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js__);
+
+
 
 
 
@@ -834,71 +856,91 @@ this.data = {ledMode: __WEBPACK_IMPORTED_MODULE_2__model_ledData_js__["dataLedMo
 var packages = {
   'bytesLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__["bytesLedPackage"],
   'bytesResetLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__["bytesResetLedPackage"],
-  'bytesTakeOff': __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__["bytesTakeOff"]
+  'bytesTakeOff': __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__["bytesTakeOff"],
+  'bytesRotate180': __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__["bytesRotate180"],
+  'sensorBattery': __WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js__["sensorBattery"]
 }
 
+global.executionInProgress = false;
+global.bleCommand = [];
 
 function getBytesFromType(type) {
     return packages[type];
 }
 
+var execute = async function(packageData, readValue){
+
+  if(global.executionInProgress){
+    bleCommand.push({package: packageData, readValue: readValue});
+    return;
+  }
+
+  global.executionInProgress  = true;
+  const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
+
+  console.log('Getting Write Characteristic...');
+  let characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
+
+  console.log('Writing takeOff package...');
+
+  await characteristic.writeValue(packageData);
+
+  // READ VALUE
+  if(readValue){
+      console.log('Getting Battery Level Characteristic...');
+      characteristic = await service.getCharacteristic(NOTIIFY_CHARACTERISTIC);
+
+      console.log('Reading Battery Level...');
+      const value = await characteristic.readValue();
+
+      var arrayResult = new Uint8Array(value.buffer);
+      console.log('Battery percentage is ' + arrayResult);
+      $('#testSensorBatteryLabel').show();
+      let batteryPorcentageValue = arrayResult[7] & 0xFF;
+      $('#batteryPercentageValue').html(batteryPorcentageValue);
+      var event = new CustomEvent('batteryPorcentage', { detail: batteryPorcentageValue });
+      dispatchEvent(event);
+  }
+
+  // END READ VALUE
+
+  global.executionInProgress  = false;
+  if(bleCommand && bleCommand.length>0){
+    let command = bleCommand.pop();
+    execute(command.package, command.readValue);
+  }
+}
+
 global.takeOff = function (){
-  alert('takeOff');
   var takeOffPackage = getBytesFromType('bytesTakeOff');
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-   return characteristic.writeValue(takeOffPackage);
-  })
-}.bind(this);
+  execute(takeOffPackage);
+}
+
+global.rotate180 = function(){
+  var rotate180Package = getBytesFromType('bytesRotate180');
+  execute(rotate180Package);
+}
 
 global.land = function (){
   alert('land');
 }.bind(this);
 
+//eval('(async function(){battery = await window.getBatteryPercentage2(); alert(battery)})()')
+
 global.getBatteryPercentage = async function (){
   try {
-  console.log('Getting Service...');
-   const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
-
-   console.log('Getting Control Point Characteristic...');
-    const characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
-
-    console.log('Writing Control Point Characteristic...');
-   // Writing 1 is the signal to reset energy expended.
-   var dataArray = new Uint8Array(3);
-   dataArray[0] = 17;
-   dataArray[1] = 144;
-   dataArray[2] = 49;
-   await characteristic.writeValue(dataArray);
-
-   console.log('> Finish send package');
- } catch(error) {
-   console.log('BLE Write error ' + error);
- }
-
- try {
-   console.log('Getting Service...');
-    const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
-
-
-    console.log('Getting Battery Level Characteristic...');
-    const characteristic = await service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
-
-    console.log('Reading Battery Level...');
-    const value = await characteristic.readValue();
-
-    var arrayResult = new Uint8Array(value.buffer);
-    console.log('Battery percentage is ' + arrayResult);
-    $('#testSensorBatteryLabel').show();
-    let batteryPorcentageValue = arrayResult[7] & 0xFF;
-    $('#batteryPercentageValue').html(batteryPorcentageValue);
-    return batteryPorcentageValue;
-  } catch(error) {
+    var sensorBatteryPackage = getBytesFromType('sensorBattery');
+    var batteryValue = await new Promise(function(resolve, reject) {
+          execute(sensorBatteryPackage, true);
+          addEventListener('batteryPorcentage', function (e) {
+            resolve(e.detail);
+           }, false);
+     });
+     return batteryValue;
+   } catch(error) {
     log('Argh! ' + error);
-  }
+   }
 
-console.log('finish everything...');
 }.bind(this);
 
 global.setArmColor = function (type) {
@@ -971,7 +1013,7 @@ global.setEyeRGB = function (red, green, blue) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var dataArray = new Uint8Array(4);
@@ -997,7 +1039,7 @@ exports.bytesResetLedPackage = {eye: resetEyeArray, arms: resetArmsArray};
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {let ledMode = {
@@ -1010,18 +1052,18 @@ exports.dataLedMode = ledMode;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 var dataArray = new Uint8Array(3);
 dataArray[0] = 17;
-dataArray[1] = 34;
-dataArray[2] = 1;
-exports.bytesTakeOff = dataArray;
+dataArray[1] = 144;
+dataArray[2] = 49;
+exports.sensorBattery = dataArray;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
