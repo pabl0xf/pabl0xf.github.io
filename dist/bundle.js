@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,54 +92,73 @@ module.exports = g;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {global.PRIMARY_SERVICE = 'c320df00-7891-11e5-8bcf-feff819cdc9f';
-global.WRITE_CHARACTERISTIC = 'c320df02-7891-11e5-8bcf-feff819cdc9f';
-global.NOTIIFY_CHARACTERISTIC = 'c320df01-7891-11e5-8bcf-feff819cdc9f';
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return commandManager; });
+var stackManager = {};
 
-global.HOLD = {armCode: 0x41, eyeCode: 0x11};
-global.OFF = {armCode: 0x40, eyeCode: 0x10};
-global.BLINKING = {armCode: 0x43, eyeCode: 0x13};
-global.DOUBLE_BLINK = {armCode: 0x44, eyeCode: 0x14};
-global.PULSING = {armCode: 0x45, eyeCode: 0x15};
-global.FLOW = {armCode: 0x46, eyeCode: 0x16};
-global.REVERSE_FLOW = {armCode: 0x47, eyeCode: 0x17};
-global.MIX = {armCode: 0x42, eyeCode: 0x12};
-global.keyPressMap = {};
-global.keydownCallback = null;
+stackManager.executionInProgress = false;
 
-global.RED = 'Red';
-global.YELLOW = 'Yellow';
-global.ENTER = 'Yellow';
-global.ORANGE = 'Orange';
-global.GREEN = 'Green';
-global.BLUE = 'Blue';
-global.INDIGO = 'Indigo';
-global.VIOLET = 'Violet';
+class CommandManager {
+  constructor() {
+    this.stack = [];
+    this.commandConsummerOn = false;
+    this.inProgress = false
+    this.commandLoop = null;
+  }
 
-global.TAKEOFF = 1;
-global.CRASH = 2;
-global.UPSIDE_DOWN = 3;
-global.LOW_BATTERY = 4;
+  addCommand(command){
+    this.stack.push(command);
+  }
 
-global.BACKSPACE = 8;
-global.ENTER = 13;
+  initCommandConsumer(){
+    this.commandConsummerOn = true;
+    this.commandLoop = setInterval(function(){
+      if(this.executionInProgress){
+        return true;
+      }
+      if(this.stack && this.stack.length>0){
+        let command = this.stack.shift();
+        console.log('command pop');
+        this.execute(command);
+      }
+    }.bind(this), 10);
+  }
 
-global.COLORS = {
-	Blue : 9,
-	Green : 51,
-  Indigo : 56,
-	Orange : 99,
-	Red : 114,
-	Violet : 135,
-  Yellow : 139
-};
+  async execute (command){
+    console.log('execution start');
+    this.executionInProgress = true;
+    await command.run();
+    this.executionInProgress = false;
+    return;
+  }
+}
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+let commandManager =  new CommandManager();
+
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Command {
+  constructor(packageData, eventName){
+      this.package = packageData;
+      this.eventName = eventName;
+  }
+
+  async run(){
+    console.log(this.package);
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Command;
+
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 var dataArray = new Uint8Array(3);
@@ -156,17 +175,20 @@ exports.bytesRotate180 = dataArray;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__code_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__code_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__code_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commons_utils_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__code_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commons_utils_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commons_utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__commons_utils_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_ble_js_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_events_js__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_commandManager_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_interfaces_flight_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_interfaces_sensors_js__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_interfaces_events_js__ = __webpack_require__(13);
+
+
 
 
 
@@ -174,11 +196,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/**
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_commandManager_js__ = __webpack_require__(1);
+/**
  * Blockly Demos: Code
  *
  * Copyright 2012 Google Inc.
@@ -762,6 +785,7 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
+  __WEBPACK_IMPORTED_MODULE_0__lib_commandManager_js__["a" /* commandManager */].initCommandConsumer();
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
   var timeouts = 0;
   var checkTimeout = function() {
@@ -817,10 +841,10 @@ document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
 
 window.addEventListener('load', Code.init);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {global.runJS = function(){
@@ -830,229 +854,151 @@ window.addEventListener('load', Code.init);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__constants_consts_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_ledData_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_ledData_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__model_ledData_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__commandManager_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commands_takeOff_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__commands_rotate180_js__ = __webpack_require__(9);
 
 
 
 
-
-
-
-this.data = {ledMode: __WEBPACK_IMPORTED_MODULE_2__model_ledData_js__["dataLedMode"]};
-
-var packages = {
-  'bytesLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__["bytesLedPackage"],
-  'bytesResetLedPackage': __WEBPACK_IMPORTED_MODULE_1__types_ledTypes_js__["bytesResetLedPackage"],
-  'bytesTakeOff': __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__["bytesTakeOff"],
-  'bytesRotate180': __WEBPACK_IMPORTED_MODULE_3__types_flyEventsTypes_js__["bytesRotate180"],
-  'sensorBattery': __WEBPACK_IMPORTED_MODULE_4__types_sensorTypes_js__["sensorBattery"]
-}
-
-global.executionInProgress = false;
-global.bleCommand = [];
-
-function getBytesFromType(type) {
-    return packages[type];
-}
-
-var execute = async function(packageData, readValue){
-
-  if(global.executionInProgress){
-    bleCommand.push({package: packageData, readValue: readValue});
-    return;
-  }
-
-  global.executionInProgress  = true;
-  const service = await Code.device.getPrimaryService(PRIMARY_SERVICE);
-
-  console.log('Getting Write Characteristic...');
-  let characteristic = await service.getCharacteristic(WRITE_CHARACTERISTIC);
-
-  console.log('Writing takeOff package...');
-
-  await characteristic.writeValue(packageData);
-
-  // READ VALUE
-  if(readValue){
-      console.log('Getting Battery Level Characteristic...');
-      characteristic = await service.getCharacteristic(NOTIIFY_CHARACTERISTIC);
-
-      console.log('Reading Battery Level...');
-      const value = await characteristic.readValue();
-
-      var arrayResult = new Uint8Array(value.buffer);
-      console.log('Battery percentage is ' + arrayResult);
-      $('#testSensorBatteryLabel').show();
-      let batteryPorcentageValue = arrayResult[7] & 0xFF;
-      $('#batteryPercentageValue').html(batteryPorcentageValue);
-      var event = new CustomEvent('batteryPorcentage', { detail: batteryPorcentageValue });
-      dispatchEvent(event);
-  }
-
-  // END READ VALUE
-
-  global.executionInProgress  = false;
-  if(bleCommand && bleCommand.length>0){
-    let command = bleCommand.pop();
-    execute(command.package, command.readValue);
-  }
-}
 
 global.takeOff = function (){
-  var takeOffPackage = getBytesFromType('bytesTakeOff');
-  execute(takeOffPackage);
+  var takeOff = new __WEBPACK_IMPORTED_MODULE_1__commands_takeOff_js__["a" /* default */]();
+  __WEBPACK_IMPORTED_MODULE_0__commandManager_js__["a" /* commandManager */].addCommand(takeOff);
 }
 
 global.rotate180 = function(){
-  var rotate180Package = getBytesFromType('bytesRotate180');
-  execute(rotate180Package);
+  var rotate180 = new __WEBPACK_IMPORTED_MODULE_2__commands_rotate180_js__["a" /* default */]();
+  __WEBPACK_IMPORTED_MODULE_0__commandManager_js__["a" /* commandManager */].addCommand(rotate180);
 }
 
 global.land = function (){
   alert('land');
 }.bind(this);
 
-//eval('(async function(){battery = await window.getBatteryPercentage2(); alert(battery)})()')
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js__);
+
+
+
+class TakeOff extends __WEBPACK_IMPORTED_MODULE_0__command_js__["a" /* default */] {
+  constructor(){
+      var packageTakeoff = __WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js__["bytesTakeOff"];
+      super(packageTakeoff, '');
+  }
+
+  async run(){
+    await Code.writeCharacteristic.writeValue(this.package);
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = TakeOff;
+
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js__);
+
+
+
+class Rotate180 extends __WEBPACK_IMPORTED_MODULE_0__command_js__["a" /* default */] {
+  constructor(){
+      var packageRotate180 = __WEBPACK_IMPORTED_MODULE_1__types_flyEventsTypes_js__["bytesRotate180"];
+      super(packageRotate180, false);
+  }
+
+  async run(){
+    await Code.writeCharacteristic.writeValue(this.package);
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Rotate180;
+
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__commandManager_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__commands_getBatteryPercentage_js__ = __webpack_require__(11);
+
+
+
+function getBytesFromType(type) {
+    return packages[type];
+}
 
 global.getBatteryPercentage = async function (){
-  try {
-    var sensorBatteryPackage = getBytesFromType('sensorBattery');
-    var batteryValue = await new Promise(function(resolve, reject) {
-          execute(sensorBatteryPackage, true);
-          addEventListener('batteryPorcentage', function (e) {
-            resolve(e.detail);
-           }, false);
-     });
-     return batteryValue;
-   } catch(error) {
-    log('Argh! ' + error);
-   }
-
-}.bind(this);
-
-global.setArmColor = function (type) {
-  var ledPackage = getBytesFromType('bytesLedPackage');
-  ledPackage[1] = this.data.ledMode.arms;
-  ledPackage[2] = COLORS[type];
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-     return characteristic.writeValue(ledPackage);
-  })
-}.bind(this);
-
-global.setLEDto = function (type) {
-  var ledPackage = getBytesFromType('bytesLedPackage');
-  ledPackage[1] = this.data.ledMode.arms;
-  ledPackage[2] = COLORS[type];
-  Code.device.getPrimaryService(PRIMARY_SERVICE)
-  .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-     characteristic.writeValue(ledPackage).then(_ => {
-       ledPackage[1] = this.data.ledMode.eye;
-       ledPackage[2] = COLORS[type];
-       Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-       .then(characteristic => {
-          return characteristic.writeValue(ledPackage);
-       })
-     })
-  })
-}.bind(this);
-
-global.setLEDMode = function (type) {
-  var ledModePackage = getBytesFromType('bytesLedPackage');
-  ledModePackage[1] = type.armCode;
-  this.data.ledMode.arms = type.armCode
-  Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-     characteristic.writeValue(ledModePackage).then(_ => {
-       ledModePackage[1] = type.eyeCode;
-       this.data.ledMode.eye = type.eyeCode;
-       Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-       .then(characteristic => {
-          return characteristic.writeValue(ledModePackage);
-       })
-     })
-  })
-}.bind(this);
-
-global.resetLED = function () {
-  var resetEyePackage = getBytesFromType('bytesResetLedPackage');
-  Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-  .then(characteristic => {
-     characteristic.writeValue(resetEyePackage.arms).then(_ => {
-       Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-       .then(characteristic => {
-          return characteristic.writeValue(resetEyePackage.eye);
-       })
-     })
-  })
-}.bind(this);
-
-global.setArmRGB = function (red, green, blue) {
-  alert('red:'+ red + ' green:'+ green + ' blue:'+ blue)
-}.bind(this);
-
-global.setEyeRGB = function (red, green, blue) {
-  alert('red:'+ red + ' green:'+ green + ' blue:'+ blue)
+   var getBatteryPercentage = new __WEBPACK_IMPORTED_MODULE_1__commands_getBatteryPercentage_js__["a" /* default */]();
+   var batteryValue = getBatteryPercentage.getBatteryValue();
+   __WEBPACK_IMPORTED_MODULE_0__commandManager_js__["a" /* commandManager */].addCommand(getBatteryPercentage);
+   return batteryValue;
 }.bind(this);
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var dataArray = new Uint8Array(4);
-dataArray[0] = 0x20;
-dataArray[1] = 0x41;
-dataArray[2] = 0x00;
-dataArray[3] = 0x15;
-exports.bytesLedPackage = dataArray;
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_sensorTypes_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types_sensorTypes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__types_sensorTypes_js__);
 
-var resetEyeArray = new Uint8Array(4);
-resetEyeArray[0] = 0x20;
-resetEyeArray[1] = 0x11;
-resetEyeArray[2] = global.COLORS.Red;
-resetEyeArray[3] = 0x15;
 
-var resetArmsArray = new Uint8Array(4);
-resetArmsArray[0] = 0x20;
-resetArmsArray[1] = 0x41;
-resetArmsArray[2] = global.COLORS.Red;
-resetArmsArray[3] = 0x15;
-exports.bytesResetLedPackage = {eye: resetEyeArray, arms: resetArmsArray};
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+class GetBatteryPercentage extends __WEBPACK_IMPORTED_MODULE_0__command_js__["a" /* default */] {
+  constructor(){
+      var batteryPackage = __WEBPACK_IMPORTED_MODULE_1__types_sensorTypes_js__["sensorBattery"];
+      super(batteryPackage, 'batteryPorcentage');
+  }
 
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
+  async run(){
+    await Code.writeCharacteristic.writeValue(this.package);
+    const value = await Code.readCharacteristic.readValue();
 
-/* WEBPACK VAR INJECTION */(function(global) {let ledMode = {
-  'eye': global.HOLD.eyeCode,
-  'arms': global.HOLD.armCode,
+    var arrayResult = new Uint8Array(value.buffer);
+    console.log('Battery percentage is ' + arrayResult);
+    $('#testSensorBatteryLabel').show();
+    let batteryPorcentageValue = arrayResult[7] & 0xFF;
+    $('#batteryPercentageValue').html(batteryPorcentageValue);
+    var event = new CustomEvent(this.eventName, { detail: batteryPorcentageValue });
+    dispatchEvent(event);
+  }
+
+  async getBatteryValue (){
+    return new Promise(function(resolve, reject) {
+           addEventListener(this.eventName, function (e) {
+             resolve(e.detail);
+            }, false);
+    }.bind(this));
+  }
 }
+/* harmony export (immutable) */ __webpack_exports__["a"] = GetBatteryPercentage;
 
-exports.dataLedMode = ledMode;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var dataArray = new Uint8Array(3);
@@ -1063,11 +1009,11 @@ exports.sensorBattery = dataArray;
 
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js__ = __webpack_require__(1);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_consts_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__constants_consts_js__);
 
 var EventLib = {};
@@ -1127,6 +1073,54 @@ EventLib.AddKeyPressEvent = function (callback){
 }
 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {global.PRIMARY_SERVICE = 'c320df00-7891-11e5-8bcf-feff819cdc9f';
+global.WRITE_CHARACTERISTIC = 'c320df02-7891-11e5-8bcf-feff819cdc9f';
+global.NOTIIFY_CHARACTERISTIC = 'c320df01-7891-11e5-8bcf-feff819cdc9f';
+
+global.HOLD = {armCode: 0x41, eyeCode: 0x11};
+global.OFF = {armCode: 0x40, eyeCode: 0x10};
+global.BLINKING = {armCode: 0x43, eyeCode: 0x13};
+global.DOUBLE_BLINK = {armCode: 0x44, eyeCode: 0x14};
+global.PULSING = {armCode: 0x45, eyeCode: 0x15};
+global.FLOW = {armCode: 0x46, eyeCode: 0x16};
+global.REVERSE_FLOW = {armCode: 0x47, eyeCode: 0x17};
+global.MIX = {armCode: 0x42, eyeCode: 0x12};
+global.keyPressMap = {};
+global.keydownCallback = null;
+
+global.RED = 'Red';
+global.YELLOW = 'Yellow';
+global.ENTER = 'Yellow';
+global.ORANGE = 'Orange';
+global.GREEN = 'Green';
+global.BLUE = 'Blue';
+global.INDIGO = 'Indigo';
+global.VIOLET = 'Violet';
+
+global.TAKEOFF = 1;
+global.CRASH = 2;
+global.UPSIDE_DOWN = 3;
+global.LOW_BATTERY = 4;
+
+global.BACKSPACE = 8;
+global.ENTER = 13;
+
+global.COLORS = {
+	Blue : 9,
+	Green : 51,
+  Indigo : 56,
+	Orange : 99,
+	Red : 114,
+	Violet : 135,
+  Yellow : 139
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ })
 /******/ ]);

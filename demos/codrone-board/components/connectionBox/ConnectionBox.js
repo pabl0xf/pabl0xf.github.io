@@ -39,11 +39,24 @@ class ConnectionBox extends React.Component {
               $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
               $('#forceLanding').prop( "disabled", false );
               $('#connectMenu').addClass('connected');
+              return server.getPrimaryService(PRIMARY_SERVICE);
+          })
+          .then(service => {
+            Code.service = service;
+            return service.getCharacteristic(WRITE_CHARACTERISTIC);;
+          })
+          .then(characteristic => {
+             Code.writeCharacteristic = characteristic;
+             return Code.service.getCharacteristic(NOTIIFY_CHARACTERISTIC);;
+          })
+          .then(characteristic => {
+             Code.readCharacteristic = characteristic;
           })
           .catch(error => {
               console.log('Argh! ' + error);
               alert(error);
           });
+
         }
   }
 

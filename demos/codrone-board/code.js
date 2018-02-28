@@ -22,7 +22,7 @@
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
-
+import { commandManager } from './lib/commandManager.js';
 /**
  * Create a namespace for the application.
  */
@@ -582,6 +582,7 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
+  commandManager.initCommandConsumer();
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
   var timeouts = 0;
   var checkTimeout = function() {
