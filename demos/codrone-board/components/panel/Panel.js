@@ -1,12 +1,6 @@
-class ContentTutorials extends React.Component {
-  render() {
-    return (
-      <div className="content-panel content-1">
-        <h1 style={{textAlign: 'center'}}>Tutorials</h1>
-      </div>
-    );
-  }
-}
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import ContentTutorials from './ContentTutorials.js';
 
 class ContentJavascript extends React.Component {
   render() {
@@ -99,7 +93,4 @@ class Panel extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Panel />,
-  document.getElementById('panel')
-);
+export default Panel;

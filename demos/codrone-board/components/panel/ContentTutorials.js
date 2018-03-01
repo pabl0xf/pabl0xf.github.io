@@ -1,3 +1,6 @@
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+
 class ContentTutorials extends React.Component {
   render() {
     return (
@@ -7,3 +10,5 @@ class ContentTutorials extends React.Component {
     );
   }
 }
+
+export default ContentTutorials;

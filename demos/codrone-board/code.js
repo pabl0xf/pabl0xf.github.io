@@ -88,8 +88,6 @@ Code.showNotification = function(Text){
   setTimeout(function(){ element.removeClass('show'); }, 3000);
 }
 
-Blockly.Variables.predefinedVars.push("MyVariableName");
-
 var readSingleFile = function(e) {
   Blockly.mainWorkspace.clear();
   var file = e.target.files[0];
@@ -434,8 +432,8 @@ Code.init = function() {
 
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
-          {spacing: 25,
-           length: 3,
+          {spacing: 20,
+           length: 40,
            colour: '#ccc',
            snap: true},
        media: '../../media/',
@@ -460,13 +458,18 @@ Code.init = function() {
   }
 
   $('#juniorXmlBtn').click(function(e){
+    $('.buttonTab').removeClass('active');
+    $(this).addClass('active');
     var toolboxText = document.getElementById('juniorXml').outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $('.blocklyToolboxDiv').attr('role', 'junior');
+
     Code.workspace.updateToolbox(toolboxXml);
   });
 
   $('#seniorXmlBtn').click(function(e){
+    $('.buttonTab').removeClass('active');
+    $(this).addClass('active');
     var toolboxText = document.getElementById('seniorXml').outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $('.blocklyToolboxDiv').attr('role', 'senior');
@@ -474,6 +477,8 @@ Code.init = function() {
   });
 
   $('#masterXmlBtn').click(function(e){
+    $('.buttonTab').removeClass('active');
+    $(this).addClass('active');
     var toolboxText = document.getElementById('masterXml').outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $('.blocklyToolboxDiv').attr('role', 'master');

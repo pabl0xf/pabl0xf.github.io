@@ -19,12 +19,4 @@ export default class GetBatteryPercentage extends Command {
     var event = new CustomEvent(this.eventName, { detail: batteryPorcentageValue });
     dispatchEvent(event);
   }
-
-  async getBatteryValue (){
-    return new Promise(function(resolve, reject) {
-           addEventListener(this.eventName, function (e) {
-             resolve(e.detail);
-            }, false);
-    }.bind(this));
-  }
 }

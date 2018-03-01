@@ -1,13 +1,9 @@
 import { commandManager } from '../commandManager.js';
 import GetBatteryPercentage from '../commands/getBatteryPercentage.js';
 
-function getBytesFromType(type) {
-    return packages[type];
-}
-
-global.getBatteryPercentage = async function (){
+global.getBatteryPercentage = function (){
    var getBatteryPercentage = new GetBatteryPercentage();
-   var batteryValue = getBatteryPercentage.getBatteryValue();
+   var batteryValue = getBatteryPercentage.getValue();
    commandManager.addCommand(getBatteryPercentage);
    return batteryValue;
 }.bind(this);

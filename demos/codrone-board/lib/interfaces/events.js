@@ -1,6 +1,6 @@
 import '../../constants/consts.js';
 var EventLib = {};
-EventLib.LowBatteryCallback = null;
+EventLib.lowBatteryCallback = null;
 const batteryLowLevelValue = 20;
 
 global.onKeyPressEvent = function(keyCode, callback){
@@ -12,17 +12,16 @@ global.onKeyPressEvent = function(keyCode, callback){
 };
 
 global.onEvent = function(eventType, callback){
-
   switch (eventType) {
    case LOW_BATTERY:
-     EventLib.LowBatteryCallback = callback;
+     EventLib.lowBatteryCallback = callback;
      global.LowBatteryLoop = setInterval(async function(){
        console.log('start iteration: ');
-       var batteryPorcentage = await getBatteryPercentage();
-       if(EventLib.LowBatteryCallback && batteryPorcentage<batteryLowLevelValue) {
-         EventLib.LowBatteryCallback();
+       var batteryPorcentage = await global.getBatteryPercentage();
+       if(EventLib.lowBatteryCallback && batteryPorcentage<batteryLowLevelValue) {
+         EventLib.lowBatteryCallback();
          clearInterval(global.LowBatteryLoop);
-         EventLib.LowBatteryCallback = null;
+         EventLib.lowBatteryCallback = null;
        }
        console.log('end iteration: ');
      }.bind(this), 1500);
@@ -37,7 +36,7 @@ global.removeAllEventListener = function (){
     EventLib.keydownCallback = null;
   }
   if(global.LowBatteryLoop){
-    EventLib.LowBatteryCallback = null;
+    EventLib.lowBatteryCallback = null;
     clearInterval(global.LowBatteryLoop);
   }
 }

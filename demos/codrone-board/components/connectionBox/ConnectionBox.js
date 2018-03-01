@@ -1,4 +1,7 @@
-class ConnectionBox extends React.Component {
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+
+class ConnectionBox extends Component {
   constructor(props) {
    super(props);
    this.state = {isToggleOn: false};
@@ -88,7 +91,4 @@ class ConnectionBox extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <ConnectionBox />,
-  document.getElementById('connectMenu')
-);
+export default ConnectionBox;

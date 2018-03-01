@@ -1,7 +1,3 @@
-var stackManager = {};
-
-stackManager.executionInProgress = false;
-
 class CommandManager {
   constructor() {
     this.stack = [];
@@ -33,7 +29,6 @@ class CommandManager {
     this.executionInProgress = true;
     await command.run();
     this.executionInProgress = false;
-    return;
   }
 }
 

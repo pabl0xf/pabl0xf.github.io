@@ -1,3 +1,6 @@
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+
 class Burger extends React.Component {
   constructor(props) {
    super(props);
@@ -86,7 +89,4 @@ class Burger extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Burger />,
-  document.getElementById('burgerMenu')
-);
+export default Burger;
