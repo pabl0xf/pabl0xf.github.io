@@ -23,6 +23,8 @@
  */
 'use strict';
 import { commandManager } from './lib/commandManager.js';
+import { eventManager } from './lib/eventManager.js';
+import { keyPressManager } from './lib/keyPressManager.js';
 /**
  * Create a namespace for the application.
  */
@@ -39,8 +41,15 @@ Code.eventListeners = [];
 
 var refreshTabCode = function(event) {
   if(event.type === Blockly.Events.DELETE){
-     removeAllEventListener();
-     Code.runJS();
+     var blockType = event.oldXml.getAttribute('type');
+     var eventName = blockType.replace(SUFFIX_JUNIOR,'');
+     eventName = eventName.replace(SUFFIX_SENIOR,'');
+     if(eventName.substr(0,2) === PREFIX_EVENTS){
+       eventManager.removeEvent(eventName.substr(2));
+     }
+     if(eventName === global.KEYPRESS_EVENT){
+       keyPressManager.removeKeyPressEvents();
+     }
   }
   if( event.type === Blockly.Events.CHANGE ) {
 

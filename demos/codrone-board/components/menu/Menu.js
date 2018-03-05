@@ -62,7 +62,6 @@ class Burger extends React.Component {
   }
 
   handleRunClick(el) {
-      removeAllEventListener();
       Code.runJS();
   }
 

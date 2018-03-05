@@ -25,10 +25,16 @@ global.VIOLET = 'Violet';
 global.TAKEOFF = 1;
 global.CRASH = 2;
 global.UPSIDE_DOWN = 3;
-global.LOW_BATTERY = 4;
+global.LOW_BATTERY = 'LowBattery';
 
 global.BACKSPACE = 8;
 global.ENTER = 13;
+
+global.SUFFIX_JUNIOR = '_junior';
+global.SUFFIX_SENIOR = '_senior';
+global.PREFIX_EVENTS = 'on';
+
+global.KEYPRESS_EVENT =  'whenKeyPress';
 
 global.COLORS = {
 	Blue : 9,

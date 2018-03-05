@@ -18,7 +18,6 @@ class CommandManager {
       }
       if(this.stack && this.stack.length>0){
         let command = this.stack.shift();
-        console.log('command pop');
         this.execute(command);
       }
     }.bind(this), 10);
