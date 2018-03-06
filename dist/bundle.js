@@ -4823,6 +4823,19 @@ var EventManager = function () {
         clearInterval(event.intervalId);
       }
     }
+  }, {
+    key: 'removeAllEvents',
+    value: function removeAllEvents() {
+      if (!this.events) {
+        return;
+      }
+
+      for (var key in this.events) {
+        if (key && this.events[key] && this.events[key].intervalId) {
+          clearInterval(this.events[key].intervalId);
+        }
+      }
+    }
   }]);
 
   return EventManager;
@@ -27725,15 +27738,18 @@ Code.eventListeners = [];
 
 var refreshTabCode = function refreshTabCode(event) {
   if (event.type === Blockly.Events.DELETE) {
-    var blockType = event.oldXml.getAttribute('type');
-    var eventName = blockType.replace(SUFFIX_JUNIOR, '');
-    eventName = eventName.replace(SUFFIX_SENIOR, '');
-    if (eventName.substr(0, 2) === PREFIX_EVENTS) {
-      _eventManager.eventManager.removeEvent(eventName.substr(2));
-    }
-    if (eventName === global.KEYPRESS_EVENT) {
-      _keyPressManager.keyPressManager.removeKeyPressEvents();
-    }
+    // var blockType = event.oldXml.getAttribute('type');
+    // var eventName = blockType.replace(SUFFIX_JUNIOR,'');
+    // eventName = eventName.replace(SUFFIX_SENIOR,'');
+    // if(eventName.substr(0,2) === PREFIX_EVENTS){
+    //   eventManager.removeEvent(eventName.substr(2));
+    // }
+    // if(eventName === global.KEYPRESS_EVENT){
+    //   keyPressManager.removeKeyPressEvents();
+    // }
+    _eventManager.eventManager.removeAllEvents();
+    _keyPressManager.keyPressManager.removeKeyPressEvents();
+    $('button#runButton').css('background', '#ccc');
   }
   if (event.type === Blockly.Events.CHANGE) {}
   if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.MOVE) {
@@ -28274,6 +28290,8 @@ Code.loadWorkspace = function () {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function () {
+  _eventManager.eventManager.removeAllEvents();
+  _keyPressManager.keyPressManager.removeKeyPressEvents();
   _commandManager.commandManager.initCommandConsumer();
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
   var timeouts = 0;
@@ -28976,6 +28994,7 @@ var Burger = function (_React$Component) {
   }, {
     key: "handleRunClick",
     value: function handleRunClick(el) {
+      $('button#runButton').css('background', '#3CFF33');
       Code.runJS();
     }
   }, {

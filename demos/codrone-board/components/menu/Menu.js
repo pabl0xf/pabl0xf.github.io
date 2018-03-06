@@ -62,6 +62,7 @@ class Burger extends React.Component {
   }
 
   handleRunClick(el) {
+      $('button#runButton').css('background','#3CFF33');
       Code.runJS();
   }
 

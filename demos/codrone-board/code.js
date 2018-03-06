@@ -41,15 +41,18 @@ Code.eventListeners = [];
 
 var refreshTabCode = function(event) {
   if(event.type === Blockly.Events.DELETE){
-     var blockType = event.oldXml.getAttribute('type');
-     var eventName = blockType.replace(SUFFIX_JUNIOR,'');
-     eventName = eventName.replace(SUFFIX_SENIOR,'');
-     if(eventName.substr(0,2) === PREFIX_EVENTS){
-       eventManager.removeEvent(eventName.substr(2));
-     }
-     if(eventName === global.KEYPRESS_EVENT){
-       keyPressManager.removeKeyPressEvents();
-     }
+     // var blockType = event.oldXml.getAttribute('type');
+     // var eventName = blockType.replace(SUFFIX_JUNIOR,'');
+     // eventName = eventName.replace(SUFFIX_SENIOR,'');
+     // if(eventName.substr(0,2) === PREFIX_EVENTS){
+     //   eventManager.removeEvent(eventName.substr(2));
+     // }
+     // if(eventName === global.KEYPRESS_EVENT){
+     //   keyPressManager.removeKeyPressEvents();
+     // }
+      eventManager.removeAllEvents();
+      keyPressManager.removeKeyPressEvents();
+      $('button#runButton').css('background','#ccc');
   }
   if( event.type === Blockly.Events.CHANGE ) {
 
@@ -596,6 +599,8 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
+  eventManager.removeAllEvents();
+  keyPressManager.removeKeyPressEvents();
   commandManager.initCommandConsumer();
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
   var timeouts = 0;
