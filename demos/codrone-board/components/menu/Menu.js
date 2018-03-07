@@ -54,15 +54,20 @@ class Burger extends React.Component {
            uint8[0] = 0x11;
            uint8[1] = 0x24;
            uint8[2] = 0x51;
+           $('.playButton').css('display', 'inline-block');
+           $('.forceLanding').css('display', 'none');
            return characteristic.writeValue(uint8);
         })
     } else {
-      alert('CoDrone is not connected, please connect and try again.');
+      $('.playButton').css('display', 'inline-block');
+      $('.forceLanding').css('display', 'none');
+      //alert('CoDrone is not connected, please connect and try again.');
     }
   }
 
   handleRunClick(el) {
-      $('button#runButton').css('background','#3CFF33');
+      $('.forceLanding').css('display', 'inline-block');
+      $('.playButton').css('display', 'none');
       Code.runJS();
   }
 
@@ -82,8 +87,8 @@ class Burger extends React.Component {
               <a href="#" id="redoButton" data-action-button="redo" onClick={this.handleUndoRedoClick}><li>Redo</li></a>
             </ul>
           </div>
-          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn">!</button></div>
-          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"><i className="glyphicon glyphicon-play"></i></button></div>
+          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn"></button></div>
+          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"></button></div>
         </div>
     );
   }

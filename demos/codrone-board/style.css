@@ -245,7 +245,18 @@ button {
 }
 
 .blocklyToolboxDiv {
-  padding-top: 110px;
+  margin-top: 110px;
+  padding-bottom: 180px;
+}
+
+.injectionDiv:before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 111px;
+  background: #e4e4e4;
+  top: 0;
+  z-index: 99;
 }
 
 .interactive-menu-button {
@@ -253,14 +264,14 @@ button {
   padding: 10px;
   height: 40px;
   display: block;
-  width: 50px;
+  width: 120px;
   left: 230px;
   position: absolute;
   top: 16px;
   z-index: 999;
 }
 .interactive-menu-button a {
-  width: 38px;
+  width: 28px;
   height: 35px;
   display: block;
   position: relative;
@@ -270,27 +281,27 @@ button {
   z-index: 9;
 }
 .interactive-menu-button a span {
-  height: 7px;
+  height: 5px;
   position: absolute;
   background: #bfbfbf;
   text-indent: -999em;
   width: 100%;
-  top: 8px;
+  top: 12px;
   transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
 }
 .interactive-menu-button a span:before,
 .interactive-menu-button a span:after {
   content: '';
-  height: 7px;
+  height: 4px;
   background: #bfbfbf;
   width: 100%;
   position: absolute;
-  top: -13px;
+  top: -8px;
   left: 0;
   transition: all 0.5s cubic-bezier(0, 0.275, 0.125, 1);
 }
 .interactive-menu-button a span:after {
-  top: 13px;
+  top: 9px;
 }
 .interactive-menu-button .menu {
   display: none;
@@ -465,19 +476,25 @@ button {
 
 
 #forceLanding, #runButton {
-  background: #ccc;
+  background: #fff;
   border-color: #ccc;
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  display: block;
-  position: relative;
+  width: 40px;
+  height: 40px;
   text-decoration: none;
   color: #ffffff;
   font-weight: 400;
-  top: -50px;
-  left: 60px;
   font-size: 13px;
+}
+
+.forceLanding, .playButton {
+  display: inline-block;
+  left: 53px;
+  top: -49px;
+  position: relative;
+}
+
+.forceLanding {
+  display: none;
 }
 
 #forceLanding {
@@ -485,16 +502,24 @@ button {
   font-size: 24px;
   padding: 0px;
   left: 117px;
+  background-image: url('images/icons/stop.svg');
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+  background-size: 28px;
 }
 
 #runButton {
   padding: 4px 5px;
   font-size: 18px;
   top: -93px;
+  background-image: url('images/icons/play.svg');
+  background-repeat: no-repeat;
+  background-position: 12px 6px;
+  background-size: 20px;
 }
 
 #testSensorBatteryLabel {
-  display: none;  
+  display: none;
 }
 
 .blocklyTreeRoot {

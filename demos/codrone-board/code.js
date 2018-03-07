@@ -40,19 +40,11 @@ Code.LANGUAGE_NAME = {
 Code.eventListeners = [];
 
 var refreshTabCode = function(event) {
-  if(event.type === Blockly.Events.DELETE){
-     // var blockType = event.oldXml.getAttribute('type');
-     // var eventName = blockType.replace(SUFFIX_JUNIOR,'');
-     // eventName = eventName.replace(SUFFIX_SENIOR,'');
-     // if(eventName.substr(0,2) === PREFIX_EVENTS){
-     //   eventManager.removeEvent(eventName.substr(2));
-     // }
-     // if(eventName === global.KEYPRESS_EVENT){
-     //   keyPressManager.removeKeyPressEvents();
-     // }
+  if(event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE){
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
-      $('button#runButton').css('background','#ccc');
+      $('.playButton').css('display', 'inline-block');
+      $('.forceLanding').css('display', 'none');
   }
   if( event.type === Blockly.Events.CHANGE ) {
 
@@ -446,7 +438,7 @@ Code.init = function() {
       {grid:
           {spacing: 20,
            length: 40,
-           colour: '#ccc',
+           colour: '#efefef',
            snap: true},
        media: '../../media/',
        rtl: rtl,
