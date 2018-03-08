@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { eventManager } from '../../lib/eventManager.js';
+import { keyPressManager } from '../../lib/keyPressManager.js';
 
 class Burger extends React.Component {
   constructor(props) {
@@ -61,6 +63,8 @@ class Burger extends React.Component {
     } else {
       $('.playButton').css('display', 'inline-block');
       $('.forceLanding').css('display', 'none');
+      eventManager.removeAllEvents();
+      keyPressManager.removeKeyPressEvents();
       //alert('CoDrone is not connected, please connect and try again.');
     }
   }
