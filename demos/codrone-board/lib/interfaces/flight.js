@@ -1,7 +1,7 @@
 import { commandManager } from '../commandManager.js';
 import TakeOff from '../commands/takeOff.js';
 import Rotate180 from '../commands/rotate180.js';
-
+import Land from '../commands/land.js';
 
 global.takeOff = function (){
   var takeOff = new TakeOff();
@@ -14,5 +14,6 @@ global.rotate180 = function(){
 }
 
 global.land = function (){
-  alert('land');
+  var land = new Land();
+  commandManager.addCommand(land);
 }.bind(this);

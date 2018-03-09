@@ -1,14 +1,10 @@
 import Command from './command.js';
-import { sensorBattery } from '../../types/sensorTypes.js';
+import { sensorHeight } from '../../types/sensorTypes.js';
 
 export default class GetHeight extends Command {
   constructor(){
-      //var batteryPackage = sensorBattery;
-      var dataArray = new Uint8Array(3);
-      dataArray[0] = 17;
-      dataArray[1] = 144;
-      dataArray[2] = 87;
-      super(dataArray, 'getHeight');
+      var sensorPackage = sensorHeight;
+      super(sensorPackage, 'getHeight');
   }
 
   async run(){
@@ -17,7 +13,8 @@ export default class GetHeight extends Command {
 
     var arrayResult = new Uint8Array(value.buffer);
     console.log(arrayResult);
-    //var event = new CustomEvent(this.eventName, { detail: batteryPorcentageValue });
-    //dispatchEvent(event);
+    let heightValue = arrayResult[7] & 0xFF;
+    var event = new CustomEvent(this.eventName, { detail: heightValue });
+    dispatchEvent(event);
   }
 }
