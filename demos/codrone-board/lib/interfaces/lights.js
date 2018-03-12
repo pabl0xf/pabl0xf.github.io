@@ -1,5 +1,5 @@
 import '../constants/consts.js';
-import { bytesLedPackage, bytesResetLedPackage } from '../types/ledTypes.js';
+import { bytesLedPackage, bytesResetLedPackage } from './types/ledTypes.js';
 import { dataLedMode } from '../model/ledData.js';
 
 this.data = {ledMode: dataLedMode};

@@ -1,5 +1,5 @@
 import Command from './command.js';
-import { sensorBattery } from '../../types/sensorTypes.js';
+import { sensorBattery } from '../types/sensorTypes.js';
 
 export default class GetBatteryPercentage extends Command {
   constructor(){

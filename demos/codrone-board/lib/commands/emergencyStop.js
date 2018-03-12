@@ -1,9 +1,9 @@
 import Command from './command.js';
-import { bytesLand } from '../types/flyEventsTypes.js';
+import { bytesEmergencyStop } from '../types/flyEventsTypes.js';
 
-export default class Land extends Command {
+export default class EmergencyStop extends Command {
   constructor(){
-      var packageLand = bytesLand;
+      var packageLand = bytesEmergencyStop;
       super(packageLand, '');
   }
 

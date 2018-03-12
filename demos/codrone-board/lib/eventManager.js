@@ -1,5 +1,3 @@
-import LowBattery from './events/lowBattery.js';
-
 class EventManager {
   constructor() {
     this.events = {};

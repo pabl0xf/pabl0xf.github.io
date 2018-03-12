@@ -1,5 +1,5 @@
 import Command from './command.js';
-import { bytesRotate180 } from '../../types/flyEventsTypes.js';
+import { bytesRotate180 } from '../types/flyEventsTypes.js';
 
 export default class Rotate180 extends Command {
   constructor(){

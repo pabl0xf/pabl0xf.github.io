@@ -2,6 +2,7 @@ import { commandManager } from '../commandManager.js';
 import TakeOff from '../commands/takeOff.js';
 import Rotate180 from '../commands/rotate180.js';
 import Land from '../commands/land.js';
+import EmergencyStop from '../commands/emergencyStop.js';
 
 global.takeOff = function (){
   var takeOff = new TakeOff();
@@ -16,4 +17,9 @@ global.rotate180 = function(){
 global.land = function (){
   var land = new Land();
   commandManager.addCommand(land);
-}.bind(this);
+}
+
+global.emergencyStop = function (){
+  var emergencyStop = new EmergencyStop();
+  commandManager.addCommand(emergencyStop);
+}

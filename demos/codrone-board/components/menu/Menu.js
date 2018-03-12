@@ -48,18 +48,7 @@ class Burger extends React.Component {
 
   handleForceLandingClick(el) {
     if (Code.device != null) {
-      Code.device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
-        .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
-        .then(characteristic => {
-           // Take off
-           var uint8 = new Uint8Array(3);
-           uint8[0] = 0x11;
-           uint8[1] = 0x24;
-           uint8[2] = 0x51;
-           $('.playButton').css('display', 'inline-block');
-           $('.forceLanding').css('display', 'none');
-           return characteristic.writeValue(uint8);
-        })
+
     } else {
       $('.playButton').css('display', 'inline-block');
       $('.forceLanding').css('display', 'none');
@@ -91,8 +80,8 @@ class Burger extends React.Component {
               <a href="#" id="redoButton" data-action-button="redo" onClick={this.handleUndoRedoClick}><li>Redo</li></a>
             </ul>
           </div>
-          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn"></button></div>
-          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"></button></div>
+          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn"></button><span>Stop code</span></div>
+          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"></button><span>Run code</span></div>
         </div>
     );
   }

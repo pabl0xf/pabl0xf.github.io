@@ -1,5 +1,5 @@
 import Command from './command.js';
-import { sensorHeight } from '../../types/sensorTypes.js';
+import { sensorHeight } from '../types/sensorTypes.js';
 
 export default class GetHeight extends Command {
   constructor(){
