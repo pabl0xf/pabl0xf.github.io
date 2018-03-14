@@ -56,8 +56,16 @@ class Panel extends React.Component {
 
   handleClick(el) {
     el.preventDefault();
-    var panelId = el.target.dataset.panelId;
-    var tab = el.target.dataset.tab;
+    var panelId = el.currentTarget.dataset.panelId;
+    var tab = el.currentTarget.dataset.tab;
+
+    var activeTabButton = document.getElementsByClassName('show-right-panel active')[0];
+    
+    if (activeTabButton) {
+      activeTabButton.classList.remove('active');
+    }
+
+    el.currentTarget.classList.add('active');
 
     var activeTab = document.getElementsByClassName('content-panel active')[0];
     var contentTab = document.getElementsByClassName('content-' + panelId)[0];
@@ -79,9 +87,9 @@ class Panel extends React.Component {
     return (
         <div id="rightPanel-1">
           <a href="#" className="close-right-panel" onClick={this.handleCloseClick}><i className="glyphicon glyphicon-remove"></i></a>
-          <button className="show-right-panel" data-panel-id="1" onClick={this.handleClick}>Tuts</button>
-          <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}>'J'</button>
-          <button className="show-right-panel" data-panel-id="3" data-tab="python" onClick={this.handleClick}>'P'</button>
+          <button className="show-right-panel" data-panel-id="1" onClick={this.handleClick}><img className="cap" src="./images/icons/graduation-cap.svg" />Tuts</button>
+          <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}><img src="./images/icons/javascript_icon.png" />Javascript</button>
+          <button className="show-right-panel" data-panel-id="3" data-tab="python" onClick={this.handleClick}><img src="./images/icons/python_icon_cropped.png" />Python</button>
           <button className="show-right-panel" data-panel-id="4" onClick={this.handleClick}>'S'</button>
 
           <ContentTutorials />
