@@ -446,6 +446,12 @@ Code.init = function() {
     $('.blocklyToolboxDiv').attr('role', 'junior');
 
     Code.workspace.updateToolbox(toolboxXml);
+    var a = $('.blocklyTreeLabel');
+    $.each(a, function(i, val){
+      var className = val.textContent.replace(" ","-").toLowerCase();
+      console.log(className);
+      $(val).addClass(className);
+    });
   });
 
   $('#seniorXmlBtn').click(function(e){
@@ -455,6 +461,12 @@ Code.init = function() {
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $('.blocklyToolboxDiv').attr('role', 'senior');
     Code.workspace.updateToolbox(toolboxXml);
+    var a = $('.blocklyTreeLabel');
+    $.each(a, function(i, val){
+      var className = val.textContent.replace(" ","-").toLowerCase();
+      console.log(className);
+      $(val).addClass(className);
+    });
   });
 
   $('#masterXmlBtn').click(function(e){
@@ -500,7 +512,12 @@ Code.init = function() {
 
   Code.loadWorkspace();
   $('.blocklyToolboxDiv').attr('role', 'junior');
-
+  var a = $('.blocklyTreeLabel');
+  $.each(a, function(i, val){
+    var className = val.textContent.replace(" ","-").toLowerCase();
+    console.log(className);
+    $(val).addClass(className);
+  });
 };
 
 /**

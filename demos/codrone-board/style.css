@@ -558,27 +558,99 @@ button {
 
 .blocklyTreeRoot {
   background: #f1f1f1;
+  text-align: right;
+}
+
+.blocklyTreeLabel {
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-right: 4px;
+  padding: 8px 0;
+  padding-right: 40px;
+  background-size: 30px;
+}
+
+.blocklyTreeLabel.flight-commands {
+  background-image: url(images/icons/flight_commands_icon.svg);
+}
+
+.blocklyTreeLabel.flight-sequences {
+  background-image: url(images/icons/flight_seq_icon.svg);
+}
+
+.blocklyTreeLabel.status-checkers {
+  background-image: url(images/icons/status_checkers_icon.svg);
+}
+
+.blocklyTreeLabel.computer-vision {
+  background-image: url(images/icons/comp_vis_icon.png);
+}
+
+.blocklyTreeLabel.sensors {
+  background-image: url(images/icons/sensor_icon.svg);
+}
+
+.blocklyTreeLabel.lights {
+  background-image: url(images/icons/lights_icon.svg);
+}
+
+.blocklyTreeLabel.sound {
+  background-image: url(images/icons/sound_icon.svg);
+}
+
+.blocklyTreeLabel.keyboard-input {
+  background-image: url(images/icons/keyboard_icon.svg);
+}
+
+.blocklyTreeLabel.logic {
+  background-image: url(images/icons/logic_icon.svg);
+}
+
+.blocklyTreeLabel.loops {
+  background-image: url(images/icons/loops_icon.svg);
+}
+
+.blocklyTreeLabel.math {
+  background-image: url(images/icons/math_icon.svg);
+}
+
+.blocklyTreeLabel.timing {
+  background-image: url(images/icons/timing_icon.svg);
+}
+
+.blocklyTreeLabel.variables {
+  background-image: url(images/icons/variables_icon.svg);
+}
+
+.blocklyTreeLabel.functions {
+  background-image: url(images/icons/variables_icon.svg);
+}
+
+.blocklyTreeLabel.flight-variables {
+  background-image: url(images/icons/flight_var.svg);
 }
 
 .blocklyToolboxDiv .blocklyTreeRoot div[role="group"] div[role="treeitem"]:first-child:before {
   content: "DRONE BLOCKS";
-  font-size: 15px;
+  font-size: 12px;
   padding-left: 19px;
   color: #9c9c9c;
   margin-bottom: 5px;
   margin-top: 6px;
   display: block;
+  margin-right: 9px;
 }
 
 .blocklyToolboxDiv[role="junior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(7):before,
 .blocklyToolboxDiv[role="senior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(8):before {
   content: "PROGRAMING BLOCKS";
-  font-size: 15px;
+  font-size: 12px;
   padding-left: 19px;
   color: #9c9c9c;
   margin-bottom: 5px;
   margin-top: 6px;
   display: block;
+  margin-right: 9px;
 }
 
 .buttonTab {

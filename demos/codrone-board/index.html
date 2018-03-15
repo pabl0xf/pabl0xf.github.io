@@ -82,7 +82,7 @@
   <pre id="content_python" class="content"></pre>
 
   <xml id="juniorXml" style="display: none">
-    <category name="Flight Commands" colour="#3368DA">
+    <category name="Flight Commands" >
       <block type="take_off_junior"></block>
       <block type="land_junior"></block>
       <block type="emergencyStop_junior"></block>
@@ -94,7 +94,7 @@
       <block type="gotoheight_junior"></block>
       <block type="hover_junior"></block>
     </category>
-    <category name="Flight Sequences" colour="#3399e4">
+    <category name="Flight Sequences" >
       <block type="flySquare_junior"></block>
       <block type="flyCircle_junior"></block>
       <block type="flySpiral_junior"></block>
@@ -103,7 +103,7 @@
       <block type="flysway_junior"></block>
       <block type="flyZigzag_junior"></block>
     </category>
-    <category name="Status Checkers" colour="#EC5B29">
+    <category name="Status Checkers" >
       <!-- <block type="onTakeoff_junior"></block> -->
       <!-- <block type="onCrash_junior"></block> -->
       <!-- <block type="onUpsideDown_junior"></block> -->
@@ -113,33 +113,33 @@
       <block type="onLowBattery_junior"></block>
       <!-- <block type="isFlying_junior"></block> -->
     </category>
-    <category name="Sensors" colour="#F19327">
+    <category name="Sensors" >
       <block type="getHeight_junior"></block>
       <block type="getBatteryPercentage_junior"></block>
       <block type="getGyroData_junior"></block>
     </category>
-    <category name="Lights" colour="#B359D8">
+    <category name="Lights" >
       <block type="setArmColor_junior"></block>
       <block type="setEyeColor_junior"></block>
       <block type="setLEDMode_junior"></block>
       <block type="setAllLED_junior"></block>
     </category>
-    <category name="Sound" colour="#EE43AE">
-      <block type="playsound_junior"></block>
-      <block type="setvolume_junior"></block>
+    <category name="Sound" >
+      <!-- <block type="playsound_junior"></block>
+      <block type="setvolume_junior"></block> -->
     </category>
-    <category name="Keyboard Input" colour="#CACACA">
+    <category name="Keyboard Input" >
       <block type="whenKeyPress_junior"></block>
       <block type="whenKeyPressGet_junior"></block>
     </category>
-    <category name="%{BKY_CATLOGIC}" colour="#a0a1d9">
+    <category name="%{BKY_CATLOGIC}" >
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
       <block type="logic_boolean"></block>
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="#FCC075">
+    <category name="%{BKY_CATLOOPS}" >
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -168,7 +168,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="%{BKY_CATMATH}" colour="#8B90A9">
+    <category name="%{BKY_CATMATH}" >
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -255,13 +255,13 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="Timing" colour="#F4F4F4">
+    <category name="Timing" >
       <block type="wait_junior"></block>
     </category>
   </xml>
 
   <xml id="seniorXml" style="display: none">
-    <category name="Flight Commands" colour="#3368DA">
+    <category name="Flight Commands" >
       <block type="take_off_senior"></block>
       <block type="land_senior"></block>
       <block type="emergencyStop_senior"></block>
@@ -271,7 +271,7 @@
       <block type="gotoheight_senior"></block>
       <block type="hover_senior"></block>
     </category>
-    <category name="Flight Variables" colour="#33DAD8">
+    <category name="Flight Variables" >
       <block type="setRoll_senior"></block>
       <block type="setPitch_senior"></block>
       <block type="setYaw_senior"></block>
@@ -282,10 +282,10 @@
       <block type="getYaw_senior"></block>
       <block type="getThrottle_senior"></block>
     </category>
-    <category name="Computer Vision" colour="#31CE40">
+    <category name="Computer Vision" >
 
     </category>
-    <category name="Status Checkers" colour="#EC5B29">
+    <category name="Status Checkers" >
       <block type="isReadyToFly_senior"></block>
       <block type="isUpsideDown_senior"></block>
       <block type="isFlying_senior"></block>
@@ -300,7 +300,7 @@
       <block type="onIdle_senior"></block> -->
       <block type="onLowBattery_senior"></block>
     </category>
-    <category name="Sensors" colour="#F19327">
+    <category name="Sensors" >
       <block type="getHeight_senior"></block>
       <block type="getPressure_senior"></block>
       <block type="getTemperature_senior"></block>
@@ -312,21 +312,21 @@
       <block type="getBatteryPercentage_senior"></block>
       <block type="getTrim_senior"></block>
     </category>
-    <category name="Lights" colour="#B359D8">
+    <category name="Lights" >
       <block type="setArmRGB_senior"></block>
       <block type="setEyeRGB_senior"></block>
       <block type="setLEDMode_senior"></block>
       <block type="setAllRGB_senior"></block>
     </category>
-    <category name="Sound" colour="#EE43AE">
+    <category name="Sound" >
       <block type="playsound_senior"></block>
       <block type="setvolume_senior"></block>
     </category>
-    <category name="Keyboard Input" colour="#CACACA">
+    <category name="Keyboard Input" >
       <block type="whenKeyPress_junior"></block>
       <block type="whenKeyPressGet_junior"></block>
     </category>
-    <category name="%{BKY_CATLOGIC}" colour="#a0a1d9">
+    <category name="%{BKY_CATLOGIC}" >
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -337,7 +337,7 @@
       <block type="text_print"></block>
 
     </category>
-    <category name="%{BKY_CATLOOPS}" colour="#FCC075">
+    <category name="%{BKY_CATLOOPS}" >
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -366,7 +366,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="%{BKY_CATMATH}" colour="#8B90A9">
+    <category name="%{BKY_CATMATH}" >
       <block type="math_number"></block>
       <block type="math_arithmetic">
         <value name="A">
@@ -453,17 +453,17 @@
       </block>
       <block type="math_random_float"></block>
     </category>
-    <category name="Timing" colour="#F4F4F4">
+    <category name="Timing" >
       <block type="wait_senior"></block>
     </category>
-    <category name="Variables" colour="#E19090" custom="VARIABLE">
+    <category name="Variables"  custom="VARIABLE">
       <block type="variables_get_blah"></block>
     </category>
-    <category name="%{BKY_CATFUNCTIONS}" colour="#DB8AB3" custom="PROCEDURE"></category>
+    <category name="%{BKY_CATFUNCTIONS}"  custom="PROCEDURE"></category>
   </xml>
 
   <xml id="masterXml" style="display: none">
-    <category name="Flight Variables" colour="#33DAD8">
+    <category name="Flight Variables" >
       <block type="setRoll_senior"></block>
     </category>
   </xml>
