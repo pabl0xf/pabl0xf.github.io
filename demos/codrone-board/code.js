@@ -449,7 +449,6 @@ Code.init = function() {
     var a = $('.blocklyTreeLabel');
     $.each(a, function(i, val){
       var className = val.textContent.replace(" ","-").toLowerCase();
-      console.log(className);
       $(val).addClass(className);
     });
   });
@@ -464,7 +463,6 @@ Code.init = function() {
     var a = $('.blocklyTreeLabel');
     $.each(a, function(i, val){
       var className = val.textContent.replace(" ","-").toLowerCase();
-      console.log(className);
       $(val).addClass(className);
     });
   });
@@ -515,9 +513,11 @@ Code.init = function() {
   var a = $('.blocklyTreeLabel');
   $.each(a, function(i, val){
     var className = val.textContent.replace(" ","-").toLowerCase();
-    console.log(className);
     $(val).addClass(className);
   });
+
+  // Load IFRAME TUTORIALS TEST
+  $('#iframeTutorials').attr('src', 'https://basecamp.robolink.com/cwists/category');
 };
 
 /**

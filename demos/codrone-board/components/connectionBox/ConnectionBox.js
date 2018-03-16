@@ -11,6 +11,18 @@ class ConnectionBox extends Component {
    this.closePannel = this.closePannel.bind(this);
   }
 
+  toggleDronesInfo(el) {
+    el.preventDefault();
+
+    var isHide = document.getElementById('connectMenu').classList.contains('hide-info');
+
+    if (isHide) {
+      document.getElementById('connectMenu').classList.remove('hide-info');
+    } else {
+      document.getElementById('connectMenu').classList.add('hide-info');
+    }
+  }
+
   handleClick(el) {
     if(Code.device){
         Code.device.disconnect();
@@ -42,6 +54,8 @@ class ConnectionBox extends Component {
               $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
               $('#forceLanding').prop( "disabled", false );
               $('#connectMenu').addClass('connected');
+              var deviceName = server.device.name;
+              $('.petrone-id').text(deviceName);
               return server.getPrimaryService(PRIMARY_SERVICE);
           })
           .then(service => {
@@ -81,11 +95,30 @@ class ConnectionBox extends Component {
   render() {
     return (
       <div>
-        <a onClick={this.closePannel}>x</a>
-        <p>Current Drone sensor data</p>
-        <button type="button"  onClick={this.handleClick} id="scanButton" className="btn btn-default navbar-btn">Connect</button>
-
-        <button type="button" id="reconnectButton" className="btn btn-default navbar-btn">Reconnect</button>
+        <div className="toggle-drone-info"><a href="#" onClick={this.toggleDronesInfo}></a></div>
+        <p className="not-paired-text"><span className="circle"></span>Not Paired</p>
+        <p className="paired-text"><span className="circle"></span>Paired: <span className="petrone-id">5617</span></p>
+        <div id="drones-info" className="drones-info">
+          <span className="info1">Trimming</span>
+          <div className="drone">
+            <img src="./images/icons/drone-sideways.svg" />
+            <div className="arrow"><span>throttle: 0</span></div>
+          </div>
+          <div className="drone drone2">
+            <img className="img-arrow" src="./images/icons/drone-top-down.png" />
+            <div className="arrow"><span>throttle: 0</span></div>
+            <div className="arrow2">
+              <img src="./images/icons/arrow-left-right.png" />
+              <span>roll: 0</span>
+            </div>
+          </div>
+        </div>
+        <button type="button"  onClick={this.handleClick} id="scanButton" className="btn btn-default navbar-btn">Pair</button>
+        <button type="button" id="reconnectButton" className="btn btn-default navbar-btn">Pair with Previous</button>
+        <div className="battery">
+          <img className="" src="./images/icons/battery_full.svg"/>
+          <span>100%</span>
+        </div>
       </div>
     );
   }

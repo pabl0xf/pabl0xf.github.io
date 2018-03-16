@@ -5008,7 +5008,7 @@ var ContentTutorials = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         { className: "content-panel content-1" },
-        _react2.default.createElement("iframe", { src: "https://basecamp.robolink.com/cwists/category" })
+        _react2.default.createElement("iframe", { id: "iframeTutorials", src: "" })
       );
     }
   }]);
@@ -28087,7 +28087,6 @@ Code.init = function () {
     var a = $('.blocklyTreeLabel');
     $.each(a, function (i, val) {
       var className = val.textContent.replace(" ", "-").toLowerCase();
-      console.log(className);
       $(val).addClass(className);
     });
   });
@@ -28102,7 +28101,6 @@ Code.init = function () {
     var a = $('.blocklyTreeLabel');
     $.each(a, function (i, val) {
       var className = val.textContent.replace(" ", "-").toLowerCase();
-      console.log(className);
       $(val).addClass(className);
     });
   });
@@ -28158,9 +28156,11 @@ Code.init = function () {
   var a = $('.blocklyTreeLabel');
   $.each(a, function (i, val) {
     var className = val.textContent.replace(" ", "-").toLowerCase();
-    console.log(className);
     $(val).addClass(className);
   });
+
+  // Load IFRAME TUTORIALS TEST
+  $('#iframeTutorials').attr('src', 'https://basecamp.robolink.com/cwists/category');
 };
 
 /**
@@ -29350,6 +29350,19 @@ var ConnectionBox = function (_Component) {
   }
 
   _createClass(ConnectionBox, [{
+    key: "toggleDronesInfo",
+    value: function toggleDronesInfo(el) {
+      el.preventDefault();
+
+      var isHide = document.getElementById('connectMenu').classList.contains('hide-info');
+
+      if (isHide) {
+        document.getElementById('connectMenu').classList.remove('hide-info');
+      } else {
+        document.getElementById('connectMenu').classList.add('hide-info');
+      }
+    }
+  }, {
     key: "handleClick",
     value: function handleClick(el) {
       if (Code.device) {
@@ -29379,6 +29392,8 @@ var ConnectionBox = function (_Component) {
           $('#coDroneLabel').text(' Connected to ' + Code.deviceConnected);
           $('#forceLanding').prop("disabled", false);
           $('#connectMenu').addClass('connected');
+          var deviceName = server.device.name;
+          $('.petrone-id').text(deviceName);
           return server.getPrimaryService(PRIMARY_SERVICE);
         }).then(function (service) {
           Code.service = service;
@@ -29416,24 +29431,93 @@ var ConnectionBox = function (_Component) {
         "div",
         null,
         _react2.default.createElement(
-          "a",
-          { onClick: this.closePannel },
-          "x"
+          "div",
+          { className: "toggle-drone-info" },
+          _react2.default.createElement("a", { href: "#", onClick: this.toggleDronesInfo })
         ),
         _react2.default.createElement(
           "p",
-          null,
-          "Current Drone sensor data"
+          { className: "not-paired-text" },
+          _react2.default.createElement("span", { className: "circle" }),
+          "Not Paired"
+        ),
+        _react2.default.createElement(
+          "p",
+          { className: "paired-text" },
+          _react2.default.createElement("span", { className: "circle" }),
+          "Paired: ",
+          _react2.default.createElement(
+            "span",
+            { className: "petrone-id" },
+            "5617"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { id: "drones-info", className: "drones-info" },
+          _react2.default.createElement(
+            "span",
+            { className: "info1" },
+            "Trimming"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "drone" },
+            _react2.default.createElement("img", { src: "./images/icons/drone-sideways.svg" }),
+            _react2.default.createElement(
+              "div",
+              { className: "arrow" },
+              _react2.default.createElement(
+                "span",
+                null,
+                "throttle: 0"
+              )
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "drone drone2" },
+            _react2.default.createElement("img", { className: "img-arrow", src: "./images/icons/drone-top-down.png" }),
+            _react2.default.createElement(
+              "div",
+              { className: "arrow" },
+              _react2.default.createElement(
+                "span",
+                null,
+                "throttle: 0"
+              )
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "arrow2" },
+              _react2.default.createElement("img", { src: "./images/icons/arrow-left-right.png" }),
+              _react2.default.createElement(
+                "span",
+                null,
+                "roll: 0"
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           "button",
           { type: "button", onClick: this.handleClick, id: "scanButton", className: "btn btn-default navbar-btn" },
-          "Connect"
+          "Pair"
         ),
         _react2.default.createElement(
           "button",
           { type: "button", id: "reconnectButton", className: "btn btn-default navbar-btn" },
-          "Reconnect"
+          "Pair with Previous"
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "battery" },
+          _react2.default.createElement("img", { className: "", src: "./images/icons/battery_full.svg" }),
+          _react2.default.createElement(
+            "span",
+            null,
+            "100%"
+          )
         )
       );
     }

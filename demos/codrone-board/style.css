@@ -453,12 +453,166 @@ button {
   height: 100%;
 }
 
+#connectMenu button {
+  background: #60c644;
+  border-radius: 0;
+  color: #fff;
+  font-size: 10px;
+  width: 90px;
+  padding: 5px;
+}
+
+#connectMenu.connected.hide-info .drones-info {
+  height: 0;
+  overflow: hidden;
+}
+
+#connectMenu.connected .drones-info {
+  display: block;
+}
+#connectMenu .battery {
+  display: none;
+}
+
+#connectMenu.connected.hide-info .toggle-drone-info a {
+  background-image: url(./images/icons/chevron_up-128.png);
+}
+
+#connectMenu.connected .toggle-drone-info a {
+  float: none;
+  background-image: url(./images/icons/chevron_down-128.png);
+  width: 28px;
+  height: 15px;
+  display: inline-block;
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: -11px -17px;
+}
+
+#connectMenu.connected .toggle-drone-info {
+  display: block;
+}
+
+#connectMenu .toggle-drone-info {
+  display: none;
+}
+
+#connectMenu.connected .battery span {
+  font-size: 10px;
+  margin-left: 9px;
+  color: #9B9B9B;
+}
+
+#connectMenu.connected .battery {
+  display: inline-block;
+  top: 11px;
+  position: relative;
+}
+
+#connectMenu .drones-info {
+  display: none;
+}
+
+#connectMenu .drones-info .info1 {
+  display: block;
+  color: #9B9B9B;
+  text-align: left;
+  margin-left: 12px;
+  margin-top: 10px;
+}
+
+#connectMenu .drones-info .drone img {
+  width: 115px;
+  float: left;
+  margin-left: 30px;
+  margin-top: 10px;
+}
+
+#connectMenu .drones-info .drone .arrow span {
+  font-size: 10px;
+  position: absolute;
+  width: 45px;
+  bottom: 0;
+  left: 0;
+}
+
+#connectMenu .drones-info .drone .arrow {
+  background-image: url(images/icons/arrow-top-down.png);
+  height: 75.45px;
+  margin-left: -10px;
+  min-width: 45px;
+  display: inline-block;
+  background-size: 10px 60px;
+  position: relative;
+  background-repeat: no-repeat;
+  position: relative;
+  background-position: center;
+  background-position-y: 0;
+  color: #9B9B9B;
+}
+
+#connectMenu .drones-info .drone.drone2 {
+  margin-top: 5px;
+  position: relative;
+}
+
+#connectMenu .drones-info .drone.drone2 .img-arrow {
+  width: 80px;
+  margin-left: 43px;
+  margin-right: 19px;
+  margin-top: 0;
+}
+#connectMenu .drones-info .drone.drone2 .arrow {
+  height: 92px;
+  background-size: 10px 75px;
+}
+
+#connectMenu .drones-info .drone.drone2 .arrow2 span {
+  font-size: 10px;
+  color: #9B9B9B;
+}
+
+#connectMenu .drones-info .drone.drone2 .arrow2 img {
+  margin: 0;
+  width: 105px;
+}
+
+#connectMenu .drones-info .drone.drone2 .arrow2 {
+  display: block;
+  width: 100px;
+  position: absolute;
+  bottom: 5px;
+  left: 36px;
+}
+
+#connectMenu .drones-info .drone.drone2 img {
+  width: 80px;
+  margin-left: 43px;
+  margin-right: 19px;
+}
+
 #connectMenu p {
   width: 100%;
-  padding: 35px;
-  font-family: sans-serif;
-  color: #8a8a8a;
-  font-size: 16px;
+  font-family: 'futuralight';
+  font-size: 14px;
+  text-align: left;
+  padding-left: 11px;
+  padding-top: 11px;
+  margin: 0;
+  font-weight: 900;
+  color: #636363;
+}
+
+#connectMenu p span {
+  width: 20px;
+  height: 20px;
+  background: #bb032a;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  display: inline-block;
+  float: left;
+  margin-right: 6px;
 }
 
 #connectMenu a {
@@ -467,13 +621,44 @@ button {
   margin-right: 5px;
 }
 
-#connectMenu.connected p, #connectMenu.connected #reconnectButton {
+#connectMenu.connected .not-paired-text {
+  display: none;
+}
+
+#connectMenu .paired-text .circle {
+  background: #60C644;
+}
+
+#connectMenu.connected .paired-text .petrone-id {
+  width: auto;
+  height: auto;
+  display: inline;
+  float: none;
+  background: none;
+}
+
+#connectMenu.connected .paired-text {
+  display: block;
+  padding-left: 16px;
+}
+
+#connectMenu .paired-text {
+  display: none;
+}
+
+#connectMenu.connected #scanButton {
+  background: #BB032A;
+  border-radius: 3px;
+  float: left;
+  width: 86px;
+  margin-left: 15px;
+}
+
+#connectMenu.connected #reconnectButton {
   display: none;
 }
 
 #connectMenu.connected {
-  height: 50px;
-
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
@@ -486,11 +671,13 @@ button {
   bottom: 0;
   left: 0;
   z-index: 999;
-  background: #ddd;
+  background: #d7d7d7;
   width: 200px;
   border-top: 1px solid #ccc;
-  height: 200px;
+  height: auto;
   text-align: center;
+  font-family: 'futuralight';
+  font-weight: 900;
 
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
