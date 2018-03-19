@@ -114,6 +114,13 @@ var displayContents = function(contents) {
   Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
 }
 
+var addClassToCategories = function(){
+  var el = $('.blocklyTreeLabel');
+  $.each(el, function(i, val){
+    var className = val.textContent.replace(' ','-').toLowerCase();
+    $(val).addClass(className);
+  });
+}
 document.getElementById('file-input')
   .addEventListener('change', readSingleFile, false);
 
@@ -446,11 +453,7 @@ Code.init = function() {
     $('.blocklyToolboxDiv').attr('role', 'junior');
 
     Code.workspace.updateToolbox(toolboxXml);
-    var a = $('.blocklyTreeLabel');
-    $.each(a, function(i, val){
-      var className = val.textContent.replace(" ","-").toLowerCase();
-      $(val).addClass(className);
-    });
+    addClassToCategories();
   });
 
   $('#seniorXmlBtn').click(function(e){
@@ -460,11 +463,7 @@ Code.init = function() {
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $('.blocklyToolboxDiv').attr('role', 'senior');
     Code.workspace.updateToolbox(toolboxXml);
-    var a = $('.blocklyTreeLabel');
-    $.each(a, function(i, val){
-      var className = val.textContent.replace(" ","-").toLowerCase();
-      $(val).addClass(className);
-    });
+    addClassToCategories();
   });
 
   $('#masterXmlBtn').click(function(e){
@@ -510,14 +509,7 @@ Code.init = function() {
 
   Code.loadWorkspace();
   $('.blocklyToolboxDiv').attr('role', 'junior');
-  var a = $('.blocklyTreeLabel');
-  $.each(a, function(i, val){
-    var className = val.textContent.replace(" ","-").toLowerCase();
-    $(val).addClass(className);
-  });
-
-  // Load IFRAME TUTORIALS TEST
-  $('#iframeTutorials').attr('src', 'https://basecamp.robolink.com/cwists/category');
+  addClassToCategories();
 };
 
 /**

@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 class ContentTutorials extends React.Component {
+  componentDidMount() {
+    // Update src to iframe
+    document.getElementById('iframeTutorials').src = 'https://basecamp.robolink.com/cwists/category'
+  }
+
+
   render() {
     return (
       <div className="content-panel content-1">

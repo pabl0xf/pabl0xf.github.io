@@ -4,11 +4,19 @@ import ReactDOM from "react-dom";
 class ConnectionBox extends Component {
   constructor(props) {
    super(props);
-   this.state = {isToggleOn: false};
+   this.state = {
+     isToggleOn: false,
+     throttleSidewaysValue: 50,
+     throttleValue: 50,
+     roll: 50
+   };
 
    // This binding is necessary to make `this` work in the callback
    this.handleClick = this.handleClick.bind(this);
    this.closePannel = this.closePannel.bind(this);
+   this.setThrottleSideways = this.setThrottleSideways.bind(this);
+   this.setThrottle = this.setThrottle.bind(this);
+   this.setRoll = this.setRoll.bind(this);
   }
 
   toggleDronesInfo(el) {
@@ -18,9 +26,24 @@ class ConnectionBox extends Component {
 
     if (isHide) {
       document.getElementById('connectMenu').classList.remove('hide-info');
+      document.getElementsByClassName('blocklyToolboxDiv')[0].classList.add('expand-connect');
+
     } else {
+      document.getElementsByClassName('blocklyToolboxDiv')[0].classList.remove('expand-connect');
       document.getElementById('connectMenu').classList.add('hide-info');
     }
+  }
+
+  setThrottleSideways(event) {
+    this.setState({throttleSidewaysValue: event.target.value});
+  }
+
+  setThrottle(event) {
+    this.setState({throttleValue: event.target.value});
+  }
+
+  setRoll(event) {
+    this.setState({roll: event.target.value});
   }
 
   handleClick(el) {
@@ -54,6 +77,7 @@ class ConnectionBox extends Component {
               $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
               $('#forceLanding').prop( "disabled", false );
               $('#connectMenu').addClass('connected');
+              $('.blocklyToolboxDiv').addClass('expand-connect');
               var deviceName = server.device.name;
               $('.petrone-id').text(deviceName);
               return server.getPrimaryService(PRIMARY_SERVICE);
@@ -102,14 +126,14 @@ class ConnectionBox extends Component {
           <span className="info1">Trimming</span>
           <div className="drone">
             <img src="./images/icons/drone-sideways.svg" />
-            <div className="arrow"><span>throttle: 0</span></div>
+            <div className="arrow"><input type="range" min="0" max="100" onChange={this.setThrottleSideways} value={this.state.throttleSidewaysValue} className="range1" orient="vertical" /><span>throttle: {this.state.throttleSidewaysValue}</span></div>
           </div>
           <div className="drone drone2">
             <img className="img-arrow" src="./images/icons/drone-top-down.png" />
-            <div className="arrow"><span>throttle: 0</span></div>
+            <div className="arrow"><input type="range" min="0" max="100" onChange={this.setThrottle} value={this.state.throttleValue} className="range2" orient="vertical" /><span>throttle: {this.state.throttleValue}</span></div>
             <div className="arrow2">
-              <img src="./images/icons/arrow-left-right.png" />
-              <span>roll: 0</span>
+              <input type="range" min="0" max="100" onChange={this.setRoll} value={this.state.roll} className="range3" />
+              <span>roll: {this.state.roll}</span>
             </div>
           </div>
         </div>

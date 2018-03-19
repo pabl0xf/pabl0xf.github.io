@@ -246,7 +246,16 @@ button {
 
 .blocklyToolboxDiv {
   margin-top: 110px;
-  padding-bottom: 180px;
+  padding-bottom: 90px;
+  left: 0px;
+  height: auto !important; 
+  display: block;
+  bottom: 0;
+  top: 0;
+}
+
+.blocklyToolboxDiv.expand-connect {
+  padding-bottom: 300px
 }
 
 .injectionDiv:before {
@@ -475,18 +484,18 @@ button {
 }
 
 #connectMenu.connected.hide-info .toggle-drone-info a {
-  background-image: url(./images/icons/chevron_up-128.png);
+  background-image: url(./images/icons/flat_carrot_icon-2.svg);
 }
 
 #connectMenu.connected .toggle-drone-info a {
   float: none;
-  background-image: url(./images/icons/chevron_down-128.png);
+  background-image: url(./images/icons/flat_carrot_icon.svg);
   width: 28px;
   height: 15px;
   display: inline-block;
-  background-size: 50px;
+  background-size: 28px;
   background-repeat: no-repeat;
-  background-position: -11px -17px;
+  background-position: 0px 7px;
 }
 
 #connectMenu.connected .toggle-drone-info {
@@ -531,7 +540,7 @@ button {
 #connectMenu .drones-info .drone .arrow span {
   font-size: 10px;
   position: absolute;
-  width: 45px;
+  width: 52px;
   bottom: 0;
   left: 0;
 }
@@ -561,6 +570,7 @@ button {
   margin-left: 43px;
   margin-right: 19px;
   margin-top: 0;
+  /*background-image: url(./images/icons/drone-top-down.png);*/
 }
 #connectMenu .drones-info .drone.drone2 .arrow {
   height: 92px;
@@ -581,8 +591,11 @@ button {
   display: block;
   width: 100px;
   position: absolute;
-  bottom: 5px;
+  background-image: url(./images/icons/arrow-left-right.png);
+  bottom: 6px;
   left: 36px;
+  background-repeat: no-repeat;
+  background-size: 98%;
 }
 
 #connectMenu .drones-info .drone.drone2 img {
@@ -770,7 +783,8 @@ button {
 }
 
 .blocklyTreeLabel.computer-vision {
-  background-image: url(images/icons/comp_vis_icon.png);
+  background-image: url(images/icons/comp-vis.svg);
+  opacity: 0.5;
 }
 
 .blocklyTreeLabel.sensors {
@@ -783,6 +797,7 @@ button {
 
 .blocklyTreeLabel.sound {
   background-image: url(images/icons/sound_icon.svg);
+  opacity: 0.5;
 }
 
 .blocklyTreeLabel.keyboard-input {
@@ -810,7 +825,7 @@ button {
 }
 
 .blocklyTreeLabel.functions {
-  background-image: url(images/icons/variables_icon.svg);
+  background-image: url(images/icons/functions-icon.svg);
 }
 
 .blocklyTreeLabel.flight-variables {
@@ -852,6 +867,9 @@ button {
   background: #dcdcdc;
   width: 33%;
   padding-left: 15px;
+  font-family: 'futuralight';
+  font-weight: 300;
+  color: #636363;
 }
 
 .buttonTab:last-child:before {
@@ -864,6 +882,7 @@ button {
 
 .buttonTab.active {
   background: #f1f1f1;
+  font-weight: 900;
 }
 
 .buttonTab:hover {
@@ -894,4 +913,109 @@ button {
 
 .buttonTab.active:before {
   border-left: 10px solid #f1f1f1;
+}
+
+
+.drones-info input[type=range] {
+    -webkit-appearance: none;
+    background: transparent; 
+}
+
+.drones-info input[type=range]::-webkit-slider-runnable-track {
+    width: 200px;
+    height: 5px;
+    background-color: transparent; 
+    border: none;
+    border-radius: 3px;
+    outline: none !important;
+}
+.drones-info input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #00A9FB;
+    margin-top: -5px;
+}
+.drones-info input[type=range]:focus {
+    outline: none;
+}
+.drones-info input[type=range]::-moz-range-track {
+    width: 200px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+.drones-info input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #00A9FB;
+}
+
+/*hide the outline behind the border*/
+.drones-info input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+.drones-info input[type=range]::-ms-track {
+    width: 200px;
+    height: 5px;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+}
+.drones-info input[type=range]::-ms-fill-lower {
+    background: #373737;
+    border-radius: 10px;
+}
+.drones-info input[type=range]::-ms-fill-upper {
+    background: #575757;
+    border-radius: 10px;
+}
+.drones-info input[type=range]::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #00A9FB;
+}
+.drones-info input[type=range]:focus::-ms-fill-lower {
+    background: #373737;
+}
+.drones-info input[type=range]:focus::-ms-fill-upper {
+    background: #575757;
+}
+
+.drones-info input[type=range].range1, .drones-info input[type=range].range2 {
+  transform: rotate(270deg);
+}
+
+.drones-info input[type=range].range1 {
+  position: absolute;
+  top: 28px;
+  left: -7px;
+  width: 58px;
+}
+
+.drones-info input[type=range].range2 {
+  position: absolute;
+  top: 35px;
+  left: -14px;
+  width: 73px;
+}
+
+.drones-info input[type=range].range3 {
+  margin-bottom: 2px;
 }
