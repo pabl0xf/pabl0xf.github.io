@@ -25,6 +25,13 @@ global.emergencyStop = function (){
   commandManager.addCommand(emergencyStop);
 }
 global.go = function (direction, seconds){
-  var goCommand = new Go(direction, seconds);
-  commandManager.addCommand(goCommand);
+  global.GoIntevalId = setInterval(async function() {
+      var goCommand = new Go(direction);
+      commandManager.addCommand(goCommand);
+    }.bind(this), 10);
+
+    //Stop the functions after 1 minute.
+    setTimeout(function() {
+      clearInterval(global.GoIntevalId);
+    }.bind(this), seconds * 1000);
 }

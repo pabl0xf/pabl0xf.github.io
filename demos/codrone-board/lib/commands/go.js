@@ -2,31 +2,32 @@ import Command from './command.js';
 import { bytesTakeOff } from '../types/flyEventsTypes.js';
 
 export default class Go extends Command {
-  constructor(direction, seconds){
+  constructor(direction){
       var packageTakeoff = bytesTakeOff;
       super(packageTakeoff, '');
       this.direction = direction;
-      this.seconds = seconds;
-      this.intevalId = null;
   }
 
   async run(){
-
-    this.intevalId = setInterval(function() {
-        // Your code here
-        console.log(this.direction);
-        console.log(this.seconds);
-    }.bind(this), 10);
-
-    //Stop the functions after 1 minute.
-      setTimeout(function() {
-        clearInterval(this.intevalId);
-      }.bind(this), this.seconds * 1000);
-
-
-    // this.intervalId = setInterval(async function(){
-    //
-    // }.bind(this), this.seconds * 1000);
-    //await Code.writeCharacteristic.writeValue(this.package);
+    switch(this.direction){
+      case global.FORWARD:
+        var dataArray = new Uint8Array(5);
+        dataArray[0] = 16;
+        dataArray[1] = 0;
+        dataArray[2] = 50;
+        dataArray[3] = 0;
+        dataArray[4] = 0;
+        await Code.writeCharacteristic.writeValue(dataArray);
+      break;
+      case global.BACKWARD:
+        var dataArray = new Uint8Array(5);
+        dataArray[0] = 16;
+        dataArray[1] = 0;
+        dataArray[2] = -50;
+        dataArray[3] = 0;
+        dataArray[4] = 0;
+        await Code.writeCharacteristic.writeValue(dataArray);
+      break;
+    }
   }
 }
