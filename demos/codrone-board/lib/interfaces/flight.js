@@ -1,9 +1,12 @@
 import { commandManager } from '../commandManager.js';
 import TakeOff from '../commands/takeOff.js';
 import Go from '../commands/go.js';
+import Hover from '../commands/hover.js';
 import Rotate180 from '../commands/rotate180.js';
 import Land from '../commands/land.js';
 import EmergencyStop from '../commands/emergencyStop.js';
+
+var flightInteface = {};
 
 global.takeOff = function (){
   var takeOff = new TakeOff();
@@ -24,14 +27,25 @@ global.emergencyStop = function (){
   var emergencyStop = new EmergencyStop();
   commandManager.addCommand(emergencyStop);
 }
+
 global.go = function (direction, seconds){
-  global.GoIntevalId = setInterval(async function() {
+  flightInteface.goIntevalId = setInterval(async function() {
       var goCommand = new Go(direction);
       commandManager.addCommand(goCommand);
     }.bind(this), 10);
 
-    //Stop the functions after 1 minute.
     setTimeout(function() {
-      clearInterval(global.GoIntevalId);
+      clearInterval(flightInteface.goIntevalId);
+    }.bind(this), seconds * 1000);
+}
+
+global.hover = function (seconds){
+  flightInteface.hoverIntevalId = setInterval(async function() {
+      var hoverCommand = new Hover();
+      commandManager.addCommand(hoverCommand);
+    }.bind(this), 10);
+
+    setTimeout(function() {
+      clearInterval(flightInteface.hoverIntevalId);
     }.bind(this), seconds * 1000);
 }
