@@ -28,9 +28,9 @@ global.emergencyStop = function (){
   commandManager.addCommand(emergencyStop);
 }
 
-global.go = function (direction, seconds){
+global.go = function (direction, seconds, power){
   flightInteface.goIntevalId = setInterval(async function() {
-      var goCommand = new Go(direction);
+      var goCommand = new Go(direction, power);
       commandManager.addCommand(goCommand);
     }.bind(this), 10);
 

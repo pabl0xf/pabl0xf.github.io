@@ -7,33 +7,58 @@ import { bytesFlyLeft } from '../types/flyEventsTypes.js';
 import { bytesFlyRight } from '../types/flyEventsTypes.js';
 
 export default class Go extends Command {
-  constructor(direction){
+  constructor(direction, power){
       var packagesFly = [bytesFlyForward, bytesFlyBackward,
             bytesFlyUp, bytesFlyDown, bytesFlyLeft, bytesFlyRight];
       super(packagesFly, '');
       this.direction = direction;
+      this.power = power;
   }
 
   async run(){
+    var r,p,t;
+  	r = p = t = 0;
+
+    var packageToSend = null;
+
     switch(this.direction){
       case global.FORWARD:
-        await Code.writeCharacteristic.writeValue(this.package[0]);
+         p = this.power;
+         packageToSend = this.package[0];
       break;
       case global.BACKWARD:
-        await Code.writeCharacteristic.writeValue(this.package[1]);
+      	t = this.power;
+        packageToSend = this.package[1];
       break;
       case global.UP:
-        await Code.writeCharacteristic.writeValue(this.package[2]);
+        r = power;
+        packageToSend = this.package[2];
+        break;
       break;
       case global.DOWN:
-        await Code.writeCharacteristic.writeValue(this.package[3]);
+        p = (-1)*this.power;
+        packageToSend = this.package[3];
       break;
       case global.LEFT:
-        await Code.writeCharacteristic.writeValue(this.package[4]);
+      	t = (-1)*this.power;
+        packageToSend = this.package[4];
       break;
       case global.RIGHT:
-        await Code.writeCharacteristic.writeValue(this.package[5]);
+      	r = (-1)*this.power;
+        packageToSend = this.package[5];
       break;
+    }
+
+    if(this.power){
+      var goWithPowerPackage = packageToSend;
+      goWithPowerPackage[1] = r;
+      goWithPowerPackage[2] = p;
+      goWithPowerPackage[3] = 0;
+      goWithPowerPackage[4] = t
+      await Code.writeCharacteristic.writeValue(goWithPowerPackage);
+    }
+    else {
+      await Code.writeCharacteristic.writeValue(packageToSend);
     }
   }
 }

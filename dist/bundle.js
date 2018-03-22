@@ -28410,14 +28410,14 @@ global.emergencyStop = function () {
   _commandManager.commandManager.addCommand(emergencyStop);
 };
 
-global.go = function (direction, seconds) {
+global.go = function (direction, seconds, power) {
   flightInteface.goIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var goCommand;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            goCommand = new _go2.default(direction);
+            goCommand = new _go2.default(direction, power);
 
             _commandManager.commandManager.addCommand(goCommand);
 
@@ -28562,7 +28562,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Go = function (_Command) {
   _inherits(Go, _Command);
 
-  function Go(direction) {
+  function Go(direction, power) {
     _classCallCheck(this, Go);
 
     var packagesFly = [_flyEventsTypes.bytesFlyForward, _flyEventsTypes.bytesFlyBackward, _flyEventsTypes.bytesFlyUp, _flyEventsTypes.bytesFlyDown, _flyEventsTypes.bytesFlyLeft, _flyEventsTypes.bytesFlyRight];
@@ -28570,6 +28570,7 @@ var Go = function (_Command) {
     var _this = _possibleConstructorReturn(this, (Go.__proto__ || Object.getPrototypeOf(Go)).call(this, packagesFly, ''));
 
     _this.direction = direction;
+    _this.power = power;
     return _this;
   }
 
@@ -28577,57 +28578,72 @@ var Go = function (_Command) {
     key: 'run',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var r, p, t, packageToSend, goWithPowerPackage;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                r = p = t = 0;
+
+                packageToSend = null;
                 _context.t0 = this.direction;
-                _context.next = _context.t0 === global.FORWARD ? 3 : _context.t0 === global.BACKWARD ? 6 : _context.t0 === global.UP ? 9 : _context.t0 === global.DOWN ? 12 : _context.t0 === global.LEFT ? 15 : _context.t0 === global.RIGHT ? 18 : 21;
+                _context.next = _context.t0 === global.FORWARD ? 5 : _context.t0 === global.BACKWARD ? 8 : _context.t0 === global.UP ? 11 : _context.t0 === global.DOWN ? 15 : _context.t0 === global.LEFT ? 18 : _context.t0 === global.RIGHT ? 21 : 24;
                 break;
 
-              case 3:
-                _context.next = 5;
-                return Code.writeCharacteristic.writeValue(this.package[0]);
-
               case 5:
-                return _context.abrupt('break', 21);
-
-              case 6:
-                _context.next = 8;
-                return Code.writeCharacteristic.writeValue(this.package[1]);
+                p = this.power;
+                packageToSend = this.package[0];
+                return _context.abrupt('break', 24);
 
               case 8:
-                return _context.abrupt('break', 21);
-
-              case 9:
-                _context.next = 11;
-                return Code.writeCharacteristic.writeValue(this.package[2]);
+                t = this.power;
+                packageToSend = this.package[1];
+                return _context.abrupt('break', 24);
 
               case 11:
-                return _context.abrupt('break', 21);
-
-              case 12:
-                _context.next = 14;
-                return Code.writeCharacteristic.writeValue(this.package[3]);
-
-              case 14:
-                return _context.abrupt('break', 21);
+                r = power;
+                packageToSend = this.package[2];
+                return _context.abrupt('break', 24);
 
               case 15:
-                _context.next = 17;
-                return Code.writeCharacteristic.writeValue(this.package[4]);
-
-              case 17:
-                return _context.abrupt('break', 21);
+                p = -1 * this.power;
+                packageToSend = this.package[3];
+                return _context.abrupt('break', 24);
 
               case 18:
-                _context.next = 20;
-                return Code.writeCharacteristic.writeValue(this.package[5]);
-
-              case 20:
-                return _context.abrupt('break', 21);
+                t = -1 * this.power;
+                packageToSend = this.package[4];
+                return _context.abrupt('break', 24);
 
               case 21:
+                r = -1 * this.power;
+                packageToSend = this.package[5];
+                return _context.abrupt('break', 24);
+
+              case 24:
+                if (!this.power) {
+                  _context.next = 34;
+                  break;
+                }
+
+                goWithPowerPackage = packageToSend;
+
+                goWithPowerPackage[1] = r;
+                goWithPowerPackage[2] = p;
+                goWithPowerPackage[3] = 0;
+                goWithPowerPackage[4] = t;
+                _context.next = 32;
+                return Code.writeCharacteristic.writeValue(goWithPowerPackage);
+
+              case 32:
+                _context.next = 36;
+                break;
+
+              case 34:
+                _context.next = 36;
+                return Code.writeCharacteristic.writeValue(packageToSend);
+
+              case 36:
               case 'end':
                 return _context.stop();
             }
