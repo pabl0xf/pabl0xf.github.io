@@ -1,4 +1,5 @@
 import { commandManager } from '../commandManager.js';
+import Move from '../commands/move.js';
 import TakeOff from '../commands/takeOff.js';
 import Go from '../commands/go.js';
 import Hover from '../commands/hover.js';
@@ -48,4 +49,42 @@ global.hover = function (seconds){
     setTimeout(function() {
       clearInterval(flightInteface.hoverIntevalId);
     }.bind(this), seconds * 1000);
+}
+
+global.move = function (seconds){
+  flightInteface.moveIntevalId = setInterval(async function() {
+      var moveCommand = new Move();
+      commandManager.addCommand(moveCommand);
+    }.bind(this), 10);
+
+    setTimeout(function() {
+      clearInterval(flightInteface.moveIntevalId);
+    }.bind(this), seconds * 1000);
+}
+
+global.goToHeight = function (heightSet){
+  flightInteface.goToHeightIntevalId = setInterval(async function() {
+      var currentHeight = await getHeight();
+      console.log(currentHeight + "current height");
+
+      if(currentHeight < heightSet - 100){
+        console.log(currentHeight + "first if");
+        var moveCommand = new Move(0,0,0,20);
+        commandManager.addCommand(moveCommand);
+        //move(0,0,0,20);
+      }
+  		else if(currentHeight > heightSet + 100){
+        console.log(currentHeight + "second if");
+        var moveCommand = new Move(0,0,0,-20);
+        commandManager.addCommand(moveCommand);
+        //move(0,0,0,-20);
+      }
+  		else if( currentHeight > heightSet-100 || currentHeight < heightSet+ 100){
+        console.log(currentHeight + "out");
+        var hoverCommand = new Hover();
+        commandManager.addCommand(hoverCommand);
+  			clearInterval(flightInteface.goToHeightIntevalId);
+  		}
+
+    }.bind(this), 10);
 }
