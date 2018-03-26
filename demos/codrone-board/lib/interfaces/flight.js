@@ -62,6 +62,18 @@ global.move = function (seconds){
     }.bind(this), seconds * 1000);
 }
 
+global.turn = function (direction, degree){
+  var angle = await getAngles();
+	direction = (direction == global.RIGHT ? 1 : -1);
+
+	var speed = direction * 30;
+	var dest = 360 + angle.yawDegree + degree * direction;
+	var min = (dest - 5)%360;
+	var max = (dest + 5)%360;
+
+
+}
+
 global.goToHeight = function (heightSet){
   flightInteface.goToHeightIntevalId = setInterval(async function() {
       var currentHeight = await getHeight();
@@ -71,13 +83,11 @@ global.goToHeight = function (heightSet){
         console.log(currentHeight + "first if");
         var moveCommand = new Move(0,0,0,20);
         commandManager.addCommand(moveCommand);
-        //move(0,0,0,20);
       }
   		else if(currentHeight > heightSet + 100){
         console.log(currentHeight + "second if");
         var moveCommand = new Move(0,0,0,-20);
         commandManager.addCommand(moveCommand);
-        //move(0,0,0,-20);
       }
   		else if( currentHeight > heightSet-100 || currentHeight < heightSet+ 100){
         console.log(currentHeight + "out");

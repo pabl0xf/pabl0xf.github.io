@@ -12,8 +12,10 @@ export default class GetHeight extends Command {
     const value = await Code.readCharacteristic.readValue();
 
     var arrayResult = new Uint8Array(value.buffer);
-    console.log(arrayResult);
-    let heightValue = arrayResult[7] & 0xFF;
+    let heightValue = 0;
+    if(arrayResult.length>11){
+      heightValue = ((arrayResult[12] << 8)| (arrayResult[11]  & 0xff));
+    }
     var event = new CustomEvent(this.eventName, { detail: heightValue });
     dispatchEvent(event);
   }
