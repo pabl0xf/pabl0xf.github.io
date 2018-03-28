@@ -13,6 +13,7 @@ class Burger extends React.Component {
    this.handleRunClick = this.handleRunClick.bind(this);
   }
 
+
   handleClick(el) {
     var menuElement = el.target.parentElement.parentElement.getElementsByClassName('menu')[0];
     menuElement.classList.toggle('active');
@@ -47,14 +48,13 @@ class Burger extends React.Component {
   }
 
   handleForceLandingClick(el) {
+    $('.playButton').css('display', 'inline-block');
+    $('.forceLanding').css('display', 'none');
+    eventManager.removeAllEvents();
+    keyPressManager.removeKeyPressEvents();
+    global.removeFlightIntervals();
     if (Code.device != null) {
-
-    } else {
-      $('.playButton').css('display', 'inline-block');
-      $('.forceLanding').css('display', 'none');
-      eventManager.removeAllEvents();
-      keyPressManager.removeKeyPressEvents();
-      //alert('CoDrone is not connected, please connect and try again.');
+         global.emergencyStop();
     }
   }
 
@@ -63,6 +63,12 @@ class Burger extends React.Component {
       $('.playButton').css('display', 'none');
       Code.runJS();
   }
+
+  componentDidMount() {
+    $(document).on("stopExternalEvent", function(){
+      this.handleForceLandingClick();
+    }.bind(this));
+}
 
   render() {
     return (

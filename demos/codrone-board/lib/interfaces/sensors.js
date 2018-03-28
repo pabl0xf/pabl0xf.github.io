@@ -4,7 +4,6 @@ import GetBatteryVoltage from '../commands/getBatteryVoltage.js';
 import GetHeight from '../commands/getHeight.js';
 import GetPressure from '../commands/getPressure.js';
 import GetGyroAngles from '../commands/getGyroAngles.js';
-import GetAngularSpeed from '../commands/getAngularSpeed.js';
 
 global.getBatteryPercentage = function (){
    var getBatteryPercentage = new GetBatteryPercentage();
@@ -39,11 +38,4 @@ global.getPressure = function (){
    var pressure = getPressure.getValue();
    commandManager.addCommand(getPressure);
    return pressure;
-}
-
-global.getAngularSpeed = function (){
-   var getAngularSpeed = new GetAngularSpeed();
-   var angularSpeed = GetAngularSpeed.getValue();
-   commandManager.addCommand(getAngularSpeed);
-   return angularSpeed;
 }

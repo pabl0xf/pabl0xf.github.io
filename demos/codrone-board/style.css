@@ -321,6 +321,7 @@ button {
   top: 53px;
   background-color: rgba(255, 255, 255, 0.5);
   border: 1px solid #efefef;
+  z-index: 999;
 }
 .interactive-menu-button .menu ul {
   padding: 0;
@@ -340,9 +341,9 @@ button {
   width: 0px;
   height: 0px;
   position: absolute;
-  top: -30px;
+  top: -17px;
   left: -1px;
-  border-top: 15px solid transparent;
+  border-top: 1px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 15px solid #efefef;
   border-left: 15px solid transparent;
@@ -364,7 +365,7 @@ button {
   width: 200px;
 }
 
-#rightPanel-1 .content-1, #rightPanel-1 .content-2, #rightPanel-1 .content-3, #rightPanel-1 .content-4 {
+#rightPanel-1 .content-1, #rightPanel-1 .content-2, #rightPanel-1 .content-3, #rightPanel-1 .content-4, #rightPanel-1 .content-5 {
   display: none;
   width: 100%;
   height: 100%;
@@ -373,7 +374,7 @@ button {
   position: absolute;
 }
 
-#rightPanel-1 .content-1.active, #rightPanel-1 .content-2.active, #rightPanel-1 .content-3.active, #rightPanel-1 .content-4.active {
+#rightPanel-1 .content-1.active, #rightPanel-1 .content-2.active, #rightPanel-1 .content-3.active, #rightPanel-1 .content-4.active, #rightPanel-1 .content-5.active {
   display: block;
 }
 
@@ -426,6 +427,11 @@ button {
   opacity: 1;
   display: block;
   margin: 0 auto;
+}
+
+#rightPanel-1 .show-right-panel img.arduino {
+  width: 30px;
+  margin-bottom: 4px;
 }
 
 #rightPanel-1 .show-right-panel img.cap {
@@ -833,7 +839,7 @@ button {
 }
 
 .blocklyToolboxDiv .blocklyTreeRoot div[role="group"] div[role="treeitem"]:first-child:before {
-  content: "DRONE BLOCKS";
+  content: "Drone blocks";
   font-size: 12px;
   padding-left: 19px;
   color: #9c9c9c;
@@ -841,11 +847,12 @@ button {
   margin-top: 6px;
   display: block;
   margin-right: 9px;
+  letter-spacing: 0.8px;
 }
 
 .blocklyToolboxDiv[role="junior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(7):before,
 .blocklyToolboxDiv[role="senior"] .blocklyTreeRoot div[role="group"] div[role="treeitem"]:nth-child(8):before {
-  content: "PROGRAMING BLOCKS";
+  content: "Programing blocks";
   font-size: 12px;
   padding-left: 19px;
   color: #9c9c9c;
@@ -853,6 +860,7 @@ button {
   margin-top: 6px;
   display: block;
   margin-right: 9px;
+  letter-spacing: 0.8px;
 }
 
 .buttonTab {
@@ -865,11 +873,16 @@ button {
   border-radius: inherit;
   height: 30px;
   background: #dcdcdc;
-  width: 33%;
+  width: 31%;
   padding-left: 15px;
   font-family: 'futuralight';
   font-weight: 300;
   color: #636363;
+}
+
+#masterXmlBtn {
+  width: 74px;
+  padding-left: 7px;
 }
 
 .buttonTab:last-child:before {
@@ -906,7 +919,7 @@ button {
   border-right: 15px solid TRANSPARENT;
   border-bottom: 15px solid transparent;
   border-left: 15px solid #dcdcdc;
-  left: 66px;
+  left: 62px;
   top: 0;
   z-index: 999;
 }

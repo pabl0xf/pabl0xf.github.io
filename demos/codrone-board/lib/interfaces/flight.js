@@ -62,16 +62,68 @@ global.move = function (seconds){
     }.bind(this), seconds * 1000);
 }
 
-global.turn = function (direction, degree){
-  var angle = await getAngles();
-	direction = (direction == global.RIGHT ? 1 : -1);
+global.turn = async function (direction, degree, power){
 
+  if(power){
+    turnWithDirectionAndPower(direction, degree, power);
+    return;
+  }
+
+  direction = (direction == global.RIGHT ? 1 : -1);
+
+  var angle = await getGyroAngles();
+  console.log(direction);
 	var speed = direction * 30;
+  console.log(speed);
 	var dest = 360 + angle.yawDegree + degree * direction;
+  console.log(dest);
 	var min = (dest - 5)%360;
+  console.log(min);
 	var max = (dest + 5)%360;
+  console.log(max);
+
+  flightInteface.turnIntevalId = setInterval(async function() {
+    setTimeout(async function(){
+      var angle = await getGyroAngles();
+      		if(min>max){
+      			if(min<angle.yawDegree || max>angle.yawDegree) {
+              clearInterval(flightInteface.turnIntevalId);
+              var hoverCommand = new Hover(1);
+              commandManager.addCommand(hoverCommand);
+            }
+      		}
+      		else {
+      			if(min<angle.yawDegree && max>angle.yawDegree) {
+              clearInterval(flightInteface.turnIntevalId);
+              var hoverCommand = new Hover(1);
+              commandManager.addCommand(hoverCommand);
+            }
+
+      		}
+          console.log('speed:' + speed);
+          var moveCommand = new Move(0,0,speed,0);
+          commandManager.addCommand(moveCommand);
+
+      }.bind(this), 5);
+   }.bind(this), 10);
+}
 
 
+global.turnWithDirectionAndPower = function (direction, seconds, power){
+  var y = power;
+	if(direction == global.LEFT){
+		y *= -1;
+  }
+
+  flightInteface.turnWithDirectionAndPowerInterval = setInterval(async function() {
+      var moveCommand = new Move(0,0,y,0);
+      commandManager.addCommand(moveCommand);
+    }.bind(this), 10);
+
+    setTimeout(function() {
+      clearInterval(flightInteface.turnWithDirectionAndPowerInterval);
+      hover(1);
+    }.bind(this), seconds * 1000);
 }
 
 global.goToHeight = function (heightSet){
@@ -97,4 +149,13 @@ global.goToHeight = function (heightSet){
   		}
 
     }.bind(this), 10);
+}
+
+
+global.removeFlightIntervals = function(){
+    clearInterval(flightInteface.moveIntevalId);
+    clearInterval(flightInteface.turnIntevalId);
+    clearInterval(flightInteface.goToHeightIntevalId);
+    clearInterval(flightInteface.hoverIntevalId);
+    clearInterval(flightInteface.goIntevalId);
 }

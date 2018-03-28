@@ -55,8 +55,13 @@ var refreshTabCode = function(event) {
       Code.workspaceCurrentCode = code;
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
-      $('.playButton').css('display', 'inline-block');
-      $('.forceLanding').css('display', 'none');
+
+      $.event.trigger({
+                  type: 'stopExternalEvent',
+                  message: ''
+                });
+
+
     }
     if (content.id == 'content_javascript') {
         content.textContent = code;
@@ -66,6 +71,14 @@ var refreshTabCode = function(event) {
           content.innerHTML = code;
         }
     } else if (content.id == 'content_python') {
+      code = Blockly.Python.workspaceToCode(Code.workspace);
+      content.textContent = code;
+      if (typeof PR.prettyPrintOne == 'function') {
+        code = content.textContent;
+        code = PR.prettyPrintOne(code, 'py');
+        content.innerHTML = code;
+      }
+    } else if (content.id == 'content_arduino') {
       code = Blockly.Python.workspaceToCode(Code.workspace);
       content.textContent = code;
       if (typeof PR.prettyPrintOne == 'function') {
@@ -345,14 +358,16 @@ Code.renderContent = function() {
       code = PR.prettyPrintOne(code, 'js');
       content.innerHTML = code;
     }
-    console.log(Code.workspaceCurrentCode);
-    console.log(code);
     if(Code.workspaceCurrentCode !== code){
       Code.workspaceCurrentCode = code;
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
-      $('.playButton').css('display', 'inline-block');
-      $('.forceLanding').css('display', 'none');
+
+      $.event.trigger({
+                  type: 'stopExternalEvent',
+                  message: ''
+                });
+
     }
   } else if (content.id == 'content_python') {
     code = Blockly.Python.workspaceToCode(Code.workspace);
@@ -576,6 +591,7 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
+  console.log('remove js was called');
   eventManager.removeAllEvents();
   keyPressManager.removeKeyPressEvents();
   commandManager.initCommandConsumer();

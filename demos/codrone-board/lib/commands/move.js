@@ -6,7 +6,8 @@ export default class Move extends Command {
     movePackage[0] = 16;
     movePackage[1] = roll;
     movePackage[2] = pitch;
-    movePackage[3] = throttle;
+    movePackage[3] = yaw;
+    movePackage[4] = throttle;
     super(movePackage, '');
   }
 

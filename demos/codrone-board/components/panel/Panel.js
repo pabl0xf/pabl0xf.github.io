@@ -24,6 +24,17 @@ class ContentPython extends React.Component {
   }
 }
 
+class ContentArduino extends React.Component {
+  render() {
+    return (
+      <div className="content-panel content-5">
+        <h1 style={{textAlign: 'center'}}>Arduino</h1>
+        <pre id="content_arduino" className="content"></pre>
+      </div>
+    );
+  }
+}
+
 class ContentSensor extends React.Component {
   render() {
     return (
@@ -90,12 +101,13 @@ class Panel extends React.Component {
           <button className="show-right-panel" data-panel-id="1" onClick={this.handleClick}><img className="cap" src="./images/icons/graduation-cap.svg" />Tuts</button>
           <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}><img src="./images/icons/javascript_icon.png" />Javascript</button>
           <button className="show-right-panel" data-panel-id="3" data-tab="python" onClick={this.handleClick}><img src="./images/icons/python_icon_cropped.png" />Python</button>
-          <button className="show-right-panel" data-panel-id="4" onClick={this.handleClick}>'S'</button>
+          <button className="show-right-panel" data-panel-id="5" onClick={this.handleClick}><img className="arduino" src="./images/icons/arduino_icon.png" />Arduino</button>
 
           <ContentTutorials />
           <ContentJavascript />
           <ContentPython />
           <ContentSensor />
+          <ContentArduino />
         </div>
     );
   }

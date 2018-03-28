@@ -327,6 +327,86 @@ module.exports = function (NAME, exec) {
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(52);
+var defined = __webpack_require__(25);
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var pIE = __webpack_require__(53);
+var createDesc = __webpack_require__(34);
+var toIObject = __webpack_require__(16);
+var toPrimitive = __webpack_require__(24);
+var has = __webpack_require__(11);
+var IE8_DOM_DEFINE = __webpack_require__(104);
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = __webpack_require__(6) ? gOPD : function getOwnPropertyDescriptor(O, P) {
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return gOPD(O, P);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = __webpack_require__(11);
+var toObject = __webpack_require__(9);
+var IE_PROTO = __webpack_require__(75)('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -408,86 +488,6 @@ var Command = function () {
 }();
 
 exports.default = Command;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(53);
-var defined = __webpack_require__(25);
-module.exports = function (it) {
-  return IObject(defined(it));
-};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var pIE = __webpack_require__(54);
-var createDesc = __webpack_require__(34);
-var toIObject = __webpack_require__(16);
-var toPrimitive = __webpack_require__(24);
-var has = __webpack_require__(11);
-var IE8_DOM_DEFINE = __webpack_require__(104);
-var gOPD = Object.getOwnPropertyDescriptor;
-
-exports.f = __webpack_require__(6) ? gOPD : function getOwnPropertyDescriptor(O, P) {
-  O = toIObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return gOPD(O, P);
-  } catch (e) { /* empty */ }
-  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
-};
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(11);
-var toObject = __webpack_require__(9);
-var IE_PROTO = __webpack_require__(75)('IE_PROTO');
-var ObjectProto = Object.prototype;
-
-module.exports = Object.getPrototypeOf || function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectProto : null;
-};
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
 
 /***/ }),
 /* 20 */
@@ -619,7 +619,7 @@ module.exports = function (KEY, exec) {
 // 5 -> Array#find
 // 6 -> Array#findIndex
 var ctx = __webpack_require__(20);
-var IObject = __webpack_require__(53);
+var IObject = __webpack_require__(52);
 var toObject = __webpack_require__(9);
 var toLength = __webpack_require__(8);
 var asc = __webpack_require__(92);
@@ -681,7 +681,7 @@ if (__webpack_require__(6)) {
   var toAbsoluteIndex = __webpack_require__(38);
   var toPrimitive = __webpack_require__(24);
   var has = __webpack_require__(11);
-  var classof = __webpack_require__(55);
+  var classof = __webpack_require__(54);
   var isObject = __webpack_require__(4);
   var toObject = __webpack_require__(9);
   var isArrayIter = __webpack_require__(89);
@@ -1869,37 +1869,6 @@ exports.bytesHover = dataArray;
 /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-//Generic
-var sensorType = new Uint8Array(3);
-sensorType[0] = 17;
-sensorType[1] = 144;
-
-//Set last bit use by different sensors
-sensorType[2] = 49;
-exports.sensorBattery = sensorType;
-
-sensorType[2] = 50;
-exports.sensorAngles = sensorType;
-
-sensorType[2] = 84;
-exports.sensorBatteryVoltage = sensorType;
-
-sensorType[2] = 87;
-exports.sensorHeight = sensorType;
-
-sensorType[2] = 81;
-exports.sensorPressure = sensorType;
-
-sensorType[2] = 80;
-exports.sensorAngularSpeed = sensorType;
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = __webpack_require__(21);
 // eslint-disable-next-line no-prototype-builtins
@@ -1909,14 +1878,14 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
@@ -1945,7 +1914,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1989,6 +1958,37 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//Generic
+var sensorType = new Uint8Array(3);
+sensorType[0] = 17;
+sensorType[1] = 144;
+
+//Set last bit use by different sensors
+sensorType[2] = 49;
+exports.sensorBattery = sensorType;
+
+sensorType[2] = 50;
+exports.sensorAngles = sensorType;
+
+sensorType[2] = 84;
+exports.sensorBatteryVoltage = sensorType;
+
+sensorType[2] = 87;
+exports.sensorHeight = sensorType;
+
+sensorType[2] = 81;
+exports.sensorPressure = sensorType;
+
+sensorType[2] = 80;
+exports.sensorAngularSpeed = sensorType;
 
 /***/ }),
 /* 57 */
@@ -2820,7 +2820,7 @@ module.exports = function (object, index, value) {
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__(55);
+var classof = __webpack_require__(54);
 var ITERATOR = __webpack_require__(5)('iterator');
 var Iterators = __webpack_require__(48);
 module.exports = __webpack_require__(23).getIteratorMethod = function (it) {
@@ -3704,7 +3704,7 @@ var KeyPressManager = function () {
 }();
 
 var keyPressManager = exports.keyPressManager = new KeyPressManager();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 104 */
@@ -3798,9 +3798,9 @@ module.exports.f = function getOwnPropertyNames(it) {
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys = __webpack_require__(37);
 var gOPS = __webpack_require__(59);
-var pIE = __webpack_require__(54);
+var pIE = __webpack_require__(53);
 var toObject = __webpack_require__(9);
-var IObject = __webpack_require__(53);
+var IObject = __webpack_require__(52);
 var $assign = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
@@ -3999,7 +3999,7 @@ module.exports = function (iterator, fn, value, entries) {
 
 var aFunction = __webpack_require__(10);
 var toObject = __webpack_require__(9);
-var IObject = __webpack_require__(53);
+var IObject = __webpack_require__(52);
 var toLength = __webpack_require__(8);
 
 module.exports = function (that, callbackfn, aLen, memo, isRight) {
@@ -4573,7 +4573,7 @@ module.exports = function (that, maxLength, fillString, left) {
 
 var getKeys = __webpack_require__(37);
 var toIObject = __webpack_require__(16);
-var isEnum = __webpack_require__(54).f;
+var isEnum = __webpack_require__(53).f;
 module.exports = function (isEntries) {
   return function (it) {
     var O = toIObject(it);
@@ -4594,7 +4594,7 @@ module.exports = function (isEntries) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var classof = __webpack_require__(55);
+var classof = __webpack_require__(54);
 var from = __webpack_require__(136);
 module.exports = function (NAME) {
   return function toJSON() {
@@ -5031,7 +5031,7 @@ var _react = __webpack_require__(45);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(56);
+var _reactDom = __webpack_require__(55);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5087,7 +5087,7 @@ var _react = __webpack_require__(45);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(56);
+var _reactDom = __webpack_require__(55);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5099,13 +5099,13 @@ __webpack_require__(362);
 
 __webpack_require__(370);
 
-__webpack_require__(377);
+__webpack_require__(376);
 
-var _ConnectionBox = __webpack_require__(380);
+var _ConnectionBox = __webpack_require__(379);
 
 var _ConnectionBox2 = _interopRequireDefault(_ConnectionBox);
 
-var _Menu = __webpack_require__(381);
+var _Menu = __webpack_require__(380);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
@@ -5113,7 +5113,7 @@ var _ContentTutorials = __webpack_require__(145);
 
 var _ContentTutorials2 = _interopRequireDefault(_ContentTutorials);
 
-var _Panel = __webpack_require__(382);
+var _Panel = __webpack_require__(381);
 
 var _Panel2 = _interopRequireDefault(_Panel);
 
@@ -5158,7 +5158,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 148 */
@@ -5517,7 +5517,7 @@ if (!USE_NATIVE) {
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
   __webpack_require__(40).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(54).f = $propertyIsEnumerable;
+  __webpack_require__(53).f = $propertyIsEnumerable;
   __webpack_require__(59).f = $getOwnPropertySymbols;
 
   if (DESCRIPTORS && !__webpack_require__(36)) {
@@ -5611,7 +5611,7 @@ setToStringTag(global.JSON, 'JSON', true);
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(37);
 var gOPS = __webpack_require__(59);
-var pIE = __webpack_require__(54);
+var pIE = __webpack_require__(53);
 module.exports = function (it) {
   var result = getKeys(it);
   var getSymbols = gOPS.f;
@@ -5840,7 +5840,7 @@ $export($export.S, 'Object', { setPrototypeOf: __webpack_require__(78).set });
 "use strict";
 
 // 19.1.3.6 Object.prototype.toString()
-var classof = __webpack_require__(55);
+var classof = __webpack_require__(54);
 var test = {};
 test[__webpack_require__(5)('toStringTag')] = 'z';
 if (test + '' != '[object z]') {
@@ -7114,7 +7114,7 @@ var toIObject = __webpack_require__(16);
 var arrayJoin = [].join;
 
 // fallback for not array-like strings
-$export($export.P + $export.F * (__webpack_require__(53) != Object || !__webpack_require__(22)(arrayJoin)), 'Array', {
+$export($export.P + $export.F * (__webpack_require__(52) != Object || !__webpack_require__(22)(arrayJoin)), 'Array', {
   join: function join(separator) {
     return arrayJoin.call(toIObject(this), separator === undefined ? ',' : separator);
   }
@@ -7669,7 +7669,7 @@ __webpack_require__(64)('split', 2, function (defined, SPLIT, $split) {
 var LIBRARY = __webpack_require__(36);
 var global = __webpack_require__(2);
 var ctx = __webpack_require__(20);
-var classof = __webpack_require__(55);
+var classof = __webpack_require__(54);
 var $export = __webpack_require__(0);
 var isObject = __webpack_require__(4);
 var aFunction = __webpack_require__(10);
@@ -10399,7 +10399,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 346 */
@@ -27757,8 +27757,11 @@ var refreshTabCode = function refreshTabCode(event) {
       Code.workspaceCurrentCode = code;
       _eventManager.eventManager.removeAllEvents();
       _keyPressManager.keyPressManager.removeKeyPressEvents();
-      $('.playButton').css('display', 'inline-block');
-      $('.forceLanding').css('display', 'none');
+
+      $.event.trigger({
+        type: 'stopExternalEvent',
+        message: ''
+      });
     }
     if (content.id == 'content_javascript') {
       content.textContent = code;
@@ -27768,6 +27771,14 @@ var refreshTabCode = function refreshTabCode(event) {
         content.innerHTML = code;
       }
     } else if (content.id == 'content_python') {
+      code = Blockly.Python.workspaceToCode(Code.workspace);
+      content.textContent = code;
+      if (typeof PR.prettyPrintOne == 'function') {
+        code = content.textContent;
+        code = PR.prettyPrintOne(code, 'py');
+        content.innerHTML = code;
+      }
+    } else if (content.id == 'content_arduino') {
       code = Blockly.Python.workspaceToCode(Code.workspace);
       content.textContent = code;
       if (typeof PR.prettyPrintOne == 'function') {
@@ -28045,14 +28056,15 @@ Code.renderContent = function () {
       code = PR.prettyPrintOne(code, 'js');
       content.innerHTML = code;
     }
-    console.log(Code.workspaceCurrentCode);
-    console.log(code);
     if (Code.workspaceCurrentCode !== code) {
       Code.workspaceCurrentCode = code;
       _eventManager.eventManager.removeAllEvents();
       _keyPressManager.keyPressManager.removeKeyPressEvents();
-      $('.playButton').css('display', 'inline-block');
-      $('.forceLanding').css('display', 'none');
+
+      $.event.trigger({
+        type: 'stopExternalEvent',
+        message: ''
+      });
     }
   } else if (content.id == 'content_python') {
     code = Blockly.Python.workspaceToCode(Code.workspace);
@@ -28275,6 +28287,7 @@ Code.loadWorkspace = function () {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function () {
+  console.log('remove js was called');
   _eventManager.eventManager.removeAllEvents();
   _keyPressManager.keyPressManager.removeKeyPressEvents();
   _commandManager.commandManager.initCommandConsumer();
@@ -28331,7 +28344,7 @@ document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
 
 window.addEventListener('load', Code.init);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 361 */
@@ -28343,7 +28356,7 @@ window.addEventListener('load', Code.init);
 global.runJS = function () {
   Code.runJS();
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 362 */
@@ -28480,18 +28493,153 @@ global.move = function (seconds) {
   }.bind(this), seconds * 1000);
 };
 
-global.goToHeight = function (heightSet) {
-  flightInteface.goToHeightIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-    var currentHeight, moveCommand, hoverCommand;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+global.turn = function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(direction, degree, power) {
+    var angle, speed, dest, min, max;
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context4.next = 2;
+            if (!power) {
+              _context6.next = 3;
+              break;
+            }
+
+            turnWithDirectionAndPower(direction, degree, power);
+            return _context6.abrupt('return');
+
+          case 3:
+
+            direction = direction == global.RIGHT ? 1 : -1;
+
+            _context6.next = 6;
+            return getGyroAngles();
+
+          case 6:
+            angle = _context6.sent;
+
+            console.log(direction);
+            speed = direction * 30;
+
+            console.log(speed);
+            dest = 360 + angle.yawDegree + degree * direction;
+
+            console.log(dest);
+            min = (dest - 5) % 360;
+
+            console.log(min);
+            max = (dest + 5) % 360;
+
+            console.log(max);
+
+            flightInteface.turnIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+              return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                while (1) {
+                  switch (_context5.prev = _context5.next) {
+                    case 0:
+                      setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                        var angle, hoverCommand, moveCommand;
+                        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                          while (1) {
+                            switch (_context4.prev = _context4.next) {
+                              case 0:
+                                _context4.next = 2;
+                                return getGyroAngles();
+
+                              case 2:
+                                angle = _context4.sent;
+
+                                if (min > max) {
+                                  if (min < angle.yawDegree || max > angle.yawDegree) {
+                                    clearInterval(flightInteface.turnIntevalId);
+                                    hoverCommand = new _hover2.default(1);
+
+                                    _commandManager.commandManager.addCommand(hoverCommand);
+                                  }
+                                } else {
+                                  if (min < angle.yawDegree && max > angle.yawDegree) {
+                                    clearInterval(flightInteface.turnIntevalId);
+                                    hoverCommand = new _hover2.default(1);
+
+                                    _commandManager.commandManager.addCommand(hoverCommand);
+                                  }
+                                }
+                                console.log('speed:' + speed);
+                                moveCommand = new _move2.default(0, 0, speed, 0);
+
+                                _commandManager.commandManager.addCommand(moveCommand);
+
+                              case 7:
+                              case 'end':
+                                return _context4.stop();
+                            }
+                          }
+                        }, _callee4, this);
+                      })).bind(this), 5);
+
+                    case 1:
+                    case 'end':
+                      return _context5.stop();
+                  }
+                }
+              }, _callee5, this);
+            })).bind(this), 10);
+
+          case 17:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, this);
+  }));
+
+  return function (_x, _x2, _x3) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+global.turnWithDirectionAndPower = function (direction, seconds, power) {
+  var y = power;
+  if (direction == global.LEFT) {
+    y *= -1;
+  }
+
+  flightInteface.turnWithDirectionAndPowerInterval = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+    var moveCommand;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            moveCommand = new _move2.default(0, 0, y, 0);
+
+            _commandManager.commandManager.addCommand(moveCommand);
+
+          case 2:
+          case 'end':
+            return _context7.stop();
+        }
+      }
+    }, _callee7, this);
+  })).bind(this), 10);
+
+  setTimeout(function () {
+    clearInterval(flightInteface.turnWithDirectionAndPowerInterval);
+    hover(1);
+  }.bind(this), seconds * 1000);
+};
+
+global.goToHeight = function (heightSet) {
+  flightInteface.goToHeightIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+    var currentHeight, moveCommand, hoverCommand;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.next = 2;
             return getHeight();
 
           case 2:
-            currentHeight = _context4.sent;
+            currentHeight = _context8.sent;
 
             console.log(currentHeight + "current height");
 
@@ -28500,13 +28648,11 @@ global.goToHeight = function (heightSet) {
               moveCommand = new _move2.default(0, 0, 0, 20);
 
               _commandManager.commandManager.addCommand(moveCommand);
-              //move(0,0,0,20);
             } else if (currentHeight > heightSet + 100) {
               console.log(currentHeight + "second if");
               moveCommand = new _move2.default(0, 0, 0, -20);
 
               _commandManager.commandManager.addCommand(moveCommand);
-              //move(0,0,0,-20);
             } else if (currentHeight > heightSet - 100 || currentHeight < heightSet + 100) {
               console.log(currentHeight + "out");
               hoverCommand = new _hover2.default();
@@ -28517,13 +28663,21 @@ global.goToHeight = function (heightSet) {
 
           case 5:
           case 'end':
-            return _context4.stop();
+            return _context8.stop();
         }
       }
-    }, _callee4, this);
+    }, _callee8, this);
   })).bind(this), 10);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+
+global.removeFlightIntervals = function () {
+  clearInterval(flightInteface.moveIntevalId);
+  clearInterval(flightInteface.turnIntevalId);
+  clearInterval(flightInteface.goToHeightIntevalId);
+  clearInterval(flightInteface.hoverIntevalId);
+  clearInterval(flightInteface.goIntevalId);
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 363 */
@@ -28538,7 +28692,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -28562,7 +28716,8 @@ var Move = function (_Command) {
     movePackage[0] = 16;
     movePackage[1] = roll;
     movePackage[2] = pitch;
-    movePackage[3] = throttle;
+    movePackage[3] = yaw;
+    movePackage[4] = throttle;
     return _possibleConstructorReturn(this, (Move.__proto__ || Object.getPrototypeOf(Move)).call(this, movePackage, ''));
   }
 
@@ -28611,7 +28766,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -28682,7 +28837,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -28802,7 +28957,7 @@ var Go = function (_Command) {
 }(_command2.default);
 
 exports.default = Go;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 366 */
@@ -28817,7 +28972,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -28888,7 +29043,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -28959,7 +29114,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -29030,7 +29185,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -29117,10 +29272,6 @@ var _getGyroAngles = __webpack_require__(375);
 
 var _getGyroAngles2 = _interopRequireDefault(_getGyroAngles);
 
-var _getAngularSpeed = __webpack_require__(376);
-
-var _getAngularSpeed2 = _interopRequireDefault(_getAngularSpeed);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 global.getBatteryPercentage = function () {
@@ -29157,14 +29308,7 @@ global.getPressure = function () {
    _commandManager.commandManager.addCommand(getPressure);
    return pressure;
 };
-
-global.getAngularSpeed = function () {
-   var getAngularSpeed = new _getAngularSpeed2.default();
-   var angularSpeed = _getAngularSpeed2.default.getValue();
-   _commandManager.commandManager.addCommand(getAngularSpeed);
-   return angularSpeed;
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 371 */
@@ -29179,11 +29323,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _sensorTypes = __webpack_require__(52);
+var _sensorTypes = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29268,11 +29412,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _sensorTypes = __webpack_require__(52);
+var _sensorTypes = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29354,11 +29498,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _sensorTypes = __webpack_require__(52);
+var _sensorTypes = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29442,11 +29586,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _sensorTypes = __webpack_require__(52);
+var _sensorTypes = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29528,11 +29672,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(15);
+var _command = __webpack_require__(19);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _sensorTypes = __webpack_require__(52);
+var _sensorTypes = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29558,7 +29702,7 @@ var GetGyroAngles = function (_Command) {
     key: 'run',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, gyroAngles, attitudeRoll, attitudePitch, attitudeYaw, event;
+        var value, arrayResult, gyroAngles, attitudeRoll, attitudePitch, attitudeYaw, yawDegree, event;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -29579,10 +29723,12 @@ var GetGyroAngles = function (_Command) {
                   attitudeRoll = arrayResult[2] << 8 | arrayResult[1] & 0xff;
                   attitudePitch = arrayResult[4] << 8 | arrayResult[3] & 0xff;
                   attitudeYaw = arrayResult[6] << 8 | arrayResult[5] & 0xff;
+                  yawDegree = attitudeYaw >= 0 ? attitudeYaw : 360 + attitudeYaw;
 
                   gyroAngles = { 'attitudeRoll': attitudeRoll,
                     'attitudePitch': attitudePitch,
-                    'attitudeYaw': attitudeYaw
+                    'attitudeYaw': attitudeYaw,
+                    'yawDegree': yawDegree
                   };
                 }
                 console.log(gyroAngles);
@@ -29616,97 +29762,11 @@ exports.default = GetGyroAngles;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _command = __webpack_require__(15);
-
-var _command2 = _interopRequireDefault(_command);
-
-var _sensorTypes = __webpack_require__(52);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var GetAngularSpeed = function (_Command) {
-  _inherits(GetAngularSpeed, _Command);
-
-  function GetAngularSpeed() {
-    _classCallCheck(this, GetAngularSpeed);
-
-    var sensorPackage = _sensorTypes.sensorAngularSpeed;
-    return _possibleConstructorReturn(this, (GetAngularSpeed.__proto__ || Object.getPrototypeOf(GetAngularSpeed)).call(this, sensorPackage, 'getAngularSpeed'));
-  }
-
-  _createClass(GetAngularSpeed, [{
-    key: 'run',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, pressureValue, event;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
-
-              case 2:
-                _context.next = 4;
-                return Code.readCharacteristic.readValue();
-
-              case 4:
-                value = _context.sent;
-                arrayResult = new Uint8Array(value.buffer);
-
-                console.log(arrayResult);
-                pressureValue = arrayResult[7] & 0xFF;
-                event = new CustomEvent(this.eventName, { detail: pressureValue });
-
-                dispatchEvent(event);
-
-              case 10:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function run() {
-        return _ref.apply(this, arguments);
-      }
-
-      return run;
-    }()
-  }]);
-
-  return GetAngularSpeed;
-}(_command2.default);
-
-exports.default = GetAngularSpeed;
-
-/***/ }),
-/* 377 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-__webpack_require__(378);
+__webpack_require__(377);
 
-var _lowBattery = __webpack_require__(379);
+var _lowBattery = __webpack_require__(378);
 
 var _lowBattery2 = _interopRequireDefault(_lowBattery);
 
@@ -29730,10 +29790,10 @@ global.onEvent = function (eventType, callback) {
 global.onKeyPressEvent = function (keyCode, callback) {
    _keyPressManager.keyPressManager.addKeyPressCode(keyCode, callback);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
-/* 378 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29793,10 +29853,10 @@ global.COLORS = {
 	Violet: 135,
 	Yellow: 139
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
-/* 379 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29877,10 +29937,10 @@ var LowBattery = function () {
 }();
 
 exports.default = LowBattery;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
-/* 380 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29896,7 +29956,7 @@ var _react = __webpack_require__(45);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(56);
+var _reactDom = __webpack_require__(55);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -30135,11 +30195,11 @@ var ConnectionBox = function (_Component) {
 exports.default = ConnectionBox;
 
 /***/ }),
-/* 381 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(global) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -30151,7 +30211,7 @@ var _react = __webpack_require__(45);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(56);
+var _reactDom = __webpack_require__(55);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -30222,12 +30282,13 @@ var Burger = function (_React$Component) {
   }, {
     key: "handleForceLandingClick",
     value: function handleForceLandingClick(el) {
-      if (Code.device != null) {} else {
-        $('.playButton').css('display', 'inline-block');
-        $('.forceLanding').css('display', 'none');
-        _eventManager.eventManager.removeAllEvents();
-        _keyPressManager.keyPressManager.removeKeyPressEvents();
-        //alert('CoDrone is not connected, please connect and try again.');
+      $('.playButton').css('display', 'inline-block');
+      $('.forceLanding').css('display', 'none');
+      _eventManager.eventManager.removeAllEvents();
+      _keyPressManager.keyPressManager.removeKeyPressEvents();
+      global.removeFlightIntervals();
+      if (Code.device != null) {
+        global.emergencyStop();
       }
     }
   }, {
@@ -30236,6 +30297,13 @@ var Burger = function (_React$Component) {
       $('.forceLanding').css('display', 'inline-block');
       $('.playButton').css('display', 'none');
       Code.runJS();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      $(document).on("stopExternalEvent", function () {
+        this.handleForceLandingClick();
+      }.bind(this));
     }
   }, {
     key: "render",
@@ -30334,9 +30402,10 @@ var Burger = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Burger;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
-/* 382 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30352,7 +30421,7 @@ var _react = __webpack_require__(45);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(56);
+var _reactDom = __webpack_require__(55);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -30424,8 +30493,36 @@ var ContentPython = function (_React$Component2) {
   return ContentPython;
 }(_react2.default.Component);
 
-var ContentSensor = function (_React$Component3) {
-  _inherits(ContentSensor, _React$Component3);
+var ContentArduino = function (_React$Component3) {
+  _inherits(ContentArduino, _React$Component3);
+
+  function ContentArduino() {
+    _classCallCheck(this, ContentArduino);
+
+    return _possibleConstructorReturn(this, (ContentArduino.__proto__ || Object.getPrototypeOf(ContentArduino)).apply(this, arguments));
+  }
+
+  _createClass(ContentArduino, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "content-panel content-5" },
+        _react2.default.createElement(
+          "h1",
+          { style: { textAlign: 'center' } },
+          "Arduino"
+        ),
+        _react2.default.createElement("pre", { id: "content_arduino", className: "content" })
+      );
+    }
+  }]);
+
+  return ContentArduino;
+}(_react2.default.Component);
+
+var ContentSensor = function (_React$Component4) {
+  _inherits(ContentSensor, _React$Component4);
 
   function ContentSensor() {
     _classCallCheck(this, ContentSensor);
@@ -30457,19 +30554,19 @@ var ContentSensor = function (_React$Component3) {
   return ContentSensor;
 }(_react2.default.Component);
 
-var Panel = function (_React$Component4) {
-  _inherits(Panel, _React$Component4);
+var Panel = function (_React$Component5) {
+  _inherits(Panel, _React$Component5);
 
   function Panel(props) {
     _classCallCheck(this, Panel);
 
-    var _this4 = _possibleConstructorReturn(this, (Panel.__proto__ || Object.getPrototypeOf(Panel)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (Panel.__proto__ || Object.getPrototypeOf(Panel)).call(this, props));
 
-    _this4.state = { isToggleOn: true };
+    _this5.state = { isToggleOn: true };
 
     // This binding is necessary to make `this` work in the callback
-    _this4.handleClick = _this4.handleClick.bind(_this4);
-    return _this4;
+    _this5.handleClick = _this5.handleClick.bind(_this5);
+    return _this5;
   }
 
   _createClass(Panel, [{
@@ -30545,13 +30642,15 @@ var Panel = function (_React$Component4) {
         ),
         _react2.default.createElement(
           "button",
-          { className: "show-right-panel", "data-panel-id": "4", onClick: this.handleClick },
-          "'S'"
+          { className: "show-right-panel", "data-panel-id": "5", onClick: this.handleClick },
+          _react2.default.createElement("img", { className: "arduino", src: "./images/icons/arduino_icon.png" }),
+          "Arduino"
         ),
         _react2.default.createElement(_ContentTutorials2.default, null),
         _react2.default.createElement(ContentJavascript, null),
         _react2.default.createElement(ContentPython, null),
-        _react2.default.createElement(ContentSensor, null)
+        _react2.default.createElement(ContentSensor, null),
+        _react2.default.createElement(ContentArduino, null)
       );
     }
   }]);
