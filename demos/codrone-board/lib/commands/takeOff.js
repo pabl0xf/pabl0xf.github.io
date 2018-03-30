@@ -8,6 +8,7 @@ export default class TakeOff extends Command {
   }
 
   async run(){
+    console.log('takeOff');
     await Code.writeCharacteristic.writeValue(this.package);
   }
 }

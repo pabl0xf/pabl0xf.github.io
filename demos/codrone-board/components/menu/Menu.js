@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { eventManager } from '../../lib/eventManager.js';
 import { keyPressManager } from '../../lib/keyPressManager.js';
+import { commandManager } from '../../lib/commandManager.js';
 
 class Burger extends React.Component {
   constructor(props) {
    super(props);
-   this.state = {isToggleOn: true};
+   var paramGet = location.search.split('debug=')[1];
+   this.state = {
+     isToggleOn: true,
+     debug: paramGet
+   };
 
    // This binding is necessary to make `this` work in the callback
    this.handleClick = this.handleClick.bind(this);
@@ -53,15 +58,19 @@ class Burger extends React.Component {
     eventManager.removeAllEvents();
     keyPressManager.removeKeyPressEvents();
     global.removeFlightIntervals();
+    commandManager.restartCommandConsumer();
     if (Code.device != null) {
          global.emergencyStop();
     }
   }
 
   handleRunClick(el) {
-      $('.forceLanding').css('display', 'inline-block');
-      $('.playButton').css('display', 'none');
-      Code.runJS();
+    if(!Code.device && !this.state.debug) {
+      alert('CoDrone is not connected!');
+      return;
+    }
+    $('.forceLanding').css('display', 'inline-block');
+    $('.playButton').css('display', 'none');
   }
 
   componentDidMount() {

@@ -769,7 +769,7 @@ button {
 
 .blocklyTreeLabel {
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: 100% 2px;
   margin-right: 4px;
   padding: 8px 0;
   padding-right: 40px;

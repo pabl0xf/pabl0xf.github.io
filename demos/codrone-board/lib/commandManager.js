@@ -16,15 +16,22 @@ class CommandManager {
       if(this.executionInProgress){
         return true;
       }
-      if(this.stack && this.stack.length>0){
+      if(this.stack && this.stack.length>0 && this.commandConsummerOn){
         let command = this.stack.shift();
         this.execute(command);
       }
     }.bind(this), 10);
   }
 
+  restartCommandConsumer(){
+    this.commandConsummerOn= false;
+    this.stack = [];
+    clearInterval(this.commandLoop);
+    this.initCommandConsumer();
+  }
+
   async execute (command){
-    console.log('execution start');
+    console.log('command in ready for execution...');
     this.executionInProgress = true;
     await command.run();
     this.executionInProgress = false;

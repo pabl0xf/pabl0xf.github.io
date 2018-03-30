@@ -12,7 +12,9 @@ class ConnectionBox extends Component {
    };
 
    // This binding is necessary to make `this` work in the callback
-   this.handleClick = this.handleClick.bind(this);
+   this.handlePair = this.handlePair.bind(this);
+   this.handleReconnect = this.handleReconnect.bind(this);
+   this.onDisconnected = this.onDisconnected.bind(this);
    this.closePannel = this.closePannel.bind(this);
    this.setThrottleSideways = this.setThrottleSideways.bind(this);
    this.setThrottle = this.setThrottle.bind(this);
@@ -46,7 +48,40 @@ class ConnectionBox extends Component {
     this.setState({roll: event.target.value});
   }
 
-  handleClick(el) {
+  connectDrone() {
+    Code.selectedDrone.gatt.connect().then(server => {
+            Code.device = server;
+            console.log('server', server);
+            Code.deviceConnected = server.device.name;
+
+            $('#scanButton').text('Disconnect');
+            $('#coDroneLabel').show();
+            $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
+            $('#forceLanding').prop( "disabled", false );
+            $('#connectMenu').addClass('connected');
+            $('.blocklyToolboxDiv').addClass('expand-connect');
+            var deviceName = server.device.name;
+            $('.petrone-id').text(deviceName);
+            return server.getPrimaryService(PRIMARY_SERVICE);
+        })
+        .then(service => {
+          Code.service = service;
+          return service.getCharacteristic(WRITE_CHARACTERISTIC);;
+        })
+        .then(characteristic => {
+           Code.writeCharacteristic = characteristic;
+           return Code.service.getCharacteristic(NOTIIFY_CHARACTERISTIC);;
+        })
+        .then(characteristic => {
+           Code.readCharacteristic = characteristic;
+        })
+        .catch(error => {
+            console.log('Argh! ' + error);
+            //alert(error);
+        });
+  }
+
+  handlePair(el) {
     if(Code.device){
         Code.device.disconnect();
         Code.device = null;
@@ -64,34 +99,11 @@ class ConnectionBox extends Component {
           })
           .then(device => {
               console.log('Connecting to GATT Server...');
-              return device.gatt.connect();
+              device.addEventListener('gattserverdisconnected', this.onDisconnected);
+              Code.selectedDrone = device;
+              this.connectDrone();
+              //return device.gatt.connect();
               console.log(device);
-          })
-          .then(server => {
-              Code.device = server;
-              console.log('server', server);
-              Code.deviceConnected = server.device.name;
-
-              $('#scanButton').text('Disconnect');
-              $('#coDroneLabel').show();
-              $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
-              $('#forceLanding').prop( "disabled", false );
-              $('#connectMenu').addClass('connected');
-              $('.blocklyToolboxDiv').addClass('expand-connect');
-              var deviceName = server.device.name;
-              $('.petrone-id').text(deviceName);
-              return server.getPrimaryService(PRIMARY_SERVICE);
-          })
-          .then(service => {
-            Code.service = service;
-            return service.getCharacteristic(WRITE_CHARACTERISTIC);;
-          })
-          .then(characteristic => {
-             Code.writeCharacteristic = characteristic;
-             return Code.service.getCharacteristic(NOTIIFY_CHARACTERISTIC);;
-          })
-          .then(characteristic => {
-             Code.readCharacteristic = characteristic;
           })
           .catch(error => {
               console.log('Argh! ' + error);
@@ -99,6 +111,16 @@ class ConnectionBox extends Component {
           });
 
         }
+  }
+
+  handleReconnect(){
+    if(Code.selectedDrone) {
+      this.connectDrone();
+    }
+  }
+
+  onDisconnected(){
+    this.handlePair();
   }
 
   closePannel(el) {
@@ -137,8 +159,8 @@ class ConnectionBox extends Component {
             </div>
           </div>
         </div>
-        <button type="button"  onClick={this.handleClick} id="scanButton" className="btn btn-default navbar-btn">Pair</button>
-        <button type="button" id="reconnectButton" className="btn btn-default navbar-btn">Pair with Previous</button>
+        <button type="button"  onClick={this.handlePair} id="scanButton" className="btn btn-default navbar-btn">Pair</button>
+        <button type="button"  onClick={this.handleReconnect} id="reconnectButton" className="btn btn-default navbar-btn">Pair with Previous</button>
         <div className="battery">
           <img className="" src="./images/icons/battery_full.svg"/>
           <span>100%</span>

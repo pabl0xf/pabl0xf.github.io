@@ -39,6 +39,7 @@ Code.LANGUAGE_NAME = {
 
 Code.eventListeners = [];
 Code.workspaceCurrentCode = '';
+commandManager.initCommandConsumer();
 
 var refreshTabCode = function(event) {
   if(event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE){
@@ -60,8 +61,6 @@ var refreshTabCode = function(event) {
                   type: 'stopExternalEvent',
                   message: ''
                 });
-
-
     }
     if (content.id == 'content_javascript') {
         content.textContent = code;
@@ -591,10 +590,6 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
-  console.log('remove js was called');
-  eventManager.removeAllEvents();
-  keyPressManager.removeKeyPressEvents();
-  commandManager.initCommandConsumer();
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
   var timeouts = 0;
   var checkTimeout = function() {

@@ -10,6 +10,7 @@ import EmergencyStop from '../commands/emergencyStop.js';
 var flightInteface = {};
 
 global.takeOff = function (){
+  console.log('take off interface');
   var takeOff = new TakeOff();
   commandManager.addCommand(takeOff);
 }
