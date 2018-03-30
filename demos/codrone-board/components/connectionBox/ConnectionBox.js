@@ -8,7 +8,8 @@ class ConnectionBox extends Component {
      isToggleOn: false,
      throttleSidewaysValue: 50,
      throttleValue: 50,
-     roll: 50
+     roll: 50,
+     pairButtonState: true
    };
 
    // This binding is necessary to make `this` work in the callback
@@ -102,8 +103,9 @@ class ConnectionBox extends Component {
               device.addEventListener('gattserverdisconnected', this.onDisconnected);
               Code.selectedDrone = device;
               this.connectDrone();
-              //return device.gatt.connect();
-              console.log(device);
+              this.setState({
+                pairButtonState: false
+              });
           })
           .catch(error => {
               console.log('Argh! ' + error);
@@ -160,7 +162,7 @@ class ConnectionBox extends Component {
           </div>
         </div>
         <button type="button"  onClick={this.handlePair} id="scanButton" className="btn btn-default navbar-btn">Pair</button>
-        <button type="button"  onClick={this.handleReconnect} id="reconnectButton" className="btn btn-default navbar-btn">Pair with Previous</button>
+        <button type="button"  onClick={this.handleReconnect} id="reconnectButton" className="btn btn-default navbar-btn" disabled={this.state.pairButtonState}>Pair with Previous</button>
         <div className="battery">
           <img className="" src="./images/icons/battery_full.svg"/>
           <span>100%</span>

@@ -29987,7 +29987,8 @@ var ConnectionBox = function (_Component) {
       isToggleOn: false,
       throttleSidewaysValue: 50,
       throttleValue: 50,
-      roll: 50
+      roll: 50,
+      pairButtonState: true
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -30084,8 +30085,9 @@ var ConnectionBox = function (_Component) {
           device.addEventListener('gattserverdisconnected', _this2.onDisconnected);
           Code.selectedDrone = device;
           _this2.connectDrone();
-          //return device.gatt.connect();
-          console.log(device);
+          _this2.setState({
+            pairButtonState: false
+          });
         }).catch(function (error) {
           console.log('Argh! ' + error);
           alert(error);
@@ -30206,7 +30208,7 @@ var ConnectionBox = function (_Component) {
         ),
         _react2.default.createElement(
           "button",
-          { type: "button", onClick: this.handleReconnect, id: "reconnectButton", className: "btn btn-default navbar-btn" },
+          { type: "button", onClick: this.handleReconnect, id: "reconnectButton", className: "btn btn-default navbar-btn", disabled: this.state.pairButtonState },
           "Pair with Previous"
         ),
         _react2.default.createElement(
