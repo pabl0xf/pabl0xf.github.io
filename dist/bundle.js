@@ -30341,6 +30341,7 @@ var Burger = function (_React$Component) {
       }
       $('.forceLanding').css('display', 'inline-block');
       $('.playButton').css('display', 'none');
+      Code.runJS();
     }
   }, {
     key: "componentDidMount",
