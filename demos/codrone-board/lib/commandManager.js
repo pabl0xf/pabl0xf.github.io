@@ -25,9 +25,13 @@ class CommandManager {
 
   restartCommandConsumer(){
     this.commandConsummerOn= false;
-    this.stack = [];
+    this.cleanStack();
     clearInterval(this.commandLoop);
     this.initCommandConsumer();
+  }
+
+  cleanStack(){
+    this.stack = [];
   }
 
   async execute (command){

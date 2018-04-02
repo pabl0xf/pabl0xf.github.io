@@ -31,7 +31,7 @@ export default class Go extends Command {
         packageToSend = this.package[1];
       break;
       case global.UP:
-        r = power;
+        r = this.power;
         packageToSend = this.package[2];
         break;
       break;

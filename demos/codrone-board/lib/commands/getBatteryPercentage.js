@@ -12,10 +12,7 @@ export default class GetBatteryPercentage extends Command {
     const value = await Code.readCharacteristic.readValue();
 
     var arrayResult = new Uint8Array(value.buffer);
-    console.log('Battery percentage is ' + arrayResult);
-    $('#testSensorBatteryLabel').show();
     let batteryPorcentageValue = arrayResult[7] & 0xFF;
-    $('#batteryPercentageValue').html(batteryPorcentageValue);
     var event = new CustomEvent(this.eventName, { detail: batteryPorcentageValue });
     dispatchEvent(event);
   }

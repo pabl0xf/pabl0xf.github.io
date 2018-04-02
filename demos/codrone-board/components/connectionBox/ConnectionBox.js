@@ -58,7 +58,6 @@ class ConnectionBox extends Component {
             $('#scanButton').text('Disconnect');
             $('#coDroneLabel').show();
             $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
-            $('#forceLanding').prop( "disabled", false );
             $('#connectMenu').addClass('connected');
             $('.blocklyToolboxDiv').addClass('expand-connect');
             var deviceName = server.device.name;
@@ -88,7 +87,6 @@ class ConnectionBox extends Component {
         Code.device = null;
         $('#scanButton').text('Connect');
         $('#coDroneLabel').hide();
-        $('#forceLanding').prop( "disabled", true );
         $('#connectMenu').removeClass('connected');
     }
     else{

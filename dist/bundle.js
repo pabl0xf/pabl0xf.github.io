@@ -2528,9 +2528,14 @@ var CommandManager = function () {
     key: 'restartCommandConsumer',
     value: function restartCommandConsumer() {
       this.commandConsummerOn = false;
-      this.stack = [];
+      this.cleanStack();
       clearInterval(this.commandLoop);
       this.initCommandConsumer();
+    }
+  }, {
+    key: 'cleanStack',
+    value: function cleanStack() {
+      this.stack = [];
     }
   }, {
     key: 'execute',
@@ -28408,8 +28413,15 @@ var flightInteface = {};
 
 global.takeOff = function () {
   console.log('take off interface');
-  var takeOff = new _takeOff2.default();
-  _commandManager.commandManager.addCommand(takeOff);
+  var promiseCommand = new Promise(function (resolve, reject) {
+    var takeOff = new _takeOff2.default();
+    _commandManager.commandManager.addCommand(takeOff);
+    setTimeout(function () {
+      resolve(1);
+    }.bind(this), 3000);
+  });
+
+  return promiseCommand;
 };
 
 global.rotate180 = function () {
@@ -28427,52 +28439,68 @@ global.emergencyStop = function () {
   _commandManager.commandManager.addCommand(emergencyStop);
 };
 
-global.go = function (direction, seconds, power) {
-  flightInteface.goIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var goCommand;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            goCommand = new _go2.default(direction, power);
+global.hover = function (seconds) {
+  var promiseCommand = new Promise(function (resolve, reject) {
+    console.log('------ hover command ----------');
+    flightInteface.intervalId = setInterval(function () {
+      var hoverCommand = new _hover2.default();
+      _commandManager.commandManager.addCommand(hoverCommand);
+    }.bind(this), 10);
 
-            _commandManager.commandManager.addCommand(goCommand);
+    setTimeout(function () {
+      clearInterval(flightInteface.intervalId);
+      _commandManager.commandManager.cleanStack();
+      resolve(1);
+    }.bind(this), seconds * 1000);
+  });
 
-          case 2:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  })).bind(this), 10);
-
-  setTimeout(function () {
-    clearInterval(flightInteface.goIntevalId);
-  }.bind(this), seconds * 1000);
+  return promiseCommand;
 };
 
-global.hover = function (seconds) {
-  flightInteface.hoverIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    var hoverCommand;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            hoverCommand = new _hover2.default();
+global.go = function (direction, seconds, power) {
+  console.log('------Go command: ' + direction + '----------');
+  var promiseCommand = new Promise(function (resolve, reject) {
+    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var goCommand;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              goCommand = new _go2.default(direction, power);
 
-            _commandManager.commandManager.addCommand(hoverCommand);
+              _commandManager.commandManager.addCommand(goCommand);
 
-          case 2:
-          case 'end':
-            return _context2.stop();
+            case 2:
+            case 'end':
+              return _context.stop();
+          }
         }
-      }
-    }, _callee2, this);
-  })).bind(this), 10);
+      }, _callee, this);
+    })).bind(this), 10);
 
-  setTimeout(function () {
-    clearInterval(flightInteface.hoverIntevalId);
-  }.bind(this), seconds * 1000);
+    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              clearInterval(flightInteface.intervalId);
+              _commandManager.commandManager.cleanStack();
+              _context2.next = 4;
+              return global.hover(1);
+
+            case 4:
+              resolve(1);
+
+            case 5:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })).bind(this), seconds * 1000);
+  });
+
+  return promiseCommand;
 };
 
 global.move = function (seconds) {
@@ -28680,8 +28708,7 @@ global.removeFlightIntervals = function () {
   clearInterval(flightInteface.moveIntevalId);
   clearInterval(flightInteface.turnIntevalId);
   clearInterval(flightInteface.goToHeightIntevalId);
-  clearInterval(flightInteface.hoverIntevalId);
-  clearInterval(flightInteface.goIntevalId);
+  clearInterval(flightInteface.intervalId);
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
@@ -28902,7 +28929,7 @@ var Go = function (_Command) {
                 return _context.abrupt('break', 24);
 
               case 11:
-                r = power;
+                r = this.power;
                 packageToSend = this.package[2];
                 return _context.abrupt('break', 24);
 
@@ -29375,17 +29402,12 @@ var GetBatteryPercentage = function (_Command) {
               case 4:
                 value = _context.sent;
                 arrayResult = new Uint8Array(value.buffer);
-
-                console.log('Battery percentage is ' + arrayResult);
-                $('#testSensorBatteryLabel').show();
                 batteryPorcentageValue = arrayResult[7] & 0xFF;
-
-                $('#batteryPercentageValue').html(batteryPorcentageValue);
                 event = new CustomEvent(this.eventName, { detail: batteryPorcentageValue });
 
                 dispatchEvent(event);
 
-              case 12:
+              case 9:
               case 'end':
                 return _context.stop();
             }
@@ -30043,7 +30065,6 @@ var ConnectionBox = function (_Component) {
         $('#scanButton').text('Disconnect');
         $('#coDroneLabel').show();
         $('#coDroneLabel').text(' Connected to ' + Code.deviceConnected);
-        $('#forceLanding').prop("disabled", false);
         $('#connectMenu').addClass('connected');
         $('.blocklyToolboxDiv').addClass('expand-connect');
         var deviceName = server.device.name;
@@ -30072,7 +30093,6 @@ var ConnectionBox = function (_Component) {
         Code.device = null;
         $('#scanButton').text('Connect');
         $('#coDroneLabel').hide();
-        $('#forceLanding').prop("disabled", true);
         $('#connectMenu').removeClass('connected');
       } else {
         console.log('Requesting any Bluetooth Device...');

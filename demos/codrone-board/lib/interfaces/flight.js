@@ -11,8 +11,15 @@ var flightInteface = {};
 
 global.takeOff = function (){
   console.log('take off interface');
-  var takeOff = new TakeOff();
-  commandManager.addCommand(takeOff);
+  var promiseCommand = new Promise(function(resolve, reject) {
+    var takeOff = new TakeOff();
+    commandManager.addCommand(takeOff);
+    setTimeout(function(){
+        resolve(1);
+      }.bind(this), 3000);
+  });
+
+  return promiseCommand;
 }
 
 global.rotate180 = function(){
@@ -30,26 +37,41 @@ global.emergencyStop = function (){
   commandManager.addCommand(emergencyStop);
 }
 
-global.go = function (direction, seconds, power){
-  flightInteface.goIntevalId = setInterval(async function() {
-      var goCommand = new Go(direction, power);
-      commandManager.addCommand(goCommand);
-    }.bind(this), 10);
-
-    setTimeout(function() {
-      clearInterval(flightInteface.goIntevalId);
-    }.bind(this), seconds * 1000);
-}
-
 global.hover = function (seconds){
-  flightInteface.hoverIntevalId = setInterval(async function() {
+  var promiseCommand = new Promise(function(resolve, reject) {
+  console.log('------ hover command ----------');
+  flightInteface.intervalId = setInterval(function() {
       var hoverCommand = new Hover();
       commandManager.addCommand(hoverCommand);
     }.bind(this), 10);
 
     setTimeout(function() {
-      clearInterval(flightInteface.hoverIntevalId);
+      clearInterval(flightInteface.intervalId);
+      commandManager.cleanStack();
+      resolve(1);
     }.bind(this), seconds * 1000);
+  });
+
+  return promiseCommand;
+}
+
+global.go = function (direction, seconds, power){
+  console.log('------Go command: '+direction+'----------')
+  var promiseCommand = new Promise(function(resolve, reject) {
+    flightInteface.intervalId= setInterval(async function() {
+        var goCommand = new Go(direction, power);
+        commandManager.addCommand(goCommand);
+      }.bind(this), 10);
+
+      setTimeout(async function() {
+        clearInterval(flightInteface.intervalId);
+        commandManager.cleanStack();
+        await global.hover(1);
+        resolve(1);
+      }.bind(this), seconds * 1000);
+  });
+
+  return promiseCommand;
 }
 
 global.move = function (seconds){
@@ -157,6 +179,5 @@ global.removeFlightIntervals = function(){
     clearInterval(flightInteface.moveIntevalId);
     clearInterval(flightInteface.turnIntevalId);
     clearInterval(flightInteface.goToHeightIntevalId);
-    clearInterval(flightInteface.hoverIntevalId);
-    clearInterval(flightInteface.goIntevalId);
+    clearInterval(flightInteface.intervalId);
 }
