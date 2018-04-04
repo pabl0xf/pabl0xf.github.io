@@ -431,7 +431,7 @@ var Command = function () {
   }
 
   _createClass(Command, [{
-    key: "run",
+    key: 'run',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -441,7 +441,7 @@ var Command = function () {
                 console.log(this.package);
 
               case 1:
-              case "end":
+              case 'end':
                 return _context.stop();
             }
           }
@@ -455,29 +455,64 @@ var Command = function () {
       return run;
     }()
   }, {
-    key: "getValue",
+    key: 'sendBLECommand',
     value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(packageValue) {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                return _context2.abrupt("return", new Promise(function (resolve, reject) {
+                console.log('---- Running command: ' + this.eventName);
+                _context2.prev = 1;
+                return _context2.abrupt('return', Code.writeCharacteristic.writeValue(packageValue));
+
+              case 5:
+                _context2.prev = 5;
+                _context2.t0 = _context2['catch'](1);
+
+                console.log('error in command ' + eventName);
+                if (_context2.t0) {
+                  console.log(_context2.t0);
+                }
+
+              case 9:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[1, 5]]);
+      }));
+
+      function sendBLECommand(_x) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return sendBLECommand;
+    }()
+  }, {
+    key: 'getValue',
+    value: function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt('return', new Promise(function (resolve, reject) {
                   addEventListener(this.eventName, function (e) {
                     resolve(e.detail);
                   }, false);
                 }.bind(this)));
 
               case 1:
-              case "end":
-                return _context2.stop();
+              case 'end':
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function getValue() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return getValue;
@@ -2506,12 +2541,12 @@ var CommandManager = function () {
   }
 
   _createClass(CommandManager, [{
-    key: 'addCommand',
+    key: "addCommand",
     value: function addCommand(command) {
       this.stack.push(command);
     }
   }, {
-    key: 'initCommandConsumer',
+    key: "initCommandConsumer",
     value: function initCommandConsumer() {
       this.commandConsummerOn = true;
       this.commandLoop = setInterval(function () {
@@ -2525,7 +2560,7 @@ var CommandManager = function () {
       }.bind(this), 10);
     }
   }, {
-    key: 'restartCommandConsumer',
+    key: "restartCommandConsumer",
     value: function restartCommandConsumer() {
       this.commandConsummerOn = false;
       this.cleanStack();
@@ -2533,28 +2568,27 @@ var CommandManager = function () {
       this.initCommandConsumer();
     }
   }, {
-    key: 'cleanStack',
+    key: "cleanStack",
     value: function cleanStack() {
       this.stack = [];
     }
   }, {
-    key: 'execute',
+    key: "execute",
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(command) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('command in ready for execution...');
                 this.executionInProgress = true;
-                _context.next = 4;
+                _context.next = 3;
                 return command.run();
 
-              case 4:
+              case 3:
                 this.executionInProgress = false;
 
-              case 5:
-              case 'end':
+              case 4:
+              case "end":
                 return _context.stop();
             }
           }
@@ -28412,12 +28446,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var flightInteface = {};
 
 global.takeOff = function () {
-  console.log('take off interface');
   var promiseCommand = new Promise(function (resolve, reject) {
     var takeOff = new _takeOff2.default();
     _commandManager.commandManager.addCommand(takeOff);
     setTimeout(function () {
-      resolve(1);
+      resolve();
     }.bind(this), 3000);
   });
 
@@ -28441,16 +28474,28 @@ global.emergencyStop = function () {
 
 global.hover = function (seconds) {
   var promiseCommand = new Promise(function (resolve, reject) {
-    console.log('------ hover command ----------');
     flightInteface.intervalId = setInterval(function () {
       var hoverCommand = new _hover2.default();
       _commandManager.commandManager.addCommand(hoverCommand);
-    }.bind(this), 10);
+    }.bind(this), 20);
 
     setTimeout(function () {
       clearInterval(flightInteface.intervalId);
       _commandManager.commandManager.cleanStack();
-      resolve(1);
+      setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                resolve();
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })).bind(this), 500);
     }.bind(this), seconds * 1000);
   });
 
@@ -28458,13 +28503,12 @@ global.hover = function (seconds) {
 };
 
 global.go = function (direction, seconds, power) {
-  console.log('------Go command: ' + direction + '----------');
   var promiseCommand = new Promise(function (resolve, reject) {
-    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       var goCommand;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               goCommand = new _go2.default(direction, power);
 
@@ -28472,31 +28516,44 @@ global.go = function (direction, seconds, power) {
 
             case 2:
             case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })).bind(this), 10);
-
-    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              clearInterval(flightInteface.intervalId);
-              _commandManager.commandManager.cleanStack();
-              _context2.next = 4;
-              return global.hover(1);
-
-            case 4:
-              resolve(1);
-
-            case 5:
-            case 'end':
               return _context2.stop();
           }
         }
       }, _callee2, this);
+    })).bind(this), 20);
+
+    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              clearInterval(flightInteface.intervalId);
+              _commandManager.commandManager.cleanStack();
+              _context4.next = 4;
+              return global.hover(1);
+
+            case 4:
+              setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        resolve();
+
+                      case 1:
+                      case 'end':
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3, this);
+              })).bind(this), 500);
+
+            case 5:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
     })).bind(this), seconds * 1000);
   });
 
@@ -28504,11 +28561,11 @@ global.go = function (direction, seconds, power) {
 };
 
 global.move = function (seconds) {
-  flightInteface.moveIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+  flightInteface.moveIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
     var moveCommand;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             moveCommand = new _move2.default();
 
@@ -28516,10 +28573,10 @@ global.move = function (seconds) {
 
           case 2:
           case 'end':
-            return _context3.stop();
+            return _context5.stop();
         }
       }
-    }, _callee3, this);
+    }, _callee5, this);
   })).bind(this), 10);
 
   setTimeout(function () {
@@ -28528,29 +28585,29 @@ global.move = function (seconds) {
 };
 
 global.turn = function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(direction, degree, power) {
-    var angle, speed, dest, min, max;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(direction, degree, power) {
+    var angle, speed, dest, min, max, promiseCommand;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             if (!power) {
-              _context6.next = 3;
+              _context7.next = 3;
               break;
             }
 
             turnWithDirectionAndPower(direction, degree, power);
-            return _context6.abrupt('return');
+            return _context7.abrupt('return');
 
           case 3:
 
             direction = direction == global.RIGHT ? 1 : -1;
 
-            _context6.next = 6;
+            _context7.next = 6;
             return getGyroAngles();
 
           case 6:
-            angle = _context6.sent;
+            angle = _context7.sent;
 
             console.log(direction);
             speed = direction * 30;
@@ -28566,69 +28623,84 @@ global.turn = function () {
 
             console.log(max);
 
-            flightInteface.turnIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-              return regeneratorRuntime.wrap(function _callee5$(_context5) {
-                while (1) {
-                  switch (_context5.prev = _context5.next) {
-                    case 0:
-                      setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-                        var angle, hoverCommand, moveCommand;
-                        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-                          while (1) {
-                            switch (_context4.prev = _context4.next) {
-                              case 0:
-                                _context4.next = 2;
-                                return getGyroAngles();
+            promiseCommand = new Promise(function (resolve, reject) {
+              flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                var angle, moveCommand;
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                  while (1) {
+                    switch (_context6.prev = _context6.next) {
+                      case 0:
+                        _context6.next = 2;
+                        return getGyroAngles();
 
-                              case 2:
-                                angle = _context4.sent;
+                      case 2:
+                        angle = _context6.sent;
 
-                                if (min > max) {
-                                  if (min < angle.yawDegree || max > angle.yawDegree) {
-                                    clearInterval(flightInteface.turnIntevalId);
-                                    hoverCommand = new _hover2.default(1);
+                        if (!(min > max)) {
+                          _context6.next = 12;
+                          break;
+                        }
 
-                                    _commandManager.commandManager.addCommand(hoverCommand);
-                                  }
-                                } else {
-                                  if (min < angle.yawDegree && max > angle.yawDegree) {
-                                    clearInterval(flightInteface.turnIntevalId);
-                                    hoverCommand = new _hover2.default(1);
+                        if (!(min < angle.yawDegree || max > angle.yawDegree)) {
+                          _context6.next = 10;
+                          break;
+                        }
 
-                                    _commandManager.commandManager.addCommand(hoverCommand);
-                                  }
-                                }
-                                console.log('speed:' + speed);
-                                moveCommand = new _move2.default(0, 0, speed, 0);
+                        clearInterval(flightInteface.intervalId);
+                        _commandManager.commandManager.cleanStack();
+                        _context6.next = 9;
+                        return global.hover(1);
 
-                                _commandManager.commandManager.addCommand(moveCommand);
+                      case 9:
+                        resolve();
 
-                              case 7:
-                              case 'end':
-                                return _context4.stop();
-                            }
-                          }
-                        }, _callee4, this);
-                      })).bind(this), 5);
+                      case 10:
+                        _context6.next = 18;
+                        break;
 
-                    case 1:
-                    case 'end':
-                      return _context5.stop();
+                      case 12:
+                        if (!(min < angle.yawDegree && max > angle.yawDegree)) {
+                          _context6.next = 18;
+                          break;
+                        }
+
+                        clearInterval(flightInteface.intervalId);
+                        _commandManager.commandManager.cleanStack();
+                        _context6.next = 17;
+                        return global.hover(1);
+
+                      case 17:
+                        resolve();
+
+                      case 18:
+
+                        //time out after 3 sec
+
+                        console.log('speed:' + speed);
+                        moveCommand = new _move2.default(0, 0, speed, 0);
+
+                        _commandManager.commandManager.addCommand(moveCommand);
+
+                      case 21:
+                      case 'end':
+                        return _context6.stop();
+                    }
                   }
-                }
-              }, _callee5, this);
-            })).bind(this), 10);
+                }, _callee6, this);
+              })).bind(this), 20);
+            });
+            return _context7.abrupt('return', promiseCommand);
 
-          case 17:
+          case 18:
           case 'end':
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, this);
+    }, _callee7, this);
   }));
 
   return function (_x, _x2, _x3) {
-    return _ref4.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 
@@ -28638,11 +28710,11 @@ global.turnWithDirectionAndPower = function (direction, seconds, power) {
     y *= -1;
   }
 
-  flightInteface.turnWithDirectionAndPowerInterval = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+  flightInteface.turnWithDirectionAndPowerInterval = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
     var moveCommand;
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
             moveCommand = new _move2.default(0, 0, y, 0);
 
@@ -28650,10 +28722,10 @@ global.turnWithDirectionAndPower = function (direction, seconds, power) {
 
           case 2:
           case 'end':
-            return _context7.stop();
+            return _context8.stop();
         }
       }
-    }, _callee7, this);
+    }, _callee8, this);
   })).bind(this), 10);
 
   setTimeout(function () {
@@ -28663,17 +28735,17 @@ global.turnWithDirectionAndPower = function (direction, seconds, power) {
 };
 
 global.goToHeight = function (heightSet) {
-  flightInteface.goToHeightIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+  flightInteface.goToHeightIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
     var currentHeight, moveCommand, hoverCommand;
-    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
-            _context8.next = 2;
+            _context9.next = 2;
             return getHeight();
 
           case 2:
-            currentHeight = _context8.sent;
+            currentHeight = _context9.sent;
 
             console.log(currentHeight + "current height");
 
@@ -28697,10 +28769,10 @@ global.goToHeight = function (heightSet) {
 
           case 5:
           case 'end':
-            return _context8.stop();
+            return _context9.stop();
         }
       }
-    }, _callee8, this);
+    }, _callee9, this);
   })).bind(this), 10);
 };
 
@@ -28822,7 +28894,7 @@ var TakeOff = function (_Command) {
     _classCallCheck(this, TakeOff);
 
     var packageTakeoff = _flyEventsTypes.bytesTakeOff;
-    return _possibleConstructorReturn(this, (TakeOff.__proto__ || Object.getPrototypeOf(TakeOff)).call(this, packageTakeoff, ''));
+    return _possibleConstructorReturn(this, (TakeOff.__proto__ || Object.getPrototypeOf(TakeOff)).call(this, packageTakeoff, 'takeOff command'));
   }
 
   _createClass(TakeOff, [{
@@ -28833,11 +28905,10 @@ var TakeOff = function (_Command) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('takeOff');
-                _context.next = 3;
-                return Code.writeCharacteristic.writeValue(this.package);
+                _context.next = 2;
+                return this.sendBLECommand(this.package);
 
-              case 3:
+              case 2:
               case 'end':
                 return _context.stop();
             }
@@ -28895,7 +28966,7 @@ var Go = function (_Command) {
 
     var packagesFly = [_flyEventsTypes.bytesFlyForward, _flyEventsTypes.bytesFlyBackward, _flyEventsTypes.bytesFlyUp, _flyEventsTypes.bytesFlyDown, _flyEventsTypes.bytesFlyLeft, _flyEventsTypes.bytesFlyRight];
 
-    var _this = _possibleConstructorReturn(this, (Go.__proto__ || Object.getPrototypeOf(Go)).call(this, packagesFly, ''));
+    var _this = _possibleConstructorReturn(this, (Go.__proto__ || Object.getPrototypeOf(Go)).call(this, packagesFly, 'go - direction: ' + direction + ' power: ' + power));
 
     _this.direction = direction;
     _this.power = power;
@@ -28961,7 +29032,7 @@ var Go = function (_Command) {
                 goWithPowerPackage[3] = 0;
                 goWithPowerPackage[4] = t;
                 _context.next = 32;
-                return Code.writeCharacteristic.writeValue(goWithPowerPackage);
+                return this.sendBLECommand(goWithPowerPackage);
 
               case 32:
                 _context.next = 36;
@@ -28969,7 +29040,7 @@ var Go = function (_Command) {
 
               case 34:
                 _context.next = 36;
-                return Code.writeCharacteristic.writeValue(packageToSend);
+                return this.sendBLECommand(packageToSend);
 
               case 36:
               case 'end':
@@ -29029,7 +29100,7 @@ var Hover = function (_Command) {
     _classCallCheck(this, Hover);
 
     var packageHover = _flyEventsTypes.bytesHover;
-    return _possibleConstructorReturn(this, (Hover.__proto__ || Object.getPrototypeOf(Hover)).call(this, packageHover, ''));
+    return _possibleConstructorReturn(this, (Hover.__proto__ || Object.getPrototypeOf(Hover)).call(this, packageHover, 'hover command'));
   }
 
   _createClass(Hover, [{
@@ -29041,7 +29112,7 @@ var Hover = function (_Command) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
+                return this.sendBLECommand(this.package);
 
               case 2:
               case 'end':
