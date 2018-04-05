@@ -4,10 +4,10 @@ import { bytesHover } from '../types/flyEventsTypes.js';
 export default class Hover extends Command {
   constructor(){
       var packageHover = bytesHover;
-      super(packageHover, '');
+      super(packageHover, 'hover command');
   }
 
   async run(){
-    await Code.writeCharacteristic.writeValue(this.package);
+    await this.sendBLECommand(this.package);
   }
 }

@@ -35,7 +35,6 @@ class CommandManager {
   }
 
   async execute (command){
-    console.log('command in ready for execution...');
     this.executionInProgress = true;
     await command.run();
     this.executionInProgress = false;

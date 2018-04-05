@@ -27,12 +27,13 @@ global.CRASH = 2;
 global.UPSIDE_DOWN = 3;
 global.LOW_BATTERY = 'LowBattery';
 
-global.BACKWARD = 1;
-global.FORWARD = 2;
-global.UP = 3;
-global.DOWN = 4;
-global.LEFT = 5;
-global.RIGHT = 6;
+
+global.LEFT = -1; // -1
+global.RIGHT = 1; // 1
+global.BACKWARD = 2;
+global.FORWARD = 3;
+global.UP = 4;
+global.DOWN = 5;
 
 global.BACKSPACE = 8;
 global.ENTER = 13;

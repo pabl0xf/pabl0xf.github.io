@@ -4,11 +4,10 @@ import { bytesTakeOff } from '../types/flyEventsTypes.js';
 export default class TakeOff extends Command {
   constructor(){
       var packageTakeoff = bytesTakeOff;
-      super(packageTakeoff, '');
+      super(packageTakeoff, 'takeOff command');
   }
 
   async run(){
-    console.log('takeOff');
-    await Code.writeCharacteristic.writeValue(this.package);
+    await this.sendBLECommand(this.package);
   }
 }

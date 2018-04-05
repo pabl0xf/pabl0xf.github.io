@@ -10,7 +10,7 @@ export default class Go extends Command {
   constructor(direction, power){
       var packagesFly = [bytesFlyForward, bytesFlyBackward,
             bytesFlyUp, bytesFlyDown, bytesFlyLeft, bytesFlyRight];
-      super(packagesFly, '');
+      super(packagesFly, 'go - direction: '+direction + ' power: '+power);
       this.direction = direction;
       this.power = power;
   }
@@ -55,10 +55,10 @@ export default class Go extends Command {
       goWithPowerPackage[2] = p;
       goWithPowerPackage[3] = 0;
       goWithPowerPackage[4] = t
-      await Code.writeCharacteristic.writeValue(goWithPowerPackage);
+      await this.sendBLECommand(goWithPowerPackage);
     }
     else {
-      await Code.writeCharacteristic.writeValue(packageToSend);
+      await this.sendBLECommand(packageToSend);
     }
   }
 }

@@ -1,23 +1,21 @@
 //Generic
-var sensorType = new Uint8Array(3);
-sensorType[0] = 17;
-sensorType[1] = 144;
+var SensorArray = function (payload){
+  var sensorType = new Uint8Array(3);
+  sensorType[0] = 17;
+  sensorType[1] = 144;
+  sensorType[2] = payload;
+  return sensorType;
+}
 
 //Set last bit use by different sensors
-sensorType[2] = 49;
-exports.sensorBattery = sensorType;
+exports.sensorAngles = SensorArray(50);
 
-sensorType[2] = 50;
-exports.sensorAngles = sensorType;
+exports.sensorBattery = SensorArray(49);
 
-sensorType[2] = 84;
-exports.sensorBatteryVoltage = sensorType;
+exports.sensorBatteryVoltage = SensorArray(84);
 
-sensorType[2] = 87;
-exports.sensorHeight = sensorType;
+exports.sensorHeight = SensorArray(87);
 
-sensorType[2] = 81;
-exports.sensorPressure = sensorType;
+exports.sensorPressure = SensorArray(81);
 
-sensorType[2] = 80;
-exports.sensorAngularSpeed = sensorType;
+exports.sensorAngularSpeed = SensorArray(80);

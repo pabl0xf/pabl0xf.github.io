@@ -10,12 +10,11 @@ import EmergencyStop from '../commands/emergencyStop.js';
 var flightInteface = {};
 
 global.takeOff = function (){
-  console.log('take off interface');
   var promiseCommand = new Promise(function(resolve, reject) {
     var takeOff = new TakeOff();
     commandManager.addCommand(takeOff);
     setTimeout(function(){
-        resolve(1);
+        resolve();
       }.bind(this), 3000);
   });
 
@@ -39,16 +38,17 @@ global.emergencyStop = function (){
 
 global.hover = function (seconds){
   var promiseCommand = new Promise(function(resolve, reject) {
-  console.log('------ hover command ----------');
   flightInteface.intervalId = setInterval(function() {
       var hoverCommand = new Hover();
       commandManager.addCommand(hoverCommand);
-    }.bind(this), 10);
+    }.bind(this), 20);
 
     setTimeout(function() {
       clearInterval(flightInteface.intervalId);
       commandManager.cleanStack();
-      resolve(1);
+      setTimeout(function() {
+        resolve();
+      }.bind(this), 500);
     }.bind(this), seconds * 1000);
   });
 
@@ -56,33 +56,32 @@ global.hover = function (seconds){
 }
 
 global.go = function (direction, seconds, power){
-  console.log('------Go command: '+direction+'----------')
   var promiseCommand = new Promise(function(resolve, reject) {
     flightInteface.intervalId= setInterval(async function() {
         var goCommand = new Go(direction, power);
         commandManager.addCommand(goCommand);
-      }.bind(this), 10);
+      }.bind(this), 20);
 
       setTimeout(async function() {
         clearInterval(flightInteface.intervalId);
         commandManager.cleanStack();
         await global.hover(1);
-        resolve(1);
+          setTimeout(async function() {
+            resolve();
+          }.bind(this), 500);
       }.bind(this), seconds * 1000);
   });
 
   return promiseCommand;
 }
 
-global.move = function (seconds){
-  flightInteface.moveIntevalId = setInterval(async function() {
-      var moveCommand = new Move();
+global.move = function (pitch, roll, yaw, throttle){
+  var promiseCommand = new Promise(function(resolve, reject) {
+      var moveCommand = new Move(pitch, roll, yaw, throttle);
       commandManager.addCommand(moveCommand);
-    }.bind(this), 10);
+  });
 
-    setTimeout(function() {
-      clearInterval(flightInteface.moveIntevalId);
-    }.bind(this), seconds * 1000);
+  return promiseCommand;
 }
 
 global.turn = async function (direction, degree, power){
@@ -92,43 +91,52 @@ global.turn = async function (direction, degree, power){
     return;
   }
 
-  direction = (direction == global.RIGHT ? 1 : -1);
-
   var angle = await getGyroAngles();
-  console.log(direction);
-	var speed = direction * 30;
-  console.log(speed);
+  console.log('Initial yawDegree:' + angle.yawDegree);
+
+  var speed = direction * 30;
+
 	var dest = 360 + angle.yawDegree + degree * direction;
-  console.log(dest);
+
 	var min = (dest - 5)%360;
-  console.log(min);
+
 	var max = (dest + 5)%360;
-  console.log(max);
 
-  flightInteface.turnIntevalId = setInterval(async function() {
-    setTimeout(async function(){
-      var angle = await getGyroAngles();
-      		if(min>max){
-      			if(min<angle.yawDegree || max>angle.yawDegree) {
-              clearInterval(flightInteface.turnIntevalId);
-              var hoverCommand = new Hover(1);
-              commandManager.addCommand(hoverCommand);
-            }
-      		}
-      		else {
-      			if(min<angle.yawDegree && max>angle.yawDegree) {
-              clearInterval(flightInteface.turnIntevalId);
-              var hoverCommand = new Hover(1);
-              commandManager.addCommand(hoverCommand);
-            }
 
-      		}
-          console.log('speed:' + speed);
-          var moveCommand = new Move(0,0,speed,0);
-          commandManager.addCommand(moveCommand);
+  var promiseCommand = new Promise(function(resolve, reject) {
+    flightInteface.intervalId = setInterval(async function() {
+        var angle = await getGyroAngles();
+        		if(min>max){
+            //  console.log('First big if');
+        			if(min<angle.yawDegree || max>angle.yawDegree) {
+                clearInterval(flightInteface.intervalId);
+                commandManager.cleanStack();
+                await global.hover(1);
+                resolve();
+              }
+        		}
+        		else {
+            //  console.log('Big else');
+              console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
+            //  console.log('max:' + max);
+        			if(min<angle.yawDegree && max>angle.yawDegree) {
+                clearInterval(flightInteface.intervalId);
+                commandManager.cleanStack();
+                await global.hover(1);
+                resolve();
+              }
+        		}
 
-      }.bind(this), 5);
-   }.bind(this), 10);
+            //time out after 3 sec
+
+            console.log('speed:' + speed);
+            var moveCommand = new Move(0,0,speed,0);
+            commandManager.addCommand(moveCommand);
+     }.bind(this), 10);
+
+   });
+
+   return promiseCommand;
 }
 
 
