@@ -28556,7 +28556,7 @@ global.move = function (pitch, roll, yaw, throttle) {
   return promiseCommand;
 };
 
-global.turn = function () {
+global.turnDegree = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(direction, degree, power) {
     var angle, speed, dest, min, max, promiseCommand;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
@@ -29902,6 +29902,24 @@ global.FORWARD = 3;
 global.UP = 4;
 global.DOWN = 5;
 
+global.DEGREE = {
+  'DEGREE.ANGLE_30': 30,
+  'DEGREE.ANGLE_45': 45,
+  'DEGREE.ANGLE_60': 60,
+  'DEGREE.ANGLE_90': 90,
+  'DEGREE.ANGLE_120': 120,
+  'DEGREE.ANGLE_135': 135,
+  'DEGREE.ANGLE_150': 150,
+  'DEGREE.ANGLE_180': 180,
+  'DEGREE.ANGLE_210': 210,
+  'DEGREE.ANGLE_225': 225,
+  'DEGREE.ANGLE_240': 240,
+  'DEGREE.ANGLE_270': 270,
+  'DEGREE.ANGLE_300': 300,
+  'DEGREE.ANGLE_315': 315,
+  'DEGREE.ANGLE_330': 330
+};
+
 global.BACKSPACE = 8;
 global.ENTER = 13;
 
@@ -29912,13 +29930,13 @@ global.PREFIX_EVENTS = 'on';
 global.KEYPRESS_EVENT = 'whenKeyPress';
 
 global.COLORS = {
-	Blue: 9,
-	Green: 51,
-	Indigo: 56,
-	Orange: 99,
-	Red: 114,
-	Violet: 135,
-	Yellow: 139
+  Blue: 9,
+  Green: 51,
+  Indigo: 56,
+  Orange: 99,
+  Red: 114,
+  Violet: 135,
+  Yellow: 139
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 

@@ -84,7 +84,7 @@ global.move = function (pitch, roll, yaw, throttle){
   return promiseCommand;
 }
 
-global.turn = async function (direction, degree, power){
+global.turnDegree = async function (direction, degree, power){
 
   if(power){
     turnWithDirectionAndPower(direction, degree, power);
