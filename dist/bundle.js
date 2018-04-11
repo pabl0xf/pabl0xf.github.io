@@ -28593,7 +28593,7 @@ global.turnDegree = function () {
             console.log('Initial yawDegree:' + angle.yawDegree);
 
             speed = direction * 30;
-            dest = 360 + angle.yawDegree + degree * direction;
+            dest = 360 + angle.yawDegree + parseInt(degree) * direction;
             min = (dest - 5) % 360;
             max = (dest + 5) % 360;
             promiseCommand = new Promise(function (resolve, reject) {
@@ -28609,47 +28609,30 @@ global.turnDegree = function () {
                       case 2:
                         angle = _context4.sent;
 
-                        if (!(min > max)) {
-                          _context4.next = 12;
-                          break;
+                        if (min > max) {
+                          //  console.log('First big if');
+                          if (min < angle.yawDegree || max > angle.yawDegree) {
+
+                            clearInterval(flightInteface.intervalId);
+                            _commandManager.commandManager.cleanStack();
+                            emergencyStop();
+                            //await global.hover(1);
+                            resolve();
+                          }
+                        } else {
+
+                          //  console.log('Big else');
+                          console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
+                          //  console.log('max:' + max);
+                          if (min < angle.yawDegree && max > angle.yawDegree) {
+                            console.log('out 2');
+                            clearInterval(flightInteface.intervalId);
+                            _commandManager.commandManager.cleanStack();
+                            emergencyStop();
+                            //await global.hover(1);
+                            resolve();
+                          }
                         }
-
-                        if (!(min < angle.yawDegree || max > angle.yawDegree)) {
-                          _context4.next = 10;
-                          break;
-                        }
-
-                        clearInterval(flightInteface.intervalId);
-                        _commandManager.commandManager.cleanStack();
-                        _context4.next = 9;
-                        return global.hover(1);
-
-                      case 9:
-                        resolve();
-
-                      case 10:
-                        _context4.next = 19;
-                        break;
-
-                      case 12:
-                        //  console.log('Big else');
-                        console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
-                        //  console.log('max:' + max);
-
-                        if (!(min < angle.yawDegree && max > angle.yawDegree)) {
-                          _context4.next = 19;
-                          break;
-                        }
-
-                        clearInterval(flightInteface.intervalId);
-                        _commandManager.commandManager.cleanStack();
-                        _context4.next = 18;
-                        return global.hover(1);
-
-                      case 18:
-                        resolve();
-
-                      case 19:
 
                         //time out after 3 sec
 
@@ -28658,7 +28641,7 @@ global.turnDegree = function () {
 
                         _commandManager.commandManager.addCommand(moveCommand);
 
-                      case 22:
+                      case 7:
                       case 'end':
                         return _context4.stop();
                     }
@@ -28719,45 +28702,27 @@ global.turn = function (direction, seconds, power) {
 };
 
 global.goToHeight = function (heightSet) {
-  flightInteface.goToHeightIntevalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-    var currentHeight, moveCommand, hoverCommand;
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
-      while (1) {
-        switch (_context7.prev = _context7.next) {
-          case 0:
-            _context7.next = 2;
-            return getHeight();
-
-          case 2:
-            currentHeight = _context7.sent;
-
-            console.log(currentHeight + "current height");
-
-            if (currentHeight < heightSet - 100) {
-              console.log(currentHeight + "first if");
+  var promiseCommand = new Promise(function (resolve, reject) {
+    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      var moveCommand;
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
               moveCommand = new _move2.default(0, 0, 0, 20);
 
               _commandManager.commandManager.addCommand(moveCommand);
-            } else if (currentHeight > heightSet + 100) {
-              console.log(currentHeight + "second if");
-              moveCommand = new _move2.default(0, 0, 0, -20);
 
-              _commandManager.commandManager.addCommand(moveCommand);
-            } else if (currentHeight > heightSet - 100 || currentHeight < heightSet + 100) {
-              console.log(currentHeight + "out");
-              hoverCommand = new _hover2.default();
-
-              _commandManager.commandManager.addCommand(hoverCommand);
-              clearInterval(flightInteface.goToHeightIntevalId);
-            }
-
-          case 5:
-          case 'end':
-            return _context7.stop();
+            case 2:
+            case 'end':
+              return _context7.stop();
+          }
         }
-      }
-    }, _callee7, this);
-  })).bind(this), 10);
+      }, _callee7, this);
+    })).bind(this), 1);
+  });
+
+  return promiseCommand;
 };
 
 global.removeFlightIntervals = function () {
@@ -28806,7 +28771,7 @@ var Move = function (_Command) {
     movePackage[2] = pitch;
     movePackage[3] = yaw;
     movePackage[4] = throttle;
-    return _possibleConstructorReturn(this, (Move.__proto__ || Object.getPrototypeOf(Move)).call(this, movePackage, ''));
+    return _possibleConstructorReturn(this, (Move.__proto__ || Object.getPrototypeOf(Move)).call(this, movePackage, 'Move Package'));
   }
 
   _createClass(Move, [{
@@ -28818,7 +28783,7 @@ var Move = function (_Command) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
+                return this.sendBLECommand(this.package);
 
               case 2:
               case 'end':
@@ -29126,7 +29091,7 @@ exports.default = Hover;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -29148,43 +29113,43 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Rotate180 = function (_Command) {
-  _inherits(Rotate180, _Command);
+    _inherits(Rotate180, _Command);
 
-  function Rotate180() {
-    _classCallCheck(this, Rotate180);
+    function Rotate180() {
+        _classCallCheck(this, Rotate180);
 
-    var packageRotate180 = _flyEventsTypes.bytesRotate180;
-    return _possibleConstructorReturn(this, (Rotate180.__proto__ || Object.getPrototypeOf(Rotate180)).call(this, packageRotate180, false));
-  }
+        var packageRotate180 = _flyEventsTypes.bytesRotate180;
+        return _possibleConstructorReturn(this, (Rotate180.__proto__ || Object.getPrototypeOf(Rotate180)).call(this, packageRotate180, 'Rotate180'));
+    }
 
-  _createClass(Rotate180, [{
-    key: 'run',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
+    _createClass(Rotate180, [{
+        key: 'run',
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return this.sendBLECommand(this.package);
 
-              case 2:
-              case 'end':
-                return _context.stop();
+                            case 2:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function run() {
+                return _ref.apply(this, arguments);
             }
-          }
-        }, _callee, this);
-      }));
 
-      function run() {
-        return _ref.apply(this, arguments);
-      }
+            return run;
+        }()
+    }]);
 
-      return run;
-    }()
-  }]);
-
-  return Rotate180;
+    return Rotate180;
 }(_command2.default);
 
 exports.default = Rotate180;
@@ -29225,7 +29190,7 @@ var Land = function (_Command) {
     _classCallCheck(this, Land);
 
     var packageLand = _flyEventsTypes.bytesLand;
-    return _possibleConstructorReturn(this, (Land.__proto__ || Object.getPrototypeOf(Land)).call(this, packageLand, ''));
+    return _possibleConstructorReturn(this, (Land.__proto__ || Object.getPrototypeOf(Land)).call(this, packageLand, 'Land'));
   }
 
   _createClass(Land, [{
@@ -29237,7 +29202,7 @@ var Land = function (_Command) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
+                return this.sendBLECommand(this.package);
 
               case 2:
               case 'end':
@@ -29626,6 +29591,8 @@ var GetHeight = function (_Command) {
               case 4:
                 value = _context.sent;
                 arrayResult = new Uint8Array(value.buffer);
+
+                console.log(arrayResult);
                 heightValue = 0;
 
                 if (arrayResult.length > 11) {
@@ -29635,7 +29602,7 @@ var GetHeight = function (_Command) {
 
                 dispatchEvent(event);
 
-              case 10:
+              case 11:
               case 'end':
                 return _context.stop();
             }
@@ -29753,6 +29720,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _command = __webpack_require__(19);
@@ -29786,7 +29755,8 @@ var GetGyroAngles = function (_Command) {
     key: 'run',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, gyroAngles, attitudeRoll, attitudePitch, attitudeYaw, yawDegree, event;
+        var value, arrayResult, gyroAngles, attitudeRoll, attitudePitch, attitudeYaw, binaryAtittudeYaw, _ref2, _ref3, signedValue, yawDegree, event;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -29808,7 +29778,14 @@ var GetGyroAngles = function (_Command) {
                   attitudeRoll = arrayResult[1] << 8 | arrayResult[0] & 0xff;
                   attitudePitch = arrayResult[3] << 8 | arrayResult[2] & 0xff;
                   attitudeYaw = arrayResult[5] << 8 | arrayResult[4] & 0xff;
-                  yawDegree = attitudeYaw >= 0 ? attitudeYaw : 360 + attitudeYaw;
+                  binaryAtittudeYaw = (attitudeYaw >>> 0).toString(2);
+                  _ref2 = new Int16Array(['0b' + binaryAtittudeYaw]), _ref3 = _slicedToArray(_ref2, 1), signedValue = _ref3[0];
+
+
+                  if (signedValue > 180) {
+                    alert(1);
+                  }
+                  yawDegree = signedValue >= 0 ? signedValue : 360 + signedValue;
 
                   gyroAngles = { 'attitudeRoll': attitudeRoll,
                     'attitudePitch': attitudePitch,
@@ -29921,21 +29898,21 @@ global.UP = 4;
 global.DOWN = 5;
 
 global.DEGREE = {
-  'DEGREE.ANGLE_30': 30,
-  'DEGREE.ANGLE_45': 45,
-  'DEGREE.ANGLE_60': 60,
-  'DEGREE.ANGLE_90': 90,
-  'DEGREE.ANGLE_120': 120,
-  'DEGREE.ANGLE_135': 135,
-  'DEGREE.ANGLE_150': 150,
-  'DEGREE.ANGLE_180': 180,
-  'DEGREE.ANGLE_210': 210,
-  'DEGREE.ANGLE_225': 225,
-  'DEGREE.ANGLE_240': 240,
-  'DEGREE.ANGLE_270': 270,
-  'DEGREE.ANGLE_300': 300,
-  'DEGREE.ANGLE_315': 315,
-  'DEGREE.ANGLE_330': 330
+  'ANGLE_30': 30,
+  'ANGLE_45': 45,
+  'ANGLE_60': 60,
+  'ANGLE_90': 90,
+  'ANGLE_120': 120,
+  'ANGLE_135': 135,
+  'ANGLE_150': 150,
+  'ANGLE_180': 180,
+  'ANGLE_210': 210,
+  'ANGLE_225': 225,
+  'ANGLE_240': 240,
+  'ANGLE_270': 270,
+  'ANGLE_300': 300,
+  'ANGLE_315': 315,
+  'ANGLE_330': 330
 };
 
 global.BACKSPACE = 8;
