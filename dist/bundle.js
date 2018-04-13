@@ -490,6 +490,13 @@ var Command = function () {
       return sendBLECommand;
     }()
   }, {
+    key: 'removePackageHeader',
+    value: function removePackageHeader(buffer) {
+      var packageValue = new Uint8Array(buffer);
+      console.log(packageValue);
+      return packageValue.slice(1, packageValue.length);
+    }
+  }, {
     key: 'getValue',
     value: function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
@@ -28568,27 +28575,61 @@ global.go = function (direction, seconds, power) {
   return promiseCommand;
 };
 
-global.move = function (pitch, roll, yaw, throttle) {
+global.move = function (seconds, pitch, roll, yaw, throttle) {
   var promiseCommand = new Promise(function (resolve, reject) {
-    var moveCommand = new _move2.default(pitch, roll, yaw, throttle);
-    _commandManager.commandManager.addCommand(moveCommand);
-  });
+    if (!seconds) {
+      resolve();
+    } else {
+      flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var moveCommand;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                moveCommand = new _move2.default(pitch, roll, yaw, throttle);
 
-  return promiseCommand;
+                _commandManager.commandManager.addCommand(moveCommand);
+                setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                  return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                    while (1) {
+                      switch (_context4.prev = _context4.next) {
+                        case 0:
+                          clearInterval(flightInteface.intervalId);
+                          _commandManager.commandManager.cleanStack();
+                          resolve();
+
+                        case 3:
+                        case 'end':
+                          return _context4.stop();
+                      }
+                    }
+                  }, _callee4, this);
+                })).bind(this), seconds * 1000);
+                return _context5.abrupt('return', promiseCommand);
+
+              case 4:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      })));
+    }
+  });
 };
 
 global.turnDegree = function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(direction, degree) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(direction, degree) {
     var angle, speed, dest, min, max, promiseCommand;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context5.next = 2;
+            _context8.next = 2;
             return getGyroAngles();
 
           case 2:
-            angle = _context5.sent;
+            angle = _context8.sent;
 
             console.log('Initial yawDegree:' + angle.yawDegree);
 
@@ -28596,71 +28637,110 @@ global.turnDegree = function () {
             dest = 360 + angle.yawDegree + parseInt(degree) * direction;
             min = (dest - 5) % 360;
             max = (dest + 5) % 360;
+
+
+            flightInteface.loopInProgress = false;
+
             promiseCommand = new Promise(function (resolve, reject) {
-              flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+              flightInteface.loopInProgress = true;
+              flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
                 var angle, moveCommand;
-                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                return regeneratorRuntime.wrap(function _callee7$(_context7) {
                   while (1) {
-                    switch (_context4.prev = _context4.next) {
+                    switch (_context7.prev = _context7.next) {
                       case 0:
-                        _context4.next = 2;
+                        _context7.next = 2;
                         return getGyroAngles();
 
                       case 2:
-                        angle = _context4.sent;
+                        angle = _context7.sent;
 
-                        if (min > max) {
-                          //  console.log('First big if');
-                          if (min < angle.yawDegree || max > angle.yawDegree) {
-
-                            clearInterval(flightInteface.intervalId);
-                            _commandManager.commandManager.cleanStack();
-                            emergencyStop();
-                            //await global.hover(1);
-                            resolve();
-                          }
-                        } else {
-
-                          //  console.log('Big else');
-                          console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
-                          //  console.log('max:' + max);
-                          if (min < angle.yawDegree && max > angle.yawDegree) {
-                            console.log('out 2');
-                            clearInterval(flightInteface.intervalId);
-                            _commandManager.commandManager.cleanStack();
-                            emergencyStop();
-                            //await global.hover(1);
-                            resolve();
-                          }
+                        if (!(min > max)) {
+                          _context7.next = 13;
+                          break;
                         }
 
-                        //time out after 3 sec
+                        if (!(min < angle.yawDegree || max > angle.yawDegree)) {
+                          _context7.next = 11;
+                          break;
+                        }
+
+                        clearInterval(flightInteface.intervalId);
+                        _commandManager.commandManager.cleanStack();
+                        _context7.next = 9;
+                        return global.hover(1);
+
+                      case 9:
+                        flightInteface.loopInProgress = false;
+                        resolve();
+
+                      case 11:
+                        _context7.next = 21;
+                        break;
+
+                      case 13:
+                        console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
+
+                        if (!(min < angle.yawDegree && max > angle.yawDegree)) {
+                          _context7.next = 21;
+                          break;
+                        }
+
+                        clearInterval(flightInteface.intervalId);
+                        _commandManager.commandManager.cleanStack();
+                        _context7.next = 19;
+                        return global.hover();
+
+                      case 19:
+                        flightInteface.loopInProgress = false;
+                        resolve();
+
+                      case 21:
+
+                        setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                          return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                            while (1) {
+                              switch (_context6.prev = _context6.next) {
+                                case 0:
+                                  if (flightInteface && flightInteface.loopInProgress) {
+                                    clearInterval(flightInteface.intervalId);
+                                    _commandManager.commandManager.cleanStack();
+                                    resolve();
+                                  }
+
+                                case 1:
+                                case 'end':
+                                  return _context6.stop();
+                              }
+                            }
+                          }, _callee6, this);
+                        })).bind(this), 3000);
 
                         console.log('speed:' + speed);
                         moveCommand = new _move2.default(0, 0, speed, 0);
 
                         _commandManager.commandManager.addCommand(moveCommand);
 
-                      case 7:
+                      case 25:
                       case 'end':
-                        return _context4.stop();
+                        return _context7.stop();
                     }
                   }
-                }, _callee4, this);
+                }, _callee7, this);
               })).bind(this), 10);
             });
-            return _context5.abrupt('return', promiseCommand);
+            return _context8.abrupt('return', promiseCommand);
 
-          case 10:
+          case 11:
           case 'end':
-            return _context5.stop();
+            return _context8.stop();
         }
       }
-    }, _callee5, this);
+    }, _callee8, this);
   }));
 
   return function (_x, _x2) {
-    return _ref4.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 
@@ -28676,14 +28756,14 @@ global.turn = function (direction, seconds, power) {
       _commandManager.commandManager.addCommand(moveCommand);
     }.bind(this), 10);
 
-    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+      return regeneratorRuntime.wrap(function _callee9$(_context9) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context9.prev = _context9.next) {
             case 0:
               clearInterval(flightInteface.intervalId);
               _commandManager.commandManager.cleanStack();
-              _context6.next = 4;
+              _context9.next = 4;
               return global.hover(1);
 
             case 4:
@@ -28691,10 +28771,10 @@ global.turn = function (direction, seconds, power) {
 
             case 5:
             case 'end':
-              return _context6.stop();
+              return _context9.stop();
           }
         }
-      }, _callee6, this);
+      }, _callee9, this);
     })).bind(this), seconds * 1000);
   });
 
@@ -28703,11 +28783,11 @@ global.turn = function (direction, seconds, power) {
 
 global.goToHeight = function (heightSet) {
   var promiseCommand = new Promise(function (resolve, reject) {
-    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
       var moveCommand;
-      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      return regeneratorRuntime.wrap(function _callee10$(_context10) {
         while (1) {
-          switch (_context7.prev = _context7.next) {
+          switch (_context10.prev = _context10.next) {
             case 0:
               moveCommand = new _move2.default(0, 0, 0, 20);
 
@@ -28715,10 +28795,10 @@ global.goToHeight = function (heightSet) {
 
             case 2:
             case 'end':
-              return _context7.stop();
+              return _context10.stop();
           }
         }
-      }, _callee7, this);
+      }, _callee10, this);
     })).bind(this), 1);
   });
 
@@ -29770,21 +29850,18 @@ var GetGyroAngles = function (_Command) {
 
               case 4:
                 value = _context.sent;
+
+                //var arrayResult = this.removePackageHeader(value.buffer)
                 arrayResult = new Uint8Array(value.buffer);
                 gyroAngles = null;
 
-                console.log(arrayResult);
+
                 if (arrayResult.length > 0) {
                   attitudeRoll = arrayResult[1] << 8 | arrayResult[0] & 0xff;
                   attitudePitch = arrayResult[3] << 8 | arrayResult[2] & 0xff;
-                  attitudeYaw = arrayResult[5] << 8 | arrayResult[4] & 0xff;
+                  attitudeYaw = arrayResult[6] << 8 | arrayResult[5] & 0xff;
                   binaryAtittudeYaw = (attitudeYaw >>> 0).toString(2);
                   _ref2 = new Int16Array(['0b' + binaryAtittudeYaw]), _ref3 = _slicedToArray(_ref2, 1), signedValue = _ref3[0];
-
-
-                  if (signedValue > 180) {
-                    alert(1);
-                  }
                   yawDegree = signedValue >= 0 ? signedValue : 360 + signedValue;
 
                   gyroAngles = { 'attitudeRoll': attitudeRoll,
@@ -29793,12 +29870,11 @@ var GetGyroAngles = function (_Command) {
                     'yawDegree': yawDegree
                   };
                 }
-                //  console.log(gyroAngles);
                 event = new CustomEvent(this.eventName, { detail: gyroAngles });
 
                 dispatchEvent(event);
 
-              case 11:
+              case 10:
               case 'end':
                 return _context.stop();
             }
