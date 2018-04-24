@@ -28805,6 +28805,26 @@ global.goToHeight = function (heightSet) {
   return promiseCommand;
 };
 
+global.flySequence = function (sequenceType) {
+  if (sequenceType === global.Sequence.SQUARE) {
+    flightInteface.square();
+  } else {
+    alert(2);
+  }
+};
+
+flightInteface.square = function () {
+  console.log('move in a square');
+  var moveCommand1 = new _move2.default(2, 50, 0, 0, 0);
+  _commandManager.commandManager.addCommand(moveCommand);
+  var moveCommand2 = new _move2.default(2, 0, 50, 0, 0);
+  _commandManager.commandManager.addCommand(moveCommand);
+  var moveCommand3 = new _move2.default(2, -50, 0, 0, 0);
+  _commandManager.commandManager.addCommand(moveCommand);
+  var moveCommand4 = new _move2.default(2, 0, -50, 0, 0);
+  _commandManager.commandManager.addCommand(moveCommand);
+};
+
 global.removeFlightIntervals = function () {
   clearInterval(flightInteface.moveIntevalId);
   clearInterval(flightInteface.goToHeightIntevalId);
@@ -29989,6 +30009,10 @@ global.DEGREE = {
   'ANGLE_300': 300,
   'ANGLE_315': 315,
   'ANGLE_330': 330
+};
+
+global.Sequence = {
+  'SQUARE': 1
 };
 
 global.BACKSPACE = 8;
