@@ -28561,7 +28561,7 @@ global.go = function (direction, seconds, power) {
                     }
                   }
                 }, _callee2, this);
-              })).bind(this), 500);
+              })).bind(this), 1000);
 
             case 5:
             case 'end':
@@ -28633,13 +28633,14 @@ global.turnDegree = function () {
 
             console.log('Initial yawDegree:' + angle.yawDegree);
 
-            speed = direction * 30;
+            speed = direction * 15;
             dest = 360 + angle.yawDegree + parseInt(degree) * direction;
             min = (dest - 5) % 360;
             max = (dest + 5) % 360;
 
 
             flightInteface.loopInProgress = false;
+            flightInteface.awaitInProgress = false;
 
             promiseCommand = new Promise(function (resolve, reject) {
               flightInteface.loopInProgress = true;
@@ -28649,60 +28650,53 @@ global.turnDegree = function () {
                   while (1) {
                     switch (_context7.prev = _context7.next) {
                       case 0:
-                        _context7.next = 2;
-                        return getGyroAngles();
+                        if (!flightInteface.awaitInProgress) {
+                          _context7.next = 2;
+                          break;
+                        }
+
+                        return _context7.abrupt('return');
 
                       case 2:
+                        flightInteface.awaitInProgress = true;
+
+                        _context7.next = 5;
+                        return getGyroAngles();
+
+                      case 5:
                         angle = _context7.sent;
 
-                        if (!(min > max)) {
-                          _context7.next = 13;
-                          break;
+                        flightInteface.awaitInProgress = false;
+                        if (min > max) {
+                          if (min < angle.yawDegree || max > angle.yawDegree) {
+                            clearInterval(flightInteface.intervalId);
+                            _commandManager.commandManager.cleanStack();
+                            //  global.emergencyStop();
+                            flightInteface.loopInProgress = false;
+                            //  await global.hover(1);
+                            console.log('saliiiiiiiiiiiiiiiiiiiiiii11111');
+                            resolve();
+                          }
+                        } else {
+                          console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
+                          if (min < angle.yawDegree && max > angle.yawDegree) {
+                            clearInterval(flightInteface.intervalId);
+                            _commandManager.commandManager.cleanStack();
+                            flightInteface.loopInProgress = false;
+                            //global.emergencyStop();
+                            global.hover();
+                            console.log('saliiiiiiiiiiiiiiiiiiiiiii222222222');
+
+                            resolve();
+                          }
                         }
-
-                        if (!(min < angle.yawDegree || max > angle.yawDegree)) {
-                          _context7.next = 11;
-                          break;
-                        }
-
-                        clearInterval(flightInteface.intervalId);
-                        _commandManager.commandManager.cleanStack();
-                        _context7.next = 9;
-                        return global.hover(1);
-
-                      case 9:
-                        flightInteface.loopInProgress = false;
-                        resolve();
-
-                      case 11:
-                        _context7.next = 21;
-                        break;
-
-                      case 13:
-                        console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
-
-                        if (!(min < angle.yawDegree && max > angle.yawDegree)) {
-                          _context7.next = 21;
-                          break;
-                        }
-
-                        clearInterval(flightInteface.intervalId);
-                        _commandManager.commandManager.cleanStack();
-                        _context7.next = 19;
-                        return global.hover();
-
-                      case 19:
-                        flightInteface.loopInProgress = false;
-                        resolve();
-
-                      case 21:
 
                         setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
                           return regeneratorRuntime.wrap(function _callee6$(_context6) {
                             while (1) {
                               switch (_context6.prev = _context6.next) {
                                 case 0:
-                                  if (flightInteface && flightInteface.loopInProgress) {
+                                  if (flightInteface) {
                                     clearInterval(flightInteface.intervalId);
                                     _commandManager.commandManager.cleanStack();
                                     resolve();
@@ -28717,21 +28711,23 @@ global.turnDegree = function () {
                         })).bind(this), 3000);
 
                         console.log('speed:' + speed);
-                        moveCommand = new _move2.default(0, 0, speed, 0);
+                        if (flightInteface.loopInProgress) {
+                          moveCommand = new _move2.default(0, 0, speed, 0);
 
-                        _commandManager.commandManager.addCommand(moveCommand);
+                          _commandManager.commandManager.addCommand(moveCommand);
+                        }
 
-                      case 25:
+                      case 11:
                       case 'end':
                         return _context7.stop();
                     }
                   }
                 }, _callee7, this);
-              })).bind(this), 10);
+              })).bind(this), 100);
             });
             return _context8.abrupt('return', promiseCommand);
 
-          case 11:
+          case 12:
           case 'end':
             return _context8.stop();
         }
@@ -29034,42 +29030,43 @@ var Go = function (_Command) {
 
                 packageToSend = null;
                 _context.t0 = this.direction;
-                _context.next = _context.t0 === global.FORWARD ? 5 : _context.t0 === global.BACKWARD ? 8 : _context.t0 === global.UP ? 11 : _context.t0 === global.DOWN ? 15 : _context.t0 === global.LEFT ? 18 : _context.t0 === global.RIGHT ? 21 : 24;
+                _context.next = _context.t0 === global.FORWARD ? 5 : _context.t0 === global.BACKWARD ? 8 : _context.t0 === global.UP ? 11 : _context.t0 === global.DOWN ? 15 : _context.t0 === global.LEFT ? 18 : _context.t0 === global.RIGHT ? 22 : 25;
                 break;
 
               case 5:
                 p = this.power;
                 packageToSend = this.package[0];
-                return _context.abrupt('break', 24);
+                return _context.abrupt('break', 25);
 
               case 8:
                 t = this.power;
                 packageToSend = this.package[1];
-                return _context.abrupt('break', 24);
+                return _context.abrupt('break', 25);
 
               case 11:
                 r = this.power;
                 packageToSend = this.package[2];
-                return _context.abrupt('break', 24);
+                return _context.abrupt('break', 25);
 
               case 15:
                 p = -1 * this.power;
                 packageToSend = this.package[3];
-                return _context.abrupt('break', 24);
+                return _context.abrupt('break', 25);
 
               case 18:
-                t = -1 * this.power;
+                r = -1 * this.power;
+                console.log('left');
                 packageToSend = this.package[4];
-                return _context.abrupt('break', 24);
+                return _context.abrupt('break', 25);
 
-              case 21:
+              case 22:
                 r = -1 * this.power;
                 packageToSend = this.package[5];
-                return _context.abrupt('break', 24);
+                return _context.abrupt('break', 25);
 
-              case 24:
+              case 25:
                 if (!this.power) {
-                  _context.next = 34;
+                  _context.next = 36;
                   break;
                 }
 
@@ -29079,18 +29076,19 @@ var Go = function (_Command) {
                 goWithPowerPackage[2] = p;
                 goWithPowerPackage[3] = 0;
                 goWithPowerPackage[4] = t;
-                _context.next = 32;
+                console.log(goWithPowerPackage);
+                _context.next = 34;
                 return this.sendBLECommand(goWithPowerPackage);
 
-              case 32:
-                _context.next = 36;
+              case 34:
+                _context.next = 38;
                 break;
 
-              case 34:
-                _context.next = 36;
+              case 36:
+                _context.next = 38;
                 return this.sendBLECommand(packageToSend);
 
-              case 36:
+              case 38:
               case 'end':
                 return _context.stop();
             }
