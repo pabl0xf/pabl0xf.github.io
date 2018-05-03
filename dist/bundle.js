@@ -28631,7 +28631,7 @@ global.turnDegree = function () {
           case 2:
             angle = _context8.sent;
 
-            console.log('Initial yawDegree:' + angle.yawDegree);
+            console.log('---- Running command: Initial Yaw', angle.yawDegree);
 
             speed = direction * 15;
             dest = 360 + angle.yawDegree + parseInt(degree) * direction;
