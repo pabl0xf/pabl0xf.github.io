@@ -28674,7 +28674,9 @@ global.turnDegree = function () {
                             //  global.emergencyStop();
                             flightInteface.loopInProgress = false;
                             //  await global.hover(1);
-                            console.log('saliiiiiiiiiiiiiiiiiiiiiii11111');
+                            global.hover();
+
+                            console.log('---- Running command: Ending turn', angle.yawDegree);
                             resolve();
                           }
                         } else {
@@ -28685,7 +28687,7 @@ global.turnDegree = function () {
                             flightInteface.loopInProgress = false;
                             //global.emergencyStop();
                             global.hover();
-                            console.log('saliiiiiiiiiiiiiiiiiiiiiii222222222');
+                            console.log('---- Running command: Ending turn', angle.yawDegree);
 
                             resolve();
                           }
