@@ -1897,13 +1897,13 @@ dataArray[3] = 0;
 dataArray[4] = 0;
 exports.bytesFlyRight = dataArray;
 
-var dataArray = new Uint8Array(5);
+var dataArrayLeft = new Uint8Array(5);
 dataArray[0] = 16;
 dataArray[1] = -50;
 dataArray[2] = 0;
 dataArray[3] = 0;
 dataArray[4] = 0;
-exports.bytesFlyLeft = dataArray;
+exports.bytesFlyLeft = dataArrayLeft;
 
 var dataArray = new Uint8Array(5);
 dataArray[0] = 16;
@@ -28531,19 +28531,7 @@ global.takeOff = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(functio
   }, _callee3, this);
 }));
 
-global.rotate180 = function () {
-  var promiseCommand = new Promise(function (resolve, reject) {
-    var rotate180 = new _rotate2.default();
-    _commandManager.commandManager.addCommand(rotate180);
-    setTimeout(function () {
-      resolve();
-    }.bind(this), 500);
-  });
-
-  return promiseCommand;
-};
-
-global.land = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+global.rotate180 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
   var promiseCommand;
   return regeneratorRuntime.wrap(function _callee5$(_context5) {
     while (1) {
@@ -28559,19 +28547,20 @@ global.land = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _
         case 2:
           promiseCommand = new Promise(function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(resolve, reject) {
-              var land;
+              var rotate180;
               return regeneratorRuntime.wrap(function _callee4$(_context4) {
                 while (1) {
                   switch (_context4.prev = _context4.next) {
                     case 0:
-                      land = new _land2.default();
+                      rotate180 = new _rotate2.default();
                       _context4.next = 3;
-                      return land.run();
+                      return rotate180.run();
 
                     case 3:
                       resolve();
+                      return _context4.abrupt('return');
 
-                    case 4:
+                    case 5:
                     case 'end':
                       return _context4.stop();
                   }
@@ -28593,70 +28582,120 @@ global.land = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _
   }, _callee5, this);
 }));
 
-global.emergencyStop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-  var emergencyStop;
-  return regeneratorRuntime.wrap(function _callee6$(_context6) {
+global.land = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+  var promiseCommand;
+  return regeneratorRuntime.wrap(function _callee7$(_context7) {
     while (1) {
-      switch (_context6.prev = _context6.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
           if (global.RUNNING) {
-            _context6.next = 2;
+            _context7.next = 2;
             break;
           }
 
-          return _context6.abrupt('return');
+          return _context7.abrupt('return');
 
         case 2:
-          emergencyStop = new _emergencyStop2.default();
-          return _context6.abrupt('return', emergencyStop.run());
+          promiseCommand = new Promise(function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(resolve, reject) {
+              var land;
+              return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                while (1) {
+                  switch (_context6.prev = _context6.next) {
+                    case 0:
+                      land = new _land2.default();
+                      _context6.next = 3;
+                      return land.run();
+
+                    case 3:
+                      resolve();
+
+                    case 4:
+                    case 'end':
+                      return _context6.stop();
+                  }
+                }
+              }, _callee6, this);
+            }));
+
+            return function (_x5, _x6) {
+              return _ref7.apply(this, arguments);
+            };
+          }());
+          return _context7.abrupt('return', promiseCommand);
 
         case 4:
         case 'end':
-          return _context6.stop();
+          return _context7.stop();
       }
     }
-  }, _callee6, this);
+  }, _callee7, this);
+}));
+
+global.emergencyStop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+  var emergencyStop;
+  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          if (global.RUNNING) {
+            _context8.next = 2;
+            break;
+          }
+
+          return _context8.abrupt('return');
+
+        case 2:
+          emergencyStop = new _emergencyStop2.default();
+          return _context8.abrupt('return', emergencyStop.run());
+
+        case 4:
+        case 'end':
+          return _context8.stop();
+      }
+    }
+  }, _callee8, this);
 }));
 
 global.hover = function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(seconds) {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(seconds) {
     var promiseCommand;
-    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context10.prev = _context10.next) {
           case 0:
             promiseCommand = new Promise(function (resolve, reject) {
               flightInteface.loopInProgress = false;
-              flightInteface.hoverLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+              flightInteface.hoverLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
                 var hoverCommand;
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                return regeneratorRuntime.wrap(function _callee9$(_context9) {
                   while (1) {
-                    switch (_context7.prev = _context7.next) {
+                    switch (_context9.prev = _context9.next) {
                       case 0:
                         hoverCommand = new _hover2.default();
-                        _context7.next = 3;
+                        _context9.next = 3;
                         return hoverCommand.run();
 
                       case 3:
                         if (!flightInteface.loopInProgress) {
-                          _context7.next = 7;
+                          _context9.next = 7;
                           break;
                         }
 
                         flightInteface.hoverLoop();
-                        _context7.next = 9;
+                        _context9.next = 9;
                         break;
 
                       case 7:
                         resolve();
-                        return _context7.abrupt('return');
+                        return _context9.abrupt('return');
 
                       case 9:
                       case 'end':
-                        return _context7.stop();
+                        return _context9.stop();
                     }
                   }
-                }, _callee7, this);
+                }, _callee9, this);
               }));
 
               flightInteface.loopInProgress = true;
@@ -28667,18 +28706,18 @@ global.hover = function () {
 
               flightInteface.hoverLoop();
             });
-            return _context8.abrupt('return', promiseCommand);
+            return _context10.abrupt('return', promiseCommand);
 
           case 2:
           case 'end':
-            return _context8.stop();
+            return _context10.stop();
         }
       }
-    }, _callee8, this);
+    }, _callee10, this);
   }));
 
-  return function (_x5) {
-    return _ref7.apply(this, arguments);
+  return function (_x7) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
@@ -28688,44 +28727,42 @@ global.go = function (direction, seconds, power) {
     return;
   }
 
-  console.log('////////////////////////START GO');
-
   var promiseCommand = new Promise(function (resolve, reject) {
     flightInteface.loopInProgress = false;
-    flightInteface.goLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+    flightInteface.goLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
       var goCommand;
-      return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      return regeneratorRuntime.wrap(function _callee11$(_context11) {
         while (1) {
-          switch (_context9.prev = _context9.next) {
+          switch (_context11.prev = _context11.next) {
             case 0:
               goCommand = new _go2.default(direction, power);
-              _context9.next = 3;
+              _context11.next = 3;
               return goCommand.run();
 
             case 3:
               if (!flightInteface.loopInProgress) {
-                _context9.next = 7;
+                _context11.next = 7;
                 break;
               }
 
               flightInteface.goLoop();
-              _context9.next = 11;
+              _context11.next = 11;
               break;
 
             case 7:
-              _context9.next = 9;
+              _context11.next = 9;
               return global.hover(1);
 
             case 9:
               resolve();
-              return _context9.abrupt('return');
+              return _context11.abrupt('return');
 
             case 11:
             case 'end':
-              return _context9.stop();
+              return _context11.stop();
           }
         }
-      }, _callee9, this);
+      }, _callee11, this);
     }));
 
     flightInteface.loopInProgress = true;
@@ -28745,19 +28782,19 @@ global.move2 = function (seconds, pitch, roll, yaw, throttle) {
     if (!seconds) {
       resolve();
     } else {
-      flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+      flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
         var moveCommand;
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 moveCommand = new _move2.default(pitch, roll, yaw, throttle);
 
                 _commandManager.commandManager.addCommand(moveCommand);
-                setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-                  return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+                  return regeneratorRuntime.wrap(function _callee12$(_context12) {
                     while (1) {
-                      switch (_context10.prev = _context10.next) {
+                      switch (_context12.prev = _context12.next) {
                         case 0:
                           clearInterval(flightInteface.intervalId);
                           _commandManager.commandManager.cleanStack();
@@ -28765,67 +28802,67 @@ global.move2 = function (seconds, pitch, roll, yaw, throttle) {
 
                         case 3:
                         case 'end':
-                          return _context10.stop();
+                          return _context12.stop();
                       }
                     }
-                  }, _callee10, this);
+                  }, _callee12, this);
                 })).bind(this), seconds * 1000);
-                return _context11.abrupt('return', promiseCommand);
+                return _context13.abrupt('return', promiseCommand);
 
               case 4:
               case 'end':
-                return _context11.stop();
+                return _context13.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee13, this);
       })));
     }
   });
 };
 
 global.move = function () {
-  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(pitch, roll, yaw, throttle) {
+  var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(pitch, roll, yaw, throttle) {
     var moveCommand;
-    return regeneratorRuntime.wrap(function _callee12$(_context12) {
-      while (1) {
-        switch (_context12.prev = _context12.next) {
-          case 0:
-            if (global.RUNNING) {
-              _context12.next = 2;
-              break;
-            }
-
-            return _context12.abrupt('return');
-
-          case 2:
-            moveCommand = new _move2.default(pitch, roll, yaw, throttle);
-            return _context12.abrupt('return', moveCommand.run());
-
-          case 4:
-          case 'end':
-            return _context12.stop();
-        }
-      }
-    }, _callee12, this);
-  }));
-
-  return function (_x6, _x7, _x8, _x9) {
-    return _ref12.apply(this, arguments);
-  };
-}();
-
-global.turnDegree = function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(direction, degree) {
-    var angle, speed, dest, min, max, promiseCommand;
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
           case 0:
-            _context14.next = 2;
+            if (global.RUNNING) {
+              _context14.next = 2;
+              break;
+            }
+
+            return _context14.abrupt('return');
+
+          case 2:
+            moveCommand = new _move2.default(pitch, roll, yaw, throttle);
+            return _context14.abrupt('return', moveCommand.run());
+
+          case 4:
+          case 'end':
+            return _context14.stop();
+        }
+      }
+    }, _callee14, this);
+  }));
+
+  return function (_x8, _x9, _x10, _x11) {
+    return _ref14.apply(this, arguments);
+  };
+}();
+
+global.turnDegree = function () {
+  var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(direction, degree) {
+    var angle, speed, dest, min, max, promiseCommand;
+    return regeneratorRuntime.wrap(function _callee16$(_context16) {
+      while (1) {
+        switch (_context16.prev = _context16.next) {
+          case 0:
+            _context16.next = 2;
             return getGyroAngles();
 
           case 2:
-            angle = _context14.sent;
+            angle = _context16.sent;
 
             console.log('---- Running command: Initial Yaw', angle.yawDegree);
 
@@ -28837,60 +28874,60 @@ global.turnDegree = function () {
 
               flightInteface.loopInProgress = true;
 
-              flightInteface.adjustDegree = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+              flightInteface.adjustDegree = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
                 var angle;
-                return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                return regeneratorRuntime.wrap(function _callee15$(_context15) {
                   while (1) {
-                    switch (_context13.prev = _context13.next) {
+                    switch (_context15.prev = _context15.next) {
                       case 0:
-                        _context13.next = 2;
+                        _context15.next = 2;
                         return getGyroAngles();
 
                       case 2:
-                        angle = _context13.sent;
+                        angle = _context15.sent;
 
                         console.log('Adjust Value is ', angle.yawDegree);
 
                         if (!(min > max)) {
-                          _context13.next = 14;
+                          _context15.next = 14;
                           break;
                         }
 
                         if (!(min < angle.yawDegree || max > angle.yawDegree)) {
-                          _context13.next = 12;
+                          _context15.next = 12;
                           break;
                         }
 
-                        _context13.next = 8;
+                        _context15.next = 8;
                         return global.hover(1);
 
                       case 8:
                         console.log('---- Running command: Ending turn', angle.yawDegree);
                         flightInteface.loopInProgress = false;
                         resolve();
-                        return _context13.abrupt('return');
+                        return _context15.abrupt('return');
 
                       case 12:
-                        _context13.next = 21;
+                        _context15.next = 21;
                         break;
 
                       case 14:
                         if (!(min < angle.yawDegree && max > angle.yawDegree)) {
-                          _context13.next = 21;
+                          _context15.next = 21;
                           break;
                         }
 
-                        _context13.next = 17;
+                        _context15.next = 17;
                         return global.hover(1);
 
                       case 17:
                         console.log('---- Running command: Ending turn2', angle.yawDegree);
                         flightInteface.loopInProgress = false;
                         resolve();
-                        return _context13.abrupt('return');
+                        return _context15.abrupt('return');
 
                       case 21:
-                        _context13.next = 23;
+                        _context15.next = 23;
                         return move(0, 0, speed, 0);
 
                       case 23:
@@ -28901,26 +28938,26 @@ global.turnDegree = function () {
 
                       case 24:
                       case 'end':
-                        return _context13.stop();
+                        return _context15.stop();
                     }
                   }
-                }, _callee13, this);
+                }, _callee15, this);
               })).bind(this);
 
               flightInteface.adjustDegree();
             });
-            return _context14.abrupt('return', promiseCommand);
+            return _context16.abrupt('return', promiseCommand);
 
           case 10:
           case 'end':
-            return _context14.stop();
+            return _context16.stop();
         }
       }
-    }, _callee14, this);
+    }, _callee16, this);
   }));
 
-  return function (_x10, _x11) {
-    return _ref13.apply(this, arguments);
+  return function (_x12, _x13) {
+    return _ref15.apply(this, arguments);
   };
 }();
 
@@ -28936,14 +28973,14 @@ global.turn = function (direction, seconds, power) {
       _commandManager.commandManager.addCommand(moveCommand);
     }.bind(this), 10);
 
-    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-      return regeneratorRuntime.wrap(function _callee15$(_context15) {
+    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+      return regeneratorRuntime.wrap(function _callee17$(_context17) {
         while (1) {
-          switch (_context15.prev = _context15.next) {
+          switch (_context17.prev = _context17.next) {
             case 0:
               clearInterval(flightInteface.intervalId);
               _commandManager.commandManager.cleanStack();
-              _context15.next = 4;
+              _context17.next = 4;
               return global.hover(1);
 
             case 4:
@@ -28951,10 +28988,10 @@ global.turn = function (direction, seconds, power) {
 
             case 5:
             case 'end':
-              return _context15.stop();
+              return _context17.stop();
           }
         }
-      }, _callee15, this);
+      }, _callee17, this);
     })).bind(this), seconds * 1000);
   });
 
@@ -28963,11 +29000,11 @@ global.turn = function (direction, seconds, power) {
 
 global.goToHeight = function (heightSet) {
   var promiseCommand = new Promise(function (resolve, reject) {
-    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
       var moveCommand;
-      return regeneratorRuntime.wrap(function _callee16$(_context16) {
+      return regeneratorRuntime.wrap(function _callee18$(_context18) {
         while (1) {
-          switch (_context16.prev = _context16.next) {
+          switch (_context18.prev = _context18.next) {
             case 0:
               moveCommand = new _move2.default(0, 0, 0, 20);
 
@@ -28975,10 +29012,10 @@ global.goToHeight = function (heightSet) {
 
             case 2:
             case 'end':
-              return _context16.stop();
+              return _context18.stop();
           }
         }
-      }, _callee16, this);
+      }, _callee18, this);
     })).bind(this), 1);
   });
 
@@ -29214,65 +29251,66 @@ var Go = function (_Command) {
 
                 packageToSend = null;
                 _context.t0 = this.direction;
-                _context.next = _context.t0 === global.FORWARD ? 5 : _context.t0 === global.BACKWARD ? 8 : _context.t0 === global.UP ? 11 : _context.t0 === global.DOWN ? 15 : _context.t0 === global.LEFT ? 18 : _context.t0 === global.RIGHT ? 22 : 25;
+                _context.next = _context.t0 === global.FORWARD ? 5 : _context.t0 === global.BACKWARD ? 8 : _context.t0 === global.UP ? 12 : _context.t0 === global.DOWN ? 16 : _context.t0 === global.LEFT ? 19 : _context.t0 === global.RIGHT ? 23 : 26;
                 break;
 
               case 5:
                 p = this.power;
                 packageToSend = this.package[0];
-                return _context.abrupt('break', 25);
+                return _context.abrupt('break', 26);
 
               case 8:
-                t = this.power;
-                packageToSend = this.package[1];
-                return _context.abrupt('break', 25);
-
-              case 11:
-                r = this.power;
-                packageToSend = this.package[2];
-                return _context.abrupt('break', 25);
-
-              case 15:
                 p = -1 * this.power;
-                packageToSend = this.package[3];
-                return _context.abrupt('break', 25);
+                console.log('go backward');
+                packageToSend = this.package[1];
+                return _context.abrupt('break', 26);
 
-              case 18:
+              case 12:
+                t = this.power;
+                packageToSend = this.package[2];
+                return _context.abrupt('break', 26);
+
+              case 16:
+                t = -1 * this.power;
+                packageToSend = this.package[3];
+                return _context.abrupt('break', 26);
+
+              case 19:
                 r = -1 * this.power;
                 console.log('left');
                 packageToSend = this.package[4];
-                return _context.abrupt('break', 25);
+                return _context.abrupt('break', 26);
 
-              case 22:
-                r = -1 * this.power;
+              case 23:
+                r = this.power;
                 packageToSend = this.package[5];
-                return _context.abrupt('break', 25);
+                return _context.abrupt('break', 26);
 
-              case 25:
+              case 26:
                 if (!this.power) {
-                  _context.next = 36;
+                  _context.next = 37;
                   break;
                 }
 
-                goWithPowerPackage = packageToSend;
+                goWithPowerPackage = new Uint8Array(5);
 
+                goWithPowerPackage[0] = 16;
                 goWithPowerPackage[1] = r;
                 goWithPowerPackage[2] = p;
                 goWithPowerPackage[3] = 0;
                 goWithPowerPackage[4] = t;
-                console.log(goWithPowerPackage);
-                _context.next = 34;
+                _context.next = 35;
                 return this.sendBLECommand(goWithPowerPackage);
 
-              case 34:
-                _context.next = 38;
+              case 35:
+                _context.next = 39;
                 break;
 
-              case 36:
-                _context.next = 38;
+              case 37:
+                _context.next = 39;
                 return this.sendBLECommand(packageToSend);
 
-              case 38:
+              case 39:
               case 'end':
                 return _context.stop();
             }
