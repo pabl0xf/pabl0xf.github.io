@@ -28777,52 +28777,40 @@ global.go = function (direction, seconds, power) {
   return promiseCommand;
 };
 
-global.move2 = function (seconds, pitch, roll, yaw, throttle) {
-  var promiseCommand = new Promise(function (resolve, reject) {
-    if (!seconds) {
-      resolve();
-    } else {
-      flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-        var moveCommand;
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
-          while (1) {
-            switch (_context13.prev = _context13.next) {
-              case 0:
-                moveCommand = new _move2.default(pitch, roll, yaw, throttle);
-
-                _commandManager.commandManager.addCommand(moveCommand);
-                setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-                  return regeneratorRuntime.wrap(function _callee12$(_context12) {
-                    while (1) {
-                      switch (_context12.prev = _context12.next) {
-                        case 0:
-                          clearInterval(flightInteface.intervalId);
-                          _commandManager.commandManager.cleanStack();
-                          resolve();
-
-                        case 3:
-                        case 'end':
-                          return _context12.stop();
-                      }
-                    }
-                  }, _callee12, this);
-                })).bind(this), seconds * 1000);
-                return _context13.abrupt('return', promiseCommand);
-
-              case 4:
-              case 'end':
-                return _context13.stop();
+global.moveInternal = function () {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(pitch, roll, yaw, throttle) {
+    var moveCommand;
+    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            if (global.RUNNING) {
+              _context12.next = 2;
+              break;
             }
-          }
-        }, _callee13, this);
-      })));
-    }
-  });
-};
+
+            return _context12.abrupt('return');
+
+          case 2:
+            moveCommand = new _move2.default(pitch, roll, yaw, throttle);
+            return _context12.abrupt('return', moveCommand.run());
+
+          case 4:
+          case 'end':
+            return _context12.stop();
+        }
+      }
+    }, _callee12, this);
+  }));
+
+  return function (_x8, _x9, _x10, _x11) {
+    return _ref12.apply(this, arguments);
+  };
+}();
 
 global.move = function () {
-  var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(pitch, roll, yaw, throttle) {
-    var moveCommand;
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(seconds, pitch, roll, yaw, throttle) {
+    var promiseCommand;
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
@@ -28835,8 +28823,49 @@ global.move = function () {
             return _context14.abrupt('return');
 
           case 2:
-            moveCommand = new _move2.default(pitch, roll, yaw, throttle);
-            return _context14.abrupt('return', moveCommand.run());
+            promiseCommand = new Promise(function (resolve, reject) {
+              flightInteface.loopInProgress = false;
+              flightInteface.moveLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+                var moveCommand;
+                return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                  while (1) {
+                    switch (_context13.prev = _context13.next) {
+                      case 0:
+                        moveCommand = new _move2.default(pitch, roll, yaw, throttle);
+                        _context13.next = 3;
+                        return moveCommand.run();
+
+                      case 3:
+                        if (!flightInteface.loopInProgress) {
+                          _context13.next = 7;
+                          break;
+                        }
+
+                        flightInteface.moveLoop();
+                        _context13.next = 9;
+                        break;
+
+                      case 7:
+                        resolve();
+                        return _context13.abrupt('return');
+
+                      case 9:
+                      case 'end':
+                        return _context13.stop();
+                    }
+                  }
+                }, _callee13, this);
+              }));
+
+              flightInteface.loopInProgress = true;
+
+              setTimeout(function () {
+                flightInteface.loopInProgress = false;
+              }.bind(this), seconds * 1000);
+
+              flightInteface.moveLoop();
+            });
+            return _context14.abrupt('return', promiseCommand);
 
           case 4:
           case 'end':
@@ -28846,8 +28875,8 @@ global.move = function () {
     }, _callee14, this);
   }));
 
-  return function (_x8, _x9, _x10, _x11) {
-    return _ref14.apply(this, arguments);
+  return function (_x12, _x13, _x14, _x15, _x16) {
+    return _ref13.apply(this, arguments);
   };
 }();
 
@@ -28928,7 +28957,7 @@ global.turnDegree = function () {
 
                       case 21:
                         _context15.next = 23;
-                        return move(0, 0, speed, 0);
+                        return moveInternal(0, 0, speed, 0);
 
                       case 23:
 
@@ -28956,7 +28985,7 @@ global.turnDegree = function () {
     }, _callee16, this);
   }));
 
-  return function (_x12, _x13) {
+  return function (_x17, _x18) {
     return _ref15.apply(this, arguments);
   };
 }();
