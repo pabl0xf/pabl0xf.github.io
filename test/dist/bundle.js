@@ -28356,25 +28356,9 @@ Code.runJS = function () {
   var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
   Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
   try {
+    // add function to stop execution after block code
     eval('(async function(){' + code + '})()');
     //eval(code);
-  } catch (e) {
-    alert(MSG['badCode'].replace('%1', e));
-  }
-};
-
-Code.runJSMethod = function (method) {
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
-  var timeouts = 0;
-  var checkTimeout = function checkTimeout() {
-    if (timeouts++ > 1000000) {
-      throw MSG['timeout'];
-    }
-  };
-  var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-  try {
-    eval(code + method);
   } catch (e) {
     alert(MSG['badCode'].replace('%1', e));
   }
@@ -28892,9 +28876,6 @@ global.turnDegree = function () {
 
           case 2:
             angle = _context16.sent;
-
-            console.log('---- Running command: Initial Yaw', angle.yawDegree);
-
             speed = direction * 15;
             dest = 360 + angle.yawDegree + parseInt(degree) * direction;
             min = (dest - 5) % 360;
@@ -28977,7 +28958,7 @@ global.turnDegree = function () {
             });
             return _context16.abrupt('return', promiseCommand);
 
-          case 10:
+          case 9:
           case 'end':
             return _context16.stop();
         }
@@ -28991,61 +28972,131 @@ global.turnDegree = function () {
 }();
 
 global.turn = function (direction, seconds, power) {
-  var y = power;
-  if (direction == global.LEFT) {
-    y *= -1;
-  }
+
+  var speed = direction * power;
+
   var promiseCommand = new Promise(function (resolve, reject) {
-
-    flightInteface.intervalId = setInterval(function () {
-      var moveCommand = new _move2.default(0, 0, y, 0);
-      _commandManager.commandManager.addCommand(moveCommand);
-    }.bind(this), 10);
-
-    setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+    flightInteface.loopInProgress = false;
+    flightInteface.turnLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
       return regeneratorRuntime.wrap(function _callee17$(_context17) {
         while (1) {
           switch (_context17.prev = _context17.next) {
             case 0:
-              clearInterval(flightInteface.intervalId);
-              _commandManager.commandManager.cleanStack();
-              _context17.next = 4;
-              return global.hover(1);
+              _context17.next = 2;
+              return moveInternal(0, 0, speed, 0);
 
-            case 4:
+            case 2:
+              if (!flightInteface.loopInProgress) {
+                _context17.next = 6;
+                break;
+              }
+
+              flightInteface.turnLoop();
+              _context17.next = 10;
+              break;
+
+            case 6:
+              _context17.next = 8;
+              return hover(1);
+
+            case 8:
               resolve();
+              return _context17.abrupt('return');
 
-            case 5:
+            case 10:
             case 'end':
               return _context17.stop();
           }
         }
       }, _callee17, this);
-    })).bind(this), seconds * 1000);
+    }));
+
+    flightInteface.loopInProgress = true;
+
+    setTimeout(function () {
+      flightInteface.loopInProgress = false;
+    }.bind(this), seconds * 1000);
+
+    flightInteface.turnLoop();
   });
 
   return promiseCommand;
 };
 
 global.goToHeight = function (heightSet) {
+
   var promiseCommand = new Promise(function (resolve, reject) {
-    flightInteface.intervalId = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
-      var moveCommand;
+
+    flightInteface.loopInProgress = true;
+
+    flightInteface.adjustHeight = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+      var height;
       return regeneratorRuntime.wrap(function _callee18$(_context18) {
         while (1) {
           switch (_context18.prev = _context18.next) {
             case 0:
-              moveCommand = new _move2.default(0, 0, 0, 20);
-
-              _commandManager.commandManager.addCommand(moveCommand);
+              _context18.next = 2;
+              return getHeight();
 
             case 2:
+              height = _context18.sent;
+
+              console.log('Current height is ', height);
+
+              if (!(height < heightSet - 100)) {
+                _context18.next = 9;
+                break;
+              }
+
+              _context18.next = 7;
+              return moveInternal(0, 0, 0, 20);
+
+            case 7:
+              _context18.next = 20;
+              break;
+
+            case 9:
+              if (!(height > heightSet + 100)) {
+                _context18.next = 14;
+                break;
+              }
+
+              _context18.next = 12;
+              return moveInternal(0, 0, 0, -20);
+
+            case 12:
+              _context18.next = 20;
+              break;
+
+            case 14:
+              if (!(height > heightSet - 100 || height < heightSet + 100)) {
+                _context18.next = 20;
+                break;
+              }
+
+              _context18.next = 17;
+              return hover(0.5);
+
+            case 17:
+              flightInteface.loopInProgress = false;
+              resolve();
+              return _context18.abrupt('return');
+
+            case 20:
+
+              if (flightInteface.loopInProgress) {
+                flightInteface.adjustHeight();
+              }
+
+            case 21:
             case 'end':
               return _context18.stop();
           }
         }
       }, _callee18, this);
-    })).bind(this), 1);
+    })).bind(this);
+
+    flightInteface.adjustHeight();
   });
 
   return promiseCommand;
@@ -29693,15 +29744,8 @@ global.getBatteryVoltage = function () {
 global.getHeight = function () {
    var getHeight = new _getHeight2.default();
    var height = getHeight.getValue();
-   _commandManager.commandManager.addCommand(getHeight);
+   getHeight.run();
    return height;
-};
-
-global.getGyroAngles2 = function () {
-   var getGyroAngles = new _getGyroAngles2.default();
-   var gyroAngles = getGyroAngles.getValue();
-   _commandManager.commandManager.addCommand(getGyroAngles);
-   return gyroAngles;
 };
 
 global.getGyroAngles = function () {
@@ -29900,6 +29944,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _command = __webpack_require__(19);
@@ -29932,7 +29978,8 @@ var GetHeight = function (_Command) {
     key: 'run',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, heightValue, event;
+        var value, arrayResult, heightValue, binaryHeightValue, _ref2, _ref3, signedValue, event;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -29947,18 +29994,19 @@ var GetHeight = function (_Command) {
               case 4:
                 value = _context.sent;
                 arrayResult = new Uint8Array(value.buffer);
-
-                console.log(arrayResult);
                 heightValue = 0;
 
                 if (arrayResult.length > 11) {
                   heightValue = arrayResult[12] << 8 | arrayResult[11] & 0xff;
+
+                  binaryHeightValue = (heightValue >>> 0).toString(2);
+                  _ref2 = new Int16Array(['0b' + binaryHeightValue]), _ref3 = _slicedToArray(_ref2, 1), signedValue = _ref3[0];
                 }
-                event = new CustomEvent(this.eventName, { detail: heightValue });
+                event = new CustomEvent(this.eventName, { detail: signedValue });
 
                 dispatchEvent(event);
 
-              case 11:
+              case 10:
               case 'end':
                 return _context.stop();
             }
