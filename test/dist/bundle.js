@@ -28808,7 +28808,7 @@ global.moveInternal = function () {
 }();
 
 global.move = function () {
-  var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(seconds, pitch, roll, yaw, throttle) {
+  var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(seconds, roll, pitch, yaw, throttle) {
     var promiseCommand;
     return regeneratorRuntime.wrap(function _callee15$(_context15) {
       while (1) {
