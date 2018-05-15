@@ -1842,7 +1842,7 @@ exports.bytesTakeOff = dataArray;
 var dataArray = new Uint8Array(3);
 dataArray[0] = 17;
 dataArray[1] = 34;
-dataArray[2] = 7;
+dataArray[2] = 5;
 exports.bytesLand = dataArray;
 
 var dataArray = new Uint8Array(3);
@@ -28777,7 +28777,7 @@ global.go = function (direction, seconds, power) {
 };
 
 global.moveInternal = function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(pitch, roll, yaw, throttle) {
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(roll, pitch, yaw, throttle) {
     var moveCommand;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
@@ -28791,7 +28791,7 @@ global.moveInternal = function () {
             return _context13.abrupt('return');
 
           case 2:
-            moveCommand = new _move2.default(pitch, roll, yaw, throttle);
+            moveCommand = new _move2.default(roll, pitch, yaw, throttle);
             return _context13.abrupt('return', moveCommand.run());
 
           case 4:
@@ -28830,7 +28830,7 @@ global.move = function () {
                   while (1) {
                     switch (_context14.prev = _context14.next) {
                       case 0:
-                        moveCommand = new _move2.default(pitch, roll, yaw, throttle);
+                        moveCommand = new _move2.default(roll, pitch, yaw, throttle);
                         _context14.next = 3;
                         return moveCommand.run();
 
@@ -28841,14 +28841,18 @@ global.move = function () {
                         }
 
                         flightInteface.moveLoop();
-                        _context14.next = 9;
+                        _context14.next = 11;
                         break;
 
                       case 7:
+                        _context14.next = 9;
+                        return global.hover(1);
+
+                      case 9:
                         resolve();
                         return _context14.abrupt('return');
 
-                      case 9:
+                      case 11:
                       case 'end':
                         return _context14.stop();
                     }
