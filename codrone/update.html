@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Codrone Test</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="form-group">
+        <div class="jumbotron text-center">
+            <h1>CoDrone BLE Updater (beta)</h1>
+            <p>Pair and update CoDrone firmware</p>
+            <p>
+                <a class="btn btn-primary btn-lg" id="scanButton" href="#" role="button">
+                    <span class="glyphicon glyphicon-search"></span> Scan for Codrone</a>
+            </p>
+        </div>
+        <label class="col-md-4 control-label" for="singlebutton"></label>
+        <div id="controlsSection" style="display:none;" class="col-md-4 center-block">
+            <button id="disconnectButton" name="singlebutton" class="btn btn-default center-block">
+          <span class="glyphicon glyphicon-off"></span>  Disconnect
+        </button>
+
+            <div class="text-center">
+                <br>
+                <h4><strong>Current Main Firmware Version: </strong><span id="mainVersionLabel"></span>   </h4>
+                <h4><strong>Image Type: </strong><span id="mainTypeLabel"></span>   </h4>
+                <br>
+                <button id="updateStartButton" name="singlebutton" class="btn btn-success center-block">
+                <span class="glyphicon glyphicon-circle-arrow-up"></span>  Update
+                </button>
+                <br>
+                <h4 style="display:none" id="downloadMessage">Downloading lastest firmware...</h4>
+                <h4 style="display:none" id="updateProgressMessage">
+                  Sending Package <span id="packageSendLabel">0</span> of <span id="totalPackagesLabel"></span> ...
+                </h4>
+                <div id="success" style="display:none" class="alert alert-success">
+                <strong>Success!</strong> Process finish without issues.
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let device = null;
+        let service = null;
+        let writeCharacteristic = null;
+        let readCharacteristic = null;
+        let mainImageName = null;
+        let firmwareData = null
+        let totalPackages = 0;
+        let packagePosition = 0;
+
+
+        async function updateFirmware(){
+
+            $('#downloadMessage').hide();
+            $('#updateProgressMessage').show();
+
+            var sendPackage = new Uint8Array(firmwareData[packagePosition]);
+
+            await writeCharacteristic.writeValue(sendPackage);
+
+            const value = await readCharacteristic.readValue();
+
+            var arrayResult = new Uint8Array(value.buffer);
+
+            packagePosition++;
+
+            if(arrayResult &&  arrayResult.length === 3 && arrayResult[0] === 147){
+              (arrayResult[2] << 8) + arrayResult[1];
+              console.log('Begin package reLocation');
+              var newValue = (arrayResult[2] << 8) + arrayResult[1];
+              packagePosition = newValue;
+            }
+
+            console.log(packagePosition);
+
+            if(packagePosition < totalPackages){
+              $('#packageSendLabel').html(packagePosition);
+              updateFirmware();
+            }
+            else{
+                $('#updateProgressMessage').hide();
+                $('#success').show();
+                console.log('finish');
+            }
+
+
+        }
+
+        $('#updateStartButton').click(function(e) {
+          $('#downloadMessage').show();
+          $('#updateStartButton').hide();
+          $.get( "firmware/latest/main/"+mainImageName, function( data ) {
+            firmwareData = data;
+            totalPackages = data.length;
+            $('#totalPackagesLabel').html(totalPackages);
+            updateFirmware();
+          });
+
+        });
+
+        async function getFirmwareVersion(){
+
+            var bufferFirmwareVersion = new Uint8Array(5);
+
+              bufferFirmwareVersion[0] = 0x90;
+
+              bufferFirmwareVersion[1] = 0x01;
+              bufferFirmwareVersion[2] = 0x00;
+              bufferFirmwareVersion[3] = 0x00;
+              bufferFirmwareVersion[4] = 0x00;
+
+              await writeCharacteristic.writeValue(bufferFirmwareVersion);
+
+              const value = await readCharacteristic.readValue();
+
+              var arrayResult = new Uint8Array(value.buffer);
+
+              console.log('main firmware response', arrayResult);
+
+              var Imagetype = arrayResult[6];
+              var displayImageType =  null
+
+              if(Imagetype === 1){
+                  mainImageName = 'processed_imageB.json';
+                  displayImageType = 'Image A';
+                }
+                else{
+                  mainImageName = 'processed_imageA.json';
+                  displayImageType = 'Image B';
+                }
+
+              var mainFirmwareVersion =  arrayResult[7];
+
+              $('#mainVersionLabel').html(mainFirmwareVersion);
+              $('#mainTypeLabel').html(displayImageType);
+
+        }
+
+
+
+        function getSupportedProperties(characteristic) {
+            let supportedProperties = [];
+            for (const p in characteristic.properties) {
+                if (characteristic.properties[p] === true) {
+                    supportedProperties.push(p.toUpperCase());
+                }
+            }
+            return '[' + supportedProperties.join(', ') + ']';
+        }
+        $('#scanButton').click(function(e) {
+            e.preventDefault();
+
+            console.log('Requesting any Bluetooth Device...');
+            navigator.bluetooth.requestDevice({
+                    // filters: [...] <- Prefer filters to save energy & show relevant devices.
+                    acceptAllDevices: true,
+                    optionalServices: ['c320df00-7891-11e5-8bcf-feff819cdc9f']
+                })
+                .then(device => {
+                    console.log('Connecting to GATT Server...');
+                    return device.gatt.connect();
+                })
+                .then(server => {
+                    device = server;
+                  //  getFirmwareVersion();
+                    $('#controlsSection').show();
+                    return server.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f');
+                })
+                .then(serviceValue => {
+                    service = serviceValue;
+                    return service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f');;
+                  })
+                .then(characteristic => {
+                   writeCharacteristic = characteristic;
+                   return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
+                })
+                .then(characteristic => {
+                   readCharacteristic = characteristic;
+                   getFirmwareVersion();
+                })
+                .catch(error => {
+                    console.log('Argh! ' + error);
+                    //alert(error);
+                });
+
+        });
+
+
+        $('#disconnectButton').click(function(e) {
+          device.disconnect();
+          $('#controlsSection').hide();
+        });
+    </script>
+</body>
+
+</html>
