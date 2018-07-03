@@ -5213,7 +5213,8 @@ global.Sequence = {
   'SQUARE': 1,
   'CIRCLE': 2,
   'TRIANGLE': 3,
-  'ZIGZAG': 4
+  'ZIGZAG': 4,
+  'SWAY': 5
 };
 
 global.BACKSPACE = 8;
@@ -29855,9 +29856,17 @@ global.flySequence = function () {
             return _context.abrupt('return', sequencesInteface.zigzag());
 
           case 16:
+            if (!(sequenceType === global.Sequence.SWAY)) {
+              _context.next = 20;
+              break;
+            }
+
+            return _context.abrupt('return', sequencesInteface.sway());
+
+          case 20:
             alert(2);
 
-          case 17:
+          case 21:
           case 'end':
             return _context.stop();
         }
@@ -30068,19 +30077,19 @@ sequencesInteface.zigzag = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.ma
                   switch (_context8.prev = _context8.next) {
                     case 0:
                       _context8.next = 2;
-                      return global.move(1.1, 50, 50, 0, 0);
+                      return global.move(2, 50, 50, 0, 0);
 
                     case 2:
                       _context8.next = 4;
-                      return global.move(1.1, -50, 50, 0, 0);
+                      return global.move(2, -50, 50, 0, 0);
 
                     case 4:
                       _context8.next = 6;
-                      return global.move(1.1, 50, 50, 0, 0);
+                      return global.move(2, 50, 50, 0, 0);
 
                     case 6:
                       _context8.next = 8;
-                      return global.move(1.1, -50, 50, 0, 0);
+                      return global.move(2, -50, 50, 0, 0);
 
                     case 8:
                     case 'end':
@@ -30102,6 +30111,65 @@ sequencesInteface.zigzag = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.ma
       }
     }
   }, _callee9, this);
+}));
+
+sequencesInteface.sway = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+  var promiseCommand;
+  return regeneratorRuntime.wrap(function _callee11$(_context11) {
+    while (1) {
+      switch (_context11.prev = _context11.next) {
+        case 0:
+          console.log('move in a sway');
+
+          if (global.RUNNING) {
+            _context11.next = 3;
+            break;
+          }
+
+          return _context11.abrupt('return');
+
+        case 3:
+          promiseCommand = new Promise(function () {
+            var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(resolve, reject) {
+              return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                while (1) {
+                  switch (_context10.prev = _context10.next) {
+                    case 0:
+                      _context10.next = 2;
+                      return global.move(1.3, 50, 0, 0, 0);
+
+                    case 2:
+                      _context10.next = 4;
+                      return global.move(1.3, -50, 0, 0, 0);
+
+                    case 4:
+                      _context10.next = 6;
+                      return global.move(1.3, 50, 0, 0, 0);
+
+                    case 6:
+                      _context10.next = 8;
+                      return global.move(1.3, -50, 0, 0, 0);
+
+                    case 8:
+                    case 'end':
+                      return _context10.stop();
+                  }
+                }
+              }, _callee10, this);
+            }));
+
+            return function (_x10, _x11) {
+              return _ref11.apply(this, arguments);
+            };
+          }());
+          return _context11.abrupt('return', promiseCommand);
+
+        case 5:
+        case 'end':
+          return _context11.stop();
+      }
+    }
+  }, _callee11, this);
 }));
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
