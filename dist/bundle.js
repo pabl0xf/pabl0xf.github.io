@@ -5214,7 +5214,9 @@ global.Sequence = {
   'CIRCLE': 2,
   'TRIANGLE': 3,
   'ZIGZAG': 4,
-  'SWAY': 5
+  'SWAY': 5,
+  'HOP': 6,
+  'SPIRAL': 7
 };
 
 global.BACKSPACE = 8;
@@ -29864,9 +29866,17 @@ global.flySequence = function () {
             return _context.abrupt('return', sequencesInteface.sway());
 
           case 20:
+            if (!(sequenceType === global.Sequence.HOP)) {
+              _context.next = 24;
+              break;
+            }
+
+            return _context.abrupt('return', sequencesInteface.hop());
+
+          case 24:
             alert(2);
 
-          case 21:
+          case 25:
           case 'end':
             return _context.stop();
         }
@@ -30136,19 +30146,19 @@ sequencesInteface.sway = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark
                   switch (_context10.prev = _context10.next) {
                     case 0:
                       _context10.next = 2;
-                      return global.move(1.3, 50, 0, 0, 0);
+                      return global.move(2, 50, 0, 0, 0);
 
                     case 2:
                       _context10.next = 4;
-                      return global.move(1.3, -50, 0, 0, 0);
+                      return global.move(2, -50, 0, 0, 0);
 
                     case 4:
                       _context10.next = 6;
-                      return global.move(1.3, 50, 0, 0, 0);
+                      return global.move(2, 50, 0, 0, 0);
 
                     case 6:
                       _context10.next = 8;
-                      return global.move(1.3, -50, 0, 0, 0);
+                      return global.move(2, -50, 0, 0, 0);
 
                     case 8:
                     case 'end':
@@ -30170,6 +30180,127 @@ sequencesInteface.sway = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark
       }
     }
   }, _callee11, this);
+}));
+
+global.delay = function () {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(seconds) {
+    var promiseDelay;
+    return regeneratorRuntime.wrap(function _callee14$(_context14) {
+      while (1) {
+        switch (_context14.prev = _context14.next) {
+          case 0:
+            promiseDelay = new Promise(function () {
+              var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(resolve, reject) {
+                return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                  while (1) {
+                    switch (_context13.prev = _context13.next) {
+                      case 0:
+                        setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+                          return regeneratorRuntime.wrap(function _callee12$(_context12) {
+                            while (1) {
+                              switch (_context12.prev = _context12.next) {
+                                case 0:
+                                  resolve();
+                                  return _context12.abrupt('return');
+
+                                case 2:
+                                case 'end':
+                                  return _context12.stop();
+                              }
+                            }
+                          }, _callee12, this);
+                        })).bind(this), seconds * 1000);
+
+                      case 1:
+                      case 'end':
+                        return _context13.stop();
+                    }
+                  }
+                }, _callee13, this);
+              }));
+
+              return function (_x13, _x14) {
+                return _ref13.apply(this, arguments);
+              };
+            }());
+            return _context14.abrupt('return', promiseDelay);
+
+          case 2:
+          case 'end':
+            return _context14.stop();
+        }
+      }
+    }, _callee14, this);
+  }));
+
+  return function (_x12) {
+    return _ref12.apply(this, arguments);
+  };
+}();
+
+sequencesInteface.hop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+  var promiseCommand;
+  return regeneratorRuntime.wrap(function _callee16$(_context16) {
+    while (1) {
+      switch (_context16.prev = _context16.next) {
+        case 0:
+          console.log('move in a hop');
+
+          if (global.RUNNING) {
+            _context16.next = 3;
+            break;
+          }
+
+          return _context16.abrupt('return');
+
+        case 3:
+          promiseCommand = new Promise(function () {
+            var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(resolve, reject) {
+              return regeneratorRuntime.wrap(function _callee15$(_context15) {
+                while (1) {
+                  switch (_context15.prev = _context15.next) {
+                    case 0:
+                      _context15.next = 2;
+                      return global.move(1, 0, 30, 0, 50);
+
+                    case 2:
+                      console.log('delay hop 1');
+                      _context15.next = 5;
+                      return global.delay(1);
+
+                    case 5:
+                      _context15.next = 7;
+                      return global.move(1, 0, 30, 0, -50);
+
+                    case 7:
+                      console.log('delay hop 2');
+                      _context15.next = 10;
+                      return global.delay(1);
+
+                    case 10:
+                      _context15.next = 12;
+                      return global.hover(1);
+
+                    case 12:
+                    case 'end':
+                      return _context15.stop();
+                  }
+                }
+              }, _callee15, this);
+            }));
+
+            return function (_x15, _x16) {
+              return _ref16.apply(this, arguments);
+            };
+          }());
+          return _context16.abrupt('return', promiseCommand);
+
+        case 5:
+        case 'end':
+          return _context16.stop();
+      }
+    }
+  }, _callee16, this);
 }));
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
