@@ -3778,6 +3778,15 @@ var ledMode = {
   'arms': global.HOLD.armCode
 };
 
+var ledColorRGB = {
+  'eyeColorR': 255,
+  'eyeColorG': 0,
+  'eyeColorB': 0,
+  'armColorR': 255,
+  'armColorG': 0,
+  'armColorB': 0
+};
+
 var flyVars = {
   'yaw': 0,
   'roll': 0,
@@ -3787,6 +3796,7 @@ var flyVars = {
 
 exports.dataLedMode = ledMode;
 exports.flyVariables = flyVars;
+exports.ledColorRGB = ledColorRGB;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
@@ -30753,7 +30763,7 @@ function getBytesFromType(type) {
   return packages[type];
 }
 
-global.setArmColor = function () {
+global.setArmRGB = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(rValue, gValue, bValue) {
     var promiseCommand;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -30810,7 +30820,7 @@ global.setArmColor = function () {
   };
 }().bind(undefined);
 
-global.setEyeColor = function () {
+global.setEyeRGB = function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(rValue, gValue, bValue) {
     var promiseCommand;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
