@@ -7,7 +7,7 @@ exports.bytesTakeOff = dataArray;
 var dataArray = new Uint8Array(3);
 dataArray[0] = 17;
 dataArray[1] = 34;
-dataArray[2] = 7;
+dataArray[2] = 5;
 exports.bytesLand = dataArray;
 
 var dataArray = new Uint8Array(3);
@@ -62,13 +62,13 @@ dataArray[3] = 0;
 dataArray[4] = 0;
 exports.bytesFlyRight = dataArray;
 
-var dataArray = new Uint8Array(5);
+var dataArrayLeft = new Uint8Array(5);
 dataArray[0] = 16;
 dataArray[1] = -50;
 dataArray[2] = 0;
 dataArray[3] = 0;
 dataArray[4] = 0;
-exports.bytesFlyLeft = dataArray;
+exports.bytesFlyLeft = dataArrayLeft;
 
 var dataArray = new Uint8Array(5);
 dataArray[0] = 16;

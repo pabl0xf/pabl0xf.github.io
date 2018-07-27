@@ -8,7 +8,7 @@ export default class GetBatteryPercentage extends Command {
   }
 
   async run(){
-    await Code.writeCharacteristic.writeValue(this.package);
+    await this.sendBLECommand(this.package);
     const value = await Code.readCharacteristic.readValue();
 
     var arrayResult = new Uint8Array(value.buffer);

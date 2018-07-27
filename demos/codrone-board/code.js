@@ -41,6 +41,13 @@ Code.eventListeners = [];
 Code.workspaceCurrentCode = '';
 commandManager.initCommandConsumer();
 
+global.callstopExternalEvent = function() {
+  $.event.trigger({
+              type: 'stopExternalEvent',
+              message: ''
+  });
+}
+
 var refreshTabCode = function(event) {
   if(event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE){
 
@@ -57,10 +64,7 @@ var refreshTabCode = function(event) {
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
 
-      $.event.trigger({
-                  type: 'stopExternalEvent',
-                  message: ''
-                });
+      global.callstopExternalEvent();
     }
     if (content.id == 'content_javascript') {
         content.textContent = code;
@@ -362,10 +366,7 @@ Code.renderContent = function() {
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
 
-      $.event.trigger({
-                  type: 'stopExternalEvent',
-                  message: ''
-                });
+      global.callstopExternalEvent();
 
     }
   } else if (content.id == 'content_python') {
@@ -600,25 +601,9 @@ Code.runJS = function() {
   var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
   Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
   try {
-    eval('(async function(){'+code+'})()');
+    // add function to stop execution after block code
+    eval('(async function(){'+code+' callstopExternalEvent();})()');
     //eval(code);
-  } catch (e) {
-    alert(MSG['badCode'].replace('%1', e));
-  }
-};
-
-Code.runJSMethod = function(method) {
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
-  var timeouts = 0;
-  var checkTimeout = function() {
-    if (timeouts++ > 1000000) {
-      throw MSG['timeout'];
-    }
-  };
-  var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-  try {
-    eval(code+method);
   } catch (e) {
     alert(MSG['badCode'].replace('%1', e));
   }

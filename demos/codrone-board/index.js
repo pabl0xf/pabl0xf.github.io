@@ -4,6 +4,9 @@ import ReactDOM from "react-dom";
 import './code.js';
 import './commons/utils.js';
 import './lib/interfaces/flight.js';
+import './lib/interfaces/sequences.js';
+import './lib/interfaces/flyVariables.js';
+import './lib/interfaces/lights.js';
 import './lib/interfaces/sensors.js';
 import './lib/interfaces/events.js';
 

@@ -8,7 +8,7 @@ import GetGyroAngles from '../commands/getGyroAngles.js';
 global.getBatteryPercentage = function (){
    var getBatteryPercentage = new GetBatteryPercentage();
    var batteryValue = getBatteryPercentage.getValue();
-   commandManager.addCommand(getBatteryPercentage);
+   getBatteryPercentage.run()
    return batteryValue;
 }
 
@@ -22,14 +22,14 @@ global.getBatteryVoltage = function (){
 global.getHeight = function (){
    var getHeight = new GetHeight();
    var height = getHeight.getValue();
-   commandManager.addCommand(getHeight);
+   getHeight.run()
    return height;
 }
 
 global.getGyroAngles = function (){
    var getGyroAngles = new GetGyroAngles();
    var gyroAngles = getGyroAngles.getValue();
-   commandManager.addCommand(getGyroAngles);
+   getGyroAngles.run();
    return gyroAngles;
 }
 

@@ -27,30 +27,33 @@ export default class Go extends Command {
          packageToSend = this.package[0];
       break;
       case global.BACKWARD:
-      	t = this.power;
+      	p = (-1)*this.power;
+        console.log('go backward');
         packageToSend = this.package[1];
       break;
       case global.UP:
-        r = this.power;
+        t = this.power;
         packageToSend = this.package[2];
         break;
       break;
       case global.DOWN:
-        p = (-1)*this.power;
+        t = (-1)*this.power;
         packageToSend = this.package[3];
       break;
       case global.LEFT:
-      	t = (-1)*this.power;
+      	r = (-1)*this.power;
+        console.log('left');
         packageToSend = this.package[4];
       break;
       case global.RIGHT:
-      	r = (-1)*this.power;
+      	r = this.power;
         packageToSend = this.package[5];
       break;
     }
 
     if(this.power){
-      var goWithPowerPackage = packageToSend;
+      var goWithPowerPackage = new Uint8Array(5);
+      goWithPowerPackage[0] = 16;
       goWithPowerPackage[1] = r;
       goWithPowerPackage[2] = p;
       goWithPowerPackage[3] = 0;

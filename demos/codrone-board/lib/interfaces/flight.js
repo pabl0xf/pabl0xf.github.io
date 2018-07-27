@@ -1,4 +1,6 @@
-import { commandManager } from '../commandManager.js';
+import {
+  commandManager
+} from '../commandManager.js';
 import Move from '../commands/move.js';
 import TakeOff from '../commands/takeOff.js';
 import Go from '../commands/go.js';
@@ -6,186 +8,333 @@ import Hover from '../commands/hover.js';
 import Rotate180 from '../commands/rotate180.js';
 import Land from '../commands/land.js';
 import EmergencyStop from '../commands/emergencyStop.js';
+import { flyVariables } from '../model/data.js';
 
 var flightInteface = {};
 
-global.takeOff = function (){
-  var promiseCommand = new Promise(function(resolve, reject) {
+
+global.stopExecution = function(skipForceLanding) {
+  global.RUNNING = false;
+  global.loopInProgress = false;
+
+  if (Code.device != null && !skipForceLanding) {
+    setTimeout(async function() {
+      var emergencyStop = new EmergencyStop();
+      return emergencyStop.run();
+    }.bind(this), 100);
+  }
+}
+
+global.takeOff = async function() {
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
     var takeOff = new TakeOff();
-    commandManager.addCommand(takeOff);
-    setTimeout(function(){
-        resolve();
-      }.bind(this), 3000);
+    await takeOff.run();
+    setTimeout(async function() {
+      console.log('------------ En take off 3 sec');
+      resolve();
+      return;
+    }.bind(this), 3000);
+  });
+  return promiseCommand;
+}
+
+global.rotate180 = async function() {
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
+    var rotate180 = new Rotate180();
+    await rotate180.run();
+    resolve();
+    return;
   });
 
   return promiseCommand;
 }
 
-global.rotate180 = function(){
-  var rotate180 = new Rotate180();
-  commandManager.addCommand(rotate180);
+global.land = async function() {
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
+    var land = new Land();
+    await land.run();
+    resolve();
+  });
+  return promiseCommand;
 }
 
-global.land = function (){
-  var land = new Land();
-  commandManager.addCommand(land);
+global.emergencyStop = async function() {
+  if (!global.RUNNING){
+    return;
+  }
+    var emergencyStop = new EmergencyStop();
+    return emergencyStop.run();
 }
 
-global.emergencyStop = function (){
-  var emergencyStop = new EmergencyStop();
-  commandManager.addCommand(emergencyStop);
-}
-
-global.hover = function (seconds){
+global.hover = async function(seconds) {
   var promiseCommand = new Promise(function(resolve, reject) {
-  flightInteface.intervalId = setInterval(function() {
-      var hoverCommand = new Hover();
-      commandManager.addCommand(hoverCommand);
-    }.bind(this), 20);
+    global.loopInProgress = false;
+    flightInteface.hoverLoop = async function(){
+
+       var hoverCommand = new Hover();
+       await hoverCommand.run();
+
+      if(global.loopInProgress){
+        flightInteface.hoverLoop()
+      }
+      else{
+        resolve();
+        return;
+      }
+
+    }
+
+    global.loopInProgress = true;
 
     setTimeout(function() {
-      clearInterval(flightInteface.intervalId);
-      commandManager.cleanStack();
-      setTimeout(function() {
-        resolve();
-      }.bind(this), 500);
+      global.loopInProgress = false;
     }.bind(this), seconds * 1000);
+
+    flightInteface.hoverLoop();
+
   });
 
   return promiseCommand;
 }
 
-global.go = function (direction, seconds, power){
-  var promiseCommand = new Promise(function(resolve, reject) {
-    flightInteface.intervalId= setInterval(async function() {
-        var goCommand = new Go(direction, power);
-        commandManager.addCommand(goCommand);
-      }.bind(this), 20);
+global.go = function(direction, seconds, power) {
 
-      setTimeout(async function() {
-        clearInterval(flightInteface.intervalId);
-        commandManager.cleanStack();
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(function(resolve, reject) {
+    global.loopInProgress = false;
+    flightInteface.goLoop = async function(){
+
+       var goCommand = new Go(direction, power);
+       await goCommand.run();
+
+      if(global.loopInProgress){
+        flightInteface.goLoop();
+      }
+      else{
         await global.hover(1);
-          setTimeout(async function() {
-            resolve();
-          }.bind(this), 500);
+        resolve();
+        return;
+      }
+
+    }
+
+    global.loopInProgress = true;
+
+    setTimeout(function() {
+      global.loopInProgress = false;
+
+    }.bind(this), seconds * 1000);
+
+    flightInteface.goLoop();
+
+
+  });
+
+    return promiseCommand;
+
+}
+
+global.moveInternal = async function(roll, pitch, yaw, throttle) {
+    if (!global.RUNNING){
+      return;
+    }
+
+    var moveCommand = new Move(roll, pitch, yaw, throttle);
+    return moveCommand.run();
+}
+
+global.move = async function(seconds, roll, pitch, yaw, throttle) {
+    if (!global.RUNNING){
+      return;
+    }
+
+    if(seconds && !roll && !pitch && !yaw && !throttle){
+       roll = flyVariables.roll;
+       pitch = flyVariables.pitch;
+       yaw = flyVariables.yaw;
+       throttle = flyVariables.throttle;
+    }
+    else if(!seconds && !roll && !pitch && !yaw && !throttle){
+      return moveInternal(flyVariables.roll, flyVariables.pitch, flyVariables.yaw, flyVariables.throttle);
+    }
+
+
+    var promiseCommand = new Promise(function(resolve, reject) {
+      global.loopInProgress = false;
+      flightInteface.moveLoop = async function(){
+
+         var moveCommand = new Move(roll, pitch, yaw, throttle);
+         await moveCommand.run();
+
+        if(global.loopInProgress){
+          flightInteface.moveLoop()
+        }
+        else{
+          await global.hover(1);
+          resolve();
+          return;
+        }
+
+      }
+
+      global.loopInProgress = true;
+
+      setTimeout(function() {
+        global.loopInProgress = false;
       }.bind(this), seconds * 1000);
-  });
 
-  return promiseCommand;
+      flightInteface.moveLoop();
+
+    });
+
+    return promiseCommand;
 }
 
-global.move = function (pitch, roll, yaw, throttle){
-  var promiseCommand = new Promise(function(resolve, reject) {
-      var moveCommand = new Move(pitch, roll, yaw, throttle);
-      commandManager.addCommand(moveCommand);
-  });
+global.turnDegree = async function(direction, degree) {
 
-  return promiseCommand;
-}
-
-global.turnDegree = async function (direction, degree, power){
-
-  if(power){
-    turnWithDirectionAndPower(direction, degree, power);
+  if (!global.RUNNING){
     return;
   }
 
   var angle = await getGyroAngles();
-  console.log('Initial yawDegree:' + angle.yawDegree);
 
-  var speed = direction * 30;
+  var speed = direction * 15;
 
-	var dest = 360 + angle.yawDegree + degree * direction;
+  var dest = 360 + angle.yawDegree + parseInt(degree) * direction;
 
-	var min = (dest - 5)%360;
+  var min = (dest - 5) % 360;
 
-	var max = (dest + 5)%360;
-
+  var max = (dest + 5) % 360;
 
   var promiseCommand = new Promise(function(resolve, reject) {
-    flightInteface.intervalId = setInterval(async function() {
-        var angle = await getGyroAngles();
-        		if(min>max){
-            //  console.log('First big if');
-        			if(min<angle.yawDegree || max>angle.yawDegree) {
-                clearInterval(flightInteface.intervalId);
-                commandManager.cleanStack();
-                await global.hover(1);
-                resolve();
-              }
-        		}
-        		else {
-            //  console.log('Big else');
-              console.log('min:' + min + 'yawDegree:' + angle.yawDegree);
-            //  console.log('max:' + max);
-        			if(min<angle.yawDegree && max>angle.yawDegree) {
-                clearInterval(flightInteface.intervalId);
-                commandManager.cleanStack();
-                await global.hover(1);
-                resolve();
-              }
-        		}
 
-            //time out after 3 sec
+  global.loopInProgress = true;
 
-            console.log('speed:' + speed);
-            var moveCommand = new Move(0,0,speed,0);
-            commandManager.addCommand(moveCommand);
-     }.bind(this), 10);
+  flightInteface.adjustDegree = async function (){
+     var angle = await getGyroAngles();
+     console.log('Adjust Value is ', angle.yawDegree);
 
-   });
 
-   return promiseCommand;
+     if (min > max) {
+       if (min < angle.yawDegree || max > angle.yawDegree) {
+         await global.hover(1);
+         console.log('---- Running command: Ending turn', angle.yawDegree);
+         global.loopInProgress = false;
+         resolve();
+         return;
+
+       }
+     } else {
+         if (min < angle.yawDegree && max > angle.yawDegree) {
+           await global.hover(1);
+           console.log('---- Running command: Ending turn2', angle.yawDegree);
+           global.loopInProgress = false;
+           resolve();
+           return;
+         }
+      }
+
+         await moveInternal(0, 0, speed, 0);
+
+         if(global.loopInProgress){
+            flightInteface.adjustDegree();
+         }
+
+    }.bind(this);
+
+    flightInteface.adjustDegree();
+
+  });
+
+  return promiseCommand;
 }
 
+global.turn = function(direction, seconds, power) {
 
-global.turnWithDirectionAndPower = function (direction, seconds, power){
-  var y = power;
-	if(direction == global.LEFT){
-		y *= -1;
-  }
+  var speed = direction * power;
 
-  flightInteface.turnWithDirectionAndPowerInterval = setInterval(async function() {
-      var moveCommand = new Move(0,0,y,0);
-      commandManager.addCommand(moveCommand);
-    }.bind(this), 10);
+  var promiseCommand = new Promise(function(resolve, reject) {
+    global.loopInProgress = false;
+    flightInteface.turnLoop = async function(){
+
+       await moveInternal(0, 0, speed, 0);
+
+      if(global.loopInProgress){
+        flightInteface.turnLoop()
+      }
+      else{
+        await hover(1);
+        resolve();
+        return;
+      }
+
+    }
+
+    global.loopInProgress = true;
 
     setTimeout(function() {
-      clearInterval(flightInteface.turnWithDirectionAndPowerInterval);
-      hover(1);
+      global.loopInProgress = false;
     }.bind(this), seconds * 1000);
+
+    flightInteface.turnLoop();
+
+  });
+
+  return promiseCommand;
 }
 
-global.goToHeight = function (heightSet){
-  flightInteface.goToHeightIntevalId = setInterval(async function() {
-      var currentHeight = await getHeight();
-      console.log(currentHeight + "current height");
+global.goToHeight = function(heightSet) {
 
-      if(currentHeight < heightSet - 100){
-        console.log(currentHeight + "first if");
-        var moveCommand = new Move(0,0,0,20);
-        commandManager.addCommand(moveCommand);
-      }
-  		else if(currentHeight > heightSet + 100){
-        console.log(currentHeight + "second if");
-        var moveCommand = new Move(0,0,0,-20);
-        commandManager.addCommand(moveCommand);
-      }
-  		else if( currentHeight > heightSet-100 || currentHeight < heightSet+ 100){
-        console.log(currentHeight + "out");
-        var hoverCommand = new Hover();
-        commandManager.addCommand(hoverCommand);
-  			clearInterval(flightInteface.goToHeightIntevalId);
-  		}
+  var promiseCommand = new Promise(function(resolve, reject) {
 
-    }.bind(this), 10);
+    global.loopInProgress = true;
+
+    flightInteface.adjustHeight = async function (){
+       var height = await getHeight();
+       console.log('Current height is ', height);
+
+       if(height < heightSet - 100)
+  			 await moveInternal(0,0,0,20);
+  		 else if(height > heightSet + 100)
+  			 await moveInternal(0,0,0,-20);
+  		 else if( height > heightSet-100 || height < heightSet+ 100){
+  			 await hover(0.5);
+  			 global.loopInProgress = false;
+         resolve();
+         return;
+  	  	}
+
+
+       if(global.loopInProgress){
+          flightInteface.adjustHeight();
+       }
+
+      }.bind(this);
+
+      flightInteface.adjustHeight();
+
+  });
+
+  return promiseCommand;
 }
 
-
-global.removeFlightIntervals = function(){
-    clearInterval(flightInteface.moveIntevalId);
-    clearInterval(flightInteface.turnIntevalId);
-    clearInterval(flightInteface.goToHeightIntevalId);
-    clearInterval(flightInteface.intervalId);
+global.removeFlightIntervals = function() {
+  clearInterval(flightInteface.moveIntevalId);
+  clearInterval(flightInteface.goToHeightIntevalId);
+  clearInterval(flightInteface.intervalId);
 }

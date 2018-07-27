@@ -52,16 +52,12 @@ class Burger extends React.Component {
     }
   }
 
-  handleForceLandingClick(el) {
+  handleForceLandingClick(el, forceLanding) {
     $('.playButton').css('display', 'inline-block');
     $('.forceLanding').css('display', 'none');
     eventManager.removeAllEvents();
     keyPressManager.removeKeyPressEvents();
-    global.removeFlightIntervals();
-    commandManager.restartCommandConsumer();
-    if (Code.device != null) {
-         global.emergencyStop();
-    }
+    global.stopExecution(forceLanding);
   }
 
   handleRunClick(el) {
@@ -71,12 +67,13 @@ class Burger extends React.Component {
     }
     $('.forceLanding').css('display', 'inline-block');
     $('.playButton').css('display', 'none');
+    global.RUNNING = true;
     Code.runJS();
   }
 
   componentDidMount() {
     $(document).on("stopExternalEvent", function(){
-      this.handleForceLandingClick();
+      this.handleForceLandingClick(null, true);
     }.bind(this));
 }
 

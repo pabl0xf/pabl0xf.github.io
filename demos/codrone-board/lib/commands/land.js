@@ -4,10 +4,10 @@ import { bytesLand } from '../types/flyEventsTypes.js';
 export default class Land extends Command {
   constructor(){
       var packageLand = bytesLand;
-      super(packageLand, '');
+      super(packageLand, 'Land');
   }
 
   async run(){
-    await Code.writeCharacteristic.writeValue(this.package);
+    await this.sendBLECommand(this.package);
   }
 }

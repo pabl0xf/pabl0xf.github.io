@@ -11,14 +11,21 @@ export default class Command {
   async sendBLECommand(packageValue){
     console.log('---- Running command: ' + this.eventName);
     try {
-      return Code.writeCharacteristic.writeValue(packageValue);
+      return await Code.writeCharacteristic.writeValue(packageValue);
     }
     catch(e){
-      console.log('error in command '+ eventName );
+      console.log('error in command '+ this.eventName );
+      global.stopExecution();
       if(e){
         console.log(e);
       }
     }
+  }
+
+  removePackageHeader(buffer){
+    var packageValue = new Uint8Array(buffer);
+    console.log(packageValue);
+    return packageValue.slice(1, packageValue.length);
   }
 
   async getValue (){

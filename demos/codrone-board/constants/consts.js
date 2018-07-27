@@ -2,6 +2,8 @@ global.PRIMARY_SERVICE = 'c320df00-7891-11e5-8bcf-feff819cdc9f';
 global.WRITE_CHARACTERISTIC = 'c320df02-7891-11e5-8bcf-feff819cdc9f';
 global.NOTIIFY_CHARACTERISTIC = 'c320df01-7891-11e5-8bcf-feff819cdc9f';
 
+global.RUNNING = false;
+
 global.HOLD = {armCode: 0x41, eyeCode: 0x11};
 global.OFF = {armCode: 0x40, eyeCode: 0x10};
 global.BLINKING = {armCode: 0x43, eyeCode: 0x13};
@@ -36,21 +38,31 @@ global.UP = 4;
 global.DOWN = 5;
 
 global.DEGREE = {
-  'DEGREE.ANGLE_30' : 30,
-  'DEGREE.ANGLE_45' : 45,
-  'DEGREE.ANGLE_60' : 60,
-  'DEGREE.ANGLE_90' : 90,
-  'DEGREE.ANGLE_120' : 120,
-  'DEGREE.ANGLE_135' : 135,
-  'DEGREE.ANGLE_150' : 150,
-  'DEGREE.ANGLE_180' : 180,
-  'DEGREE.ANGLE_210' : 210,
-  'DEGREE.ANGLE_225' : 225,
-  'DEGREE.ANGLE_240' : 240,
-  'DEGREE.ANGLE_270' : 270,
-  'DEGREE.ANGLE_300' : 300,
-  'DEGREE.ANGLE_315' : 315,
-  'DEGREE.ANGLE_330' : 330
+  'ANGLE_30' : 30,
+  'ANGLE_45' : 45,
+  'ANGLE_60' : 60,
+  'ANGLE_90' : 90,
+  'ANGLE_120' : 120,
+  'ANGLE_135' : 135,
+  'ANGLE_150' : 150,
+  'ANGLE_180' : 180,
+  'ANGLE_210' : 210,
+  'ANGLE_225' : 225,
+  'ANGLE_240' : 240,
+  'ANGLE_270' : 270,
+  'ANGLE_300' : 300,
+  'ANGLE_315' : 315,
+  'ANGLE_330' : 330
+};
+
+global.Sequence = {
+  'SQUARE' : 1,
+  'CIRCLE' : 2,
+  'TRIANGLE' : 3,
+  'ZIGZAG' : 4,
+  'SWAY' : 5,
+  'HOP': 6,
+  'SPIRAL': 7
 };
 
 global.BACKSPACE = 8;

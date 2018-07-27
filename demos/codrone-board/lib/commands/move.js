@@ -8,10 +8,10 @@ export default class Move extends Command {
     movePackage[2] = pitch;
     movePackage[3] = yaw;
     movePackage[4] = throttle;
-    super(movePackage, '');
+    super(movePackage, 'Move Package');
   }
 
   async run(){
-    await Code.writeCharacteristic.writeValue(this.package);
+    await this.sendBLECommand(this.package);
   }
 }

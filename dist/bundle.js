@@ -30968,7 +30968,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 global.getBatteryPercentage = function () {
    var getBatteryPercentage = new _getBatteryPercentage2.default();
    var batteryValue = getBatteryPercentage.getValue();
-   _commandManager.commandManager.addCommand(getBatteryPercentage);
+   getBatteryPercentage.run();
    return batteryValue;
 };
 
