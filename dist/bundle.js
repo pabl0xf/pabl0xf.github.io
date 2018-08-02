@@ -29029,6 +29029,10 @@ global.hover = function () {
         switch (_context11.prev = _context11.next) {
           case 0:
             promiseCommand = new Promise(function (resolve, reject) {
+              if (seconds === 0) {
+                resolve();
+                return;
+              }
               global.loopInProgress = false;
               flightInteface.hoverLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
                 var hoverCommand;
