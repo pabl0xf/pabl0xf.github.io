@@ -29474,7 +29474,7 @@ global.goToHeight = function (heightSet) {
               }
 
               _context19.next = 7;
-              return moveInternal(0, 0, 0, 20);
+              return moveInternal(0, 0, 0, 30);
 
             case 7:
               _context19.next = 20;
@@ -29487,7 +29487,7 @@ global.goToHeight = function (heightSet) {
               }
 
               _context19.next = 12;
-              return moveInternal(0, 0, 0, -20);
+              return moveInternal(0, 0, 0, -30);
 
             case 12:
               _context19.next = 20;
@@ -30954,8 +30954,8 @@ global.setEyeMode = function () {
   };
 }().bind(undefined);
 
-global.setEyeRGB = function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(rValue, gValue, bValue) {
+global.setAllRGB = function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(red, green, blue) {
     var promiseCommand;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -30971,20 +30971,23 @@ global.setEyeRGB = function () {
           case 2:
             promiseCommand = new Promise(function () {
               var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(resolve, reject) {
-                var setEyeColor;
                 return regeneratorRuntime.wrap(function _callee7$(_context7) {
                   while (1) {
                     switch (_context7.prev = _context7.next) {
                       case 0:
-                        setEyeColor = new _setEyeColor2.default(rValue, gValue, bValue);
-                        _context7.next = 3;
-                        return setEyeColor.run();
+                        _context7.next = 2;
+                        return global.setArmRGB(red, green, blue);
 
-                      case 3:
+                      case 2:
+                        _context7.next = 4;
+                        return global.setEyeRGB(red, green, blue);
+
+                      case 4:
+
                         resolve();
                         return _context7.abrupt('return');
 
-                      case 5:
+                      case 6:
                       case 'end':
                         return _context7.stop();
                     }
@@ -31011,61 +31014,62 @@ global.setEyeRGB = function () {
   };
 }().bind(undefined);
 
-// global.setLEDto = function (type) {
-//   var ledPackage = getBytesFromType('bytesLedPackage');
-//   ledPackage[1] = this.data.ledMode.arms;
-//   ledPackage[2] = COLORS[type];
-//   Code.device.getPrimaryService(PRIMARY_SERVICE)
-//   .then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-//   .then(characteristic => {
-//      characteristic.writeValue(ledPackage).then(_ => {
-//        ledPackage[1] = this.data.ledMode.eye;
-//        ledPackage[2] = COLORS[type];
-//        Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-//        .then(characteristic => {
-//           return characteristic.writeValue(ledPackage);
-//        })
-//      })
-//   })
-// }.bind(this);
-//
-// global.setLEDMode = function (type) {
-//   var ledModePackage = getBytesFromType('bytesLedPackage');
-//   ledModePackage[1] = type.armCode;
-//   this.data.ledMode.arms = type.armCode
-//   Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-//   .then(characteristic => {
-//      characteristic.writeValue(ledModePackage).then(_ => {
-//        ledModePackage[1] = type.eyeCode;
-//        this.data.ledMode.eye = type.eyeCode;
-//        Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-//        .then(characteristic => {
-//           return characteristic.writeValue(ledModePackage);
-//        })
-//      })
-//   })
-// }.bind(this);
-//
-// global.resetLED = function () {
-//   var resetEyePackage = getBytesFromType('bytesResetLedPackage');
-//   Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-//   .then(characteristic => {
-//      characteristic.writeValue(resetEyePackage.arms).then(_ => {
-//        Code.device.getPrimaryService(PRIMARY_SERVICE).then(service => service.getCharacteristic(WRITE_CHARACTERISTIC))
-//        .then(characteristic => {
-//           return characteristic.writeValue(resetEyePackage.eye);
-//        })
-//      })
-//   })
-// }.bind(this);
-//
-// global.setArmRGB = function (red, green, blue) {
-//   alert('red:'+ red + ' green:'+ green + ' blue:'+ blue)
-// }.bind(this);
-//
-// global.setEyeRGB = function (red, green, blue) {
-//   alert('red:'+ red + ' green:'+ green + ' blue:'+ blue)
-// }.bind(this);
+global.setEyeRGB = function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(rValue, gValue, bValue) {
+    var promiseCommand;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            if (global.RUNNING) {
+              _context10.next = 2;
+              break;
+            }
+
+            return _context10.abrupt('return');
+
+          case 2:
+            promiseCommand = new Promise(function () {
+              var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(resolve, reject) {
+                var setEyeColor;
+                return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                  while (1) {
+                    switch (_context9.prev = _context9.next) {
+                      case 0:
+                        setEyeColor = new _setEyeColor2.default(rValue, gValue, bValue);
+                        _context9.next = 3;
+                        return setEyeColor.run();
+
+                      case 3:
+                        resolve();
+                        return _context9.abrupt('return');
+
+                      case 5:
+                      case 'end':
+                        return _context9.stop();
+                    }
+                  }
+                }, _callee9, this);
+              }));
+
+              return function (_x20, _x21) {
+                return _ref10.apply(this, arguments);
+              };
+            }());
+            return _context10.abrupt('return', promiseCommand);
+
+          case 4:
+          case 'end':
+            return _context10.stop();
+        }
+      }
+    }, _callee10, this);
+  }));
+
+  return function (_x17, _x18, _x19) {
+    return _ref9.apply(this, arguments);
+  };
+}().bind(undefined);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
