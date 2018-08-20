@@ -29104,6 +29104,10 @@ global.go = function (direction, seconds, power) {
   }
 
   var promiseCommand = new Promise(function (resolve, reject) {
+    if (seconds === 0) {
+      resolve();
+      return;
+    }
     global.loopInProgress = false;
     flightInteface.goLoop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
       var goCommand;
@@ -29145,6 +29149,8 @@ global.go = function (direction, seconds, power) {
 
     setTimeout(function () {
       global.loopInProgress = false;
+      resolve();
+      return;
     }.bind(this), seconds * 1000);
 
     flightInteface.goLoop();
@@ -29522,6 +29528,80 @@ global.goToHeight = function (heightSet) {
     })).bind(this);
 
     flightInteface.adjustHeight();
+  });
+
+  return promiseCommand;
+};
+
+global.goToHeight2 = function (height) {
+
+  var promiseCommand = new Promise(function (resolve, reject) {
+    var power = 30;
+    var interval = 20; // height - 10 ~ height + 10
+    global.loopInProgress = true;
+
+    flightInteface.adjustHeight2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+      var state, differ;
+      return regeneratorRuntime.wrap(function _callee20$(_context20) {
+        while (1) {
+          switch (_context20.prev = _context20.next) {
+            case 0:
+              _context20.next = 2;
+              return getHeight();
+
+            case 2:
+              state = _context20.sent;
+
+              console.log('Current height is ', height);
+              differ = height - state;
+
+              if (!(differ > interval)) {
+                _context20.next = 11;
+                break;
+              }
+
+              _context20.next = 8;
+              return moveInternal(0, 0, 0, 30);
+
+            case 8:
+              global.delay(0.1);
+              _context20.next = 20;
+              break;
+
+            case 11:
+              if (!(differ < -interval)) {
+                _context20.next = 17;
+                break;
+              }
+
+              _context20.next = 14;
+              return moveInternal(0, 0, 0, -30);
+
+            case 14:
+              global.delay(0.1);
+              _context20.next = 20;
+              break;
+
+            case 17:
+              global.loopInProgress = false;
+              resolve();
+              return _context20.abrupt('return');
+
+            case 20:
+
+              if (global.loopInProgress) {
+                flightInteface.adjustHeight2();
+              }
+
+            case 21:
+            case 'end':
+              return _context20.stop();
+          }
+        }
+      }, _callee20, this);
+    })).bind(this);
+
+    flightInteface.adjustHeight2();
   });
 
   return promiseCommand;
