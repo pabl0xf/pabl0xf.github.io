@@ -29147,7 +29147,7 @@ global.go = function (direction, seconds, power) {
               }
 
               flightInteface.goLoop();
-              _context12.next = 11;
+              _context12.next = 12;
               break;
 
             case 7:
@@ -29155,10 +29155,11 @@ global.go = function (direction, seconds, power) {
               return global.hover(1);
 
             case 9:
+              console.log('resolve go promise');
               resolve();
               return _context12.abrupt('return');
 
-            case 11:
+            case 12:
             case 'end':
               return _context12.stop();
           }
