@@ -29074,19 +29074,20 @@ global.hover = function () {
 
                       case 3:
                         if (!global.loopInProgress) {
-                          _context10.next = 7;
+                          _context10.next = 8;
                           break;
                         }
 
+                        resolve();
                         flightInteface.hoverLoop();
-                        _context10.next = 9;
+                        _context10.next = 10;
                         break;
 
-                      case 7:
+                      case 8:
                         resolve();
                         return _context10.abrupt('return');
 
-                      case 9:
+                      case 10:
                       case 'end':
                         return _context10.stop();
                     }
