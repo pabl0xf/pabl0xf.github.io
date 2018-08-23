@@ -33207,7 +33207,7 @@ var Panel = function (_React$Component5) {
         { id: "rightPanel-1" },
         _react2.default.createElement(
           "a",
-          { href: "#", tabindex: "-1", className: "close-right-panel", onClick: this.handleCloseClick },
+          { href: "#", tabIndex: "-1", className: "close-right-panel", onClick: this.handleCloseClick },
           _react2.default.createElement("i", { className: "glyphicon glyphicon-remove" })
         ),
         _react2.default.createElement(
