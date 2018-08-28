@@ -721,7 +721,7 @@ exports.bytesTakeOff = dataArray;
 var dataArray = new Uint8Array(3);
 dataArray[0] = 17;
 dataArray[1] = 34;
-dataArray[2] = 5;
+dataArray[2] = 6;
 exports.bytesLand = dataArray;
 
 var dataArray = new Uint8Array(3);
@@ -29121,16 +29121,19 @@ global.go = function (direction, seconds, power) {
               }
 
               flightInteface.goLoop();
-              _context11.next = 10;
+              _context11.next = 12;
               break;
 
             case 7:
-              //await global.hover(0.1);
               console.log('resolve go promise');
+              _context11.next = 10;
+              return global.hover(1);
+
+            case 10:
               resolve();
               return _context11.abrupt('return');
 
-            case 10:
+            case 12:
             case 'end':
               return _context11.stop();
           }
