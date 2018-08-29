@@ -721,7 +721,7 @@ exports.bytesTakeOff = dataArray;
 var dataArray = new Uint8Array(3);
 dataArray[0] = 17;
 dataArray[1] = 34;
-dataArray[2] = 6;
+dataArray[2] = 7;
 exports.bytesLand = dataArray;
 
 var dataArray = new Uint8Array(3);
@@ -3760,6 +3760,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var KeyPressManager = function () {
@@ -3773,21 +3775,46 @@ var KeyPressManager = function () {
   _createClass(KeyPressManager, [{
     key: 'addKeyPressCode',
     value: function addKeyPressCode(keyCode, callback) {
+
       this.keyPressMap[keyCode] = { callback: callback };
 
       if (this.keydownCallback) {
         return;
       }
 
-      this.keydownCallback = function (e) {
-        if (this.keyPressMap && this.keyPressMap[e.keyCode]) {
-          try {
-            this.keyPressMap[e.keyCode].callback();
-          } catch (e) {
-            alert(MSG['badCode'].replace('%1', e));
-          }
-        }
-      }.bind(this);
+      this.keydownCallback = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!(this.keyPressMap && this.keyPressMap[e.keyCode])) {
+                    _context.next = 8;
+                    break;
+                  }
+
+                  _context.prev = 1;
+                  return _context.abrupt('return', this.keyPressMap[e.keyCode].callback());
+
+                case 5:
+                  _context.prev = 5;
+                  _context.t0 = _context['catch'](1);
+
+                  alert(MSG['badCode'].replace('%1', _context.t0));
+
+                case 8:
+                case 'end':
+                  return _context.stop();
+              }
+            }
+          }, _callee, this, [[1, 5]]);
+        }));
+
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }().bind(this);
+
       global.addEventListener("keydown", this.keydownCallback);
     }
   }, {
@@ -5228,6 +5255,14 @@ global.CRASH = 2;
 global.UPSIDE_DOWN = 3;
 global.LOW_BATTERY = 'LowBattery';
 
+global.Direction = {
+  LEFT: -1,
+  RIGHT: 1,
+  BACKWARD: 2,
+  FORWARD: 3,
+  UP: 4,
+  DOWN: 5
+};
 global.LEFT = -1; // -1
 global.RIGHT = 1; // 1
 global.BACKWARD = 2;
@@ -5235,7 +5270,7 @@ global.FORWARD = 3;
 global.UP = 4;
 global.DOWN = 5;
 
-global.DEGREE = {
+global.Degree = {
   'ANGLE_30': 30,
   'ANGLE_45': 45,
   'ANGLE_60': 60,
@@ -28224,7 +28259,7 @@ var refreshTabCode = function refreshTabCode(event) {
       if (typeof PR.prettyPrintOne == 'function') {
         code = content.textContent;
         code = PR.prettyPrintOne(code, 'py');
-        content.innerHTML = code;
+        content.innerHTML = 'drone = CoDrone.CoDrone()\n' + 'drone.pair()\n\n' + code;
       }
     } else if (content.id == 'content_arduino') {
       code = Blockly.Python.workspaceToCode(Code.workspace);
@@ -28232,7 +28267,7 @@ var refreshTabCode = function refreshTabCode(event) {
       if (typeof PR.prettyPrintOne == 'function') {
         code = content.textContent;
         code = PR.prettyPrintOne(code, 'py');
-        content.innerHTML = code;
+        content.innerHTML = 'drone = CoDrone.CoDrone()\n' + 'drone.pair()\n\n' + code;
       }
     }
   }
@@ -28517,7 +28552,7 @@ Code.renderContent = function () {
     if (typeof PR.prettyPrintOne == 'function') {
       code = content.textContent;
       code = PR.prettyPrintOne(code, 'py');
-      content.innerHTML = code;
+      content.innerHTML = 'drone = CoDrone.CoDrone()\n' + 'drone.pair()\n\n' + code;
     }
   }
 };
@@ -29121,19 +29156,18 @@ global.go = function (direction, seconds, power) {
               }
 
               flightInteface.goLoop();
-              _context11.next = 12;
+              _context11.next = 11;
               break;
 
             case 7:
-              console.log('resolve go promise');
-              _context11.next = 10;
+              _context11.next = 9;
               return global.hover(1);
 
-            case 10:
+            case 9:
               resolve();
               return _context11.abrupt('return');
 
-            case 12:
+            case 11:
             case 'end':
               return _context11.stop();
           }
@@ -29736,7 +29770,7 @@ var Go = function (_Command) {
 
                 packageToSend = null;
                 _context.t0 = this.direction;
-                _context.next = _context.t0 === global.FORWARD ? 5 : _context.t0 === global.BACKWARD ? 8 : _context.t0 === global.UP ? 12 : _context.t0 === global.DOWN ? 16 : _context.t0 === global.LEFT ? 19 : _context.t0 === global.RIGHT ? 23 : 26;
+                _context.next = _context.t0 === global.Direction.FORWARD ? 5 : _context.t0 === global.Direction.BACKWARD ? 8 : _context.t0 === global.Direction.UP ? 12 : _context.t0 === global.Direction.DOWN ? 16 : _context.t0 === global.Direction.LEFT ? 19 : _context.t0 === global.Direction.RIGHT ? 23 : 26;
                 break;
 
               case 5:
@@ -32845,7 +32879,7 @@ var Burger = function (_React$Component) {
       $('.playButton').css('display', 'inline-block');
       $('.forceLanding').css('display', 'none');
       _eventManager.eventManager.removeAllEvents();
-      _keyPressManager.keyPressManager.removeKeyPressEvents();
+      //keyPressManager.removeKeyPressEvents();
       global.stopExecution(forceLanding);
     }
   }, {
