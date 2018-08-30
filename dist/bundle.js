@@ -712,85 +712,85 @@ module.exports = function (TYPE, $create) {
 "use strict";
 
 
-var dataArray = new Uint8Array(3);
-dataArray[0] = 17;
-dataArray[1] = 34;
-dataArray[2] = 1;
-exports.bytesTakeOff = dataArray;
+var dataArrayTakeOff = new Uint8Array(3);
+dataArrayTakeOff[0] = 17;
+dataArrayTakeOff[1] = 34;
+dataArrayTakeOff[2] = 1;
+exports.bytesTakeOff = dataArrayTakeOff;
 
-var dataArray = new Uint8Array(3);
-dataArray[0] = 17;
-dataArray[1] = 34;
-dataArray[2] = 7;
-exports.bytesLand = dataArray;
+var dataArrayLand = new Uint8Array(3);
+dataArrayLand[0] = 17;
+dataArrayLand[1] = 34;
+dataArrayLand[2] = 7;
+exports.bytesLand = dataArrayLand;
 
-var dataArray = new Uint8Array(3);
-dataArray[0] = 17;
-dataArray[1] = 36;
-dataArray[2] = 0;
-exports.bytesEmergencyStop = dataArray;
+var dataArrayStop = new Uint8Array(3);
+dataArrayStop[0] = 17;
+dataArrayStop[1] = 36;
+dataArrayStop[2] = 0;
+exports.bytesEmergencyStop = dataArrayStop;
 
-var dataArray = new Uint8Array(3);
-dataArray[0] = 17;
-dataArray[1] = 34;
-dataArray[2] = 14;
-exports.bytesRotate180 = dataArray;
+var dataArrayRotate180 = new Uint8Array(3);
+dataArrayRotate180[0] = 17;
+dataArrayRotate180[1] = 34;
+dataArrayRotate180[2] = 14;
+exports.bytesRotate180 = dataArrayRotate180;
 
-var dataArray = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = 0;
-dataArray[2] = 50;
-dataArray[3] = 0;
-dataArray[4] = 0;
-exports.bytesFlyForward = dataArray;
+var dataArrayGoForward = new Uint8Array(5);
+dataArrayGoForward[0] = 16;
+dataArrayGoForward[1] = 0;
+dataArrayGoForward[2] = 50;
+dataArrayGoForward[3] = 0;
+dataArrayGoForward[4] = 0;
+exports.bytesFlyForward = dataArrayGoForward;
 
-var dataArray = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = 0;
-dataArray[2] = -50;
-dataArray[3] = 0;
-dataArray[4] = 0;
-exports.bytesFlyBackward = dataArray;
+var dataArrayGoBackward = new Uint8Array(5);
+dataArrayGoBackward[0] = 16;
+dataArrayGoBackward[1] = 0;
+dataArrayGoBackward[2] = -50;
+dataArrayGoBackward[3] = 0;
+dataArrayGoBackward[4] = 0;
+exports.bytesFlyBackward = dataArrayGoBackward;
 
-var dataArray = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = 0;
-dataArray[2] = 0;
-dataArray[3] = 0;
-dataArray[4] = 50;
-exports.bytesFlyUp = dataArray;
+var dataArrayUp = new Uint8Array(5);
+dataArrayUp[0] = 16;
+dataArrayUp[1] = 0;
+dataArrayUp[2] = 0;
+dataArrayUp[3] = 0;
+dataArrayUp[4] = 50;
+exports.bytesFlyUp = dataArrayUp;
 
-var dataArray = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = 0;
-dataArray[2] = 0;
-dataArray[3] = 0;
-dataArray[4] = -50;
-exports.bytesFlyDown = dataArray;
+var dataArrayDown = new Uint8Array(5);
+dataArrayDown[0] = 16;
+dataArrayDown[1] = 0;
+dataArrayDown[2] = 0;
+dataArrayDown[3] = 0;
+dataArrayDown[4] = -50;
+exports.bytesFlyDown = dataArrayDown;
 
-var dataArray = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = 50;
-dataArray[2] = 0;
-dataArray[3] = 0;
-dataArray[4] = 0;
-exports.bytesFlyRight = dataArray;
+var dataArrayRight = new Uint8Array(5);
+dataArrayRight[0] = 16;
+dataArrayRight[1] = 50;
+dataArrayRight[2] = 0;
+dataArrayRight[3] = 0;
+dataArrayRight[4] = 0;
+exports.bytesFlyRight = dataArrayRight;
 
 var dataArrayLeft = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = -50;
-dataArray[2] = 0;
-dataArray[3] = 0;
-dataArray[4] = 0;
+dataArrayLeft[0] = 16;
+dataArrayLeft[1] = -50;
+dataArrayLeft[2] = 0;
+dataArrayLeft[3] = 0;
+dataArrayLeft[4] = 0;
 exports.bytesFlyLeft = dataArrayLeft;
 
-var dataArray = new Uint8Array(5);
-dataArray[0] = 16;
-dataArray[1] = 0;
-dataArray[2] = 0;
-dataArray[3] = 0;
-dataArray[4] = 0;
-exports.bytesHover = dataArray;
+var dataArrayHover = new Uint8Array(5);
+dataArrayHover[0] = 16;
+dataArrayHover[1] = 0;
+dataArrayHover[2] = 0;
+dataArrayHover[3] = 0;
+dataArrayHover[4] = 0;
+exports.bytesHover = dataArrayHover;
 
 /***/ }),
 /* 30 */
@@ -5295,38 +5295,49 @@ global.Sequence = {
   'SPIRAL': 7
 };
 
-global.BACKSPACE = 8;
-global.ENTER = 13;
-global.UP = 38;
-global.DOWN = 40;
-global.LEFT = 37;
-global.RIGHT = 39;
-global.a = 'a';
-global.b = 'b';
-global.c = 'c';
-global.d = 'd';
-global.e = 'e';
-global.f = 'f';
-global.g = 'g';
-global.h = 'h';
-global.i = 'i';
-global.j = 'j';
-global.k = 'k';
-global.l = 'l';
-global.m = 'm';
-global.n = 'n';
-global.o = 'o';
-global.p = 'p';
-global.q = 'q';
-global.r = 'r';
-global.s = 's';
-global.t = 't';
-global.u = 'u';
-global.v = 'v';
-global.w = 'w';
-global.x = 'x';
-global.y = 'y';
-global.z = 'z';
+global.Keyboard = {
+  BACKSPACE: 8,
+  ENTER: 13,
+  UP: 38,
+  DOWN: 40,
+  LEFT: 37,
+  RIGHT: 39,
+  _0: 48,
+  _1: 49,
+  _2: 50,
+  _3: 'a',
+  _4: 'a',
+  _6: 'a',
+  _7: 'a',
+  _8: 'a',
+  _9: 'a',
+  a: 'b',
+  b: 'b',
+  c: 'c',
+  d: 'd',
+  e: 'e',
+  f: 'f',
+  g: 'g',
+  h: 'h',
+  i: 'i',
+  j: 'j',
+  k: 'k',
+  l: 'l',
+  m: 'm',
+  n: 'n',
+  o: 'o',
+  p: 'p',
+  q: 'q',
+  r: 'r',
+  s: 's',
+  t: 't',
+  u: 'u',
+  v: 'v',
+  w: 'w',
+  x: 'x',
+  y: 'y',
+  z: 'z'
+};
 
 global.SUFFIX_JUNIOR = '_junior';
 global.SUFFIX_SENIOR = '_senior';
@@ -29830,6 +29841,7 @@ var Go = function (_Command) {
               case 23:
                 r = this.power;
                 packageToSend = this.package[5];
+
                 return _context.abrupt('break', 26);
 
               case 26:
@@ -29849,14 +29861,17 @@ var Go = function (_Command) {
                 return this.sendBLECommand(goWithPowerPackage);
 
               case 35:
-                _context.next = 39;
+                _context.next = 42;
                 break;
 
               case 37:
-                _context.next = 39;
+                console.log('packageToSend', packageToSend);
+                console.log('package on this', this.package);
+                console.log(packageToSend);
+                _context.next = 42;
                 return this.sendBLECommand(packageToSend);
 
-              case 39:
+              case 42:
               case 'end':
                 return _context.stop();
             }
