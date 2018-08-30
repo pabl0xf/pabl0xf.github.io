@@ -3789,25 +3789,28 @@ var KeyPressManager = function () {
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(this.keyPressMap && this.keyPressMap[e.keyCode])) {
-                    _context.next = 8;
+                    _context.next = 9;
                     break;
                   }
 
                   _context.prev = 1;
+
+                  global.RUNNING = true;
+                  //console.log(this.keyPressMap[e.keyCode]);
                   return _context.abrupt('return', this.keyPressMap[e.keyCode].callback());
 
-                case 5:
-                  _context.prev = 5;
+                case 6:
+                  _context.prev = 6;
                   _context.t0 = _context['catch'](1);
 
                   alert(MSG['badCode'].replace('%1', _context.t0));
 
-                case 8:
+                case 9:
                 case 'end':
                   return _context.stop();
               }
             }
-          }, _callee, this, [[1, 5]]);
+          }, _callee, this, [[1, 6]]);
         }));
 
         return function (_x) {
@@ -5263,12 +5266,6 @@ global.Direction = {
   UP: 4,
   DOWN: 5
 };
-global.LEFT = -1; // -1
-global.RIGHT = 1; // 1
-global.BACKWARD = 2;
-global.FORWARD = 3;
-global.UP = 4;
-global.DOWN = 5;
 
 global.Degree = {
   'ANGLE_30': 30,
@@ -5300,6 +5297,36 @@ global.Sequence = {
 
 global.BACKSPACE = 8;
 global.ENTER = 13;
+global.UP = 38;
+global.DOWN = 40;
+global.LEFT = 37;
+global.RIGHT = 39;
+global.a = 'a';
+global.b = 'b';
+global.c = 'c';
+global.d = 'd';
+global.e = 'e';
+global.f = 'f';
+global.g = 'g';
+global.h = 'h';
+global.i = 'i';
+global.j = 'j';
+global.k = 'k';
+global.l = 'l';
+global.m = 'm';
+global.n = 'n';
+global.o = 'o';
+global.p = 'p';
+global.q = 'q';
+global.r = 'r';
+global.s = 's';
+global.t = 't';
+global.u = 'u';
+global.v = 'v';
+global.w = 'w';
+global.x = 'x';
+global.y = 'y';
+global.z = 'z';
 
 global.SUFFIX_JUNIOR = '_junior';
 global.SUFFIX_SENIOR = '_senior';
