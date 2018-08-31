@@ -3796,7 +3796,6 @@ var KeyPressManager = function () {
                   _context.prev = 1;
 
                   global.RUNNING = true;
-                  //console.log(this.keyPressMap[e.keyCode]);
                   return _context.abrupt('return', this.keyPressMap[e.keyCode].callback());
 
                 case 6:
@@ -5298,6 +5297,7 @@ global.Sequence = {
 global.Keyboard = {
   BACKSPACE: 8,
   ENTER: 13,
+  SPACEBAR: 32,
   UP: 38,
   DOWN: 40,
   LEFT: 37,
