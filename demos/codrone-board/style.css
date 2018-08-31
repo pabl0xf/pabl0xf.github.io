@@ -786,6 +786,7 @@ button {
 
 .blocklyTreeLabel.status-checkers {
   background-image: url(images/icons/status_checkers_icon.svg);
+  opacity: 0.5;
 }
 
 .blocklyTreeLabel.computer-vision {
@@ -795,6 +796,7 @@ button {
 
 .blocklyTreeLabel.sensors {
   background-image: url(images/icons/sensor_icon.svg);
+  opacity: 0.5;
 }
 
 .blocklyTreeLabel.lights {
