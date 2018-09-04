@@ -8,7 +8,15 @@ var SensorArray = function (payload){
 }
 
 //Set last bit use by different sensors
+exports.droneState = SensorArray(0x31);
+
+exports.trimData = SensorArray(0x35);
+
 exports.sensorAngles = SensorArray(50);
+
+exports.sensorAccelerometer = SensorArray(0x50);
+
+exports.sensorOptFlow = SensorArray(0x52);
 
 exports.sensorBattery = SensorArray(49);
 

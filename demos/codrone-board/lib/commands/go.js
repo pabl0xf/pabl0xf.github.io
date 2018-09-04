@@ -19,35 +19,37 @@ export default class Go extends Command {
     var r,p,t;
   	r = p = t = 0;
 
+
     var packageToSend = null;
 
     switch(this.direction){
-      case global.FORWARD:
+      case global.Direction.FORWARD:
          p = this.power;
          packageToSend = this.package[0];
       break;
-      case global.BACKWARD:
+      case global.Direction.BACKWARD:
       	p = (-1)*this.power;
         console.log('go backward');
         packageToSend = this.package[1];
       break;
-      case global.UP:
+      case global.Direction.UP:
         t = this.power;
         packageToSend = this.package[2];
         break;
       break;
-      case global.DOWN:
+      case global.Direction.DOWN:
         t = (-1)*this.power;
         packageToSend = this.package[3];
       break;
-      case global.LEFT:
+      case global.Direction.LEFT:
       	r = (-1)*this.power;
         console.log('left');
         packageToSend = this.package[4];
       break;
-      case global.RIGHT:
+      case global.Direction.RIGHT:
       	r = this.power;
         packageToSend = this.package[5];
+
       break;
     }
 
@@ -61,6 +63,9 @@ export default class Go extends Command {
       await this.sendBLECommand(goWithPowerPackage);
     }
     else {
+      console.log('packageToSend', packageToSend);
+      console.log('package on this', this.package);
+      console.log(packageToSend);
       await this.sendBLECommand(packageToSend);
     }
   }

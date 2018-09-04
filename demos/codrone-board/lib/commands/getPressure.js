@@ -12,7 +12,7 @@ export default class GetPressure extends Command {
     const value = await Code.readCharacteristic.readValue();
 
     var arrayResult = new Uint8Array(value.buffer);
-    console.log(arrayResult);
+
     let pressureValue = arrayResult[7] & 0xFF;
     var event = new CustomEvent(this.eventName, { detail: pressureValue });
     dispatchEvent(event);

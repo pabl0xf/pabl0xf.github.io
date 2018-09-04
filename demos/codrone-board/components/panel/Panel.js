@@ -97,7 +97,7 @@ class Panel extends React.Component {
   render() {
     return (
         <div id="rightPanel-1">
-          <a href="#" className="close-right-panel" onClick={this.handleCloseClick}><i className="glyphicon glyphicon-remove"></i></a>
+          <a href="#" tabIndex="-1" className="close-right-panel" onClick={this.handleCloseClick}><i className="glyphicon glyphicon-remove"></i></a>
           <button className="show-right-panel" data-panel-id="1" onClick={this.handleClick}><img className="cap" src="./images/icons/graduation-cap.svg" />Tuts</button>
           <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}><img src="./images/icons/javascript_icon.png" />Javascript</button>
           <button className="show-right-panel" data-panel-id="3" data-tab="python" onClick={this.handleClick}><img src="./images/icons/python_icon_cropped.png" />Python</button>

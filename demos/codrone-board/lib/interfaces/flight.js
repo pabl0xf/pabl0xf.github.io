@@ -25,7 +25,7 @@ global.stopExecution = function(skipForceLanding) {
   }
 }
 
-global.takeOff = async function() {
+global.takeoff = async function() {
   if (!global.RUNNING){
     return;
   }
@@ -62,11 +62,8 @@ global.land = async function() {
     return;
   }
 
-  var promiseCommand = new Promise(async function(resolve, reject) {
-    var land = new Land();
-    await land.run();
-    resolve();
-  });
+  var landCommand = new Land();
+  return landCommand.run();
   return promiseCommand;
 }
 
@@ -80,6 +77,10 @@ global.emergencyStop = async function() {
 
 global.hover = async function(seconds) {
   var promiseCommand = new Promise(function(resolve, reject) {
+    if(seconds === 0){
+      resolve();
+      return;
+    }
     global.loopInProgress = false;
     flightInteface.hoverLoop = async function(){
 
@@ -116,6 +117,10 @@ global.go = function(direction, seconds, power) {
   }
 
   var promiseCommand = new Promise(function(resolve, reject) {
+    if(seconds === 0){
+      resolve();
+      return;
+    }
     global.loopInProgress = false;
     flightInteface.goLoop = async function(){
 
@@ -125,7 +130,7 @@ global.go = function(direction, seconds, power) {
       if(global.loopInProgress){
         flightInteface.goLoop();
       }
-      else{
+      else {
         await global.hover(1);
         resolve();
         return;
@@ -137,7 +142,6 @@ global.go = function(direction, seconds, power) {
 
     setTimeout(function() {
       global.loopInProgress = false;
-
     }.bind(this), seconds * 1000);
 
     flightInteface.goLoop();
@@ -309,9 +313,9 @@ global.goToHeight = function(heightSet) {
        console.log('Current height is ', height);
 
        if(height < heightSet - 100)
-  			 await moveInternal(0,0,0,20);
+  			 await moveInternal(0,0,0,30);
   		 else if(height > heightSet + 100)
-  			 await moveInternal(0,0,0,-20);
+  			 await moveInternal(0,0,0,-30);
   		 else if( height > heightSet-100 || height < heightSet+ 100){
   			 await hover(0.5);
   			 global.loopInProgress = false;
@@ -327,6 +331,45 @@ global.goToHeight = function(heightSet) {
       }.bind(this);
 
       flightInteface.adjustHeight();
+
+  });
+
+  return promiseCommand;
+}
+
+global.goToHeight2 = function(height) {
+
+  var promiseCommand = new Promise(function(resolve, reject) {
+    var power = 30
+    var interval = 20  // height - 10 ~ height + 10
+    global.loopInProgress = true;
+
+    flightInteface.adjustHeight2 = async function (){
+       var state = await getHeight();
+       console.log('Current height is ', height);
+       var differ = height - state;
+       if (differ > interval){   // Up
+  			 await moveInternal(0,0,0,30);
+         global.delay(0.1);
+        }
+  		 else if(differ < -interval){
+  			 await moveInternal(0,0,0,-30);
+         global.delay(0.1);
+       }
+  		 else {
+  			 global.loopInProgress = false;
+         resolve();
+         return;
+  	  	}
+
+
+       if(global.loopInProgress){
+          flightInteface.adjustHeight2();
+       }
+
+      }.bind(this);
+
+      flightInteface.adjustHeight2();
 
   });
 

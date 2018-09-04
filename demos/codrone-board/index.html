@@ -12,10 +12,10 @@
   <link href="vendor/bootstrap.min.css" rel="stylesheet">
   <script src="vendor/bootstrap.min.js"></script>
 
-  <script src="../../blockly_compressed.js"></script>
-  <script src="../../blocks_compressed.js"></script>
-  <script src="../../javascript_compressed.js"></script>
-  <script src="../../python_compressed.js"></script>
+  <script src="../blockly-lib/blockly_compressed.js"></script>
+  <script src="../blockly-lib/blocks_compressed.js"></script>
+  <script src="../blockly-lib/javascript_compressed.js"></script>
+  <script src="../blockly-lib/python_compressed.js"></script>
 </head>
 <body>
   <table width="100%" height="100%"  >
@@ -107,7 +107,7 @@
       <!-- <block type="onTakeoff_junior"></block> -->
       <!-- <block type="onCrash_junior"></block> -->
       <!-- <block type="onUpsideDown_junior"></block> -->
-      <!-- 
+      <!--
       <block type="isReadyToFly_junior"></block>
       <block type="isUpsideDown_junior"></block>
       <block type="isFlying_junior"></block>
@@ -121,10 +121,8 @@
       <block type="getGyroData_junior"></block> -->
     </category>
     <category name="Lights" >
-      <block type="setArmColor_junior"></block>
+      <block type="setArmRGB_junior"></block>
       <block type="setEyeRGB_junior"></block>
-      <block type="setArmLEDMode_junior"></block>
-      <block type="setEyeLEDMode_junior"></block>
       <block type="setAllLED_junior"></block>
     </category>
     <category name="Sound" >
@@ -473,6 +471,6 @@
       <block type="setRoll_senior"></block>
     </category>
   </xml>
-  <script src="../../dist/bundle.js"></script>
+  <script src="ble-lib/bundle.js"></script>
 </body>
 </html>

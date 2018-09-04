@@ -79,7 +79,8 @@ var refreshTabCode = function(event) {
       if (typeof PR.prettyPrintOne == 'function') {
         code = content.textContent;
         code = PR.prettyPrintOne(code, 'py');
-        content.innerHTML = code;
+        content.innerHTML =  'drone = CoDrone.CoDrone()\n'+
+                              'drone.pair()\n\n'+ code;
       }
     } else if (content.id == 'content_arduino') {
       code = Blockly.Python.workspaceToCode(Code.workspace);
@@ -87,7 +88,8 @@ var refreshTabCode = function(event) {
       if (typeof PR.prettyPrintOne == 'function') {
         code = content.textContent;
         code = PR.prettyPrintOne(code, 'py');
-        content.innerHTML = code;
+        content.innerHTML =  'drone = CoDrone.CoDrone()\n'+
+                              'drone.pair()\n\n'+ code;
       }
     }
   }
@@ -375,7 +377,8 @@ Code.renderContent = function() {
     if (typeof PR.prettyPrintOne == 'function') {
       code = content.textContent;
       code = PR.prettyPrintOne(code, 'py');
-      content.innerHTML = code;
+      content.innerHTML =  'drone = CoDrone.CoDrone()\n'+
+                            'drone.pair()\n\n'+ code;
     }
   }
 };
@@ -524,6 +527,12 @@ Code.init = function() {
 
   Code.loadWorkspace();
   $('.blocklyToolboxDiv').attr('role', 'junior');
+  $('.blocklyMainBackground').on('click', function(){
+    var menuEl = $('#burgerMenu .menu');
+    if (menuEl.hasClass('active')) {
+      menuEl.removeClass('active');
+    }
+  });
   addClassToCategories();
 };
 

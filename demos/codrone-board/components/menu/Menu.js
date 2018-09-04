@@ -56,7 +56,7 @@ class Burger extends React.Component {
     $('.playButton').css('display', 'inline-block');
     $('.forceLanding').css('display', 'none');
     eventManager.removeAllEvents();
-    keyPressManager.removeKeyPressEvents();
+    //keyPressManager.removeKeyPressEvents();
     global.stopExecution(forceLanding);
   }
 
