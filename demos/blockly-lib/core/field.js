@@ -438,7 +438,12 @@ Blockly.Field.prototype.getScaledBBox_ = function() {
  * @private
  */
 Blockly.Field.prototype.getDisplayText_ = function() {
-  if ((Blockly.Field.prototype.wasEditted == false) && ((this.sourceBlock_.type == "move_senior" && this.name != 'NUM0') || this.sourceBlock_.type == "setArmRGB_senior" || this.sourceBlock_.type == "setEyeRGB_senior" || this.sourceBlock_.type == "setAllRGB_senior") && (this.fieldGroup_ && this.fieldGroup_.classList[0] == "blocklyEditableText")) {
+  if ((Blockly.Field.prototype.wasEditted == false)
+    && ((this.sourceBlock_.type == "move_senior" && this.name != 'NUM0') ||
+    (this.sourceBlock_.type == "setArmRGB_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
+    (this.sourceBlock_.type == "setEyeRGB_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
+    (this.sourceBlock_.type == "setAllLED_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ))
+    && (this.fieldGroup_ && this.fieldGroup_.classList[0] == "blocklyEditableText")) {
     var text = this.name;
     this.fieldGroup_.classList.add('placeholder');
   } else {

@@ -1286,10 +1286,10 @@ Blockly.Blocks['setArmRGB_junior'] = {
   }
 };
 
-Blockly.Blocks['setEyeRGB_senior'] = {
+Blockly.Blocks['setArmRGB_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "setEyeRGB(%1, %2, %3)",
+      "message0": "set_arm_LED(%1, %2, %3), %4, %5",
       "args0": [
         {
             "type": "field_number",
@@ -1305,6 +1305,123 @@ Blockly.Blocks['setEyeRGB_senior'] = {
             "type": "field_number",
             "name": "blue",
             "value": 0
+          },
+          {
+            "type": "field_dropdown",
+            "name": "LEDMODE",
+            "options": [
+              ["solid", "Mode.SOLID"],
+              ["strobe", "Mode.STROBE"],
+              ["blink", "Mode.BLINK"],
+              ["double blink", "Mode.DOUBLE_BLINK"],
+              ["dimming", "Mode.DIMMING"],
+              ["pulse", "Mode.PULSE"],
+              ["reverse pulse", "Mode.REVERSE_PULSE"],
+              ["off", "Mode.OFF"],
+            ]
+          },
+          {
+              "type": "field_number",
+              "name": "INTERVAL",
+              "value": 0
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Constants.Codrone.HUE_Violet,
+      "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      "helpUrl": Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+
+Blockly.Blocks['setEyeRGB_senior'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "set_eye_LED(%1, %2, %3), %4, %5",
+      "args0": [
+        {
+            "type": "field_number",
+            "name": "red",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "green",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "blue",
+            "value": 0
+          },
+          {
+            "type": "field_dropdown",
+            "name": "LEDMODE",
+            "options": [
+              ["solid", "Mode.SOLID"],
+              ["strobe", "Mode.STROBE"],
+              ["blink", "Mode.BLINK"],
+              ["double blink", "Mode.DOUBLE_BLINK"],
+              ["dimming", "Mode.DIMMING"],
+              ["pulse", "Mode.PULSE"],
+              ["reverse pulse", "Mode.REVERSE_PULSE"],
+              ["off", "Mode.OFF"],
+            ]
+          },
+          {
+              "type": "field_number",
+              "name": "INTERVAL",
+              "value": 0
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Constants.Codrone.HUE_Violet,
+      "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      "helpUrl": Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+
+Blockly.Blocks['setAllLED_senior'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "set_all_LED(%1, %2, %3), %4, %5",
+      "args0": [
+        {
+            "type": "field_number",
+            "name": "red",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "green",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "blue",
+            "value": 0
+          },
+          {
+            "type": "field_dropdown",
+            "name": "LEDMODE",
+            "options": [
+              ["solid", "Mode.SOLID"],
+              ["strobe", "Mode.STROBE"],
+              ["blink", "Mode.BLINK"],
+              ["double blink", "Mode.DOUBLE_BLINK"],
+              ["dimming", "Mode.DIMMING"],
+              ["pulse", "Mode.PULSE"],
+              ["reverse pulse", "Mode.REVERSE_PULSE"],
+              ["off", "Mode.OFF"],
+            ]
+          },
+          {
+              "type": "field_number",
+              "name": "INTERVAL",
+              "value": 0
           }
       ],
       "previousStatement": null,
@@ -1479,10 +1596,10 @@ Blockly.Blocks['setAllLED_junior'] = {
   }
 };
 
-Blockly.Blocks['setAllRGB_senior'] = {
+Blockly.Blocks['setArmDefaltLED_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "setAllRGB(%1, %2, %3)",
+      "message0": "set_arm_default_LED(%1, %2, %3), %4, %5",
       "args0": [
         {
             "type": "field_number",
@@ -1498,6 +1615,121 @@ Blockly.Blocks['setAllRGB_senior'] = {
             "type": "field_number",
             "name": "blue",
             "value": 0
+          },
+          {
+            "type": "field_dropdown",
+            "name": "LEDMODE",
+            "options": [
+              ["solid", "Mode.SOLID"],
+              ["strobe", "Mode.STROBE"],
+              ["blink", "Mode.BLINK"],
+              ["double blink", "Mode.DOUBLE_BLINK"],
+              ["dimming", "Mode.DIMMING"],
+              ["pulse", "Mode.PULSE"],
+              ["reverse pulse", "Mode.REVERSE_PULSE"],
+              ["off", "Mode.OFF"],
+            ]
+          },
+          {
+              "type": "field_number",
+              "name": "INTERVAL",
+              "value": 0
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Constants.Codrone.HUE_Violet,
+      "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      "helpUrl": Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+Blockly.Blocks['setEyeDefaltLED_senior'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "set_eye_default_LED(%1, %2, %3), %4, %5",
+      "args0": [
+        {
+            "type": "field_number",
+            "name": "red",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "green",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "blue",
+            "value": 0
+          },
+          {
+            "type": "field_dropdown",
+            "name": "LEDMODE",
+            "options": [
+              ["solid", "Mode.SOLID"],
+              ["strobe", "Mode.STROBE"],
+              ["blink", "Mode.BLINK"],
+              ["double blink", "Mode.DOUBLE_BLINK"],
+              ["dimming", "Mode.DIMMING"],
+              ["pulse", "Mode.PULSE"],
+              ["reverse pulse", "Mode.REVERSE_PULSE"],
+              ["off", "Mode.OFF"],
+            ]
+          },
+          {
+              "type": "field_number",
+              "name": "INTERVAL",
+              "value": 0
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Constants.Codrone.HUE_Violet,
+      "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      "helpUrl": Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+Blockly.Blocks['setAllDefaltLED_senior'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "set_all_default_LED(%1, %2, %3), %4, %5",
+      "args0": [
+        {
+            "type": "field_number",
+            "name": "red",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "green",
+            "value": 0
+          },
+          {
+            "type": "field_number",
+            "name": "blue",
+            "value": 0
+          },
+          {
+            "type": "field_dropdown",
+            "name": "LEDMODE",
+            "options": [
+              ["solid", "Mode.SOLID"],
+              ["strobe", "Mode.STROBE"],
+              ["blink", "Mode.BLINK"],
+              ["double blink", "Mode.DOUBLE_BLINK"],
+              ["dimming", "Mode.DIMMING"],
+              ["pulse", "Mode.PULSE"],
+              ["reverse pulse", "Mode.REVERSE_PULSE"],
+              ["off", "Mode.OFF"],
+            ]
+          },
+          {
+              "type": "field_number",
+              "name": "INTERVAL",
+              "value": 0
           }
       ],
       "previousStatement": null,
@@ -1512,7 +1744,7 @@ Blockly.Blocks['setAllRGB_senior'] = {
 Blockly.Blocks['resetLED_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "resetLED",
+      "message0": "reset_default_LED()",
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Constants.Codrone.HUE_Violet,

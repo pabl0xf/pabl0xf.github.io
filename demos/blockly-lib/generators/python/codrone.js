@@ -188,31 +188,21 @@ Blockly.Python['hover_junior'] = function(block) {
   return 'drone.hover('+arg0+');\n';
 };
 
-Blockly.Python['setArmColor_junior'] = function(block) {
-  var arg0 = block.getFieldValue('DEGREE');
-  return 'setArmColor('+arg0+')\n';
+Blockly.Python['setArmRGB_junior'] = function(block) {
+  var arg0 = Blockly.Python.quote_(block.getFieldValue('COLOUR'));
+
+  var rColor = parseInt('0x'+arg0.substring(2,4));
+
+  var gColor = parseInt('0x'+arg0.substring(4,6));
+
+  var bColor = parseInt('0x'+arg0.substring(6,8));
+
+  var arg1 = block.getFieldValue('LEDMODE');
+  var arg2 = block.getFieldValue('INTERVAL');
+
+  return 'codrone.set_arm_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
 };
 
-Blockly.Python['setArmRGB_senior'] = function(block) {
-  var arg0 = block.getFieldValue('red');
-  var arg1 = block.getFieldValue('green');
-  var arg2 = block.getFieldValue('blue');
-  return 'setArmRGB('+arg0+','+arg1+','+arg2+')\n';
-};
-
-Blockly.Python['setAllRGB_senior'] = function(block) {
-  var arg0 = block.getFieldValue('red');
-  var arg1 = block.getFieldValue('green');
-  var arg2 = block.getFieldValue('blue');
-  return 'setAllRGB('+arg0+','+arg1+','+arg2+')\n';
-};
-
-Blockly.Python['setEyeRGB_senior'] = function(block) {
-  var arg0 = block.getFieldValue('red');
-  var arg1 = block.getFieldValue('green');
-  var arg2 = block.getFieldValue('blue');
-  return 'setEyeRGB('+arg0+','+arg1+','+arg2+')\n';
-};
 
 Blockly.Python['setEyeRGB_junior'] = function(block) {
   var arg0 = Blockly.Python.quote_(block.getFieldValue('COLOUR'));
@@ -242,6 +232,33 @@ Blockly.Python['setArmRGB_junior'] = function(block) {
   var arg2 = block.getFieldValue('INTERVAL');
 
   return 'codrone.set_arm_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
+};
+
+Blockly.Python['setEyeRGB_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'drone.set_eye_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+};
+
+Blockly.Python['setArmRGB_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'drone.set_arm_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+};
+
+Blockly.Python['setAllLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'drone.set_all_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
 
