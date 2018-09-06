@@ -1,8 +1,9 @@
 import {  commandManager } from '../commandManager.js';
 import SetArmColor from '../commands/setArmColor.js';
 import SetEyeColor from '../commands/setEyeColor.js';
-import SetArmMode from '../commands/setArmMode.js';
-import SetEyeMode from '../commands/setEyeMode.js';
+import SetArmDefaultLED from '../commands/setArmDefaultLED.js';
+import SetEyeDefaultLED from '../commands/setEyeDefaultLED.js';
+import SetAllDefaultLED from '../commands/setAllDefaultLED.js';
 import { dataLedMode } from '../model/data.js';
 
 
@@ -25,38 +26,6 @@ global.setArmLED = async function (rValue, gValue, bValue, mode, interval) {
 
   return promiseCommand;
 
-}.bind(this);
-
-global.setArmMode = async function (mode) {
-
-  if (!global.RUNNING){
-    return;
-  }
-
-  var promiseCommand = new Promise(async function(resolve, reject) {
-  var arMode = new SetArmMode(mode);
-    await arMode.run();
-    resolve();
-    return;
-  });
-
-  return promiseCommand;
-}.bind(this);
-
-global.setEyeMode = async function (mode) {
-
-  if (!global.RUNNING){
-    return;
-  }
-
-  var promiseCommand = new Promise(async function(resolve, reject) {
-    var eyeMode = new SetEyeMode(mode);
-    await eyeMode.run();
-    resolve();
-    return;
-  });
-
-  return promiseCommand;
 }.bind(this);
 
 global.setAllLED = async function (red, green, blue, mode, interval) {
@@ -85,6 +54,73 @@ global.setEyeLED = async function (rValue, gValue, bValue, mode, interval) {
   var promiseCommand = new Promise(async function(resolve, reject) {
     var setEyeColor = new SetEyeColor(rValue, gValue, bValue, mode, interval);
     await setEyeColor.run();
+    resolve();
+    return;
+  });
+
+  return promiseCommand;
+
+}.bind(this);
+
+global.setArmDefaultLED = async function (rValue, gValue, bValue, mode, interval) {
+
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
+    var setArmDefault = new SetArmDefaultLED(rValue, gValue, bValue,  mode + 0x30, interval);
+    await setArmDefault.run();
+    resolve();
+    return;
+  });
+
+  return promiseCommand;
+
+}.bind(this);
+
+global.setEyeDefaultLED = async function (rValue, gValue, bValue, mode, interval) {
+
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
+    var setEyeDefault = new SetEyeDefaultLED(rValue, gValue, bValue, mode, interval);
+    await setEyeDefault.run();
+    resolve();
+    return;
+  });
+
+  return promiseCommand;
+
+}.bind(this);
+
+global.setAllDefaultLED = async function (rValue, gValue, bValue, mode, interval) {
+
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
+    var setAllDefault = new SetAllDefaultLED(rValue, gValue, bValue, mode, interval);
+    await setAllDefault.run();
+    resolve();
+    return;
+  });
+
+  return promiseCommand;
+
+}.bind(this);
+
+global.resetDefaultLED = async function () {
+  if (!global.RUNNING){
+    return;
+  }
+
+  var promiseCommand = new Promise(async function(resolve, reject) {
+    var resetDefault = new ResetDefaultLED();
+    await resetDefault.run();
     resolve();
     return;
   });

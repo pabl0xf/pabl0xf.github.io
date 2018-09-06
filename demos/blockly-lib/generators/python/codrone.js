@@ -261,6 +261,36 @@ Blockly.Python['setAllLED_senior'] = function(block) {
   return 'drone.set_all_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
+Blockly.Python['setArmDefaltLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'drone.set_arm_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+};
+
+Blockly.Python['setEyeDefaltLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'drone.set_eye_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+};
+
+Blockly.Python['setAllDefaltLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'drone.set_all_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+};
+
+Blockly.Python['resetLED_senior'] = function(block) {
+  return 'drone.reset_default_LED();\n';
+};
 
 Blockly.Python['setLEDto_junior'] = function(block) {
   var arg0 = block.getFieldValue('LEDCOLOR');
@@ -286,20 +316,6 @@ Blockly.Python['setAllLED_junior'] = function(block) {
 
   return 'drone.set_all_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
 }
-
-Blockly.Python['setLEDMode_junior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'setLEDMode('+arg0+')\n';
-};
-
-Blockly.Python['flash_junior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'flash('+arg0+')\n';
-};
-
-Blockly.Python['resetLED_senior'] = function(block) {
-  return 'resetLED()\n';
-};
 
 Blockly.Python['playsound_junior'] = function(block) {
   var arg0 = block.getFieldValue('SOUND');

@@ -258,7 +258,7 @@ Blockly.JavaScript['setEyeRGB_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'await setEyeRGB('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'await setEyeLED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
 Blockly.JavaScript['setArmRGB_senior'] = function(block) {
@@ -279,34 +279,35 @@ Blockly.JavaScript['setAllLED_senior'] = function(block) {
   return 'await setAllLED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
-Blockly.JavaScript['setLEDto_junior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDCOLOR');
-  return 'setLEDto('+arg0+');\n';
+Blockly.JavaScript['setArmDefaltLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'await setArmDefaultLED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
-Blockly.JavaScript['setArmLEDMode_junior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'await setArmMode('+arg0+');\n';
+Blockly.JavaScript['setEyeDefaltLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'await setEyeDefaultLED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
-Blockly.JavaScript['setArmMode_senior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'await setArmMode('+arg0+');\n';
+Blockly.JavaScript['setAllDefaltLED_senior'] = function(block) {
+  var arg0 = block.getFieldValue('red');
+  var arg1 = block.getFieldValue('green');
+  var arg2 = block.getFieldValue('blue');
+  var arg3 = block.getFieldValue('LEDMODE');
+  var arg4 = block.getFieldValue('INTERVAL');
+  return 'await setAllDefaultLED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
 };
 
-Blockly.JavaScript['setEyeLEDMode_junior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'await setEyeMode('+arg0+');\n';
-};
-
-Blockly.JavaScript['setEyeMode_senior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'await setEyeMode('+arg0+');\n';
-};
-
-Blockly.JavaScript['flash_junior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'flash('+arg0+');\n';
+Blockly.JavaScript['resetLED_senior'] = function(block) {
+  return 'await resetDefaultLED();\n';
 };
 
 Blockly.JavaScript['setEyeRGB_junior'] = function(block) {
@@ -349,10 +350,6 @@ Blockly.JavaScript['setAllRGB_senior'] = function(block) {
   var bColor = parseInt('0x'+arg0.substring(6,8));
 
   return 'await setAllRGB('+rColor+','+gColor+','+bColor+');\n';
-};
-
-Blockly.JavaScript['resetLED_senior'] = function(block) {
-  return 'resetLED();\n';
 };
 
 Blockly.JavaScript['playsound_junior'] = function(block) {

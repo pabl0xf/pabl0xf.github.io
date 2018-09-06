@@ -442,7 +442,10 @@ Blockly.Field.prototype.getDisplayText_ = function() {
     && ((this.sourceBlock_.type == "move_senior" && this.name != 'NUM0') ||
     (this.sourceBlock_.type == "setArmRGB_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
     (this.sourceBlock_.type == "setEyeRGB_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
-    (this.sourceBlock_.type == "setAllLED_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ))
+    (this.sourceBlock_.type == "setAllLED_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
+    (this.sourceBlock_.type == "setArmDefaltLED_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
+    (this.sourceBlock_.type == "setEyeDefaltLED_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ) ||
+    (this.sourceBlock_.type == "setAllDefaltLED_senior"  && this.name != 'INTERVAL' && this.name != 'LEDMODE' ))
     && (this.fieldGroup_ && this.fieldGroup_.classList[0] == "blocklyEditableText")) {
     var text = this.name;
     this.fieldGroup_.classList.add('placeholder');
