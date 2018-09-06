@@ -1229,7 +1229,7 @@ Blockly.Blocks['setEyeRGB_junior'] = {
       {
           "type": "field_number",
           "name": "INTERVAL",
-          "value": 0
+          "value": 1
       }
       ],
       "previousStatement": null,
@@ -1274,7 +1274,7 @@ Blockly.Blocks['setArmRGB_junior'] = {
       {
           "type": "field_number",
           "name": "INTERVAL",
-          "value": 0
+          "value": 1
       }
       ],
       "previousStatement": null,
@@ -1323,7 +1323,7 @@ Blockly.Blocks['setArmRGB_senior'] = {
           {
               "type": "field_number",
               "name": "INTERVAL",
-              "value": 0
+              "value": 1
           }
       ],
       "previousStatement": null,
@@ -1372,7 +1372,7 @@ Blockly.Blocks['setEyeRGB_senior'] = {
           {
               "type": "field_number",
               "name": "INTERVAL",
-              "value": 0
+              "value": 1
           }
       ],
       "previousStatement": null,
@@ -1421,7 +1421,7 @@ Blockly.Blocks['setAllLED_senior'] = {
           {
               "type": "field_number",
               "name": "INTERVAL",
-              "value": 0
+              "value": 1
           }
       ],
       "previousStatement": null,
@@ -1584,7 +1584,7 @@ Blockly.Blocks['setAllLED_junior'] = {
       {
           "type": "field_number",
           "name": "INTERVAL",
-          "value": 0
+          "value": 1
       }
       ],
       "previousStatement": null,
@@ -1633,7 +1633,7 @@ Blockly.Blocks['setArmDefaltLED_senior'] = {
           {
               "type": "field_number",
               "name": "INTERVAL",
-              "value": 0
+              "value": 1
           }
       ],
       "previousStatement": null,
@@ -1681,7 +1681,7 @@ Blockly.Blocks['setEyeDefaltLED_senior'] = {
           {
               "type": "field_number",
               "name": "INTERVAL",
-              "value": 0
+              "value": 1
           }
       ],
       "previousStatement": null,
@@ -1729,7 +1729,7 @@ Blockly.Blocks['setAllDefaltLED_senior'] = {
           {
               "type": "field_number",
               "name": "INTERVAL",
-              "value": 0
+              "value": 1
           }
       ],
       "previousStatement": null,

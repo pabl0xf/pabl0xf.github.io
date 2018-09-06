@@ -4,6 +4,7 @@ import SetEyeColor from '../commands/setEyeColor.js';
 import SetArmDefaultLED from '../commands/setArmDefaultLED.js';
 import SetEyeDefaultLED from '../commands/setEyeDefaultLED.js';
 import SetAllDefaultLED from '../commands/setAllDefaultLED.js';
+import ResetDefaultLED from '../commands/resetDefaultLED.js';
 import { dataLedMode } from '../model/data.js';
 
 
@@ -103,7 +104,8 @@ global.setAllDefaultLED = async function (rValue, gValue, bValue, mode, interval
   }
 
   var promiseCommand = new Promise(async function(resolve, reject) {
-    var setAllDefault = new SetAllDefaultLED(rValue, gValue, bValue, mode, interval);
+    var setAllDefault = new SetAllDefaultLED(rValue, gValue, bValue, mode, interval,
+                                             rValue, gValue, bValue, mode + 0x30, interval);
     await setAllDefault.run();
     resolve();
     return;
@@ -114,6 +116,7 @@ global.setAllDefaultLED = async function (rValue, gValue, bValue, mode, interval
 }.bind(this);
 
 global.resetDefaultLED = async function () {
+
   if (!global.RUNNING){
     return;
   }

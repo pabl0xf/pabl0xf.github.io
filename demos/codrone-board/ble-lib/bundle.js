@@ -1480,6 +1480,41 @@ process.umask = function() { return 0; };
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+__webpack_require__(147);
+
+var ledMode = {
+  'eye': global.HOLD.eyeCode,
+  'arms': global.HOLD.armCode
+};
+
+var ledColorRGB = {
+  'eyeColorR': 255,
+  'eyeColorG': 0,
+  'eyeColorB': 0,
+  'armColorR': 255,
+  'armColorG': 0,
+  'armColorB': 0
+};
+
+var flyVars = {
+  'yaw': 0,
+  'roll': 0,
+  'pitch': 0,
+  'throttle': 0
+};
+
+exports.dataLedMode = ledMode;
+exports.flyVariables = flyVars;
+exports.ledColorRGB = ledColorRGB;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var META = __webpack_require__(37)('meta');
 var isObject = __webpack_require__(4);
 var has = __webpack_require__(13);
@@ -1536,7 +1571,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.31 Array.prototype[@@unscopables]
@@ -1547,41 +1582,6 @@ module.exports = function (key) {
   ArrayProto[UNSCOPABLES][key] = true;
 };
 
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-__webpack_require__(147);
-
-var ledMode = {
-  'eye': global.HOLD.eyeCode,
-  'arms': global.HOLD.armCode
-};
-
-var ledColorRGB = {
-  'eyeColorR': 255,
-  'eyeColorG': 0,
-  'eyeColorB': 0,
-  'armColorR': 255,
-  'armColorG': 0,
-  'armColorB': 0
-};
-
-var flyVars = {
-  'yaw': 0,
-  'roll': 0,
-  'pitch': 0,
-  'throttle': 0
-};
-
-exports.dataLedMode = ledMode;
-exports.flyVariables = flyVars;
-exports.ledColorRGB = ledColorRGB;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 36 */
@@ -2355,7 +2355,7 @@ var global = __webpack_require__(2);
 var $export = __webpack_require__(0);
 var redefine = __webpack_require__(15);
 var redefineAll = __webpack_require__(46);
-var meta = __webpack_require__(33);
+var meta = __webpack_require__(34);
 var forOf = __webpack_require__(45);
 var anInstance = __webpack_require__(44);
 var isObject = __webpack_require__(4);
@@ -3054,7 +3054,7 @@ module.exports = function fill(value /* , start = 0, end = @length */) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(34);
+var addToUnscopables = __webpack_require__(35);
 var step = __webpack_require__(122);
 var Iterators = __webpack_require__(52);
 var toIObject = __webpack_require__(17);
@@ -4283,7 +4283,7 @@ var $iterDefine = __webpack_require__(87);
 var step = __webpack_require__(122);
 var setSpecies = __webpack_require__(43);
 var DESCRIPTORS = __webpack_require__(7);
-var fastKey = __webpack_require__(33).fastKey;
+var fastKey = __webpack_require__(34).fastKey;
 var validate = __webpack_require__(53);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
@@ -4447,7 +4447,7 @@ module.exports = __webpack_require__(68)(SET, function (get) {
 
 var each = __webpack_require__(28)(0);
 var redefine = __webpack_require__(15);
-var meta = __webpack_require__(33);
+var meta = __webpack_require__(34);
 var assign = __webpack_require__(110);
 var weak = __webpack_require__(130);
 var isObject = __webpack_require__(4);
@@ -4512,7 +4512,7 @@ if (fails(function () { return new $WeakMap().set((Object.freeze || Object)(tmp)
 "use strict";
 
 var redefineAll = __webpack_require__(46);
-var getWeak = __webpack_require__(33).getWeak;
+var getWeak = __webpack_require__(34).getWeak;
 var anObject = __webpack_require__(1);
 var isObject = __webpack_require__(4);
 var anInstance = __webpack_require__(44);
@@ -5387,7 +5387,7 @@ var _command = __webpack_require__(6);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5470,7 +5470,7 @@ var _command2 = _interopRequireDefault(_command);
 
 var _flyEventsTypes = __webpack_require__(49);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5625,15 +5625,15 @@ __webpack_require__(375);
 
 __webpack_require__(376);
 
-__webpack_require__(380);
+__webpack_require__(381);
 
-__webpack_require__(391);
+__webpack_require__(392);
 
-var _ConnectionBox = __webpack_require__(393);
+var _ConnectionBox = __webpack_require__(394);
 
 var _ConnectionBox2 = _interopRequireDefault(_ConnectionBox);
 
-var _Menu = __webpack_require__(394);
+var _Menu = __webpack_require__(395);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
@@ -5641,7 +5641,7 @@ var _ContentTutorials = __webpack_require__(150);
 
 var _ContentTutorials2 = _interopRequireDefault(_ContentTutorials);
 
-var _Panel = __webpack_require__(395);
+var _Panel = __webpack_require__(396);
 
 var _Panel2 = _interopRequireDefault(_Panel);
 
@@ -5903,7 +5903,7 @@ var has = __webpack_require__(13);
 var DESCRIPTORS = __webpack_require__(7);
 var $export = __webpack_require__(0);
 var redefine = __webpack_require__(15);
-var META = __webpack_require__(33).KEY;
+var META = __webpack_require__(34).KEY;
 var $fails = __webpack_require__(3);
 var shared = __webpack_require__(59);
 var setToStringTag = __webpack_require__(50);
@@ -6241,7 +6241,7 @@ __webpack_require__(27)('getOwnPropertyNames', function () {
 
 // 19.1.2.5 Object.freeze(O)
 var isObject = __webpack_require__(4);
-var meta = __webpack_require__(33).onFreeze;
+var meta = __webpack_require__(34).onFreeze;
 
 __webpack_require__(27)('freeze', function ($freeze) {
   return function freeze(it) {
@@ -6256,7 +6256,7 @@ __webpack_require__(27)('freeze', function ($freeze) {
 
 // 19.1.2.17 Object.seal(O)
 var isObject = __webpack_require__(4);
-var meta = __webpack_require__(33).onFreeze;
+var meta = __webpack_require__(34).onFreeze;
 
 __webpack_require__(27)('seal', function ($seal) {
   return function seal(it) {
@@ -6271,7 +6271,7 @@ __webpack_require__(27)('seal', function ($seal) {
 
 // 19.1.2.15 Object.preventExtensions(O)
 var isObject = __webpack_require__(4);
-var meta = __webpack_require__(33).onFreeze;
+var meta = __webpack_require__(34).onFreeze;
 
 __webpack_require__(27)('preventExtensions', function ($preventExtensions) {
   return function preventExtensions(it) {
@@ -7916,7 +7916,7 @@ var $export = __webpack_require__(0);
 
 $export($export.P, 'Array', { copyWithin: __webpack_require__(121) });
 
-__webpack_require__(34)('copyWithin');
+__webpack_require__(35)('copyWithin');
 
 
 /***/ }),
@@ -7928,7 +7928,7 @@ var $export = __webpack_require__(0);
 
 $export($export.P, 'Array', { fill: __webpack_require__(95) });
 
-__webpack_require__(34)('fill');
+__webpack_require__(35)('fill');
 
 
 /***/ }),
@@ -7949,7 +7949,7 @@ $export($export.P + $export.F * forced, 'Array', {
     return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
   }
 });
-__webpack_require__(34)(KEY);
+__webpack_require__(35)(KEY);
 
 
 /***/ }),
@@ -7970,7 +7970,7 @@ $export($export.P + $export.F * forced, 'Array', {
     return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
   }
 });
-__webpack_require__(34)(KEY);
+__webpack_require__(35)(KEY);
 
 
 /***/ }),
@@ -9008,7 +9008,7 @@ $export($export.P, 'Array', {
   }
 });
 
-__webpack_require__(34)('includes');
+__webpack_require__(35)('includes');
 
 
 /***/ }),
@@ -9037,7 +9037,7 @@ $export($export.P, 'Array', {
   }
 });
 
-__webpack_require__(34)('flatMap');
+__webpack_require__(35)('flatMap');
 
 
 /***/ }),
@@ -9065,7 +9065,7 @@ $export($export.P, 'Array', {
   }
 });
 
-__webpack_require__(34)('flatten');
+__webpack_require__(35)('flatten');
 
 
 /***/ }),
@@ -28911,7 +28911,7 @@ var _emergencyStop = __webpack_require__(373);
 
 var _emergencyStop2 = _interopRequireDefault(_emergencyStop);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30791,7 +30791,7 @@ var _setEyeColor = __webpack_require__(149);
 
 var _setEyeColor2 = _interopRequireDefault(_setEyeColor);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30931,7 +30931,11 @@ var _setAllDefaultLED = __webpack_require__(379);
 
 var _setAllDefaultLED2 = _interopRequireDefault(_setAllDefaultLED);
 
-var _data = __webpack_require__(35);
+var _resetDefaultLED = __webpack_require__(380);
+
+var _resetDefaultLED2 = _interopRequireDefault(_resetDefaultLED);
+
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31251,7 +31255,7 @@ global.setAllDefaultLED = function () {
                   while (1) {
                     switch (_context11.prev = _context11.next) {
                       case 0:
-                        setAllDefault = new _setAllDefaultLED2.default(rValue, gValue, bValue, mode, interval);
+                        setAllDefault = new _setAllDefaultLED2.default(rValue, gValue, bValue, mode, interval, rValue, gValue, bValue, mode + 0x30, interval);
                         _context11.next = 3;
                         return setAllDefault.run();
 
@@ -31307,7 +31311,7 @@ global.resetDefaultLED = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark
                 while (1) {
                   switch (_context13.prev = _context13.next) {
                     case 0:
-                      resetDefault = new ResetDefaultLED();
+                      resetDefault = new _resetDefaultLED2.default();
                       _context13.next = 3;
                       return resetDefault.run();
 
@@ -31355,7 +31359,7 @@ var _command = __webpack_require__(6);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31436,7 +31440,7 @@ var _command = __webpack_require__(6);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31458,14 +31462,14 @@ var SetEyeDefaultLED = function (_Command) {
     _data.ledColorRGB.armColorG = gValue;
     _data.ledColorRGB.armColorB = bValue;
 
-    var armColorPackage = new Uint8Array(6);
-    armColorPackage[0] = 0x2C;
-    armColorPackage[1] = armMode;
-    armColorPackage[2] = rValue;
-    armColorPackage[3] = gValue;
-    armColorPackage[4] = bValue;
-    armColorPackage[5] = interval;
-    return _possibleConstructorReturn(this, (SetEyeDefaultLED.__proto__ || Object.getPrototypeOf(SetEyeDefaultLED)).call(this, armColorPackage, 'SetEyeDefaultLED'));
+    var eyeColorPackage = new Uint8Array(6);
+    eyeColorPackage[0] = 0x2C;
+    eyeColorPackage[1] = armMode;
+    eyeColorPackage[2] = rValue;
+    eyeColorPackage[3] = gValue;
+    eyeColorPackage[4] = bValue;
+    eyeColorPackage[5] = interval;
+    return _possibleConstructorReturn(this, (SetEyeDefaultLED.__proto__ || Object.getPrototypeOf(SetEyeDefaultLED)).call(this, eyeColorPackage, 'SetEyeDefaultLED'));
   }
 
   _createClass(SetEyeDefaultLED, [{
@@ -31517,7 +31521,7 @@ var _command = __webpack_require__(6);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _data = __webpack_require__(35);
+var _data = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31532,21 +31536,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SetAllDefaultLED = function (_Command) {
   _inherits(SetAllDefaultLED, _Command);
 
-  function SetAllDefaultLED(rValue, gValue, bValue, armMode, interval) {
+  function SetAllDefaultLED(rValue, gValue, bValue, mode, interval, rValue2, gValue2, bValue2, mode2, interval2) {
     _classCallCheck(this, SetAllDefaultLED);
 
     _data.ledColorRGB.armColorR = rValue;
     _data.ledColorRGB.armColorG = gValue;
     _data.ledColorRGB.armColorB = bValue;
 
-    var armColorPackage = new Uint8Array(6);
-    armColorPackage[0] = 0x2C;
-    armColorPackage[1] = armMode;
-    armColorPackage[2] = rValue;
-    armColorPackage[3] = gValue;
-    armColorPackage[4] = bValue;
-    armColorPackage[5] = interval;
-    return _possibleConstructorReturn(this, (SetAllDefaultLED.__proto__ || Object.getPrototypeOf(SetAllDefaultLED)).call(this, armColorPackage, 'SetAllDefaultLED'));
+    var AllDefaultColorPackage = new Uint8Array(11);
+    AllDefaultColorPackage[0] = 0x2D;
+    AllDefaultColorPackage[1] = mode;
+    AllDefaultColorPackage[2] = rValue;
+    AllDefaultColorPackage[3] = gValue;
+    AllDefaultColorPackage[4] = bValue;
+    AllDefaultColorPackage[5] = interval;
+    AllDefaultColorPackage[6] = mode2;
+    AllDefaultColorPackage[7] = rValue2;
+    AllDefaultColorPackage[8] = gValue2;
+    AllDefaultColorPackage[9] = bValue2;
+    AllDefaultColorPackage[10] = interval2;
+    return _possibleConstructorReturn(this, (SetAllDefaultLED.__proto__ || Object.getPrototypeOf(SetAllDefaultLED)).call(this, AllDefaultColorPackage, 'SetAllDefaultLED'));
   }
 
   _createClass(SetAllDefaultLED, [{
@@ -31586,47 +31595,133 @@ exports.default = SetAllDefaultLED;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+var _data = __webpack_require__(33);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ResetDefaultLED = function (_Command) {
+  _inherits(ResetDefaultLED, _Command);
+
+  function ResetDefaultLED() {
+    _classCallCheck(this, ResetDefaultLED);
+
+    _data.ledColorRGB.armColorR = 255;
+    _data.ledColorRGB.armColorG = 0;
+    _data.ledColorRGB.armColorB = 0;
+
+    var resetDefaultColorPackage = new Uint8Array(11);
+    resetDefaultColorPackage[0] = 0x2D;
+    resetDefaultColorPackage[1] = Mode.SOLID;
+    resetDefaultColorPackage[2] = 255;
+    resetDefaultColorPackage[3] = 0;
+    resetDefaultColorPackage[4] = 0;
+    resetDefaultColorPackage[5] = 100;
+    resetDefaultColorPackage[6] = Mode.SOLID + 0x30;
+    resetDefaultColorPackage[7] = 255;
+    resetDefaultColorPackage[8] = 0;
+    resetDefaultColorPackage[9] = 0;
+    resetDefaultColorPackage[10] = 100;
+    return _possibleConstructorReturn(this, (ResetDefaultLED.__proto__ || Object.getPrototypeOf(ResetDefaultLED)).call(this, resetDefaultColorPackage, 'ResetDefaultLED'));
+  }
+
+  _createClass(ResetDefaultLED, [{
+    key: 'run',
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.sendBLECommand(this.package);
+
+              case 2:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function run() {
+        return _ref.apply(this, arguments);
+      }
+
+      return run;
+    }()
+  }]);
+
+  return ResetDefaultLED;
+}(_command2.default);
+
+exports.default = ResetDefaultLED;
+
+/***/ }),
+/* 381 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
 var _commandManager = __webpack_require__(48);
 
-var _getBatteryPercentage = __webpack_require__(381);
+var _getBatteryPercentage = __webpack_require__(382);
 
 var _getBatteryPercentage2 = _interopRequireDefault(_getBatteryPercentage);
 
-var _getBatteryVoltage = __webpack_require__(382);
+var _getBatteryVoltage = __webpack_require__(383);
 
 var _getBatteryVoltage2 = _interopRequireDefault(_getBatteryVoltage);
 
-var _getHeight = __webpack_require__(383);
+var _getHeight = __webpack_require__(384);
 
 var _getHeight2 = _interopRequireDefault(_getHeight);
 
-var _getPressure = __webpack_require__(384);
+var _getPressure = __webpack_require__(385);
 
 var _getPressure2 = _interopRequireDefault(_getPressure);
 
-var _getGyroAngles = __webpack_require__(385);
+var _getGyroAngles = __webpack_require__(386);
 
 var _getGyroAngles2 = _interopRequireDefault(_getGyroAngles);
 
-var _getOptFlowPosition = __webpack_require__(386);
+var _getOptFlowPosition = __webpack_require__(387);
 
 var _getOptFlowPosition2 = _interopRequireDefault(_getOptFlowPosition);
 
-var _getDroneTemp = __webpack_require__(387);
+var _getDroneTemp = __webpack_require__(388);
 
 var _getDroneTemp2 = _interopRequireDefault(_getDroneTemp);
 
-var _getState = __webpack_require__(388);
+var _getState = __webpack_require__(389);
 
 var _getState2 = _interopRequireDefault(_getState);
 
-var _getTrim = __webpack_require__(389);
+var _getTrim = __webpack_require__(390);
 
 var _getTrim2 = _interopRequireDefault(_getTrim);
 
-var _getAccelerometer = __webpack_require__(390);
+var _getAccelerometer = __webpack_require__(391);
 
 var _getAccelerometer2 = _interopRequireDefault(_getAccelerometer);
 
@@ -31711,7 +31806,7 @@ global.getAngularSpeed = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 381 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31795,7 +31890,7 @@ var GetBatteryPercentage = function (_Command) {
 exports.default = GetBatteryPercentage;
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31881,7 +31976,7 @@ var GetBatteryVoltage = function (_Command) {
 exports.default = GetBatteryVoltage;
 
 /***/ }),
-/* 383 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31975,7 +32070,7 @@ var GetHeight = function (_Command) {
 exports.default = GetHeight;
 
 /***/ }),
-/* 384 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32059,7 +32154,7 @@ var GetPressure = function (_Command) {
 exports.default = GetPressure;
 
 /***/ }),
-/* 385 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32166,7 +32261,7 @@ var GetGyroAngles = function (_Command) {
 exports.default = GetGyroAngles;
 
 /***/ }),
-/* 386 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32252,7 +32347,7 @@ var GetOptFlowPosition = function (_Command) {
 exports.default = GetOptFlowPosition;
 
 /***/ }),
-/* 387 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32340,7 +32435,7 @@ var GetDroneTemp = function (_Command) {
 exports.default = GetDroneTemp;
 
 /***/ }),
-/* 388 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32426,7 +32521,7 @@ var GetState = function (_Command) {
 exports.default = GetState;
 
 /***/ }),
-/* 389 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32527,7 +32622,7 @@ var GetTrim = function (_Command) {
 exports.default = GetTrim;
 
 /***/ }),
-/* 390 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32625,7 +32720,7 @@ var GetAccelerometer = function (_Command) {
 exports.default = GetAccelerometer;
 
 /***/ }),
-/* 391 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32633,7 +32728,7 @@ exports.default = GetAccelerometer;
 
 __webpack_require__(147);
 
-var _lowBattery = __webpack_require__(392);
+var _lowBattery = __webpack_require__(393);
 
 var _lowBattery2 = _interopRequireDefault(_lowBattery);
 
@@ -32660,7 +32755,7 @@ global.onKeyPressEvent = function (keyCode, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 392 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32744,7 +32839,7 @@ exports.default = LowBattery;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 393 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33026,7 +33121,7 @@ var ConnectionBox = function (_Component) {
 exports.default = ConnectionBox;
 
 /***/ }),
-/* 394 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33244,7 +33339,7 @@ exports.default = Burger;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 395 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

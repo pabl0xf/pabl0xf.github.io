@@ -7,14 +7,14 @@ export default class SetEyeDefaultLED extends Command {
     ledColorRGB.armColorG = gValue;
     ledColorRGB.armColorB = bValue;
 
-    var armColorPackage = new Uint8Array(6);
-    armColorPackage[0] = 0x2C;
-    armColorPackage[1] = armMode;
-    armColorPackage[2] = rValue;
-    armColorPackage[3] = gValue;
-    armColorPackage[4] = bValue;
-    armColorPackage[5] = interval;
-      super(armColorPackage, 'SetEyeDefaultLED');
+    var eyeColorPackage = new Uint8Array(6);
+    eyeColorPackage[0] = 0x2C;
+    eyeColorPackage[1] = armMode;
+    eyeColorPackage[2] = rValue;
+    eyeColorPackage[3] = gValue;
+    eyeColorPackage[4] = bValue;
+    eyeColorPackage[5] = interval;
+      super(eyeColorPackage, 'SetEyeDefaultLED');
   }
 
   async run(){
