@@ -185,7 +185,7 @@ Blockly.Python['gotoheight_senior'] = function(block) {
 
 Blockly.Python['hover_junior'] = function(block) {
   var arg0 = parseFloat(block.getFieldValue('NUM0'));
-  return 'drone.hover('+arg0+');\n';
+  return 'drone.hover('+arg0+')\n';
 };
 
 Blockly.Python['setArmRGB_junior'] = function(block) {
@@ -200,7 +200,7 @@ Blockly.Python['setArmRGB_junior'] = function(block) {
   var arg1 = block.getFieldValue('LEDMODE');
   var arg2 = block.getFieldValue('INTERVAL');
 
-  return 'codrone.set_arm_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
+  return 'drone.set_arm_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+')\n';
 };
 
 
@@ -216,7 +216,7 @@ Blockly.Python['setEyeRGB_junior'] = function(block) {
   var arg1 = block.getFieldValue('LEDMODE');
   var arg2 = block.getFieldValue('INTERVAL');
 
-  return 'codrone.set_eye_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
+  return 'drone.set_eye_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+')\n';
 };
 
 Blockly.Python['setArmRGB_junior'] = function(block) {
@@ -231,7 +231,7 @@ Blockly.Python['setArmRGB_junior'] = function(block) {
   var arg1 = block.getFieldValue('LEDMODE');
   var arg2 = block.getFieldValue('INTERVAL');
 
-  return 'codrone.set_arm_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
+  return 'drone.set_arm_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+')\n';
 };
 
 Blockly.Python['setEyeRGB_senior'] = function(block) {
@@ -240,7 +240,7 @@ Blockly.Python['setEyeRGB_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'drone.set_eye_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'drone.set_eye_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+')\n';
 };
 
 Blockly.Python['setArmRGB_senior'] = function(block) {
@@ -249,7 +249,7 @@ Blockly.Python['setArmRGB_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'drone.set_arm_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'drone.set_arm_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+')\n';
 };
 
 Blockly.Python['setAllLED_senior'] = function(block) {
@@ -258,7 +258,7 @@ Blockly.Python['setAllLED_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'drone.set_all_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'drone.set_all_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+')\n';
 };
 
 Blockly.Python['setArmDefaltLED_senior'] = function(block) {
@@ -267,7 +267,7 @@ Blockly.Python['setArmDefaltLED_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'drone.set_arm_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'drone.set_arm_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+')\n';
 };
 
 Blockly.Python['setEyeDefaltLED_senior'] = function(block) {
@@ -276,7 +276,7 @@ Blockly.Python['setEyeDefaltLED_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'drone.set_eye_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'drone.set_eye_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+')\n';
 };
 
 Blockly.Python['setAllDefaltLED_senior'] = function(block) {
@@ -285,21 +285,16 @@ Blockly.Python['setAllDefaltLED_senior'] = function(block) {
   var arg2 = block.getFieldValue('blue');
   var arg3 = block.getFieldValue('LEDMODE');
   var arg4 = block.getFieldValue('INTERVAL');
-  return 'drone.set_all_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+');\n';
+  return 'drone.set_all_default_LED('+arg0+','+arg1+','+arg2+','+arg3+','+arg4+')\n';
 };
 
 Blockly.Python['resetLED_senior'] = function(block) {
-  return 'drone.reset_default_LED();\n';
+  return 'drone.reset_default_LED()\n';
 };
 
 Blockly.Python['setLEDto_junior'] = function(block) {
   var arg0 = block.getFieldValue('LEDCOLOR');
   return 'setLEDto('+arg0+')\n';
-};
-
-Blockly.Python['setLEDMode_senior'] = function(block) {
-  var arg0 = block.getFieldValue('LEDMODE');
-  return 'setLEDMode('+arg0+')\n';
 };
 
 Blockly.Python['setAllLED_junior'] = function(block) {
@@ -314,7 +309,7 @@ Blockly.Python['setAllLED_junior'] = function(block) {
   var arg1 = block.getFieldValue('LEDMODE');
   var arg2 = block.getFieldValue('INTERVAL');
 
-  return 'drone.set_all_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+');\n';
+  return 'drone.set_all_LED('+rColor+','+gColor+','+bColor+','+arg1+','+arg2+')\n';
 }
 
 Blockly.Python['playsound_junior'] = function(block) {
@@ -359,11 +354,11 @@ Blockly.Python['land_senior'] = function(block) {
 };
 
 Blockly.Python['emergencyStop_junior'] = function(block) {
-  return 'drone.emergency_stop();\n';
+  return 'drone.emergency_stop()\n';
 }
 
 Blockly.Python['emergencyStop_senior'] = function(block) {
-  return 'drone.emergency_stop();\n';
+  return 'drone.emergency_stop()\n';
 }
 
 Blockly.Python['go_direction_junior_3'] = function(block) {
@@ -387,13 +382,6 @@ Blockly.Python['whenKeyPress_junior'] = function(block) {
   var branch = Blockly.Python.statementToCode(block, 'DO');
   branch = Blockly.Python.addLoopTrap(branch, block.id);
   return 'addEvent(\'whenKeyPress\', function ('+arg0+'){\n' + branch + '})\n';
-};
-
-Blockly.Python['send_command'] = function(block) {
-  var branch = Blockly.Python.statementToCode(block, 'DO');
-  branch = Blockly.Python.addLoopTrap(branch, block.id);
-
-  return 'Code.device.getPrimaryService(\'c320df00-7891-11e5-8bcf-feff819cdc9f\')\n.then(service => service.getCharacteristic(\'c320df02-7891-11e5-8bcf-feff819cdc9f\'))\n.then(characteristic => {\n' + branch + '\n var uint8 = new Uint8Array(5);\n uint8[0] = 16;\n uint8[1] = roll;\n uint8[2] = pitch;\n uint8[3] = yaw;\n uint8[4] = throttle;\n return characteristic.writeValue(uint8);\n})\n';
 };
 
 Blockly.Python['rotate_180_junior'] = function(block) {
@@ -470,29 +458,29 @@ Blockly.Python['onIdle_senior'] = function(block) {
 
 
 Blockly.Python['flySquare_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.SQUARE);\n';
+  return 'drone.fly_sequence(Sequence.SQUARE)\n';
 }
 
 Blockly.Python['flyCircle_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.CIRCLE);\n';
+  return 'drone.fly_sequence(Sequence.CIRCLE)\n';
 }
 
 Blockly.Python['flySpiral_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.SPIRAL);\n';
+  return 'drone.fly_sequence(Sequence.SPIRAL)\n';
 }
 
 Blockly.Python['flyTriangle_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.TRIANGLE);\n';
+  return 'drone.fly_sequence(Sequence.TRIANGLE)\n';
 }
 
 Blockly.Python['flyHop_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.HOP);\n';
+  return 'drone.fly_sequence(Sequence.HOP)\n';
 }
 
 Blockly.Python['flysway_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.SWAY);\n';
+  return 'drone.fly_sequence(Sequence.SWAY)\n';
 }
 
 Blockly.Python['flyZigzag_junior'] = function(block) {
-  return 'drone.fly_sequence(Sequence.ZIGZAG);\n';
+  return 'drone.fly_sequence(Sequence.ZIGZAG)\n';
 }
