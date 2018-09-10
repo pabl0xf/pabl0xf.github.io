@@ -50,16 +50,6 @@ Blockly.Blocks.codrone.HUE = Blockly.Constants.Codrone.HUE;
 
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
 
-  {
-    "type": "emergency_landan",
-    "message0": "Emergency Land",
-    "output": null,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "%{BKY_TEXTS_HUE}",
-    "tooltip": "%{BKY_TEXT_JOIN_TOOLTIP}",
-    "helpUrl": "%{BKY_TEXT_JOIN_HELPURL}"
-  },
  {
   "type": "variables_get_roll",
   "message0": "get %1",
@@ -703,7 +693,7 @@ Blockly.Blocks['gotoheight2_junior'] = {
 Blockly.Blocks['gotoheight_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "goToHeight(%1 mm)",
+      "message0": "go_to_height(%1 mm)",
       "args0": [
       {
         "type": "field_number",
@@ -774,7 +764,7 @@ Blockly.Blocks['turn_degree_junior_2'] = {
 Blockly.Blocks['turn_degree_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "turnDegree(%2, %1º)",
+      "message0": "turn_degree(%2, %1º)",
       "args0": [
         {
         "type": "field_dropdown",
@@ -2122,7 +2112,7 @@ Blockly.Blocks['text_replace'] = {
 Blockly.Blocks['setRoll_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "setRoll(%1 %)",
+      "message0": "set_roll(%1 %)",
       "args0": [
         {
             "type": "field_number",
@@ -2144,7 +2134,7 @@ Blockly.Blocks['setRoll_senior'] = {
 Blockly.Blocks['setPitch_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "setPitch(%1 %)",
+      "message0": "set_pitch(%1 %)",
       "args0": [
         {
             "type": "field_number",
@@ -2166,7 +2156,7 @@ Blockly.Blocks['setPitch_senior'] = {
 Blockly.Blocks['setYaw_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "setYaw(%1 %)",
+      "message0": "set_yaw(%1 %)",
       "args0": [
         {
             "type": "field_number",
@@ -2188,7 +2178,7 @@ Blockly.Blocks['setYaw_senior'] = {
 Blockly.Blocks['setThrottle_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "setThrottle(%1 %)",
+      "message0": "set_throttle(%1 %)",
       "args0": [
         {
             "type": "field_number",
@@ -2210,7 +2200,7 @@ Blockly.Blocks['setThrottle_senior'] = {
 Blockly.Blocks['getRoll_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "getRoll()",
+      "message0": "get_roll()",
       "output": "Number",
       "colour": Blockly.Constants.Codrone.HUE_flight_variables,
       "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
@@ -2222,7 +2212,7 @@ Blockly.Blocks['getRoll_senior'] = {
 Blockly.Blocks['getPitch_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "getPitch()",
+      "message0": "get_pitch()",
       "output": "Number",
       "colour": Blockly.Constants.Codrone.HUE_flight_variables,
       "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
@@ -2234,7 +2224,7 @@ Blockly.Blocks['getPitch_senior'] = {
 Blockly.Blocks['getYaw_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "getYaw()",
+      "message0": "get_yaw()",
       "output": "Number",
       "colour": Blockly.Constants.Codrone.HUE_flight_variables,
       "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
@@ -2246,7 +2236,7 @@ Blockly.Blocks['getYaw_senior'] = {
 Blockly.Blocks['getThrottle_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "getThrottle()",
+      "message0": "get_throttle()",
       "output": "Number",
       "colour": Blockly.Constants.Codrone.HUE_flight_variables,
       "tooltip": Blockly.Msg.TEXT_JOIN_TOOLTIP,
@@ -2379,7 +2369,7 @@ Blockly.Blocks['emergencyStop_junior'] = {
 Blockly.Blocks['emergencyStop_senior'] = {
   init: function() {
     this.jsonInit({
-      "message0": "emergencyStop()",
+      "message0": "emergency_stop()",
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Constants.Codrone.HUE,
