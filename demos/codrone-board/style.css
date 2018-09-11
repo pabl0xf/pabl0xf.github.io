@@ -706,7 +706,7 @@ button {
 }
 
 
-#forceLanding, #runButton {
+#forceLanding, #runButton, #runButtonDisabled {
   background: #fff;
   border-color: #ccc;
   width: 40px;
@@ -717,11 +717,38 @@ button {
   font-size: 13px;
 }
 
-.forceLanding, .playButton {
+.forceLanding {
   display: inline-block;
-  left: 53px;
+  left: 138px;
   top: -49px;
   position: relative;
+}
+
+.playButton {
+  display: inline-block;
+  left: 13px;
+  top: -49px;
+  position: relative;
+  width: 60px;
+  text-align: center;
+}
+
+.playButton .running {
+  display: none;
+}
+
+.playButton.disabled button {
+  background-image: url('images/icons/gray_play_icon.svg') !important;
+}
+
+.playButton.disabled .running {
+  display: block;
+  width: 100px;
+  margin-left: -16px;
+}
+
+.playButton.disabled .not-running {
+  display: none;
 }
 
 .forceLanding span, .playButton span {
@@ -731,10 +758,6 @@ button {
   text-align: center;
   position: relative;
   left: -2px;
-}
-
-.forceLanding {
-  display: none;
 }
 
 #forceLanding {
@@ -749,6 +772,16 @@ button {
 }
 
 #runButton {
+  padding: 4px 5px;
+  font-size: 18px;
+  top: -93px;
+  background-image: url('images/icons/play.svg');
+  background-repeat: no-repeat;
+  background-position: 12px 6px;
+  background-size: 20px;
+}
+
+#runButtonDisabled {
   padding: 4px 5px;
   font-size: 18px;
   top: -93px;

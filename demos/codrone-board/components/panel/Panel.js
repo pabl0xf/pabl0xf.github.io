@@ -71,7 +71,7 @@ class Panel extends React.Component {
     var tab = el.currentTarget.dataset.tab;
 
     var activeTabButton = document.getElementsByClassName('show-right-panel active')[0];
-    
+
     if (activeTabButton) {
       activeTabButton.classList.remove('active');
     }
@@ -99,8 +99,8 @@ class Panel extends React.Component {
         <div id="rightPanel-1">
           <a href="#" tabIndex="-1" className="close-right-panel" onClick={this.handleCloseClick}><i className="glyphicon glyphicon-remove"></i></a>
           <button className="show-right-panel" data-panel-id="1" onClick={this.handleClick}><img className="cap" src="./images/icons/graduation-cap.svg" />Tuts</button>
-          <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}><img src="./images/icons/javascript_icon.png" />Javascript</button>
           <button className="show-right-panel" data-panel-id="3" data-tab="python" onClick={this.handleClick}><img src="./images/icons/python_icon_cropped.png" />Python</button>
+          <button className="show-right-panel" data-panel-id="2" data-tab="javascript" onClick={this.handleClick}><img src="./images/icons/javascript_icon.png" />Javascript</button>
           <button className="show-right-panel" data-panel-id="5" onClick={this.handleClick}><img className="arduino" src="./images/icons/arduino_icon.png" />Arduino</button>
 
           <ContentTutorials />

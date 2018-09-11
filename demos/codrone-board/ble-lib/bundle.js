@@ -33214,11 +33214,13 @@ var Burger = function (_React$Component) {
   }, {
     key: "handleForceLandingClick",
     value: function handleForceLandingClick(el, forceLanding) {
-      $('.playButton').css('display', 'inline-block');
-      $('.forceLanding').css('display', 'none');
       _eventManager.eventManager.removeAllEvents();
       //keyPressManager.removeKeyPressEvents();
       global.stopExecution(forceLanding);
+
+      if ($('.playButton').hasClass('disabled')) {
+        $('.playButton').removeClass('disabled');
+      }
     }
   }, {
     key: "handleRunClick",
@@ -33227,8 +33229,13 @@ var Burger = function (_React$Component) {
         alert('CoDrone is not connected!');
         return;
       }
-      $('.forceLanding').css('display', 'inline-block');
-      $('.playButton').css('display', 'none');
+      if ($('.playButton').hasClass('disabled')) {
+        $('.playButton').removeClass('disabled');
+        return;
+      } else {
+        $('.playButton').addClass('disabled');
+      }
+
       global.RUNNING = true;
       Code.runJS();
     }
@@ -33315,7 +33322,7 @@ var Burger = function (_React$Component) {
           _react2.default.createElement(
             "span",
             null,
-            "Stop code"
+            "Stop"
           )
         ),
         _react2.default.createElement(
@@ -33324,8 +33331,13 @@ var Burger = function (_React$Component) {
           _react2.default.createElement("button", { type: "button", id: "runButton", onClick: this.handleRunClick, className: "btn btn-danger navbar-btn" }),
           _react2.default.createElement(
             "span",
-            null,
+            { className: "not-running" },
             "Run code"
+          ),
+          _react2.default.createElement(
+            "span",
+            { className: "running" },
+            "Code running.."
           )
         )
       );
@@ -33564,15 +33576,15 @@ var Panel = function (_React$Component5) {
         ),
         _react2.default.createElement(
           "button",
-          { className: "show-right-panel", "data-panel-id": "2", "data-tab": "javascript", onClick: this.handleClick },
-          _react2.default.createElement("img", { src: "./images/icons/javascript_icon.png" }),
-          "Javascript"
-        ),
-        _react2.default.createElement(
-          "button",
           { className: "show-right-panel", "data-panel-id": "3", "data-tab": "python", onClick: this.handleClick },
           _react2.default.createElement("img", { src: "./images/icons/python_icon_cropped.png" }),
           "Python"
+        ),
+        _react2.default.createElement(
+          "button",
+          { className: "show-right-panel", "data-panel-id": "2", "data-tab": "javascript", onClick: this.handleClick },
+          _react2.default.createElement("img", { src: "./images/icons/javascript_icon.png" }),
+          "Javascript"
         ),
         _react2.default.createElement(
           "button",

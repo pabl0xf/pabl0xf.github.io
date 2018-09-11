@@ -53,11 +53,13 @@ class Burger extends React.Component {
   }
 
   handleForceLandingClick(el, forceLanding) {
-    $('.playButton').css('display', 'inline-block');
-    $('.forceLanding').css('display', 'none');
     eventManager.removeAllEvents();
     //keyPressManager.removeKeyPressEvents();
     global.stopExecution(forceLanding);
+    
+    if ($('.playButton').hasClass('disabled')) {
+      $('.playButton').removeClass('disabled');
+    }
   }
 
   handleRunClick(el) {
@@ -65,8 +67,13 @@ class Burger extends React.Component {
       alert('CoDrone is not connected!');
       return;
     }
-    $('.forceLanding').css('display', 'inline-block');
-    $('.playButton').css('display', 'none');
+    if ($('.playButton').hasClass('disabled')) {
+      $('.playButton').removeClass('disabled');
+      return;
+    } else {
+      $('.playButton').addClass('disabled');
+    }
+
     global.RUNNING = true;
     Code.runJS();
   }
@@ -93,8 +100,8 @@ class Burger extends React.Component {
               <a href="#" id="redoButton" data-action-button="redo" onClick={this.handleUndoRedoClick}><li>Redo</li></a>
             </ul>
           </div>
-          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn"></button><span>Stop code</span></div>
-          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"></button><span>Run code</span></div>
+          <div className="forceLanding"><button type="button" id="forceLanding" onClick={this.handleForceLandingClick} className="btn btn-danger navbar-btn"></button><span>Stop</span></div>
+          <div className="playButton"><button type="button" id="runButton" onClick={this.handleRunClick} className="btn btn-danger navbar-btn"></button><span className="not-running">Run code</span><span className="running">Code running..</span></div>
         </div>
     );
   }
