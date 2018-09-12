@@ -33223,7 +33223,6 @@ var Burger = function (_React$Component) {
 
       global.stopExecution(skipLanding);
 
-      alert("key press as attachmanet " + _keyPressManager.keyPressManager.hasKeyEventsAttached());
       if (skipLanding && _keyPressManager.keyPressManager.hasKeyEventsAttached()) {
         return;
       }
