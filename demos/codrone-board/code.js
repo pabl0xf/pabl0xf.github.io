@@ -21,10 +21,10 @@
  * @fileoverview JavaScript for Blockly's Code demo.
  * @author fraser@google.com (Neil Fraser)
  */
-'use strict';
-import { commandManager } from './lib/commandManager.js';
-import { eventManager } from './lib/eventManager.js';
-import { keyPressManager } from './lib/keyPressManager.js';
+"use strict";
+import { commandManager } from "./lib/commandManager.js";
+import { eventManager } from "./lib/eventManager.js";
+import { keyPressManager } from "./lib/keyPressManager.js";
 /**
  * Create a namespace for the application.
  */
@@ -34,62 +34,65 @@ global.Code = {};
  * Lookup for names of supported languages.  Keys should be in ISO 639 format.
  */
 Code.LANGUAGE_NAME = {
-  'en': 'English'
+  en: "English"
 };
 
 Code.eventListeners = [];
-Code.workspaceCurrentCode = '';
+Code.workspaceCurrentCode = "";
 commandManager.initCommandConsumer();
 
 global.callstopExternalEvent = function() {
   $.event.trigger({
-              type: 'stopExternalEvent',
-              message: ''
+    type: "stopExternalEvent",
+    message: ""
   });
-}
+};
 
 var refreshTabCode = function(event) {
-  if(event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE){
-
+  if (
+    event.type === Blockly.Events.DELETE ||
+    event.type === Blockly.Events.CREATE
+  ) {
   }
-  if( event.type === Blockly.Events.CHANGE ) {
-
+  if (event.type === Blockly.Events.CHANGE) {
   }
-  if ((event.type == Blockly.Events.CHANGE  ||
-    event.type == Blockly.Events.MOVE)  && Code.selected) {
-    var content = document.getElementById('content_' + Code.selected);
+  if (
+    (event.type == Blockly.Events.CHANGE ||
+      event.type == Blockly.Events.MOVE) &&
+    Code.selected
+  ) {
+    var content = document.getElementById("content_" + Code.selected);
     var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
-    if(Code.workspaceCurrentCode !== code){
+    if (Code.workspaceCurrentCode !== code) {
       Code.workspaceCurrentCode = code;
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
-
       global.callstopExternalEvent();
     }
-    if (content.id == 'content_javascript') {
-        content.textContent = code;
-        if (typeof PR.prettyPrintOne == 'function') {
-          code = content.textContent;
-          code = PR.prettyPrintOne(code, 'js');
-          content.innerHTML = code;
-        }
-    } else if (content.id == 'content_python') {
-      code = Blockly.Python.workspaceToCode(Code.workspace);
+    if (content.id == "content_javascript") {
       content.textContent = code;
-      if (typeof PR.prettyPrintOne == 'function') {
+      if (typeof PR.prettyPrintOne == "function") {
         code = content.textContent;
-        code = PR.prettyPrintOne(code, 'py');
-        content.innerHTML =  'drone = CoDrone.CoDrone()\n'+
-                              'drone.pair()\n\n'+ code;
+        code = PR.prettyPrintOne(code, "js");
+        content.innerHTML = code;
       }
-    } else if (content.id == 'content_arduino') {
+    } else if (content.id == "content_python") {
       code = Blockly.Python.workspaceToCode(Code.workspace);
       content.textContent = code;
-      if (typeof PR.prettyPrintOne == 'function') {
+      if (typeof PR.prettyPrintOne == "function") {
         code = content.textContent;
-        code = PR.prettyPrintOne(code, 'py');
-        content.innerHTML =  'drone = CoDrone.CoDrone()\n'+
-                              'drone.pair()\n\n'+ code;
+        code = PR.prettyPrintOne(code, "py");
+        content.innerHTML =
+          "drone = CoDrone.CoDrone()\n" + "drone.pair()\n\n" + code;
+      }
+    } else if (content.id == "content_arduino") {
+      code = Blockly.Python.workspaceToCode(Code.workspace);
+      content.textContent = code;
+      if (typeof PR.prettyPrintOne == "function") {
+        code = content.textContent;
+        code = PR.prettyPrintOne(code, "py");
+        content.innerHTML =
+          "drone = CoDrone.CoDrone()\n" + "drone.pair()\n\n" + code;
       }
     }
   }
@@ -97,21 +100,23 @@ var refreshTabCode = function(event) {
 
 let device = null;
 function getSupportedProperties(characteristic) {
-    let supportedProperties = [];
-    for (const p in characteristic.properties) {
-        if (characteristic.properties[p] === true) {
-            supportedProperties.push(p.toUpperCase());
-        }
+  let supportedProperties = [];
+  for (const p in characteristic.properties) {
+    if (characteristic.properties[p] === true) {
+      supportedProperties.push(p.toUpperCase());
     }
-    return '[' + supportedProperties.join(', ') + ']';
+  }
+  return "[" + supportedProperties.join(", ") + "]";
 }
 
-Code.showNotification = function(Text){
-  var element = $('#notification');
-  element.find('span').text(Text);
-  element.addClass('show');
-  setTimeout(function(){ element.removeClass('show'); }, 3000);
-}
+Code.showNotification = function(Text) {
+  var element = $("#notification");
+  element.find("span").text(Text);
+  element.addClass("show");
+  setTimeout(function() {
+    element.removeClass("show");
+  }, 3000);
+};
 
 var readSingleFile = function(e) {
   Blockly.mainWorkspace.clear();
@@ -125,45 +130,46 @@ var readSingleFile = function(e) {
     displayContents(contents);
   };
   reader.readAsText(file);
-}
+};
 
 var displayContents = function(contents) {
   var xml = Blockly.Xml.textToDom(contents);
   Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-}
+};
 
-var addClassToCategories = function(){
-  var el = $('.blocklyTreeLabel');
-  $.each(el, function(i, val){
-    var className = val.textContent.replace(' ','-').toLowerCase();
+var addClassToCategories = function() {
+  var el = $(".blocklyTreeLabel");
+  $.each(el, function(i, val) {
+    var className = val.textContent.replace(" ", "-").toLowerCase();
     $(val).addClass(className);
   });
-}
-document.getElementById('file-input')
-  .addEventListener('change', readSingleFile, false);
+};
+document
+  .getElementById("file-input")
+  .addEventListener("change", readSingleFile, false);
 
 Code.createAndOpenFile = function(filename, xml) {
   var xmltext = Blockly.Xml.domToText(xml);
-  var pom = document.createElement('a');
+  var pom = document.createElement("a");
 
   var filename = filename + ".xml";
-  var pom = document.createElement('a');
-  var bb = new Blob([xmltext], {type: 'text/plain'});
+  var pom = document.createElement("a");
+  var bb = new Blob([xmltext], { type: "text/plain" });
 
-  pom.setAttribute('href', window.URL.createObjectURL(bb));
-  pom.setAttribute('download', filename);
+  pom.setAttribute("href", window.URL.createObjectURL(bb));
+  pom.setAttribute("download", filename);
 
-  pom.dataset.downloadurl = ['text/plain', pom.download, pom.href].join(':');
+  pom.dataset.downloadurl = ["text/plain", pom.download, pom.href].join(":");
   pom.draggable = true;
-  pom.classList.add('dragout');
+  pom.classList.add("dragout");
 
   pom.click();
-}
+};
 
 /**
  * List of RTL languages.
  */
-Code.LANGUAGE_RTL = ['ar', 'fa', 'he', 'lki'];
+Code.LANGUAGE_RTL = ["ar", "fa", "he", "lki"];
 
 /**
  * Blockly's main workspace.
@@ -179,8 +185,8 @@ Code.workspace = null;
  * @return {string} The parameter value or the default value if not found.
  */
 Code.getStringParamFromUrl = function(name, defaultValue) {
-  var val = location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
-  return val ? decodeURIComponent(val[1].replace(/\+/g, '%20')) : defaultValue;
+  var val = location.search.match(new RegExp("[?&]" + name + "=([^&]+)"));
+  return val ? decodeURIComponent(val[1].replace(/\+/g, "%20")) : defaultValue;
 };
 
 /**
@@ -188,10 +194,10 @@ Code.getStringParamFromUrl = function(name, defaultValue) {
  * @return {string} User's language.
  */
 Code.getLang = function() {
-  var lang = Code.getStringParamFromUrl('lang', '');
+  var lang = Code.getStringParamFromUrl("lang", "");
   if (Code.LANGUAGE_NAME[lang] === undefined) {
     // Default to English.
-    lang = 'en';
+    lang = "en";
   }
   return lang;
 };
@@ -211,12 +217,12 @@ Code.isRtl = function() {
 Code.loadBlocks = function(defaultXml) {
   try {
     var loadOnce = window.sessionStorage.loadOnceBlocks;
-  } catch(e) {
+  } catch (e) {
     // Firefox sometimes throws a SecurityError when accessing sessionStorage.
     // Restarting Firefox fixes this, so it looks like a bug.
     var loadOnce = null;
   }
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+  if ("BlocklyStorage" in window && window.location.hash.length > 1) {
     // An href with #key trigers an AJAX call to retrieve saved blocks.
     BlocklyStorage.retrieveXml(window.location.hash.substring(1));
   } else if (loadOnce) {
@@ -228,7 +234,7 @@ Code.loadBlocks = function(defaultXml) {
     // Load the editor with default starting blocks.
     var xml = Blockly.Xml.textToDom(defaultXml);
     Blockly.Xml.domToWorkspace(xml, Code.workspace);
-  } else if ('BlocklyStorage' in window) {
+  } else if ("BlocklyStorage" in window) {
     // Restore saved blocks in a separate thread so that subsequent
     // initialization is not affected from a failed load.
     window.setTimeout(BlocklyStorage.restoreBlocks, 0);
@@ -243,26 +249,31 @@ Code.changeLanguage = function() {
   // This should be skipped for the index page, which has no blocks and does
   // not load Blockly.
   // MSIE 11 does not support sessionStorage on file:// URLs.
-  if (typeof Blockly != 'undefined' && window.sessionStorage) {
+  if (typeof Blockly != "undefined" && window.sessionStorage) {
     var xml = Blockly.Xml.workspaceToDom(Code.workspace);
     var text = Blockly.Xml.domToText(xml);
     window.sessionStorage.loadOnceBlocks = text;
   }
 
-  var languageMenu = document.getElementById('languageMenu');
+  var languageMenu = document.getElementById("languageMenu");
   var newLang = encodeURIComponent(
-      languageMenu.options[languageMenu.selectedIndex].value);
+    languageMenu.options[languageMenu.selectedIndex].value
+  );
   var search = window.location.search;
   if (search.length <= 1) {
-    search = '?lang=' + newLang;
+    search = "?lang=" + newLang;
   } else if (search.match(/[?&]lang=[^&]*/)) {
-    search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
+    search = search.replace(/([?&]lang=)[^&]*/, "$1" + newLang);
   } else {
-    search = search.replace(/\?/, '?lang=' + newLang + '&');
+    search = search.replace(/\?/, "?lang=" + newLang + "&");
   }
 
-  window.location = window.location.protocol + '//' +
-      window.location.host + window.location.pathname + search;
+  window.location =
+    window.location.protocol +
+    "//" +
+    window.location.host +
+    window.location.pathname +
+    search;
 };
 
 /**
@@ -272,19 +283,22 @@ Code.changeLanguage = function() {
  * @param {!Function} func Event handler to bind.
  */
 Code.bindClick = function(el, func) {
-  if (typeof el == 'string') {
+  if (typeof el == "string") {
     el = document.getElementById(el);
   }
-  el.addEventListener('click', func, true);
-  el.addEventListener('touchend', func, true);
+  el.addEventListener("click", func, true);
+  el.addEventListener("touchend", func, true);
 };
 
 /**
  * Load the Prettify CSS and JavaScript.
  */
 Code.importPrettify = function() {
-  var script = document.createElement('script');
-  script.setAttribute('src', 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js');
+  var script = document.createElement("script");
+  script.setAttribute(
+    "src",
+    "https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"
+  );
   document.head.appendChild(script);
 };
 
@@ -322,9 +336,9 @@ Code.LANG = Code.getLang();
  * List of tab names.
  * @private
  */
-Code.TABS_ = ['blocks', 'javascript', 'python'];
+Code.TABS_ = ["blocks", "javascript", "python"];
 
-Code.selected = 'blocks';
+Code.selected = "blocks";
 
 /**
  * Switch the visible pane when a tab is clicked.
@@ -334,10 +348,10 @@ Code.tabClick = function(clickedName) {
   // Select the active tab.
   Code.selected = clickedName;
   // Show the selected pane.
-  document.getElementById('content_' + clickedName).style.visibility =
-      'visible';
+  document.getElementById("content_" + clickedName).style.visibility =
+    "visible";
   Code.renderContent();
-  if (clickedName == 'blocks') {
+  if (clickedName == "blocks") {
     Code.workspace.setVisible(true);
   }
   Blockly.svgResize(Code.workspace);
@@ -347,38 +361,37 @@ Code.tabClick = function(clickedName) {
  * Populate the currently selected pane with content generated from the blocks.
  */
 Code.renderContent = function() {
-  var content = document.getElementById('content_' + Code.selected);
+  var content = document.getElementById("content_" + Code.selected);
   // Initialize the pane.
-  if (content.id == 'content_xml') {
-    var xmlTextarea = document.getElementById('content_xml');
+  if (content.id == "content_xml") {
+    var xmlTextarea = document.getElementById("content_xml");
     var xmlDom = Blockly.Xml.workspaceToDom(Code.workspace);
     var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
     xmlTextarea.value = xmlText;
     xmlTextarea.focus();
-  } else if (content.id == 'content_javascript') {
+  } else if (content.id == "content_javascript") {
     var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof PR.prettyPrintOne == "function") {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'js');
+      code = PR.prettyPrintOne(code, "js");
       content.innerHTML = code;
     }
-    if(Code.workspaceCurrentCode !== code){
+    if (Code.workspaceCurrentCode !== code) {
       Code.workspaceCurrentCode = code;
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
 
       global.callstopExternalEvent();
-
     }
-  } else if (content.id == 'content_python') {
+  } else if (content.id == "content_python") {
     code = Blockly.Python.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof PR.prettyPrintOne == "function") {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'py');
-      content.innerHTML =  'drone = CoDrone.CoDrone()\n'+
-                            'drone.pair()\n\n'+ code;
+      code = PR.prettyPrintOne(code, "py");
+      content.innerHTML =
+        "drone = CoDrone.CoDrone()\n" + "drone.pair()\n\n" + code;
     }
   }
 };
@@ -388,35 +401,34 @@ Code.renderContent = function() {
  */
 
 Code.onresize = function(e) {
-  var container = document.getElementById('content_area');
+  var container = document.getElementById("content_area");
   var bBox = Code.getBBox_(container);
   for (var i = 0; i < Code.TABS_.length; i++) {
-   var el = document.getElementById('content_' + Code.TABS_[i]);
-   if (el) {
-     el.style.top = bBox.y + 'px';
-     el.style.left = bBox.x + 'px';
-     // Height and width need to be set, read back, then set again to
-     // compensate for scrollbars.
-     el.style.height = bBox.height + 'px';
-     el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
-     el.style.width = bBox.width + 'px';
-     el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
-   }
+    var el = document.getElementById("content_" + Code.TABS_[i]);
+    if (el) {
+      el.style.top = bBox.y + "px";
+      el.style.left = bBox.x + "px";
+      // Height and width need to be set, read back, then set again to
+      // compensate for scrollbars.
+      el.style.height = bBox.height + "px";
+      el.style.height = 2 * bBox.height - el.offsetHeight + "px";
+      el.style.width = bBox.width + "px";
+      el.style.width = 2 * bBox.width - el.offsetWidth + "px";
+    }
   }
   // Make the 'Blocks' tab line up with the toolbox.
   if (Code.workspace && Code.workspace.toolbox_.width) {
-   document.getElementById('tab_blocks').style.minWidth =
-       (Code.workspace.toolbox_.width - 38) + 'px';
-       // Account for the 19 pixel margin and on each side.
+    document.getElementById("tab_blocks").style.minWidth =
+      Code.workspace.toolbox_.width - 38 + "px";
+    // Account for the 19 pixel margin and on each side.
   }
-  };
-
+};
 
 Code.init = function() {
   Code.initLanguage();
 
   var rtl = Code.isRtl();
-  var container = document.getElementById('content_area');
+  var container = document.getElementById("content_area");
   // The toolbox XML specifies each category name using Blockly's messaging
   // format (eg. `<category name="%{BKY_CATLOGIC}">`).
   // These message keys need to be defined in `Blockly.Msg` in order to
@@ -426,111 +438,126 @@ Code.init = function() {
   // TODO: Clean up the message files so this is done explicitly instead of
   // through this for-loop.
   for (var messageKey in MSG) {
-    if (goog.string.startsWith(messageKey, 'cat')) {
+    if (goog.string.startsWith(messageKey, "cat")) {
       Blockly.Msg[messageKey.toUpperCase()] = MSG[messageKey];
     }
   }
 
   // Construct the toolbox XML.
-  var toolboxText = document.getElementById('juniorXml').outerHTML;
+  var toolboxText = document.getElementById("juniorXml").outerHTML;
   var toolboxXml = Blockly.Xml.textToDom(toolboxText);
 
-
-  Code.workspace = Blockly.inject('content_blocks',
-      {grid:
-          {spacing: 20,
-           length: 40,
-           colour: '#efefef',
-           snap: true},
-       media: '../../media/',
-       rtl: rtl,
-       toolbox: toolboxXml,
-       zoom:
-           {controls: true,
-            wheel: true}
-      });
+  Code.workspace = Blockly.inject("content_blocks", {
+    grid: {
+      spacing: 20,
+      length: 40,
+      colour: "#efefef",
+      snap: true
+    },
+    media: "../../media/",
+    rtl: rtl,
+    toolbox: toolboxXml,
+    zoom: {
+      controls: true,
+      wheel: true
+    }
+  });
 
   // Add to reserved word list: Local variables in execution environment (runJS)
   // and the infinite loop detection function.
-  Blockly.JavaScript.addReservedWords('code,timeouts,checkTimeout');
+  Blockly.JavaScript.addReservedWords("code,timeouts,checkTimeout");
 
-  Code.loadBlocks('');
+  Code.loadBlocks("");
 
   Code.workspace.addChangeListener(refreshTabCode);
 
-  if ('BlocklyStorage' in window) {
+  if ("BlocklyStorage" in window) {
     // Hook a save function onto unload.
     BlocklyStorage.backupOnUnload(Code.workspace);
   }
 
-  $('#juniorXmlBtn').click(function(e){
-    $('.buttonTab').removeClass('active');
-    $(this).addClass('active');
-    var toolboxText = document.getElementById('juniorXml').outerHTML;
+  $("#juniorXmlBtn").click(function(e) {
+    $(".buttonTab").removeClass("active");
+    $(this).addClass("active");
+    var toolboxText = document.getElementById("juniorXml").outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-    $('.blocklyToolboxDiv').attr('role', 'junior');
+    $(".blocklyToolboxDiv").attr("role", "junior");
 
     Code.workspace.updateToolbox(toolboxXml);
     addClassToCategories();
   });
 
-  $('#seniorXmlBtn').click(function(e){
-    $('.buttonTab').removeClass('active');
-    $(this).addClass('active');
-    var toolboxText = document.getElementById('seniorXml').outerHTML;
+  $("#seniorXmlBtn").click(function(e) {
+    $(".buttonTab").removeClass("active");
+    $(this).addClass("active");
+    var toolboxText = document.getElementById("seniorXml").outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-    $('.blocklyToolboxDiv').attr('role', 'senior');
+    $(".blocklyToolboxDiv").attr("role", "senior");
     Code.workspace.updateToolbox(toolboxXml);
     addClassToCategories();
   });
 
-  $('#masterXmlBtn').click(function(e){
-    $('.buttonTab').removeClass('active');
-    $(this).addClass('active');
-    var toolboxText = document.getElementById('masterXml').outerHTML;
+  $("#masterXmlBtn").click(function(e) {
+    $(".buttonTab").removeClass("active");
+    $(this).addClass("active");
+    var toolboxText = document.getElementById("masterXml").outerHTML;
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-    $('.blocklyToolboxDiv').attr('role', 'master');
+    $(".blocklyToolboxDiv").attr("role", "master");
     Code.workspace.updateToolbox(toolboxXml);
   });
 
   Code.tabClick(Code.selected);
 
-  Code.bindClick('trashButton',
-      function() {Code.discard(); Code.renderContent();});
+  Code.bindClick("trashButton", function() {
+    Code.discard();
+    Code.renderContent();
+  });
   // Disable the link button if page isn't backed by App Engine storage.
-  var linkButton = document.getElementById('linkButton');
-  if ('BlocklyStorage' in window) {
-    BlocklyStorage['HTTPREQUEST_ERROR'] = MSG['httpRequestError'];
-    BlocklyStorage['LINK_ALERT'] = MSG['linkAlert'];
-    BlocklyStorage['HASH_ERROR'] = MSG['hashError'];
-    BlocklyStorage['XML_ERROR'] = MSG['xmlError'];
-    Code.bindClick(linkButton,
-        function() {BlocklyStorage.link(Code.workspace);});
+  var linkButton = document.getElementById("linkButton");
+  if ("BlocklyStorage" in window) {
+    BlocklyStorage["HTTPREQUEST_ERROR"] = MSG["httpRequestError"];
+    BlocklyStorage["LINK_ALERT"] = MSG["linkAlert"];
+    BlocklyStorage["HASH_ERROR"] = MSG["hashError"];
+    BlocklyStorage["XML_ERROR"] = MSG["xmlError"];
+    Code.bindClick(linkButton, function() {
+      BlocklyStorage.link(Code.workspace);
+    });
   } else if (linkButton) {
-    linkButton.className = 'disabled';
+    linkButton.className = "disabled";
   }
 
   for (var i = 0; i < Code.TABS_.length; i++) {
     var name = Code.TABS_[i];
-    Code.bindClick('tab_' + name,
-        function(name_) {return function() {Code.tabClick(name_);};}(name));
+    Code.bindClick(
+      "tab_" + name,
+      (function(name_) {
+        return function() {
+          Code.tabClick(name_);
+        };
+      })(name)
+    );
   }
   Code.onresize();
   Blockly.svgResize(Code.workspace);
 
   // Lazy-load the syntax-highlighting.
   window.setTimeout(Code.importPrettify, 1);
-  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'pitch');
-  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'roll');
-  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'yaw');
-  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, '', 'throttle');
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, "", "pitch");
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, "", "roll");
+  Blockly.Variables.createVariableNoPrompt(Code.workspace, null, "", "yaw");
+  Blockly.Variables.createVariableNoPrompt(
+    Code.workspace,
+    null,
+    "",
+    "throttle"
+  );
 
   Code.loadWorkspace();
-  $('.blocklyToolboxDiv').attr('role', 'junior');
-  $('.blocklyMainBackground').on('click', function(){
-    var menuEl = $('#burgerMenu .menu');
-    if (menuEl.hasClass('active')) {
-      menuEl.removeClass('active');
+  $(".blocklyToolboxDiv").attr("role", "junior");
+  $(".blocklyMainBackground").on("click", function() {
+    var menuEl = $("#burgerMenu .menu");
+    if (menuEl.hasClass("active")) {
+      menuEl.removeClass("active");
     }
   });
   addClassToCategories();
@@ -542,8 +569,8 @@ Code.init = function() {
 Code.initLanguage = function() {
   // Set the HTML's language and direction.
   var rtl = Code.isRtl();
-  document.dir = rtl ? 'rtl' : 'ltr';
-  document.head.parentElement.setAttribute('lang', Code.LANG);
+  document.dir = rtl ? "rtl" : "ltr";
+  document.head.parentElement.setAttribute("lang", Code.LANG);
 
   // Sort languages alphabetically.
   var languages = [];
@@ -572,26 +599,26 @@ Code.initLanguage = function() {
   // languageMenu.addEventListener('change', Code.changeLanguage, true);
 
   // Inject language strings.
-  document.title += ' ' + MSG['title'];
+  document.title += " " + MSG["title"];
   //document.getElementById('title').textContent = MSG['title'];
-  document.getElementById('tab_blocks').textContent = MSG['blocks'];
+  document.getElementById("tab_blocks").textContent = MSG["blocks"];
 
-  document.getElementById('linkButton').title = MSG['linkTooltip'];
-  document.getElementById('runButton').title = MSG['runTooltip'];
-  document.getElementById('trashButton').title = MSG['trashTooltip'];
+  document.getElementById("linkButton").title = MSG["linkTooltip"];
+  document.getElementById("runButton").title = MSG["runTooltip"];
+  document.getElementById("trashButton").title = MSG["trashTooltip"];
 };
 
 Code.loadWorkspace = function() {
   Blockly.mainWorkspace.clear();
-  var projectName = 'coDrone';
+  var projectName = "coDrone";
 
-  if (typeof(Storage) !== 'undefined') {
+  if (typeof Storage !== "undefined") {
     if (localStorage.data !== null) {
       var xml = Blockly.Xml.textToDom(localStorage.getItem(projectName));
       Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
     }
   } else {
-    console.log('Storage is not support.');
+    console.log("Storage is not support.");
   }
 };
 
@@ -600,21 +627,21 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  checkTimeout();\n';
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = "  checkTimeout();\n";
   var timeouts = 0;
   var checkTimeout = function() {
     if (timeouts++ > 1000000) {
-      throw MSG['timeout'];
+      throw MSG["timeout"];
     }
   };
   var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
   Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
   try {
     // add function to stop execution after block code
-    eval('(async function(){'+code+' callstopExternalEvent();})()');
+    eval("(async function(){" + code + " callstopExternalEvent();})()");
     //eval(code);
   } catch (e) {
-    alert(MSG['badCode'].replace('%1', e));
+    alert(MSG["badCode"].replace("%1", e));
   }
 };
 
@@ -623,11 +650,13 @@ Code.runJS = function() {
  */
 Code.discard = function() {
   var count = Code.workspace.getAllBlocks().length;
-  if (count < 2 ||
-      window.confirm(Blockly.Msg.DELETE_ALL_BLOCKS.replace('%1', count))) {
+  if (
+    count < 2 ||
+    window.confirm(Blockly.Msg.DELETE_ALL_BLOCKS.replace("%1", count))
+  ) {
     Code.workspace.clear();
     if (window.location.hash) {
-      window.location.hash = '';
+      window.location.hash = "";
     }
   }
 };
@@ -637,4 +666,4 @@ document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 // Load Blockly's language strings.
 document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
 
-window.addEventListener('load', Code.init);
+window.addEventListener("load", Code.init);
