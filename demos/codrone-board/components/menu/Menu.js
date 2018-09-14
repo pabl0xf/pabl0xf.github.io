@@ -58,7 +58,6 @@ class Burger extends React.Component {
 
     global.stopExecution(skipLanding);
 
-    alert("key press as attachmanet " + keyPressManager.hasKeyEventsAttached());
     if (skipLanding && keyPressManager.hasKeyEventsAttached()) {
       return;
     }

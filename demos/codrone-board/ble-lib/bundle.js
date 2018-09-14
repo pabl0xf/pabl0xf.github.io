@@ -31732,82 +31732,115 @@ var _getAccelerometer2 = _interopRequireDefault(_getAccelerometer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 global.getBatteryPercentage = function () {
-   var getBatteryPercentage = new _getBatteryPercentage2.default();
-   var batteryValue = getBatteryPercentage.getValue();
-   getBatteryPercentage.run();
-   return batteryValue;
+  var getBatteryPercentage = new _getBatteryPercentage2.default();
+  var batteryValue = getBatteryPercentage.getValue();
+  getBatteryPercentage.run();
+  return batteryValue;
 };
 
 global.getBatteryVoltage = function () {
-   var getBatteryVoltage = new _getBatteryVoltage2.default();
-   var batteryValue = getBatteryVoltage.getValue();
-   _commandManager.commandManager.addCommand(getBatteryVoltage);
-   return batteryValue;
+  var getBatteryVoltage = new _getBatteryVoltage2.default();
+  var batteryValue = getBatteryVoltage.getValue();
+  _commandManager.commandManager.addCommand(getBatteryVoltage);
+  return batteryValue;
 };
 
 global.getHeight = function () {
-   var getHeight = new _getHeight2.default();
-   var height = getHeight.getValue();
-   getHeight.run();
-   return height;
+  var getHeight = new _getHeight2.default();
+  var height = getHeight.getValue();
+  getHeight.run();
+  return height;
 };
 
 global.getGyroAngles = function () {
-   var getGyroAngles = new _getGyroAngles2.default();
-   var gyroAngles = getGyroAngles.getValue();
-   getGyroAngles.run();
-   return gyroAngles;
+  var getGyroAngles = new _getGyroAngles2.default();
+  var gyroAngles = getGyroAngles.getValue();
+  getGyroAngles.run();
+  return gyroAngles;
 };
 
 global.getPressure = function () {
-   var getPressure = new _getPressure2.default();
-   var pressure = getPressure.getValue();
-   getPressure.run();
-   return pressure;
+  var getPressure = new _getPressure2.default();
+  var pressure = getPressure.getValue();
+  getPressure.run();
+  return pressure;
 };
 
 global.getOptFlowPosition = function () {
-   var flowPosition = new _getOptFlowPosition2.default();
-   var flowPositionValue = flowPosition.getValue();
-   flowPosition.run();
-   return flowPositionValue;
+  var flowPosition = new _getOptFlowPosition2.default();
+  var flowPositionValue = flowPosition.getValue();
+  flowPosition.run();
+  return flowPositionValue;
 };
 
 global.getDroneTemp = function () {
-   var droneTemp = new _getDroneTemp2.default();
-   var droneTempValue = droneTemp.getValue();
-   droneTemp.run();
-   return droneTempValue;
+  var droneTemp = new _getDroneTemp2.default();
+  var droneTempValue = droneTemp.getValue();
+  droneTemp.run();
+  return droneTempValue;
 };
 
 global.getState = function () {
-   var state = new _getState2.default();
-   var stateValue = state.getValue();
-   state.run();
-   return stateValue;
+  var state = new _getState2.default();
+  var stateValue = state.getValue();
+  state.run();
+  return stateValue;
 };
 
 global.getTrim = function () {
-   var trim = new _getTrim2.default();
-   var trimValue = trim.getValue();
-   trim.run();
-   return trimValue;
+  var trim = new _getTrim2.default();
+  var trimValue = trim.getValue();
+  trim.run();
+  return trimValue;
 };
 
 global.getAccelerometer = function () {
-   var accelerometer = new _getAccelerometer2.default();
-   var accelerometerValue = accelerometer.getValue();
-   accelerometer.run();
-   return accelerometerValue;
+  var accelerometer = new _getAccelerometer2.default();
+  var accelerometerValue = accelerometer.getValue();
+  accelerometer.run();
+  return accelerometerValue;
 };
 
 global.getAngularSpeed = function () {
-   var accelerometer = new _getAccelerometer2.default();
-   var accelerometerValue = accelerometer.getValue();
-   accelerometer.run();
-   return accelerometerValue;
+  var accelerometer = new _getAccelerometer2.default();
+  var accelerometerValue = accelerometer.getValue();
+  accelerometer.run();
+  return accelerometerValue;
 };
+
+global.display = function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(fc) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return global[fc]();
+
+          case 2:
+            result = _context.sent;
+
+            console.log(window.blockSave.value + result);
+            window.blockSave.setFieldValue(window.blockSave.value + result);
+
+            return _context.abrupt("return");
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
