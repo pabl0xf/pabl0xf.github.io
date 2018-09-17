@@ -2857,6 +2857,7 @@ Blockly.Blocks["var_block"] = {
       .setCheck("Number")
       .appendField("value: ");
     this.setColour(Blockly.Constants.Codrone.HUE_Orange);
+    this.setPreviousStatement(true);
     var thisBlock = this;
   }
 };
