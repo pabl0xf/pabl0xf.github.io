@@ -2861,3 +2861,13 @@ Blockly.Blocks["var_block"] = {
     var thisBlock = this;
   }
 };
+
+Blockly.Blocks["show_var_data"] = {
+  init: function() {
+    this.appendValueInput("MYVAR")
+      .setCheck("Number")
+      .appendField("Value: ");
+    this.setColour(Blockly.Constants.Codrone.HUE_Orange);
+    var thisBlock = this;
+  }
+};

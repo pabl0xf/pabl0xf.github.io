@@ -73,15 +73,15 @@ Blockly.JavaScript["var_block"] = function(block) {
     switch (block.childBlocks_[0].type) {
       case "getHeight_junior":
         value = "Height: ";
-        fc = "getHeight";
+        fc = "Sensors.GET_HEIGHT";
         break;
       case "getBatteryPercentage_junior":
         value = "Battery Percentage: ";
-        fc = "getBatteryPercentage";
+        fc = "Sensors.GET_BATTERY_PORCENTAGE";
         break;
       case "getGyroData_junior":
         value = "Gyro Data: ";
-        fc = "getGyroAngles";
+        fc = "Sensors.GET_GYRO_ANGLES";
         break;
       default:
         value = "Value: ";
@@ -94,10 +94,56 @@ Blockly.JavaScript["var_block"] = function(block) {
     block.value = value;
     window.blockSave = block;
   } else {
+    window.dirtyVar = false;
     block.setFieldValue("Value: ");
   }
 
-  return 'await display("' + fc + '");\n';
+  return "await display(" + fc + ");\n";
+};
+
+Blockly.JavaScript["show_var_data"] = function(block) {
+  if (block.childBlocks_[0]) {
+    if (window.blockInterval) {
+      clearInterval(window.blockInterval);
+    }
+
+    window.blockInterval = setInterval(async function() {
+      console.log("interval");
+      var value = "";
+      var fc = "";
+
+      switch (block.childBlocks_[0].type) {
+        case "getHeight_junior":
+          value = "Height: ";
+          fc = "Sensors.GET_HEIGHT";
+          break;
+        case "getBatteryPercentage_junior":
+          value = "Battery Percentage: ";
+          fc = "Sensors.GET_BATTERY_PORCENTAGE";
+          break;
+        case "getGyroData_junior":
+          value = "Gyro Data: ";
+          fc = "Sensors.GET_GYRO_ANGLES";
+          break;
+        default:
+          value = "Value: ";
+      }
+      if (!window.dirtyVar || window.dirtyVar != block.childBlocks_[0].type) {
+        window.dirtyVar = block.childBlocks_[0].type;
+        block.setFieldValue(value);
+      }
+
+      block.value = value;
+      window.blockSave = block;
+
+      var result = await window[fc]();
+      block.setFieldValue(value + result);
+    }, 1000);
+  } else {
+    window.dirtyVar = false;
+    block.setFieldValue("Value: ");
+  }
+  return 'await displayData("' + fc + '");\n';
 };
 
 Blockly.JavaScript["go_direction_junior_3"] = function(block) {

@@ -90,6 +90,16 @@ global.getAngularSpeed = function() {
 global.display = async function(fc) {
   var result = await global[fc]();
   console.log(window.blockSave.value + result);
+  if (fc === global.Sensors.GET_GYRO_ANGLES) {
+    result = JSON.stringify(result);
+  }
+  window.blockSave.setFieldValue(window.blockSave.value + result);
+  return;
+};
+
+global.displayData = async function(fc) {
+  var result = await global[fc]();
+  console.log(window.blockSave.value + result);
   window.blockSave.setFieldValue(window.blockSave.value + result);
 
   return;

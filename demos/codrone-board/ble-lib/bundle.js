@@ -5229,9 +5229,9 @@ exports.default = Move;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-global.PRIMARY_SERVICE = 'c320df00-7891-11e5-8bcf-feff819cdc9f';
-global.WRITE_CHARACTERISTIC = 'c320df02-7891-11e5-8bcf-feff819cdc9f';
-global.NOTIIFY_CHARACTERISTIC = 'c320df01-7891-11e5-8bcf-feff819cdc9f';
+global.PRIMARY_SERVICE = "c320df00-7891-11e5-8bcf-feff819cdc9f";
+global.WRITE_CHARACTERISTIC = "c320df02-7891-11e5-8bcf-feff819cdc9f";
+global.NOTIIFY_CHARACTERISTIC = "c320df01-7891-11e5-8bcf-feff819cdc9f";
 
 global.RUNNING = false;
 
@@ -5247,19 +5247,19 @@ global.MIX = { armCode: 0x42, eyeCode: 0x12 };
 global.keyPressMap = {};
 global.keydownCallback = null;
 
-global.RED = 'Red';
-global.YELLOW = 'Yellow';
-global.ENTER = 'Yellow';
-global.ORANGE = 'Orange';
-global.GREEN = 'Green';
-global.BLUE = 'Blue';
-global.INDIGO = 'Indigo';
-global.VIOLET = 'Violet';
+global.RED = "Red";
+global.YELLOW = "Yellow";
+global.ENTER = "Yellow";
+global.ORANGE = "Orange";
+global.GREEN = "Green";
+global.BLUE = "Blue";
+global.INDIGO = "Indigo";
+global.VIOLET = "Violet";
 
 global.TAKEOFF = 1;
 global.CRASH = 2;
 global.UPSIDE_DOWN = 3;
-global.LOW_BATTERY = 'LowBattery';
+global.LOW_BATTERY = "LowBattery";
 
 global.Direction = {
   LEFT: -1,
@@ -5271,31 +5271,37 @@ global.Direction = {
 };
 
 global.Degree = {
-  'ANGLE_30': 30,
-  'ANGLE_45': 45,
-  'ANGLE_60': 60,
-  'ANGLE_90': 90,
-  'ANGLE_120': 120,
-  'ANGLE_135': 135,
-  'ANGLE_150': 150,
-  'ANGLE_180': 180,
-  'ANGLE_210': 210,
-  'ANGLE_225': 225,
-  'ANGLE_240': 240,
-  'ANGLE_270': 270,
-  'ANGLE_300': 300,
-  'ANGLE_315': 315,
-  'ANGLE_330': 330
+  ANGLE_30: 30,
+  ANGLE_45: 45,
+  ANGLE_60: 60,
+  ANGLE_90: 90,
+  ANGLE_120: 120,
+  ANGLE_135: 135,
+  ANGLE_150: 150,
+  ANGLE_180: 180,
+  ANGLE_210: 210,
+  ANGLE_225: 225,
+  ANGLE_240: 240,
+  ANGLE_270: 270,
+  ANGLE_300: 300,
+  ANGLE_315: 315,
+  ANGLE_330: 330
 };
 
 global.Sequence = {
-  'SQUARE': 1,
-  'CIRCLE': 2,
-  'TRIANGLE': 3,
-  'ZIGZAG': 4,
-  'SWAY': 5,
-  'HOP': 6,
-  'SPIRAL': 7
+  SQUARE: 1,
+  CIRCLE: 2,
+  TRIANGLE: 3,
+  ZIGZAG: 4,
+  SWAY: 5,
+  HOP: 6,
+  SPIRAL: 7
+};
+
+global.Sensors = {
+  GET_HEIGHT: "getHeight",
+  GET_BATTERY_PORCENTAGE: "getBatteryPercentage",
+  GET_GYRO_ANGLES: "getGyroAngles"
 };
 
 global.Mode = {
@@ -5357,11 +5363,11 @@ global.Keyboard = {
   z: 90
 };
 
-global.SUFFIX_JUNIOR = '_junior';
-global.SUFFIX_SENIOR = '_senior';
-global.PREFIX_EVENTS = 'on';
+global.SUFFIX_JUNIOR = "_junior";
+global.SUFFIX_SENIOR = "_senior";
+global.PREFIX_EVENTS = "on";
 
-global.KEYPRESS_EVENT = 'whenKeyPress';
+global.KEYPRESS_EVENT = "whenKeyPress";
 
 global.COLORS = {
   Blue: 9,
@@ -31825,11 +31831,13 @@ global.display = function () {
             result = _context.sent;
 
             console.log(window.blockSave.value + result);
+            if (fc === global.Sensors.GET_GYRO_ANGLES) {
+              result = JSON.stringify(result);
+            }
             window.blockSave.setFieldValue(window.blockSave.value + result);
-
             return _context.abrupt("return");
 
-          case 6:
+          case 7:
           case "end":
             return _context.stop();
         }
@@ -31839,6 +31847,37 @@ global.display = function () {
 
   return function (_x) {
     return _ref.apply(this, arguments);
+  };
+}();
+
+global.displayData = function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(fc) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return global[fc]();
+
+          case 2:
+            result = _context2.sent;
+
+            console.log(window.blockSave.value + result);
+            window.blockSave.setFieldValue(window.blockSave.value + result);
+
+            return _context2.abrupt("return");
+
+          case 6:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, this);
+  }));
+
+  return function (_x2) {
+    return _ref2.apply(this, arguments);
   };
 }();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
