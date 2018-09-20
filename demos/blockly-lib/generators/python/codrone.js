@@ -595,7 +595,11 @@ Blockly.Python["flyTriangle_junior"] = function(block) {
 };
 
 Blockly.Python["var_block"] = function(block) {
-  return "";
+  return "drone.diplay()\n";
+};
+
+Blockly.Python["show_var_data"] = function(block) {
+  return "drone.diplayData()\n";
 };
 
 Blockly.Python["flyHop_junior"] = function(block) {

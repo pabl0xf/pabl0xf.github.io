@@ -66,7 +66,24 @@ Blockly.JavaScript["flyright_2"] = function(block) {
 };
 
 Blockly.JavaScript["var_block"] = function(block) {
+  if (window.blocksSaved) {
+    var idBlock = window.blocksSaved.findIndex(function(blk) {
+      return blk.id == block.id;
+    });
+
+    if (idBlock >= 0) {
+      window.idBlock = idBlock;
+    } else {
+      window.blocksSaved.push(block);
+      window.idBlock = window.blocksSaved.length - 1;
+    }
+  } else {
+    window.blocksSaved = [block];
+    window.idBlock = window.blocksSaved.length - 1;
+  }
+
   if (block.childBlocks_[0]) {
+    var index = window.idBlock;
     var value = "";
     var fc = "";
 
@@ -98,7 +115,7 @@ Blockly.JavaScript["var_block"] = function(block) {
     block.setFieldValue("Value: ");
   }
 
-  return "await display(" + fc + ");\n";
+  return "await display(" + fc + "," + index + ");\n";
 };
 
 Blockly.JavaScript["show_var_data"] = function(block) {
@@ -115,15 +132,15 @@ Blockly.JavaScript["show_var_data"] = function(block) {
       switch (block.childBlocks_[0].type) {
         case "getHeight_junior":
           value = "Height: ";
-          fc = "Sensors.GET_HEIGHT";
+          fc = Sensors.GET_HEIGHT;
           break;
         case "getBatteryPercentage_junior":
           value = "Battery Percentage: ";
-          fc = "Sensors.GET_BATTERY_PORCENTAGE";
+          fc = Sensors.GET_BATTERY_PORCENTAGE;
           break;
         case "getGyroData_junior":
           value = "Gyro Data: ";
-          fc = "Sensors.GET_GYRO_ANGLES";
+          fc = Sensors.GET_GYRO_ANGLES;
           break;
         default:
           value = "Value: ";
@@ -135,15 +152,14 @@ Blockly.JavaScript["show_var_data"] = function(block) {
 
       block.value = value;
       window.blockSave = block;
-
-      var result = await window[fc]();
-      block.setFieldValue(value + result);
+      window.loadCommand(fc);
+      block.setFieldValue(value + global.displayValue);
     }, 1000);
   } else {
     window.dirtyVar = false;
     block.setFieldValue("Value: ");
   }
-  return 'await displayData("' + fc + '");\n';
+  return 'await displayData();\n';
 };
 
 Blockly.JavaScript["go_direction_junior_3"] = function(block) {

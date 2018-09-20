@@ -561,6 +561,8 @@ Code.init = function() {
     }
   });
   addClassToCategories();
+  var p = $('svg')[0];
+  p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1000\" height=\"700\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/graph2.png\" width=\"600\" height=\"450\"><\/image> <\/pattern>'
 };
 
 /**

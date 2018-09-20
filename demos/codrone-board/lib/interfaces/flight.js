@@ -12,14 +12,14 @@ import { keyPressManager } from "../keyPressManager.js";
 var flightInteface = {};
 
 global.stopExecution = function(skipForceLanding) {
-  global.RUNNING = false;
   global.loopInProgress = false;
+  global.RUNNING = false;
 
   if (Code.device != null && !skipForceLanding) {
     setTimeout(
       async function() {
         var emergencyStop = new EmergencyStop();
-        return emergencyStop.run();
+        return await commandManager.runCommand(emergencyStop);
       }.bind(this),
       100
     );
@@ -33,7 +33,7 @@ global.takeoff = async function() {
 
   var promiseCommand = new Promise(async function(resolve, reject) {
     var takeOff = new TakeOff();
-    await takeOff.run();
+    await commandManager.runCommand(takeOff);
     setTimeout(
       async function() {
         console.log("------------ En take off 3 sec");
@@ -53,7 +53,7 @@ global.rotate180 = async function() {
 
   var promiseCommand = new Promise(async function(resolve, reject) {
     var rotate180 = new Rotate180();
-    await rotate180.run();
+    await commandManager.runCommand(rotate180);
     resolve();
     return;
   });
@@ -76,7 +76,7 @@ global.emergencyStop = async function() {
     return;
   }
   var emergencyStop = new EmergencyStop();
-  return emergencyStop.run();
+  return await commandManager.runCommand(emergencyStop);
 };
 
 global.hover = async function(seconds) {
@@ -88,7 +88,7 @@ global.hover = async function(seconds) {
     global.loopInProgress = false;
     flightInteface.hoverLoop = async function() {
       var hoverCommand = new Hover();
-      await hoverCommand.run();
+      await commandManager.runCommand(hoverCommand);
 
       if (global.loopInProgress) {
         flightInteface.hoverLoop();
@@ -126,7 +126,7 @@ global.go = function(direction, seconds, power) {
     global.loopInProgress = false;
     flightInteface.goLoop = async function() {
       var goCommand = new Go(direction, power);
-      await goCommand.run();
+      await commandManager.runCommand(goCommand);
 
       if (global.loopInProgress) {
         flightInteface.goLoop();
@@ -158,7 +158,7 @@ global.moveInternal = async function(roll, pitch, yaw, throttle) {
   }
 
   var moveCommand = new Move(roll, pitch, yaw, throttle);
-  return moveCommand.run();
+  await commandManager.runCommand(moveCommand);
 };
 
 global.move = async function(seconds, roll, pitch, yaw, throttle) {
@@ -184,7 +184,7 @@ global.move = async function(seconds, roll, pitch, yaw, throttle) {
     global.loopInProgress = false;
     flightInteface.moveLoop = async function() {
       var moveCommand = new Move(roll, pitch, yaw, throttle);
-      await moveCommand.run();
+      await commandManager.runCommand(moveCommand);
 
       if (global.loopInProgress) {
         flightInteface.moveLoop();

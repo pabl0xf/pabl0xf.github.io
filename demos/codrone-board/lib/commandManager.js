@@ -2,43 +2,34 @@ class CommandManager {
   constructor() {
     this.stack = [];
     this.commandConsummerOn = false;
-    this.inProgress = false
+    this.inProgress = false;
     this.commandLoop = null;
   }
 
-  addCommand(command){
+  addCommand(command) {
     this.stack.push(command);
   }
 
-  initCommandConsumer(){
-    this.commandConsummerOn = true;
-    this.commandLoop = setInterval(function(){
-      if(this.executionInProgress){
-        return true;
-      }
-      if(this.stack && this.stack.length>0 && this.commandConsummerOn){
-        let command = this.stack.shift();
-        this.execute(command);
-      }
-    }.bind(this), 10);
+  async runCommand(command) {
+    if (this.stack && this.stack.length > 0) {
+      var commandOnStack = this.stack.pop();
+      global.displayValue = await window[commandOnStack]();
+    }
+    if (command) {
+      return command.run();
+    }
   }
 
-  restartCommandConsumer(){
-    this.commandConsummerOn= false;
+  restartCommandConsumer() {
+    this.commandConsummerOn = false;
     this.cleanStack();
     clearInterval(this.commandLoop);
     this.initCommandConsumer();
   }
 
-  cleanStack(){
+  cleanStack() {
     this.stack = [];
-  }
-
-  async execute (command){
-    this.executionInProgress = true;
-    await command.run();
-    this.executionInProgress = false;
   }
 }
 
-export let commandManager =  new CommandManager();
+export let commandManager = new CommandManager();

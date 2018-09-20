@@ -200,7 +200,7 @@ var Command = function () {
   }
 
   _createClass(Command, [{
-    key: 'run',
+    key: "run",
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -210,7 +210,7 @@ var Command = function () {
                 console.log(this.package);
 
               case 1:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -224,33 +224,33 @@ var Command = function () {
       return run;
     }()
   }, {
-    key: 'sendBLECommand',
+    key: "sendBLECommand",
     value: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(packageValue) {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log('---- Running command: ' + this.eventName);
+                console.log("---- Running command: " + this.eventName);
                 _context2.prev = 1;
                 _context2.next = 4;
                 return Code.writeCharacteristic.writeValue(packageValue);
 
               case 4:
-                return _context2.abrupt('return', _context2.sent);
+                return _context2.abrupt("return", _context2.sent);
 
               case 7:
                 _context2.prev = 7;
-                _context2.t0 = _context2['catch'](1);
+                _context2.t0 = _context2["catch"](1);
 
-                console.log('error in command ' + this.eventName);
+                console.log("error in command " + this.eventName);
                 global.stopExecution();
                 if (_context2.t0) {
                   console.log(_context2.t0);
                 }
 
               case 12:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -264,36 +264,76 @@ var Command = function () {
       return sendBLECommand;
     }()
   }, {
-    key: 'removePackageHeader',
+    key: "readBLEValue",
+    value: function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(packageValue) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                console.log("---- reading value for command: " + this.eventName);
+                _context3.prev = 1;
+                _context3.next = 4;
+                return Code.readCharacteristic.readValue();
+
+              case 4:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](1);
+
+                console.log("error reading value for command " + this.eventName);
+                global.stopExecution();
+                if (_context3.t0) {
+                  console.log(_context3.t0);
+                }
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[1, 7]]);
+      }));
+
+      function readBLEValue(_x2) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return readBLEValue;
+    }()
+  }, {
+    key: "removePackageHeader",
     value: function removePackageHeader(buffer) {
       var packageValue = new Uint8Array(buffer);
       console.log(packageValue);
       return packageValue.slice(1, packageValue.length);
     }
   }, {
-    key: 'getValue',
+    key: "getValue",
     value: function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                return _context3.abrupt('return', new Promise(function (resolve, reject) {
+                return _context4.abrupt("return", new Promise(function (resolve, reject) {
                   addEventListener(this.eventName, function (e) {
                     resolve(e.detail);
                   }, false);
                 }.bind(this)));
 
               case 1:
-              case 'end':
-                return _context3.stop();
+              case "end":
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function getValue() {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return getValue;
@@ -304,7 +344,7 @@ var Command = function () {
 }();
 
 exports.default = Command;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 7 */
@@ -352,17 +392,6 @@ module.exports = function (it) {
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.13 ToObject(argument)
-var defined = __webpack_require__(25);
-module.exports = function (it) {
-  return Object(defined(it));
-};
-
-
-/***/ }),
-/* 11 */
 /***/ (function(module, exports) {
 
 var g;
@@ -386,6 +415,17 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__(25);
+module.exports = function (it) {
+  return Object(defined(it));
+};
 
 
 /***/ }),
@@ -524,7 +564,7 @@ exports.f = __webpack_require__(7) ? gOPD : function getOwnPropertyDescriptor(O,
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has = __webpack_require__(13);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var IE_PROTO = __webpack_require__(78)('IE_PROTO');
 var ObjectProto = Object.prototype;
 
@@ -668,7 +708,7 @@ module.exports = function (KEY, exec) {
 // 6 -> Array#findIndex
 var ctx = __webpack_require__(20);
 var IObject = __webpack_require__(55);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toLength = __webpack_require__(9);
 var asc = __webpack_require__(95);
 module.exports = function (TYPE, $create) {
@@ -768,7 +808,7 @@ if (__webpack_require__(7)) {
   var has = __webpack_require__(13);
   var classof = __webpack_require__(57);
   var isObject = __webpack_require__(4);
-  var toObject = __webpack_require__(10);
+  var toObject = __webpack_require__(11);
   var isArrayIter = __webpack_require__(92);
   var create = __webpack_require__(41);
   var getPrototypeOf = __webpack_require__(19);
@@ -1509,7 +1549,7 @@ var flyVars = {
 exports.dataLedMode = ledMode;
 exports.flyVariables = flyVars;
 exports.ledColorRGB = ledColorRGB;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 34 */
@@ -1794,7 +1834,7 @@ if (process.env.NODE_ENV === 'production') {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(global) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1821,6 +1861,49 @@ var CommandManager = function () {
     value: function addCommand(command) {
       this.stack.push(command);
     }
+  }, {
+    key: "runCommand",
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(command) {
+        var commandOnStack;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(this.stack && this.stack.length > 0)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                commandOnStack = this.stack.pop();
+                _context.next = 4;
+                return window[commandOnStack]();
+
+              case 4:
+                global.displayValue = _context.sent;
+
+              case 5:
+                if (!command) {
+                  _context.next = 7;
+                  break;
+                }
+
+                return _context.abrupt("return", command.run());
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function runCommand(_x) {
+        return _ref.apply(this, arguments);
+      }
+
+      return runCommand;
+    }()
   }, {
     key: "initCommandConsumer",
     value: function initCommandConsumer() {
@@ -1851,13 +1934,13 @@ var CommandManager = function () {
   }, {
     key: "execute",
     value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(command) {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(command) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 this.executionInProgress = true;
-                _context.next = 3;
+                _context2.next = 3;
                 return command.run();
 
               case 3:
@@ -1865,14 +1948,14 @@ var CommandManager = function () {
 
               case 4:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function execute(_x) {
-        return _ref.apply(this, arguments);
+      function execute(_x2) {
+        return _ref2.apply(this, arguments);
       }
 
       return execute;
@@ -1883,6 +1966,7 @@ var CommandManager = function () {
 }();
 
 var commandManager = exports.commandManager = new CommandManager();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 49 */
@@ -2753,7 +2837,7 @@ var KeyPressManager = function () {
 }();
 
 var keyPressManager = exports.keyPressManager = new KeyPressManager();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 76 */
@@ -3126,7 +3210,7 @@ module.exports = function (original, length) {
 "use strict";
 // 22.1.3.6 Array.prototype.fill(value, start = 0, end = this.length)
 
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toAbsoluteIndex = __webpack_require__(40);
 var toLength = __webpack_require__(9);
 module.exports = function fill(value /* , start = 0, end = @length */) {
@@ -3933,7 +4017,7 @@ module.exports.f = function getOwnPropertyNames(it) {
 var getKeys = __webpack_require__(39);
 var gOPS = __webpack_require__(61);
 var pIE = __webpack_require__(56);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var IObject = __webpack_require__(55);
 var $assign = Object.assign;
 
@@ -4132,7 +4216,7 @@ module.exports = function (iterator, fn, value, entries) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var aFunction = __webpack_require__(12);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var IObject = __webpack_require__(55);
 var toLength = __webpack_require__(9);
 
@@ -4168,7 +4252,7 @@ module.exports = function (that, callbackfn, aLen, memo, isRight) {
 "use strict";
 // 22.1.3.3 Array.prototype.copyWithin(target, start, end = this.length)
 
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toAbsoluteIndex = __webpack_require__(40);
 var toLength = __webpack_require__(9);
 
@@ -5298,6 +5382,8 @@ global.Sequence = {
   SPIRAL: 7
 };
 
+global.displayValue = "Waiting...";
+
 global.Sensors = {
   GET_HEIGHT: "getHeight",
   GET_BATTERY_PORCENTAGE: "getBatteryPercentage",
@@ -5378,7 +5464,7 @@ global.COLORS = {
   Violet: 135,
   Yellow: 139
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 148 */
@@ -5696,7 +5782,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 153 */
@@ -6210,7 +6296,7 @@ __webpack_require__(27)('getOwnPropertyDescriptor', function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var $getPrototypeOf = __webpack_require__(19);
 
 __webpack_require__(27)('getPrototypeOf', function () {
@@ -6225,7 +6311,7 @@ __webpack_require__(27)('getPrototypeOf', function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var $keys = __webpack_require__(39);
 
 __webpack_require__(27)('keys', function () {
@@ -7453,7 +7539,7 @@ $export($export.S, 'Date', { now: function () { return new Date().getTime(); } }
 "use strict";
 
 var $export = __webpack_require__(0);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toPrimitive = __webpack_require__(24);
 
 $export($export.P + $export.F * __webpack_require__(3)(function () {
@@ -7578,7 +7664,7 @@ $export($export.S, 'Array', { isArray: __webpack_require__(62) });
 
 var ctx = __webpack_require__(20);
 var $export = __webpack_require__(0);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var call = __webpack_require__(119);
 var isArrayIter = __webpack_require__(92);
 var toLength = __webpack_require__(9);
@@ -7702,7 +7788,7 @@ $export($export.P + $export.F * __webpack_require__(3)(function () {
 
 var $export = __webpack_require__(0);
 var aFunction = __webpack_require__(12);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var fails = __webpack_require__(3);
 var $sort = [].sort;
 var test = [1, 2, 3];
@@ -9030,7 +9116,7 @@ __webpack_require__(35)('includes');
 // https://tc39.github.io/proposal-flatMap/#sec-Array.prototype.flatMap
 var $export = __webpack_require__(0);
 var flattenIntoArray = __webpack_require__(133);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toLength = __webpack_require__(9);
 var aFunction = __webpack_require__(12);
 var arraySpeciesCreate = __webpack_require__(95);
@@ -9059,7 +9145,7 @@ __webpack_require__(35)('flatMap');
 // https://tc39.github.io/proposal-flatMap/#sec-Array.prototype.flatten
 var $export = __webpack_require__(0);
 var flattenIntoArray = __webpack_require__(133);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toLength = __webpack_require__(9);
 var toInteger = __webpack_require__(26);
 var arraySpeciesCreate = __webpack_require__(95);
@@ -9273,7 +9359,7 @@ $export($export.S, 'Object', {
 "use strict";
 
 var $export = __webpack_require__(0);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var aFunction = __webpack_require__(12);
 var $defineProperty = __webpack_require__(8);
 
@@ -9292,7 +9378,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(70), 'Object',
 "use strict";
 
 var $export = __webpack_require__(0);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var aFunction = __webpack_require__(12);
 var $defineProperty = __webpack_require__(8);
 
@@ -9311,7 +9397,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(70), 'Object',
 "use strict";
 
 var $export = __webpack_require__(0);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toPrimitive = __webpack_require__(24);
 var getPrototypeOf = __webpack_require__(19);
 var getOwnPropertyDescriptor = __webpack_require__(18).f;
@@ -9336,7 +9422,7 @@ __webpack_require__(7) && $export($export.P + __webpack_require__(70), 'Object',
 "use strict";
 
 var $export = __webpack_require__(0);
-var toObject = __webpack_require__(10);
+var toObject = __webpack_require__(11);
 var toPrimitive = __webpack_require__(24);
 var getPrototypeOf = __webpack_require__(19);
 var getOwnPropertyDescriptor = __webpack_require__(18).f;
@@ -10937,7 +11023,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 351 */
@@ -28772,6 +28858,8 @@ Code.init = function () {
     }
   });
   addClassToCategories();
+  var p = $('svg')[0];
+  p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1000\" height=\"700\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/graph2.png\" width=\"600\" height=\"450\"><\/image> <\/pattern>';
 };
 
 /**
@@ -28875,7 +28963,7 @@ document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
 
 window.addEventListener("load", Code.init);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 366 */
@@ -28887,7 +28975,7 @@ window.addEventListener("load", Code.init);
 global.runJS = function () {
   Code.runJS();
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 367 */
@@ -28937,8 +29025,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var flightInteface = {};
 
 global.stopExecution = function (skipForceLanding) {
-  global.RUNNING = false;
   global.loopInProgress = false;
+  global.RUNNING = false;
 
   if (Code.device != null && !skipForceLanding) {
     setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -28983,7 +29071,7 @@ global.takeoff = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(functio
                     case 0:
                       takeOff = new _takeOff2.default();
                       _context3.next = 3;
-                      return takeOff.run();
+                      return _commandManager.commandManager.runCommand(takeOff);
 
                     case 3:
                       setTimeout(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
@@ -29147,7 +29235,7 @@ global.hover = function () {
                       case 0:
                         hoverCommand = new _hover2.default();
                         _context9.next = 3;
-                        return hoverCommand.run();
+                        return _commandManager.commandManager.runCommand(hoverCommand);
 
                       case 3:
                         if (!global.loopInProgress) {
@@ -29213,7 +29301,7 @@ global.go = function (direction, seconds, power) {
             case 0:
               goCommand = new _go2.default(direction, power);
               _context11.next = 3;
-              return goCommand.run();
+              return _commandManager.commandManager.runCommand(goCommand);
 
             case 3:
               if (!global.loopInProgress) {
@@ -29269,9 +29357,10 @@ global.moveInternal = function () {
 
           case 2:
             moveCommand = new _move2.default(roll, pitch, yaw, throttle);
-            return _context12.abrupt("return", moveCommand.run());
+            _context12.next = 5;
+            return _commandManager.commandManager.runCommand(moveCommand);
 
-          case 4:
+          case 5:
           case "end":
             return _context12.stop();
         }
@@ -29701,7 +29790,7 @@ global.removeFlightIntervals = function () {
   clearInterval(flightInteface.goToHeightIntevalId);
   clearInterval(flightInteface.intervalId);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 368 */
@@ -29914,7 +30003,7 @@ var Go = function (_Command) {
 }(_command2.default);
 
 exports.default = Go;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 370 */
@@ -30783,7 +30872,7 @@ sequencesInteface.spiral = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.ma
     }
   }, _callee18, this);
 }));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 375 */
@@ -30911,7 +31000,7 @@ global.getYaw = function () {
 global.getThrottle = function () {
   return _data.flyVariables.throttle;
 }.bind(undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 376 */
@@ -31351,7 +31440,7 @@ global.resetDefaultLED = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark
     }
   }, _callee14, this);
 })).bind(undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 377 */
@@ -31747,6 +31836,35 @@ global.getBatteryPercentage = function () {
   return batteryValue;
 };
 
+global.loadCommand = function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(command) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (global.RUNNING) {
+              _context.next = 4;
+              break;
+            }
+
+            return _context.abrupt("return");
+
+          case 4:
+            _commandManager.commandManager.addCommand(command);
+
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
 global.getBatteryVoltage = function () {
   var getBatteryVoltage = new _getBatteryVoltage2.default();
   var batteryValue = getBatteryVoltage.getValue();
@@ -31818,40 +31936,7 @@ global.getAngularSpeed = function () {
 };
 
 global.display = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(fc) {
-    var result;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return global[fc]();
-
-          case 2:
-            result = _context.sent;
-
-            console.log(window.blockSave.value + result);
-            if (fc === global.Sensors.GET_GYRO_ANGLES) {
-              result = JSON.stringify(result);
-            }
-            window.blockSave.setFieldValue(window.blockSave.value + result);
-            return _context.abrupt("return");
-
-          case 7:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-
-  return function (_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-global.displayData = function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(fc) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(fc, index) {
     var result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -31864,11 +31949,13 @@ global.displayData = function () {
             result = _context2.sent;
 
             console.log(window.blockSave.value + result);
-            window.blockSave.setFieldValue(window.blockSave.value + result);
-
+            if (fc === global.Sensors.GET_GYRO_ANGLES) {
+              result = JSON.stringify(result);
+            }
+            window.blocksSave[index].setFieldValue(window.blocksSave[index].value + result);
             return _context2.abrupt("return");
 
-          case 6:
+          case 7:
           case "end":
             return _context2.stop();
         }
@@ -31876,11 +31963,29 @@ global.displayData = function () {
     }, _callee2, this);
   }));
 
-  return function (_x2) {
+  return function (_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
 }();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+
+global.displayData = function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(fc) {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, this);
+  }));
+
+  return function (_x4) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 382 */
@@ -31918,11 +32023,11 @@ var GetBatteryPercentage = function (_Command) {
     _classCallCheck(this, GetBatteryPercentage);
 
     var batteryPackage = _sensorTypes.sensorBattery;
-    return _possibleConstructorReturn(this, (GetBatteryPercentage.__proto__ || Object.getPrototypeOf(GetBatteryPercentage)).call(this, batteryPackage, 'batteryPorcentage'));
+    return _possibleConstructorReturn(this, (GetBatteryPercentage.__proto__ || Object.getPrototypeOf(GetBatteryPercentage)).call(this, batteryPackage, "batteryPorcentage"));
   }
 
   _createClass(GetBatteryPercentage, [{
-    key: 'run',
+    key: "run",
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var value, arrayResult, batteryPorcentageValue, event;
@@ -31935,18 +32040,29 @@ var GetBatteryPercentage = function (_Command) {
 
               case 2:
                 _context.next = 4;
-                return Code.readCharacteristic.readValue();
+                return this.readBLEValue();
 
               case 4:
                 value = _context.sent;
+
+                if (!(!value || !value.buffer)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 7:
                 arrayResult = new Uint8Array(value.buffer);
-                batteryPorcentageValue = arrayResult[7] & 0xFF;
-                event = new CustomEvent(this.eventName, { detail: batteryPorcentageValue });
+                batteryPorcentageValue = arrayResult[7] & 0xff;
+                event = new CustomEvent(this.eventName, {
+                  detail: batteryPorcentageValue
+                });
 
                 dispatchEvent(event);
 
-              case 9:
-              case 'end':
+              case 11:
+              case "end":
                 return _context.stop();
             }
           }
@@ -32829,7 +32945,7 @@ global.onEvent = function (eventType, callback) {
 global.onKeyPressEvent = function (keyCode, callback) {
    _keyPressManager.keyPressManager.addKeyPressCode(keyCode, callback);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 393 */
@@ -32913,7 +33029,7 @@ var LowBattery = function () {
 }();
 
 exports.default = LowBattery;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 394 */
@@ -33299,6 +33415,14 @@ var Burger = function (_React$Component) {
         return;
       }
 
+      if (skipLanding && global.blockInterval) {
+        global.RUNNING = true;
+        return;
+      }
+
+      global.height = "program not running...";
+      clearInterval(global.blockInterval);
+      global.blockInterval = null;
       _keyPressManager.keyPressManager.removeKeyPressEvents();
 
       if ($(".playButton").hasClass("disabled")) {
@@ -33446,7 +33570,7 @@ var Burger = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Burger;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 396 */

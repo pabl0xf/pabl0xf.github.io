@@ -67,6 +67,8 @@ global.Sequence = {
   SPIRAL: 7
 };
 
+global.displayValue = "Program stopped";
+
 global.Sensors = {
   GET_HEIGHT: "getHeight",
   GET_BATTERY_PORCENTAGE: "getBatteryPercentage",

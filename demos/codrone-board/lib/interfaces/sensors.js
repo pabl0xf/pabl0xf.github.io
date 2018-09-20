@@ -17,6 +17,14 @@ global.getBatteryPercentage = function() {
   return batteryValue;
 };
 
+global.loadCommand = async function(command) {
+  if (!global.RUNNING) {
+    return;
+  } else {
+    commandManager.addCommand(command);
+  }
+};
+
 global.getBatteryVoltage = function() {
   var getBatteryVoltage = new GetBatteryVoltage();
   var batteryValue = getBatteryVoltage.getValue();
@@ -87,20 +95,14 @@ global.getAngularSpeed = function() {
   return accelerometerValue;
 };
 
-global.display = async function(fc) {
+global.display = async function(fc, index) {
   var result = await global[fc]();
   console.log(window.blockSave.value + result);
   if (fc === global.Sensors.GET_GYRO_ANGLES) {
     result = JSON.stringify(result);
   }
-  window.blockSave.setFieldValue(window.blockSave.value + result);
+  window.blocksSave[index].setFieldValue(window.blocksSave[index].value + result);
   return;
 };
 
-global.displayData = async function(fc) {
-  var result = await global[fc]();
-  console.log(window.blockSave.value + result);
-  window.blockSave.setFieldValue(window.blockSave.value + result);
-
-  return;
-};
+global.displayData = async function(fc) {};
