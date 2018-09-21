@@ -39,7 +39,6 @@ Code.LANGUAGE_NAME = {
 
 Code.eventListeners = [];
 Code.workspaceCurrentCode = "";
-commandManager.initCommandConsumer();
 
 global.callstopExternalEvent = function() {
   $.event.trigger({
@@ -53,8 +52,15 @@ var refreshTabCode = function(event) {
     event.type === Blockly.Events.DELETE ||
     event.type === Blockly.Events.CREATE
   ) {
+
+
   }
   if (event.type === Blockly.Events.CHANGE) {
+    // Blockly.mainWorkspace.getAllBlocks().forEach(function(block){
+    //   var svgRoot = block.getSvgRoot();
+    //   console.log(block);
+    //   svgRoot.setAttribute("id", block.type);
+    // })
   }
   if (
     (event.type == Blockly.Events.CHANGE ||
@@ -561,8 +567,8 @@ Code.init = function() {
     }
   });
   addClassToCategories();
-  var p = $('svg')[0];
-  p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1000\" height=\"700\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/graph2.png\" width=\"600\" height=\"450\"><\/image> <\/pattern>'
+  // var p = $('svg')[0];
+  // p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"-50\" width=\"150\" height=\"250\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/heartrate.gif\" width=\"150\" height=\"115\"><\/image> <\/pattern>'
 };
 
 /**

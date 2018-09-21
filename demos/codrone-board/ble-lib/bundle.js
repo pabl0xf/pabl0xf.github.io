@@ -1880,7 +1880,7 @@ var CommandManager = function () {
                 return window[commandOnStack]();
 
               case 4:
-                global.displayValue = _context.sent;
+                global.displayValue[commandOnStack] = _context.sent;
 
               case 5:
                 if (!command) {
@@ -1905,20 +1905,6 @@ var CommandManager = function () {
       return runCommand;
     }()
   }, {
-    key: "initCommandConsumer",
-    value: function initCommandConsumer() {
-      this.commandConsummerOn = true;
-      this.commandLoop = setInterval(function () {
-        if (this.executionInProgress) {
-          return true;
-        }
-        if (this.stack && this.stack.length > 0 && this.commandConsummerOn) {
-          var command = this.stack.shift();
-          this.execute(command);
-        }
-      }.bind(this), 10);
-    }
-  }, {
     key: "restartCommandConsumer",
     value: function restartCommandConsumer() {
       this.commandConsummerOn = false;
@@ -1931,35 +1917,6 @@ var CommandManager = function () {
     value: function cleanStack() {
       this.stack = [];
     }
-  }, {
-    key: "execute",
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(command) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.executionInProgress = true;
-                _context2.next = 3;
-                return command.run();
-
-              case 3:
-                this.executionInProgress = false;
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function execute(_x2) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return execute;
-    }()
   }]);
 
   return CommandManager;
@@ -5382,12 +5339,13 @@ global.Sequence = {
   SPIRAL: 7
 };
 
-global.displayValue = "Waiting...";
+global.displayValue = { getHeight: "Program stopped",
+  getBatteryPercentage: "Program stopped" };
 
 global.Sensors = {
-  GET_HEIGHT: "getHeight",
-  GET_BATTERY_PORCENTAGE: "getBatteryPercentage",
-  GET_GYRO_ANGLES: "getGyroAngles"
+  GET_HEIGHT: { value: "getHeight", displayName: 'Sensors.GET_HEIGHT' },
+  GET_BATTERY_PORCENTAGE: { value: "getBatteryPercentage", displayName: 'Sensors.GET_BATTERY_PORCENTAGE' },
+  GET_GYRO_ANGLES: { value: "getGyroAngles", displayName: 'Sensors.GET_GYRO_ANGLES' }
 };
 
 global.Mode = {
@@ -28370,7 +28328,6 @@ Code.LANGUAGE_NAME = {
 
 Code.eventListeners = [];
 Code.workspaceCurrentCode = "";
-_commandManager.commandManager.initCommandConsumer();
 
 global.callstopExternalEvent = function () {
   $.event.trigger({
@@ -28381,7 +28338,13 @@ global.callstopExternalEvent = function () {
 
 var refreshTabCode = function refreshTabCode(event) {
   if (event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE) {}
-  if (event.type === Blockly.Events.CHANGE) {}
+  if (event.type === Blockly.Events.CHANGE) {
+    // Blockly.mainWorkspace.getAllBlocks().forEach(function(block){
+    //   var svgRoot = block.getSvgRoot();
+    //   console.log(block);
+    //   svgRoot.setAttribute("id", block.type);
+    // })
+  }
   if ((event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.MOVE) && Code.selected) {
     var content = document.getElementById("content_" + Code.selected);
     var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
@@ -28858,8 +28821,8 @@ Code.init = function () {
     }
   });
   addClassToCategories();
-  var p = $('svg')[0];
-  p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1000\" height=\"700\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/graph2.png\" width=\"600\" height=\"450\"><\/image> <\/pattern>';
+  // var p = $('svg')[0];
+  // p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"-50\" width=\"150\" height=\"250\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/heartrate.gif\" width=\"150\" height=\"115\"><\/image> <\/pattern>'
 };
 
 /**
@@ -29036,9 +28999,13 @@ global.stopExecution = function (skipForceLanding) {
           switch (_context.prev = _context.next) {
             case 0:
               emergencyStop = new _emergencyStop2.default();
-              return _context.abrupt("return", emergencyStop.run());
+              _context.next = 3;
+              return _commandManager.commandManager.runCommand(emergencyStop);
 
-            case 2:
+            case 3:
+              return _context.abrupt("return", _context.sent);
+
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -29136,7 +29103,7 @@ global.rotate180 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(funct
                     case 0:
                       rotate180 = new _rotate2.default();
                       _context5.next = 3;
-                      return rotate180.run();
+                      return _commandManager.commandManager.runCommand(rotate180);
 
                     case 3:
                       resolve();
@@ -29204,9 +29171,13 @@ global.emergencyStop = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(f
 
         case 2:
           emergencyStop = new _emergencyStop2.default();
-          return _context8.abrupt("return", emergencyStop.run());
+          _context8.next = 5;
+          return _commandManager.commandManager.runCommand(emergencyStop);
 
-        case 4:
+        case 5:
+          return _context8.abrupt("return", _context8.sent);
+
+        case 6:
         case "end":
           return _context8.stop();
       }
@@ -29419,7 +29390,7 @@ global.move = function () {
                       case 0:
                         moveCommand = new _move2.default(roll, pitch, yaw, throttle);
                         _context13.next = 3;
-                        return moveCommand.run();
+                        return _commandManager.commandManager.runCommand(moveCommand);
 
                       case 3:
                         if (!global.loopInProgress) {
@@ -31935,27 +31906,27 @@ global.getAngularSpeed = function () {
   return accelerometerValue;
 };
 
-global.display = function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(fc, index) {
+global.plotSensor = function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(fc) {
     var result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return global[fc]();
+            return global[fc.value]();
 
           case 2:
             result = _context2.sent;
 
-            console.log(window.blockSave.value + result);
-            if (fc === global.Sensors.GET_GYRO_ANGLES) {
+            //console.log(window.blockSave.value + result);
+            if (fc.value === 'getGyroAngles') {
               result = JSON.stringify(result);
             }
-            window.blocksSave[index].setFieldValue(window.blocksSave[index].value + result);
+            global.blocksSaved[fc.index].setFieldValue(global.blocksSaved[fc.index].value + result);
             return _context2.abrupt("return");
 
-          case 7:
+          case 6:
           case "end":
             return _context2.stop();
         }
@@ -31963,7 +31934,7 @@ global.display = function () {
     }, _callee2, this);
   }));
 
-  return function (_x2, _x3) {
+  return function (_x2) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -31981,8 +31952,26 @@ global.displayData = function () {
     }, _callee3, this);
   }));
 
-  return function (_x4) {
+  return function (_x3) {
     return _ref3.apply(this, arguments);
+  };
+}();
+
+global.setWorkspaceInterval = function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(timer, value) {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, this);
+  }));
+
+  return function (_x4, _x5) {
+    return _ref4.apply(this, arguments);
   };
 }();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))

@@ -90,15 +90,15 @@ Blockly.JavaScript["var_block"] = function(block) {
     switch (block.childBlocks_[0].type) {
       case "getHeight_junior":
         value = "Height: ";
-        fc = "Sensors.GET_HEIGHT";
+        fc = "GET_HEIGHT";
         break;
       case "getBatteryPercentage_junior":
         value = "Battery Percentage: ";
-        fc = "Sensors.GET_BATTERY_PORCENTAGE";
+        fc = "GET_BATTERY_PORCENTAGE";
         break;
       case "getGyroData_junior":
         value = "Gyro Data: ";
-        fc = "Sensors.GET_GYRO_ANGLES";
+        fc = "GET_GYRO_ANGLES";
         break;
       default:
         value = "Value: ";
@@ -115,17 +115,43 @@ Blockly.JavaScript["var_block"] = function(block) {
     block.setFieldValue("Value: ");
   }
 
-  return "await display(" + fc + "," + index + ");\n";
+  var command = '';
+  if(fc){
+    window.Sensors[fc].index = index;
+    command = 'Sensors.'+fc;
+  }
+  else{
+    command = '""';
+  }
+  return "await plotSensor(" + command + ");\n";
 };
 
-Blockly.JavaScript["show_var_data"] = function(block) {
-  if (block.childBlocks_[0]) {
-    if (window.blockInterval) {
-      clearInterval(window.blockInterval);
-    }
 
-    window.blockInterval = setInterval(async function() {
-      console.log("interval");
+Blockly.JavaScript["show_var_data"] = function(block) {
+  var commandDisplay = null;
+  if (window.blocksSaved) {
+    var idBlock = window.blocksSaved.findIndex(function(blk) {
+      return blk.id == block.id;
+    });
+
+    if (idBlock >= 0) {
+      window.idBlock = idBlock;
+    } else {
+      window.blocksSaved.push(block);
+      window.idBlock = window.blocksSaved.length - 1;
+    }
+  } else {
+    window.blocksSaved = [block];
+    window.idBlock = window.blocksSaved.length - 1;
+  }
+
+  if (block.childBlocks_[0]) {
+    if (window.blocksSaved[window.idBlock].blockInterval) {
+      clearInterval(window.blocksSaved[window.idBlock].blockInterval);
+    }
+    var index = window.idBlock;
+    window.blocksSaved[index].blockInterval = setInterval(async function(){
+      console.log('interval');
       var value = "";
       var fc = "";
 
@@ -133,17 +159,21 @@ Blockly.JavaScript["show_var_data"] = function(block) {
         case "getHeight_junior":
           value = "Height: ";
           fc = Sensors.GET_HEIGHT;
+          window.blocksSaved[index].methodName = fc;
           break;
         case "getBatteryPercentage_junior":
           value = "Battery Percentage: ";
           fc = Sensors.GET_BATTERY_PORCENTAGE;
+          window.blocksSaved[index].methodName = fc;
           break;
         case "getGyroData_junior":
           value = "Gyro Data: ";
           fc = Sensors.GET_GYRO_ANGLES;
+          window.blocksSaved[index].methodName = fc;
           break;
         default:
           value = "Value: ";
+          fc = "getData";
       }
       if (!window.dirtyVar || window.dirtyVar != block.childBlocks_[0].type) {
         window.dirtyVar = block.childBlocks_[0].type;
@@ -151,15 +181,23 @@ Blockly.JavaScript["show_var_data"] = function(block) {
       }
 
       block.value = value;
-      window.blockSave = block;
-      window.loadCommand(fc);
-      block.setFieldValue(value + global.displayValue);
-    }, 1000);
+      window.blocksSaved[index].blockSave = block;
+
+      window.loadCommand(fc.value);
+      block.setFieldValue(value + global.displayValue[fc.value]);
+
+      //var result = await window[fc](index);
+      //block.setFieldValue(value + result);
+    }, 1300);
   } else {
-    window.dirtyVar = false;
+    clearInterval(window.blocksSaved[window.idBlock].blockInterval);
     block.setFieldValue("Value: ");
   }
-  return 'await displayData();\n';
+
+  var param2 = (window.blocksSaved[index] && window.blocksSaved[index].methodName) ?
+    window.blocksSaved[index].methodName.displayName  : '""';
+
+  return 'setWorkspaceInterval(2,'+param2+');\n';
 };
 
 Blockly.JavaScript["go_direction_junior_3"] = function(block) {

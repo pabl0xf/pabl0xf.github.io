@@ -95,14 +95,16 @@ global.getAngularSpeed = function() {
   return accelerometerValue;
 };
 
-global.display = async function(fc, index) {
-  var result = await global[fc]();
-  console.log(window.blockSave.value + result);
-  if (fc === global.Sensors.GET_GYRO_ANGLES) {
+global.plotSensor = async function(fc) {
+  var result = await global[fc.value]();
+  //console.log(window.blockSave.value + result);
+  if (fc.value === 'getGyroAngles') {
     result = JSON.stringify(result);
   }
-  window.blocksSave[index].setFieldValue(window.blocksSave[index].value + result);
+  global.blocksSaved[fc.index].setFieldValue(global.blocksSaved[fc.index].value + result);
   return;
 };
 
 global.displayData = async function(fc) {};
+
+global.setWorkspaceInterval = async function(timer, value) {};

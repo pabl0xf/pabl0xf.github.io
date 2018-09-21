@@ -14,6 +14,14 @@
   font-style: normal;
 }
 
+#show_var_data path:nth-child(2) {
+  fill: url("#img1");
+}
+
+#show_var_data g> path:nth-child(2) {
+    fill: #f29327;
+}
+
 @font-face {
   font-family: "futura_ltcn_btlight";
   src: url("fonts/futura_light_font-webfont.woff2") format("woff2"),

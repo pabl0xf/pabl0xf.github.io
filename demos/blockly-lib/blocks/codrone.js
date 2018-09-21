@@ -2858,6 +2858,7 @@ Blockly.Blocks["var_block"] = {
       .appendField("value: ");
     this.setColour(Blockly.Constants.Codrone.HUE_Orange);
     this.setPreviousStatement(true);
+    this.setNextStatement(true);
     var thisBlock = this;
   }
 };
