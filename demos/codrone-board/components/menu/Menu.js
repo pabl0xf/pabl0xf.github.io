@@ -67,7 +67,7 @@ class Burger extends React.Component {
       return;
     }
 
-    global.height = "program not running...";
+    global.displayValue = "program not running...";
     clearInterval(global.blockInterval);
     global.blockInterval = null;
     keyPressManager.removeKeyPressEvents();

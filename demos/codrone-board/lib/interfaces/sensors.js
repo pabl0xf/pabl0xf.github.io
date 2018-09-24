@@ -97,7 +97,6 @@ global.getAngularSpeed = function() {
 
 global.plotSensor = async function(fc) {
   var result = await global[fc.value]();
-  //console.log(window.blockSave.value + result);
   if (fc.value === 'getGyroAngles') {
     result = JSON.stringify(result);
   }

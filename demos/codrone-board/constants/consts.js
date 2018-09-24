@@ -67,13 +67,22 @@ global.Sequence = {
   SPIRAL: 7
 };
 
-global.displayValue = {getHeight: "Program stopped",
-  getBatteryPercentage: "Program stopped"};
+global.displayValue = {
+  getHeight: "Program stopped",
+  getBatteryPercentage: "Program stopped",
+  getGyroAngles: "Program stopped"
+};
 
 global.Sensors = {
-  GET_HEIGHT: {value: "getHeight", displayName: 'Sensors.GET_HEIGHT'},
-  GET_BATTERY_PORCENTAGE: {value: "getBatteryPercentage", displayName: 'Sensors.GET_BATTERY_PORCENTAGE'},
-  GET_GYRO_ANGLES: {value: "getGyroAngles", displayName: 'Sensors.GET_GYRO_ANGLES' }
+  GET_HEIGHT: { value: "getHeight", displayName: "Sensors.GET_HEIGHT" },
+  GET_BATTERY_PORCENTAGE: {
+    value: "getBatteryPercentage",
+    displayName: "Sensors.GET_BATTERY_PORCENTAGE"
+  },
+  GET_GYRO_ANGLES: {
+    value: "getGyroAngles",
+    displayName: "Sensors.GET_GYRO_ANGLES"
+  }
 };
 
 global.Mode = {

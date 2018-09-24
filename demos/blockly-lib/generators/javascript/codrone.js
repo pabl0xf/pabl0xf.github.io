@@ -186,8 +186,6 @@ Blockly.JavaScript["show_var_data"] = function(block) {
       window.loadCommand(fc.value);
       block.setFieldValue(value + global.displayValue[fc.value]);
 
-      //var result = await window[fc](index);
-      //block.setFieldValue(value + result);
     }, 1300);
   } else {
     clearInterval(window.blocksSaved[window.idBlock].blockInterval);
