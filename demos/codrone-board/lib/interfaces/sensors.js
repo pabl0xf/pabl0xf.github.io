@@ -105,5 +105,9 @@ global.plotSensor = async function(fc) {
 };
 
 global.displayData = async function(fc) {};
-
-global.setWorkspaceInterval = async function(timer, value) {};
+//
+// global.setWorkspaceInterval = async function(timer, command) {
+//   if(global.RUNNING){
+//     global[command.value]();
+//   }
+//};

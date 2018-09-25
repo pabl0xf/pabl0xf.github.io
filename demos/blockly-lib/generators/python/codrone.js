@@ -595,11 +595,53 @@ Blockly.Python["flyTriangle_junior"] = function(block) {
 };
 
 Blockly.Python["var_block"] = function(block) {
-  return "drone.plot_sensor()\n";
+  var command = '""';
+  var fc = '';
+
+  if (block.childBlocks_[0]) {
+    switch (block.childBlocks_[0].type) {
+      case "getHeight_junior":
+        fc = "GET_HEIGHT";
+        break;
+      case "getBatteryPercentage_junior":
+        fc = "GET_BATTERY_PORCENTAGE";
+        break;
+      case "getGyroData_junior":
+        fc = "GET_GYRO_ANGLES";
+        break;
+      default:
+        fc = "DEFAULT_VALUE";
+    }
+
+    command = 'Sensors.'+fc;
+  }
+
+  return "await plot_sensor(" + command + ");\n";
 };
 
 Blockly.Python["show_var_data"] = function(block) {
-  return "drone.set_workspace_interval()\n";
+  var command = '""';
+  var fc = '';
+
+  if (block.childBlocks_[0]) {
+    switch (block.childBlocks_[0].type) {
+      case "getHeight_junior":
+        fc = "GET_HEIGHT";
+        break;
+      case "getBatteryPercentage_junior":
+        fc = "GET_BATTERY_PORCENTAGE";
+        break;
+      case "getGyroData_junior":
+        fc = "GET_GYRO_ANGLES";
+        break;
+      default:
+        fc = "DEFAULT_VALUE";
+    }
+
+    command = 'Sensors.'+fc;
+  }
+
+  return 'set_workspace_interval(2, '+ command +');\n';
 };
 
 Blockly.Python["flyHop_junior"] = function(block) {
@@ -613,3 +655,5 @@ Blockly.Python["flysway_junior"] = function(block) {
 Blockly.Python["flyZigzag_junior"] = function(block) {
   return "drone.fly_sequence(Sequence.ZIGZAG)\n";
 };
+
+

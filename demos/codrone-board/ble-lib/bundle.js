@@ -5354,6 +5354,10 @@ global.Sensors = {
   GET_GYRO_ANGLES: {
     value: "getGyroAngles",
     displayName: "Sensors.GET_GYRO_ANGLES"
+  },
+  DEFAULT_VALUE: {
+    value: "getGyroAngles",
+    displayName: "Sensors.GET_GYRO_ANGLES"
   }
 };
 
@@ -31964,24 +31968,12 @@ global.displayData = function () {
     return _ref3.apply(this, arguments);
   };
 }();
-
-global.setWorkspaceInterval = function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(timer, value) {
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, this);
-  }));
-
-  return function (_x4, _x5) {
-    return _ref4.apply(this, arguments);
-  };
-}();
+//
+// global.setWorkspaceInterval = async function(timer, command) {
+//   if(global.RUNNING){
+//     global[command.value]();
+//   }
+//};
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
@@ -33417,7 +33409,6 @@ var Burger = function (_React$Component) {
         return;
       }
 
-      global.height = "program not running...";
       clearInterval(global.blockInterval);
       global.blockInterval = null;
       _keyPressManager.keyPressManager.removeKeyPressEvents();

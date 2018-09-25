@@ -82,6 +82,10 @@ global.Sensors = {
   GET_GYRO_ANGLES: {
     value: "getGyroAngles",
     displayName: "Sensors.GET_GYRO_ANGLES"
+  },
+  DEFAULT_VALUE: {
+    value: "getGyroAngles",
+    displayName: "Sensors.GET_GYRO_ANGLES"
   }
 };
 

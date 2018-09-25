@@ -13,7 +13,7 @@ class CommandManager {
   async runCommand(command) {
     if (this.stack && this.stack.length > 0) {
       var commandOnStack = this.stack.pop();
-      global.displayValue[commandOnStack  ] = await window[commandOnStack]();
+      global.displayValue[commandOnStack] = await window[commandOnStack]();
     }
     if (command) {
       return command.run();
