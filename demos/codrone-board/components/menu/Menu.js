@@ -62,15 +62,17 @@ class Burger extends React.Component {
       return;
     }
 
-    if (skipLanding && global.blockInterval) {
+    if (skipLanding && global.DISPLAY_INTERVAL) {
       global.RUNNING = true;
+      global.RUN_ONLY_DISPLAY_BLOCKS = true;
       return;
     }
 
     clearInterval(global.blockInterval);
     global.blockInterval = null;
     keyPressManager.removeKeyPressEvents();
-
+    global.RUN_ONLY_DISPLAY_BLOCKS = false;
+    global.DISPLAY_INTERVAL = false;
     if ($(".playButton").hasClass("disabled")) {
       $(".playButton").removeClass("disabled");
     }

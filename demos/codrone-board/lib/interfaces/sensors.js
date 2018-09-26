@@ -13,7 +13,7 @@ import GetAccelerometer from "../commands/getAccelerometer.js";
 global.getBatteryPercentage = function() {
   var getBatteryPercentage = new GetBatteryPercentage();
   var batteryValue = getBatteryPercentage.getValue();
-  getBatteryPercentage.run();
+  commandManager.runCommand(getBatteryPercentage);
   return batteryValue;
 };
 
@@ -23,26 +23,29 @@ global.loadCommand = async function(command) {
   } else {
     commandManager.addCommand(command);
   }
+  if(global.RUN_ONLY_DISPLAY_BLOCKS){
+    await global[command]();
+  }
 };
 
 global.getBatteryVoltage = function() {
   var getBatteryVoltage = new GetBatteryVoltage();
   var batteryValue = getBatteryVoltage.getValue();
-  commandManager.addCommand(getBatteryVoltage);
+  commandManager.runCommand(getBatteryVoltage);
   return batteryValue;
 };
 
 global.getHeight = function() {
   var getHeight = new GetHeight();
   var height = getHeight.getValue();
-  getHeight.run();
+  commandManager.runCommand(getHeight);
   return height;
 };
 
 global.getGyroAngles = function() {
   var getGyroAngles = new GetGyroAngles();
   var gyroAngles = getGyroAngles.getValue();
-  getGyroAngles.run();
+  commandManager.runCommand(getGyroAngles);
   return gyroAngles;
 };
 
@@ -100,14 +103,11 @@ global.plotSensor = async function(fc) {
   if (fc.value === 'getGyroAngles') {
     result = JSON.stringify(result);
   }
+  global.displaySingleValue[fc.value] = result;
   global.blocksSaved[fc.index].setFieldValue(global.blocksSaved[fc.index].value + result);
   return;
 };
 
-global.displayData = async function(fc) {};
-//
-// global.setWorkspaceInterval = async function(timer, command) {
-//   if(global.RUNNING){
-//     global[command.value]();
-//   }
-//};
+global.setWorkspaceInterval = async function(fc) {
+
+};

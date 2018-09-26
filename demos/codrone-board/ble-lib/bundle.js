@@ -5275,6 +5275,8 @@ global.WRITE_CHARACTERISTIC = "c320df02-7891-11e5-8bcf-feff819cdc9f";
 global.NOTIIFY_CHARACTERISTIC = "c320df01-7891-11e5-8bcf-feff819cdc9f";
 
 global.RUNNING = false;
+global.RUN_ONLY_DISPLAY_BLOCKS = false;
+window.DISPLAY_INTERVAL = false;
 
 global.HOLD = { armCode: 0x41, eyeCode: 0x11 };
 global.OFF = { armCode: 0x40, eyeCode: 0x10 };
@@ -5340,6 +5342,12 @@ global.Sequence = {
 };
 
 global.displayValue = {
+  getHeight: "Program stopped",
+  getBatteryPercentage: "Program stopped",
+  getGyroAngles: "Program stopped"
+};
+
+global.displaySingleValue = {
   getHeight: "Program stopped",
   getBatteryPercentage: "Program stopped",
   getGyroAngles: "Program stopped"
@@ -31816,7 +31824,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 global.getBatteryPercentage = function () {
   var getBatteryPercentage = new _getBatteryPercentage2.default();
   var batteryValue = getBatteryPercentage.getValue();
-  getBatteryPercentage.run();
+  _commandManager.commandManager.runCommand(getBatteryPercentage);
   return batteryValue;
 };
 
@@ -31837,6 +31845,15 @@ global.loadCommand = function () {
             _commandManager.commandManager.addCommand(command);
 
           case 5:
+            if (!global.RUN_ONLY_DISPLAY_BLOCKS) {
+              _context.next = 8;
+              break;
+            }
+
+            _context.next = 8;
+            return global[command]();
+
+          case 8:
           case "end":
             return _context.stop();
         }
@@ -31852,21 +31869,21 @@ global.loadCommand = function () {
 global.getBatteryVoltage = function () {
   var getBatteryVoltage = new _getBatteryVoltage2.default();
   var batteryValue = getBatteryVoltage.getValue();
-  _commandManager.commandManager.addCommand(getBatteryVoltage);
+  _commandManager.commandManager.runCommand(getBatteryVoltage);
   return batteryValue;
 };
 
 global.getHeight = function () {
   var getHeight = new _getHeight2.default();
   var height = getHeight.getValue();
-  getHeight.run();
+  _commandManager.commandManager.runCommand(getHeight);
   return height;
 };
 
 global.getGyroAngles = function () {
   var getGyroAngles = new _getGyroAngles2.default();
   var gyroAngles = getGyroAngles.getValue();
-  getGyroAngles.run();
+  _commandManager.commandManager.runCommand(getGyroAngles);
   return gyroAngles;
 };
 
@@ -31935,10 +31952,11 @@ global.plotSensor = function () {
             if (fc.value === 'getGyroAngles') {
               result = JSON.stringify(result);
             }
+            global.displaySingleValue[fc.value] = result;
             global.blocksSaved[fc.index].setFieldValue(global.blocksSaved[fc.index].value + result);
             return _context2.abrupt("return");
 
-          case 6:
+          case 7:
           case "end":
             return _context2.stop();
         }
@@ -31951,7 +31969,7 @@ global.plotSensor = function () {
   };
 }();
 
-global.displayData = function () {
+global.setWorkspaceInterval = function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(fc) {
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -31968,12 +31986,6 @@ global.displayData = function () {
     return _ref3.apply(this, arguments);
   };
 }();
-//
-// global.setWorkspaceInterval = async function(timer, command) {
-//   if(global.RUNNING){
-//     global[command.value]();
-//   }
-//};
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
@@ -33404,15 +33416,17 @@ var Burger = function (_React$Component) {
         return;
       }
 
-      if (skipLanding && global.blockInterval) {
+      if (skipLanding && global.DISPLAY_INTERVAL) {
         global.RUNNING = true;
+        global.RUN_ONLY_DISPLAY_BLOCKS = true;
         return;
       }
 
       clearInterval(global.blockInterval);
       global.blockInterval = null;
       _keyPressManager.keyPressManager.removeKeyPressEvents();
-
+      global.RUN_ONLY_DISPLAY_BLOCKS = false;
+      global.DISPLAY_INTERVAL = false;
       if ($(".playButton").hasClass("disabled")) {
         $(".playButton").removeClass("disabled");
       }

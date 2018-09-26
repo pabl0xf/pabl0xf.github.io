@@ -105,7 +105,7 @@ Blockly.JavaScript["var_block"] = function(block) {
     }
     if (!window.dirtyVar || window.dirtyVar != block.childBlocks_[0].type) {
       window.dirtyVar = block.childBlocks_[0].type;
-      block.setFieldValue(value);
+      block.setFieldValue(value + window.displaySingleValue[window.Sensors[fc].value]);
     }
 
     block.value = value;
@@ -151,6 +151,7 @@ Blockly.JavaScript["show_var_data"] = function(block) {
     }
     var index = window.idBlock;
     window.blocksSaved[index].blockInterval = setInterval(async function(){
+      window.DISPLAY_INTERVAL = true;
       console.log('interval');
       var value = "";
       var fc = "";
@@ -1250,12 +1251,12 @@ Blockly.JavaScript["hover_junior"] = function(block) {
 
 Blockly.JavaScript["wait_junior"] = function(block) {
   var arg0 = parseInt(block.getFieldValue("NUM0"));
-  return "wait(" + arg0 + ");\n";
+  return "await delay(" + arg0 + ");\n";
 };
 
 Blockly.JavaScript["wait_senior"] = function(block) {
   var arg0 = parseInt(block.getFieldValue("NUM0"));
-  return "wait(" + arg0 + ");\n";
+  return "await delay(" + arg0 + ");\n";
 };
 
 Blockly.JavaScript["hover_senior"] = function(block) {

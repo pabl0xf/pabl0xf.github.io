@@ -371,12 +371,12 @@ Blockly.Python['hover_senior'] = function(block) {
 
 Blockly.Python['wait_junior'] = function(block) {
   var arg0 = parseInt(block.getFieldValue('NUM0'));
-  return 'wait('+arg0+')\n';
+  return 'delay('+arg0+')\n';
 };
 
 Blockly.Python['wait_junior'] = function(block) {
   var arg0 = parseInt(block.getFieldValue('NUM0'));
-  return 'wait('+arg0+')\n';
+  return 'delay('+arg0+')\n';
 };
 
 Blockly.Python['emergencyStop_junior'] = function(block) {
