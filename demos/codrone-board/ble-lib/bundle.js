@@ -1939,32 +1939,50 @@ var CommandManager = function () {
     key: 'runCommand',
     value: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(command) {
-        var commandOnStack;
+        var commandOnStack, className, instanceSensor, commandToRun, response, value;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(this.stack && this.stack.length > 0)) {
-                  _context2.next = 5;
+                  _context2.next = 13;
                   break;
                 }
 
                 commandOnStack = this.stack.pop();
-                _context2.next = 4;
-                return window[commandOnStack]();
+                className = commandOnStack.charAt(0).toUpperCase() + commandOnStack.slice(1);
+                instanceSensor = (0, _factoryHelper2.default)(className);
+                commandToRun = new instanceSensor();
 
-              case 4:
-                global.displayValue[commandOnStack] = _context2.sent;
 
-              case 5:
+                console.log('display command to run.......', commandToRun);
+                response = commandToRun.getValue();
+
+                commandToRun.run();
+                _context2.next = 10;
+                return response;
+
+              case 10:
+                value = _context2.sent;
+
+                if (commandOnStack === global.Sensors.GET_GYRO_ANGLES.value) {
+                  try {
+                    value = JSON.stringify(value);
+                  } catch (e) {
+                    console.log('can not stringify value', e);
+                  }
+                }
+                global.displayValue[commandOnStack] = value;
+
+              case 13:
                 if (!command) {
-                  _context2.next = 7;
+                  _context2.next = 15;
                   break;
                 }
 
                 return _context2.abrupt('return', command.run());
 
-              case 7:
+              case 15:
               case 'end':
                 return _context2.stop();
             }
@@ -33519,7 +33537,6 @@ var Burger = function (_React$Component) {
 
       if (skipLanding && global.DISPLAY_INTERVAL && !eventChange) {
         global.RUNNING = true;
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         global.RUN_ONLY_DISPLAY_BLOCKS = true;
         return;
       }
