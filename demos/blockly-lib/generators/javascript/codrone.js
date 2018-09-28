@@ -65,7 +65,9 @@ Blockly.JavaScript["flyright_2"] = function(block) {
   return "flyRight(" + arg0 + "," + arg1 + ");\n";
 };
 
-Blockly.JavaScript["var_block"] = function(block) {
+  Blockly.JavaScript["var_block"] = function(block) {
+  var blockIndex = -1;
+
   if (window.blocksSaved) {
     var idBlock = window.blocksSaved.findIndex(function(blk) {
       return blk.id == block.id;
@@ -82,12 +84,16 @@ Blockly.JavaScript["var_block"] = function(block) {
     window.idBlock = window.blocksSaved.length - 1;
   }
 
-  if (block.childBlocks_[0]) {
+  if (block.childBlocks_.length > 0) {
+    blockIndex = block.childBlocks_.findIndex(function(item){ return item.type == 'getHeight_junior' || item.type == 'getBatteryPercentage_junior' || item.type == 'getGyroData_junior'});
+  }
+
+  if (blockIndex >= 0) {
     var index = window.idBlock;
     var value = "";
     var fc = "";
 
-    switch (block.childBlocks_[0].type) {
+    switch (block.childBlocks_[blockIndex].type) {
       case "getHeight_junior":
         value = "Height: ";
         fc = "GET_HEIGHT";

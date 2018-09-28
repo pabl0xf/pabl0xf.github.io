@@ -616,7 +616,7 @@ Blockly.Python["var_block"] = function(block) {
     command = 'Sensors.'+fc;
   }
 
-  return "await plot_sensor(" + command + ");\n";
+  return "plot_sensor(" + command + ");\n";
 };
 
 Blockly.Python["show_var_data"] = function(block) {
@@ -655,5 +655,3 @@ Blockly.Python["flysway_junior"] = function(block) {
 Blockly.Python["flyZigzag_junior"] = function(block) {
   return "drone.fly_sequence(Sequence.ZIGZAG)\n";
 };
-
-

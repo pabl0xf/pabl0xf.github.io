@@ -20,11 +20,13 @@ global.getBatteryPercentage = function() {
 global.loadCommand = async function(command) {
   if (!global.RUNNING) {
     return;
-  } else {
-    commandManager.addCommand(command);
   }
-  if(global.RUN_ONLY_DISPLAY_BLOCKS){
-    await global[command]();
+  else if(global.RUN_ONLY_DISPLAY_BLOCKS){
+    commandManager.addCommand(command);
+    commandManager.runFromStackOnly();
+  }
+  else {
+    commandManager.addCommand(command);
   }
 };
 

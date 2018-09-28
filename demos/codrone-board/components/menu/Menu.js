@@ -53,7 +53,7 @@ class Burger extends React.Component {
     }
   }
 
-  handleForceLandingClick(el, skipLanding) {
+  handleForceLandingClick(el, skipLanding, eventChange) {
     eventManager.removeAllEvents();
 
     global.stopExecution(skipLanding);
@@ -62,17 +62,30 @@ class Burger extends React.Component {
       return;
     }
 
-    if (skipLanding && global.DISPLAY_INTERVAL) {
+    if (skipLanding && global.DISPLAY_INTERVAL && !eventChange) {
       global.RUNNING = true;
       global.RUN_ONLY_DISPLAY_BLOCKS = true;
       return;
     }
 
-    clearInterval(global.blockInterval);
-    global.blockInterval = null;
+    if (!eventChange) {
+      if (global.blocksSaved && global.blocksSaved.length > 0) {
+        for (var i = 0; i < global.blocksSaved.length; i++) {
+          console.log(
+            "interval to be remove: ",
+            global.blocksSaved[i].blockInterval
+          );
+          if (global.blocksSaved[i].blockInterval) {
+            clearInterval(global.blocksSaved[i].blockInterval);
+          }
+        }
+      }
+
+      global.blockInterval = null;
+      global.RUN_ONLY_DISPLAY_BLOCKS = false;
+      global.DISPLAY_INTERVAL = false;
+    }
     keyPressManager.removeKeyPressEvents();
-    global.RUN_ONLY_DISPLAY_BLOCKS = false;
-    global.DISPLAY_INTERVAL = false;
     if ($(".playButton").hasClass("disabled")) {
       $(".playButton").removeClass("disabled");
     }
@@ -99,6 +112,13 @@ class Burger extends React.Component {
       "stopExternalEvent",
       function() {
         this.handleForceLandingClick(null, true);
+      }.bind(this)
+    );
+
+    $(document).on(
+      "eventChangeExternalEvent",
+      function() {
+        this.handleForceLandingClick(null, true, true);
       }.bind(this)
     );
   }

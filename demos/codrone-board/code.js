@@ -47,6 +47,13 @@ global.callstopExternalEvent = function() {
   });
 };
 
+global.callChangeExternalEvent = function() {
+  $.event.trigger({
+    type: "eventChangeExternalEvent",
+    message: ""
+  });
+};
+
 var refreshTabCode = function(event) {
   if (
     event.type === Blockly.Events.DELETE ||
@@ -73,7 +80,7 @@ var refreshTabCode = function(event) {
       Code.workspaceCurrentCode = code;
       eventManager.removeAllEvents();
       keyPressManager.removeKeyPressEvents();
-      global.callstopExternalEvent();
+      global.callChangeExternalEvent();
     }
     if (content.id == "content_javascript") {
       content.textContent = code;
