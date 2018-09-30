@@ -20,12 +20,10 @@ global.getBatteryPercentage = function() {
 global.loadCommand = async function(command) {
   if (!global.RUNNING) {
     return;
-  }
-  else if(global.RUN_ONLY_DISPLAY_BLOCKS){
+  } else if (global.RUN_ONLY_DISPLAY_BLOCKS) {
     commandManager.addCommand(command);
     commandManager.runFromStackOnly();
-  }
-  else {
+  } else {
     commandManager.addCommand(command);
   }
 };
@@ -102,14 +100,29 @@ global.getAngularSpeed = function() {
 
 global.plotSensor = async function(fc) {
   var result = await global[fc.value]();
-  if (fc.value === 'getGyroAngles') {
+  if (fc.value === "getGyroAngles") {
     result = JSON.stringify(result);
   }
   global.displaySingleValue[fc.value] = result;
-  global.blocksSaved[fc.index].setFieldValue(global.blocksSaved[fc.index].value + result);
+  global.blocksSaved[fc.index].setFieldValue(
+    global.blocksSaved[fc.index].value + result
+  );
   return;
 };
 
-global.setWorkspaceInterval = async function(fc) {
-
+global.setWorkspaceInterval = async function(seconds, fc) {
+  const intervalTimer = 1300;
+  if (fc && fc.index >= 0) {
+    global.blocksSaved[fc.index].blockInterval = setInterval(
+      async function() {
+        if (fc.value) {
+          global.loadCommand(fc.value);
+          global.blocksSaved[fc.index].setFieldValue(
+            fc.labelDescription + global.displayValue[fc.value]
+          );
+        }
+      }.bind(this),
+      intervalTimer
+    );
+  }
 };

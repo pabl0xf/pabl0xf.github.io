@@ -153,10 +153,9 @@ Blockly.JavaScript["show_var_data"] = function(block) {
 
   if (block.childBlocks_[0]) {
     if (window.blocksSaved[window.idBlock].blockInterval) {
-      clearInterval(window.blocksSaved[window.idBlock].blockInterval);
+      console.log('block disengage');
     }
     var index = window.idBlock;
-    window.blocksSaved[index].blockInterval = setInterval(async function(){
       window.DISPLAY_INTERVAL = true;
       console.log('interval');
       var value = "";
@@ -190,19 +189,25 @@ Blockly.JavaScript["show_var_data"] = function(block) {
       block.value = value;
       window.blocksSaved[index].blockSave = block;
 
-      window.loadCommand(fc.value);
+      fc.index = index;
+      fc.labelDescription = value;
       block.setFieldValue(value + global.displayValue[fc.value]);
 
-    }, 1300);
+
   } else {
     clearInterval(window.blocksSaved[window.idBlock].blockInterval);
     block.setFieldValue("Value: ");
   }
 
-  var param2 = (window.blocksSaved[index] && window.blocksSaved[index].methodName) ?
+  var commmandType = (window.blocksSaved[index] && window.blocksSaved[index].methodName) ?
     window.blocksSaved[index].methodName.displayName  : '""';
 
-  return 'setWorkspaceInterval(2,'+param2+');\n';
+  if(commmandType.value){
+    commmandType.index = index;
+    console.log(index);
+  }
+
+  return 'setWorkspaceInterval(2,'+commmandType+');\n';
 };
 
 Blockly.JavaScript["go_direction_junior_3"] = function(block) {

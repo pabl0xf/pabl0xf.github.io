@@ -1870,6 +1870,18 @@ var CommandManager = function () {
       this.stack.push(command);
     }
   }, {
+    key: 'getDisplayFormat',
+    value: function getDisplayFormat(value, type) {
+      if (type === global.Sensors.GET_GYRO_ANGLES.value) {
+        try {
+          value = 'roll: ' + value.attitudeRoll + ' pitch: ' + value.attitudePitch + ' yaw: ' + value.attitudeYaw + ' yaw°: ' + value.yawDegree;
+        } catch (e) {
+          console.log('can not stringify value', e);
+        }
+      }
+      return value;
+    }
+  }, {
     key: 'runFromStackOnly',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(command) {
@@ -1909,13 +1921,9 @@ var CommandManager = function () {
               case 13:
                 value = _context.sent;
 
-                if (commandOnStack === global.Sensors.GET_GYRO_ANGLES.value) {
-                  try {
-                    value = JSON.stringify(value);
-                  } catch (e) {
-                    console.log('can not stringify value', e);
-                  }
-                }
+
+                value = this.getDisplayFormat(value, commandOnStack);
+
                 global.displayValue[commandOnStack] = value;
 
               case 16:
@@ -1965,13 +1973,9 @@ var CommandManager = function () {
               case 10:
                 value = _context2.sent;
 
-                if (commandOnStack === global.Sensors.GET_GYRO_ANGLES.value) {
-                  try {
-                    value = JSON.stringify(value);
-                  } catch (e) {
-                    console.log('can not stringify value', e);
-                  }
-                }
+
+                value = this.getDisplayFormat(value, commandOnStack);
+
                 global.displayValue[commandOnStack] = value;
 
               case 13:
@@ -32364,7 +32368,7 @@ global.plotSensor = function () {
           case 2:
             result = _context2.sent;
 
-            if (fc.value === 'getGyroAngles') {
+            if (fc.value === "getGyroAngles") {
               result = JSON.stringify(result);
             }
             global.displaySingleValue[fc.value] = result;
@@ -32385,19 +32389,43 @@ global.plotSensor = function () {
 }();
 
 global.setWorkspaceInterval = function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(fc) {
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(seconds, fc) {
+    var intervalTimer;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
+            intervalTimer = 1300;
+
+            if (fc && fc.index >= 0) {
+              global.blocksSaved[fc.index].blockInterval = setInterval(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        if (fc.value) {
+                          global.loadCommand(fc.value);
+                          global.blocksSaved[fc.index].setFieldValue(fc.labelDescription + global.displayValue[fc.value]);
+                        }
+
+                      case 1:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3, this);
+              })).bind(this), intervalTimer);
+            }
+
+          case 2:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, this);
+    }, _callee4, this);
   }));
 
-  return function (_x3) {
+  return function (_x3, _x4) {
     return _ref3.apply(this, arguments);
   };
 }();

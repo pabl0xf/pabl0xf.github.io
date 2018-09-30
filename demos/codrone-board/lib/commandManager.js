@@ -13,6 +13,18 @@ class CommandManager {
     this.stack.push(command);
   }
 
+  getDisplayFormat(value, type){
+    if(type === global.Sensors.GET_GYRO_ANGLES.value){
+      try {
+        value = 'roll: '+value.attitudeRoll + ' pitch: '+ value.attitudePitch+ ' yaw: '+value.attitudeYaw + ' yaw°: '+value.yawDegree;
+      }
+      catch(e){
+        console.log('can not stringify value', e);
+      }
+    }
+    return value;
+  }
+
   async runFromStackOnly(command){
     if(this.runningCommand){
       return;
@@ -30,14 +42,9 @@ class CommandManager {
       var response = commandToRun.getValue();
       commandToRun.run();
       var value = await response;
-      if(commandOnStack === global.Sensors.GET_GYRO_ANGLES.value){
-        try {
-          value = JSON.stringify(value);
-        }
-        catch(e){
-          console.log('can not stringify value', e);
-        }
-      }
+
+      value = this.getDisplayFormat(value, commandOnStack);
+
       global.displayValue[commandOnStack] = value;
     }
       this.runningCommand = false;
@@ -55,14 +62,9 @@ class CommandManager {
       var response = commandToRun.getValue();
       commandToRun.run();
       var value = await response;
-      if(commandOnStack === global.Sensors.GET_GYRO_ANGLES.value){
-        try {
-          value = JSON.stringify(value);
-        }
-        catch(e){
-          console.log('can not stringify value', e);
-        }
-      }
+
+      value = this.getDisplayFormat(value, commandOnStack);
+      
       global.displayValue[commandOnStack] = value;
     }
     if (command) {
