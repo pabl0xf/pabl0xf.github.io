@@ -858,6 +858,30 @@ Blockly.Blocks["isReadyToFly_junior"] = {
   }
 };
 
+Blockly.Blocks["isCodeRunning_junior"] = {
+  init: function() {
+    this.jsonInit({
+      message0: "is code running?",
+      output: "Boolean",
+      colour: Blockly.Constants.Codrone.HUE_Orange2,
+      tooltip: Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      helpUrl: Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+
+Blockly.Blocks["isCodeRunning_senior"] = {
+  init: function() {
+    this.jsonInit({
+      message0: "is_code_running()",
+      output: "Boolean",
+      colour: Blockly.Constants.Codrone.HUE_Orange2,
+      tooltip: Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      helpUrl: Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+
 Blockly.Blocks["isUpsideDown_junior"] = {
   init: function() {
     this.jsonInit({
@@ -1866,6 +1890,30 @@ Blockly.Blocks["whenKeyPress_junior"] = {
   }
 };
 
+
+Blockly.Blocks['console_log'] = {
+  /**
+   * Block for print statement.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": 'console.log %1',
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.texts.HUE,
+      "tooltip": Blockly.Msg.TEXT_PRINT_TOOLTIP,
+      "helpUrl": Blockly.Msg.TEXT_PRINT_HELPURL
+    });
+  }
+};
+
 Blockly.Blocks["whenKeyPressGet_junior"] = {
   init: function() {
     this.jsonInit({
@@ -1875,50 +1923,51 @@ Blockly.Blocks["whenKeyPressGet_junior"] = {
           type: "field_dropdown",
           name: "KEYPRESS",
           options: [
-            ["backspace", "BACKSPACE"],
-            ["up", "UP"],
-            ["down", "DOWN"],
-            ["right", "RIGHT"],
-            ["left", "LEFT"],
-            ["0", "0"],
-            ["1", "1"],
-            ["2", "2"],
-            ["3", "3"],
-            ["4", "4"],
-            ["5", "5"],
-            ["6", "6"],
-            ["7", "7"],
-            ["8", "8"],
-            ["9", "9"],
-            ["a", "a"],
-            ["b", "b"],
-            ["c", "c"],
-            ["d", "d"],
-            ["e", "e"],
-            ["f", "f"],
-            ["g", "g"],
-            ["h", "h"],
-            ["i", "i"],
-            ["j", "j"],
-            ["l", "l"],
-            ["m", "m"],
-            ["n", "n"],
-            ["o", "o"],
-            ["p", "p"],
-            ["q", "q"],
-            ["r", "r"],
-            ["s", "s"],
-            ["t", "t"],
-            ["u", "u"],
-            ["v", "v"],
-            ["w", "w"],
-            ["x", "x"],
-            ["y", "y"],
-            ["z", "z"]
+            ["backspace", "Keyboard.BACKSPACE"],
+            ["spacebar", "Keyboard.SPACEBAR"],
+            ["up", "Keyboard.UP"],
+            ["down", "Keyboard.DOWN"],
+            ["right", "Keyboard.RIGHT"],
+            ["left", "Keyboard.LEFT"],
+            ["0", "Keyboard._0"],
+            ["1", "Keyboard._1"],
+            ["2", "Keyboard._2"],
+            ["3", "Keyboard._3"],
+            ["4", "Keyboard._4"],
+            ["5", "Keyboard._5"],
+            ["6", "Keyboard._6"],
+            ["7", "Keyboard._7"],
+            ["8", "Keyboard._8"],
+            ["9", "Keyboard._9"],
+            ["a", "Keyboard.a"],
+            ["b", "Keyboard.b"],
+            ["c", "Keyboard.c"],
+            ["d", "Keyboard.d"],
+            ["e", "Keyboard.e"],
+            ["f", "Keyboard.f"],
+            ["g", "Keyboard.g"],
+            ["h", "Keyboard.h"],
+            ["i", "Keyboard.i"],
+            ["j", "Keyboard.j"],
+            ["l", "Keyboard.l"],
+            ["m", "Keyboard.m"],
+            ["n", "Keyboard.n"],
+            ["o", "Keyboard.o"],
+            ["p", "Keyboard.p"],
+            ["q", "Keyboard.q"],
+            ["r", "Keyboard.r"],
+            ["s", "Keyboard.s"],
+            ["t", "Keyboard.t"],
+            ["u", "Keyboard.u"],
+            ["v", "Keyboard.v"],
+            ["w", "Keyboard.w"],
+            ["x", "Keyboard.x"],
+            ["y", "Keyboard.y"],
+            ["z", "Keyboard.z"]
           ]
         }
       ],
-      output: "Number",
+      output: "Boolean",
       colour: Blockly.Constants.Codrone.HUE_keyboard_input,
       tooltip: Blockly.Msg.TEXT_JOIN_TOOLTIP,
       helpUrl: Blockly.Msg.TEXT_JOIN_HELPURL
@@ -1926,28 +1975,6 @@ Blockly.Blocks["whenKeyPressGet_junior"] = {
   }
 };
 
-Blockly.Blocks["text_print"] = {
-  /**
-   * Block for print statement.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      message0: Blockly.Msg.TEXT_PRINT_TITLE,
-      args0: [
-        {
-          type: "input_value",
-          name: "TEXT"
-        }
-      ],
-      previousStatement: null,
-      nextStatement: null,
-      colour: Blockly.Blocks.codrone.HUE,
-      tooltip: Blockly.Msg.TEXT_PRINT_TOOLTIP,
-      helpUrl: Blockly.Msg.TEXT_PRINT_HELPURL
-    });
-  }
-};
 
 Blockly.Blocks["text_prompt_ext"] = {
   /**
@@ -2440,6 +2467,19 @@ Blockly.Blocks["moveFlight_senior"] = {
           value: 0
         }
       ],
+      previousStatement: null,
+      nextStatement: null,
+      colour: Blockly.Constants.Codrone.HUE_flight_variables,
+      tooltip: Blockly.Msg.TEXT_JOIN_TOOLTIP,
+      helpUrl: Blockly.Msg.TEXT_JOIN_HELPURL
+    });
+  }
+};
+
+Blockly.Blocks["moveNoParams_senior"] = {
+  init: function() {
+    this.jsonInit({
+      message0: "move()",
       previousStatement: null,
       nextStatement: null,
       colour: Blockly.Constants.Codrone.HUE_flight_variables,

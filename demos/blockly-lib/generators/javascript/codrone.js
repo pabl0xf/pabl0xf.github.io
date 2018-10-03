@@ -100,7 +100,7 @@ Blockly.JavaScript["flyright_2"] = function(block) {
         break;
       case "getBatteryPercentage_junior":
         value = "Battery Percentage: ";
-        fc = "GET_BATTERY_PORCENTAGE";
+        fc = "GET_BATTERY_PERCENTAGE";
         break;
       case "getGyroData_junior":
         value = "Gyro Data: ";
@@ -169,7 +169,7 @@ Blockly.JavaScript["show_var_data"] = function(block) {
           break;
         case "getBatteryPercentage_junior":
           value = "Battery Percentage: ";
-          fc = Sensors.GET_BATTERY_PORCENTAGE;
+          fc = Sensors.GET_BATTERY_PERCENTAGE;
           window.blocksSaved[index].methodName = fc;
           break;
         case "getGyroData_junior":
@@ -676,8 +676,6 @@ Blockly.JavaScript["whenKeyPress_junior"] = function(block) {
   if (isNaN(arg0)) {
     arg0 = arg0.toString();
   }
-  console.log(arg0);
-  console.log(arg0.toString());
   var branch = Blockly.JavaScript.statementToCode(block, "DO");
   branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
 
@@ -1119,6 +1117,17 @@ Blockly.JavaScript["text_print"] = function(block) {
   return "window.alert(" + msg + ");\n";
 };
 
+Blockly.JavaScript["console_log"] = function(block) {
+  // Print statement.
+  var msg =
+    Blockly.JavaScript.valueToCode(
+      block,
+      "TEXT",
+      Blockly.JavaScript.ORDER_NONE
+    ) || "''";
+  return "console.log(" + msg + ");\n";
+};
+
 Blockly.JavaScript["text_prompt_ext"] = function(block) {
   // Prompt function.
   if (block.getField("TEXT")) {
@@ -1375,6 +1384,41 @@ Blockly.JavaScript["move_senior"] = function(block) {
     arg4 +
     ");\n"
   );
+};
+
+
+Blockly.JavaScript["isCodeRunning_junior"] = function(block) {
+    return ['isCodeRunning()', Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript["isCodeRunning_senior"] = function(block) {
+    return ['isCodeRunning()', Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript["whenKeyPressGet_junior"] = function(block) {
+  var arg0 = block.getFieldValue("KEYPRESS");
+  if (isNaN(arg0)) {
+    arg0 = arg0.toString();
+  }
+    return ['window.KEY_PRESSED == '+arg0, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript["whenKeyPressGet_senior"] = function(block) {
+  var arg0 = block.getFieldValue("KEYPRESS");
+  if (isNaN(arg0)) {
+    arg0 = arg0.toString();
+  }
+    return ['window.KEY_PRESSED == '+arg0, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript["moveNoParams_junior"] = function(block) {
+  var arg0 = parseInt(block.getFieldValue("NUM0"));
+  return "await move();\n";
+};
+
+Blockly.JavaScript["moveNoParams_senior"] = function(block) {
+  var arg0 = parseInt(block.getFieldValue("NUM0"));
+  return "await move();\n";
 };
 
 Blockly.JavaScript["moveFlight_senior"] = function(block) {

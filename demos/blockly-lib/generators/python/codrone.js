@@ -604,7 +604,7 @@ Blockly.Python["var_block"] = function(block) {
         fc = "GET_HEIGHT";
         break;
       case "getBatteryPercentage_junior":
-        fc = "GET_BATTERY_PORCENTAGE";
+        fc = "GET_BATTERY_PERCENTAGE";
         break;
       case "getGyroData_junior":
         fc = "GET_GYRO_ANGLES";
@@ -629,7 +629,7 @@ Blockly.Python["show_var_data"] = function(block) {
         fc = "GET_HEIGHT";
         break;
       case "getBatteryPercentage_junior":
-        fc = "GET_BATTERY_PORCENTAGE";
+        fc = "GET_BATTERY_PERCENTAGE";
         break;
       case "getGyroData_junior":
         fc = "GET_GYRO_ANGLES";

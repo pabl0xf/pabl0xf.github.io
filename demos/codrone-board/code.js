@@ -642,10 +642,26 @@ Code.loadWorkspace = function() {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function() {
+
+  window.addEventListener("keydown", function(e)
+  {
+    if(e && e.keyCode){
+      global.KEY_PRESSED = e.keyCode;
+    }
+  });
+
+  window.addEventListener("keyup", function(e)
+  {
+    if(e && e.keyCode){
+      global.KEY_PRESSED = -1;
+    }
+  });
+
+
   Blockly.JavaScript.INFINITE_LOOP_TRAP = "  checkTimeout();\n";
   var timeouts = 0;
   var checkTimeout = function() {
-    if (timeouts++ > 1000000) {
+    if (timeouts++ > 100000000000) {
       throw MSG["timeout"];
     }
   };

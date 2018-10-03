@@ -400,3 +400,42 @@ Blockly.Python['moveFlight_senior'] = function(block) {
   var arg0 = parseInt(block.getFieldValue('NUM0'));
   return 'drone.move('+arg0+')\n';
 };
+
+Blockly.Python['moveNoParams_senior'] = function(block) {
+  return 'drone.move()\n';
+};
+
+Blockly.Python['isCodeRunning_junior'] = function(block) {
+  return ['drone.is_code_running()', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['isCodeRunning_senior'] = function(block) {
+  return ['drone.is_code_running()', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["whenKeyPressGet_junior"] = function(block) {
+  var arg0 = block.getFieldValue("KEYPRESS");
+  if (isNaN(arg0)) {
+    arg0 = arg0.toString();
+  }
+    return ['Key.KEY_PRESSED == '+arg0, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["whenKeyPressGet_senior"] = function(block) {
+  var arg0 = block.getFieldValue("KEYPRESS");
+  if (isNaN(arg0)) {
+    arg0 = arg0.toString();
+  }
+    return ['Key.KEY_PRESSED == '+arg0, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python["console_log"] = function(block) {
+  // Print statement.
+  var msg =
+    Blockly.Python.valueToCode(
+      block,
+      "TEXT",
+      Blockly.Python.ORDER_NONE
+    ) || "''";
+  return "print(" + msg + ");\n";
+};

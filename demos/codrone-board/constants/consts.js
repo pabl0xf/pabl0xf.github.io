@@ -3,8 +3,11 @@ global.WRITE_CHARACTERISTIC = "c320df02-7891-11e5-8bcf-feff819cdc9f";
 global.NOTIIFY_CHARACTERISTIC = "c320df01-7891-11e5-8bcf-feff819cdc9f";
 
 global.RUNNING = false;
+global.PROGRAM_IS_RUNNING = false;
 global.RUN_ONLY_DISPLAY_BLOCKS = false;
-window.DISPLAY_INTERVAL = false;
+global.DISPLAY_INTERVAL = false;
+global.KEY_PRESSED = -1;
+
 
 global.HOLD = { armCode: 0x41, eyeCode: 0x11 };
 global.OFF = { armCode: 0x40, eyeCode: 0x10 };
@@ -83,9 +86,9 @@ global.displaySingleValue = {
 
 global.Sensors = {
   GET_HEIGHT: { value: "getHeight", displayName: "Sensors.GET_HEIGHT" },
-  GET_BATTERY_PORCENTAGE: {
+  GET_BATTERY_PERCENTAGE: {
     value: "getBatteryPercentage",
-    displayName: "Sensors.GET_BATTERY_PORCENTAGE"
+    displayName: "Sensors.GET_BATTERY_PERCENTAGE"
   },
   GET_GYRO_ANGLES: {
     value: "getGyroAngles",

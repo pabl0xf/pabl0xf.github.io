@@ -8,6 +8,7 @@ import './lib/interfaces/sequences.js';
 import './lib/interfaces/flyVariables.js';
 import './lib/interfaces/lights.js';
 import './lib/interfaces/sensors.js';
+import './lib/interfaces/statusCheckers.js';
 import './lib/interfaces/events.js';
 
 import ConnectionBox from './components/connectionBox/ConnectionBox.js';
