@@ -774,11 +774,12 @@ button {
 .forceLanding span,
 .playButton span {
   display: block;
-  font-family: verdana;
-  font-size: 10px;
+  color: gray;
+  font-size: 11px;
   text-align: center;
+  font-family: "futuramedium";
   position: relative;
-  left: -2px;
+  left: -1px;
 }
 
 #forceLanding {
