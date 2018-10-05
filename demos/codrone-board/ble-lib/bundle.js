@@ -2326,12 +2326,19 @@ var KeyPressManager = function () {
 
     this.keyPressMap = {};
     this.keydownCallback = null;
+    global.addEventListener("keyup", function (e) {
+      if (e && e.keyCode) {
+        global.KEY_PRESSED = -1;
+      }
+    });
   }
 
   _createClass(KeyPressManager, [{
     key: "addKeyPressCode",
     value: function addKeyPressCode(keyCode, callback) {
-      this.keyPressMap[keyCode] = { callback: callback };
+      if (keyCode) {
+        this.keyPressMap[keyCode] = { callback: callback };
+      }
 
       if (this.keydownCallback) {
         return;
@@ -2343,28 +2350,32 @@ var KeyPressManager = function () {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
+                  if (e && e.keyCode) {
+                    global.KEY_PRESSED = e.keyCode;
+                  }
+
                   if (!(this.keyPressMap && this.keyPressMap[e.keyCode])) {
-                    _context.next = 9;
+                    _context.next = 10;
                     break;
                   }
 
-                  _context.prev = 1;
+                  _context.prev = 2;
 
                   global.RUNNING = true;
                   return _context.abrupt("return", this.keyPressMap[e.keyCode].callback());
 
-                case 6:
-                  _context.prev = 6;
-                  _context.t0 = _context["catch"](1);
+                case 7:
+                  _context.prev = 7;
+                  _context.t0 = _context["catch"](2);
 
                   alert(MSG["badCode"].replace("%1", _context.t0));
 
-                case 9:
+                case 10:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, this, [[1, 6]]);
+          }, _callee, this, [[2, 7]]);
         }));
 
         return function (_x) {
@@ -29305,18 +29316,7 @@ Code.loadWorkspace = function () {
  * Just a quick and dirty eval.  Catch infinite loops.
  */
 Code.runJS = function () {
-
-  window.addEventListener("keydown", function (e) {
-    if (e && e.keyCode) {
-      global.KEY_PRESSED = e.keyCode;
-    }
-  });
-
-  window.addEventListener("keyup", function (e) {
-    if (e && e.keyCode) {
-      global.KEY_PRESSED = -1;
-    }
-  });
+  _keyPressManager.keyPressManager.addKeyPressCode(null, function () {});
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = "  checkTimeout();\n";
   var timeouts = 0;
@@ -30017,6 +30017,9 @@ global.turnDegree = function () {
 }();
 
 global.turn = function (direction, seconds, power) {
+  if (!global.RUNNING) {
+    return;
+  }
   var speed = direction * power;
 
   var promiseCommand = new Promise(function (resolve, reject) {
@@ -30068,6 +30071,9 @@ global.turn = function (direction, seconds, power) {
 };
 
 global.goToHeight = function (heightSet) {
+  if (!global.RUNNING) {
+    return;
+  }
   var promiseCommand = new Promise(function (resolve, reject) {
     global.loopInProgress = true;
 
@@ -30145,6 +30151,9 @@ global.goToHeight = function (heightSet) {
 };
 
 global.goToHeight2 = function (height) {
+  if (!global.RUNNING) {
+    return;
+  }
   var promiseCommand = new Promise(function (resolve, reject) {
     var power = 30;
     var interval = 20; // height - 10 ~ height + 10
@@ -33319,7 +33328,7 @@ var ConnectionBox = function (_Component) {
         $('#coDroneLabel').text(' Connected to ' + Code.deviceConnected);
         $('#connectMenu').addClass('connected');
         $('.blocklyToolboxDiv').addClass('expand-connect');
-        var deviceName = server.device.name;
+        var deviceName = server.device.name.replace('PETRONE', 'CoDrone');
         $('.petrone-id').text(deviceName);
         return server.getPrimaryService(PRIMARY_SERVICE);
       }).then(function (service) {
@@ -33625,6 +33634,7 @@ var Burger = function (_React$Component) {
         global.DISPLAY_INTERVAL = false;
       }
       _keyPressManager.keyPressManager.removeKeyPressEvents();
+
       if ($(".playButton").hasClass("disabled")) {
         $(".playButton").removeClass("disabled");
       }

@@ -264,6 +264,9 @@ global.turnDegree = async function(direction, degree) {
 };
 
 global.turn = function(direction, seconds, power) {
+  if (!global.RUNNING) {
+    return;
+  }
   var speed = direction * power;
 
   var promiseCommand = new Promise(function(resolve, reject) {
@@ -296,6 +299,9 @@ global.turn = function(direction, seconds, power) {
 };
 
 global.goToHeight = function(heightSet) {
+  if (!global.RUNNING) {
+    return;
+  }
   var promiseCommand = new Promise(function(resolve, reject) {
     global.loopInProgress = true;
 
@@ -324,6 +330,9 @@ global.goToHeight = function(heightSet) {
 };
 
 global.goToHeight2 = function(height) {
+  if (!global.RUNNING) {
+    return;
+  }
   var promiseCommand = new Promise(function(resolve, reject) {
     var power = 30;
     var interval = 20; // height - 10 ~ height + 10

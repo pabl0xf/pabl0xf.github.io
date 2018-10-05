@@ -60,7 +60,7 @@ class ConnectionBox extends Component {
             $('#coDroneLabel').text(' Connected to '+Code.deviceConnected);
             $('#connectMenu').addClass('connected');
             $('.blocklyToolboxDiv').addClass('expand-connect');
-            var deviceName = server.device.name;
+            var deviceName = server.device.name.replace('PETRONE', 'CoDrone');
             $('.petrone-id').text(deviceName);
             return server.getPrimaryService(PRIMARY_SERVICE);
         })

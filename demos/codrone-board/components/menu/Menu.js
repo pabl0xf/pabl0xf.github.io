@@ -86,6 +86,7 @@ class Burger extends React.Component {
       global.DISPLAY_INTERVAL = false;
     }
     keyPressManager.removeKeyPressEvents();
+
     if ($(".playButton").hasClass("disabled")) {
       $(".playButton").removeClass("disabled");
     }

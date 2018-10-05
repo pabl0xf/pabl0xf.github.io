@@ -2,16 +2,27 @@ class KeyPressManager {
   constructor() {
     this.keyPressMap = {};
     this.keydownCallback = null;
+    global.addEventListener("keyup", function(e)
+    {
+      if(e && e.keyCode){
+        global.KEY_PRESSED = -1;
+      }
+    });
   }
 
   addKeyPressCode(keyCode, callback) {
-    this.keyPressMap[keyCode] = { callback: callback };
+    if(keyCode){
+      this.keyPressMap[keyCode] = { callback: callback };
+    }
 
     if (this.keydownCallback) {
       return;
     }
 
     this.keydownCallback = async function(e) {
+      if(e && e.keyCode){
+        global.KEY_PRESSED = e.keyCode;
+      }
       if (this.keyPressMap && this.keyPressMap[e.keyCode]) {
         try {
           global.RUNNING = true;
