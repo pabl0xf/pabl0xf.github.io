@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Codrone Test</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="form-group">
+        <div class="jumbotron text-center">
+            <h1>Codrone web demo</h1>
+            <p>flight your codrone directly from the web!</p>
+            <p>
+                <a class="btn btn-primary btn-lg" id="scanButton" href="#" role="button">
+                    <span class="glyphicon glyphicon-search"></span> Scan for Codrone</a>
+            </p>
+        </div>
+        <label class="col-md-4 control-label" for="singlebutton"></label>
+        <div id="controlsSection" style="display:none;" class="col-md-4 center-block">
+            <button id="disconnectButton" name="singlebutton" class="btn btn-default center-block">
+          <span class="glyphicon glyphicon-off"></span>  Disconnect
+        </button>
+
+            <div class="text-center">
+                <h2 style="color:green;"><span class="glyphicon glyphicon-arrow-up"></span> </h2>
+                <small>Press up arrow key to take off</small>
+                <br> <br>
+                <h2 style="color:red;"><span class="glyphicon glyphicon-arrow-down"></span> </h2>
+                <small>Press down arrow key to force landing</small>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let device = null;
+
+        function getSupportedProperties(characteristic) {
+            let supportedProperties = [];
+            for (const p in characteristic.properties) {
+                if (characteristic.properties[p] === true) {
+                    supportedProperties.push(p.toUpperCase());
+                }
+            }
+            return '[' + supportedProperties.join(', ') + ']';
+        }
+        $('#scanButton').click(function(e) {
+            e.preventDefault();
+
+            console.log('Requesting any Bluetooth Device...');
+            navigator.bluetooth.requestDevice({
+                    // filters: [...] <- Prefer filters to save energy & show relevant devices.
+                    acceptAllDevices: true,
+                    optionalServices: ['c320df00-7891-11e5-8bcf-feff819cdc9f']
+                })
+                .then(device => {
+                    console.log('Connecting to GATT Server...');
+                    return device.gatt.connect();
+                })
+                .then(server => {
+                    device = server;
+                    $('#controlsSection').show();
+
+                })
+                .catch(error => {
+                    console.log('Argh! ' + error);
+                    alert(error);
+                });
+        });
+
+        $('#disconnectButton').click(function(e) {
+          device.disconnect();
+          $('#controlsSection').hide();
+        });
+
+        $("body").keyup(function(e) {
+            if (device && e.keyCode === 38) {
+                device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+                    .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
+                    .then(characteristic => {
+                        // Take off
+                        var uint8 = new Uint8Array(3);
+                        uint8[0] = 17;
+                        uint8[1] = 144;
+                        uint8[2] = 49;
+
+                        return characteristic.writeValue(uint8);
+                    })
+
+            }
+            if (device && e.keyCode === 40) {
+                device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+                .then(service => {
+
+                  return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
+                })
+                .then(characteristic => {
+
+                  return characteristic.readValue();
+                })
+                .then(value => {
+                  console.log(value);
+
+                })
+            }
+        });
+    </script>
+</body>
+
+</html>
