@@ -12,7 +12,7 @@
     <div class="form-group">
         <div class="jumbotron text-center">
             <h1>Codrone web demo</h1>
-            <p>flight your codrone directly from the web!</p>
+            <p>Sensors notification test for MacOS</p>
             <p>
                 <a class="btn btn-primary btn-lg" id="scanButton" href="#" role="button">
                     <span class="glyphicon glyphicon-search"></span> Scan for Codrone</a>
@@ -20,16 +20,18 @@
         </div>
         <label class="col-md-4 control-label" for="singlebutton"></label>
         <div id="controlsSection" style="display:none;" class="col-md-4 center-block">
+         <button id="sensorDataButton" name="singlebutton" class="btn btn-success center-block">
+          <span class="glyphicon glyphicon-ok-circle"></span>  Get battery percentage
+        </button>
+          <br>
             <button id="disconnectButton" name="singlebutton" class="btn btn-default center-block">
           <span class="glyphicon glyphicon-off"></span>  Disconnect
         </button>
 
             <div class="text-center">
-                <h2 style="color:green;"><span class="glyphicon glyphicon-arrow-up"></span> </h2>
-                <small>Press up arrow key to take off</small>
-                <br> <br>
-                <h2 style="color:red;"><span class="glyphicon glyphicon-arrow-down"></span> </h2>
-                <small>Press down arrow key to force landing</small>
+                <h3>Battery Value:
+                <small id="sensorValue"></small>
+              </h3>
             </div>
         </div>
     </div>
@@ -74,8 +76,37 @@
           $('#controlsSection').hide();
         });
 
-        $("body").keyup(function(e) {
-            if (device && e.keyCode === 38) {
+        $('#sensorDataButton').click(function(e) {
+              $('#sensorValue').html('Loading...');
+              if (device && device.getPrimaryService) {
+                function handleBatteryLevelChanged(event) {
+                  let batteryLevel = event.target.value.getUint8(0);
+                  console.log('Battery percentage is ' + batteryLevel);
+                  $('#sensorValue').html(batteryLevel);
+                  }
+                 device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+                      .then(service => {
+
+                          return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
+                      })
+                       .then(characteristic => {
+                            characteristic.startNotifications();
+
+                            characteristic.addEventListener('characteristicvaluechanged',
+                                            handleBatteryLevelChanged);
+                            packageWrite();
+
+                    })
+                    .catch(error => { console.log(error); });
+
+
+
+              }
+
+        }.bind(this))
+
+      function packageWrite(e) {
+            if (device) {
                 device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
                     .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
                     .then(characteristic => {
@@ -89,28 +120,8 @@
                     })
 
             }
-            if (device && e.keyCode === 40) {
-                device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
-                .then(service => {
 
-                  return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
-                })
-                  .then(characteristic => {
-                    characteristic.startNotifications()
-    // Set up event listener for when characteristic value changes.
-                    characteristic.addEventListener('characteristicvaluechanged',
-                                    handleBatteryLevelChanged);
-    // Reading Battery Level...
-    //  return characteristic.readValue();
-            })
-              .catch(error => { console.log(error); });
-
-  function handleBatteryLevelChanged(event) {
-    let batteryLevel = event.target.value.getUint8(0);
-    console.log('Battery percentage is ' + batteryLevel);
-  }
-            }
-        });
+        };
     </script>
 </body>
 
