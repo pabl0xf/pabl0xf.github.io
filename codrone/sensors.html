@@ -81,8 +81,8 @@
               if (device && device.getPrimaryService) {
                 function handleBatteryLevelChanged(event) {
                   if (event && event.target && event.target.value){
-                    console.log('buffer array', event.target.value);
-                      let arrayResult = new Uint8Array(event.target.value);
+                    console.log('buffer array', event.target.value.buffer);
+                      let arrayResult = new Uint8Array(event.target.value.buffer);
                       let batteryPorcentageValue = arrayResult[7] & 0xff;
                       console.log('parsed value: ', batteryPorcentageValue);
                   }
