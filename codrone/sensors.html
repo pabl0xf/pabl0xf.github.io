@@ -80,7 +80,11 @@
               $('#sensorValue').html('Loading...');
               if (device && device.getPrimaryService) {
                 function handleBatteryLevelChanged(event) {
+                  if (event && event.target && event.target.value){
+                    console.log('buffer array', event.target.value);
+                  }
                   let batteryLevel = event.target.value.getUint8(0);
+
                   console.log('Battery percentage is ' + batteryLevel);
                   $('#sensorValue').html(batteryLevel);
                   }
