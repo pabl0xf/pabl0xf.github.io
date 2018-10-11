@@ -21,7 +21,7 @@
         <label class="col-md-4 control-label" for="singlebutton"></label>
         <div id="controlsSection" style="display:none;" class="col-md-4 center-block">
          <button id="sensorDataButton" name="singlebutton" class="btn btn-success center-block">
-          <span class="glyphicon glyphicon-ok-circle"></span>  Get battery percentage
+          <span class="glyphicon glyphicon-ok-circle"></span>  Get Gyro Data
         </button>
           <br>
             <button id="disconnectButton" name="singlebutton" class="btn btn-default center-block">
@@ -29,7 +29,7 @@
         </button>
 
             <div class="text-center">
-                <h3>Battery Value:
+                <h3>Gyro Data:
                 <small id="sensorValue"></small>
               </h3>
             </div>
@@ -79,17 +79,32 @@
         $('#sensorDataButton').click(function(e) {
               $('#sensorValue').html('Loading...');
               if (device && device.getPrimaryService) {
+                var gyroAngles = null;
                 function handleBatteryLevelChanged(event) {
                   if (event && event.target && event.target.value){
                     console.log('buffer array', event.target.value.buffer);
                       let arrayResult = new Uint8Array(event.target.value.buffer);
-                      let batteryPorcentageValue = arrayResult[7] & 0xff;
-                      console.log('parsed value: ', batteryPorcentageValue);
-                  }
-                  let batteryLevel = event.target.value.getUint8(0);
 
-                  console.log('Battery percentage is ' + batteryLevel);
-                  $('#sensorValue').html(batteryLevel);
+                        if(arrayResult.length>0){
+                          var attitudeRoll	= ((arrayResult[1] << 8) | (arrayResult[0]  & 0xff));
+                          var attitudePitch	= ((arrayResult[3] << 8) | (arrayResult[2]  & 0xff));
+                          var attitudeYaw	= ((arrayResult[6] << 8) | (arrayResult[5]  & 0xff));
+
+                          var binaryAtittudeYaw = (attitudeYaw>>> 0).toString(2);
+
+                          var [ signedValue ]  = new Int16Array(['0b'+binaryAtittudeYaw]);
+
+                          var yawDegree		= (signedValue >= 0 ? signedValue : 360 + signedValue );
+                          gyroAngles = {'attitudeRoll': attitudeRoll,
+                            'attitudePitch': attitudePitch,
+                            'attitudeYaw': attitudeYaw,
+                            'yawDegree': yawDegree
+                          }
+                        }
+                  }
+                  let gyroDataString = JSON.stringify(gyroAngles)
+                  console.log('gyro data is ' + gyroDataString);
+                  $('#sensorValue').html(gyroDataString);
                   }
                  device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
                       .then(service => {
@@ -117,11 +132,11 @@
                 device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
                     .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
                     .then(characteristic => {
-                        // Take off
+                        // Get height
                         var uint8 = new Uint8Array(3);
                         uint8[0] = 17;
                         uint8[1] = 144;
-                        uint8[2] = 49;
+                        uint8[2] = 50;
 
                         return characteristic.writeValue(uint8);
                     })

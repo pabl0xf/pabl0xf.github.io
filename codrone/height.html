@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Codrone Test</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="form-group">
+        <div class="jumbotron text-center">
+            <h1>Codrone web demo</h1>
+            <p>Sensors notification test for MacOS</p>
+            <p>
+                <a class="btn btn-primary btn-lg" id="scanButton" href="#" role="button">
+                    <span class="glyphicon glyphicon-search"></span> Scan for Codrone</a>
+            </p>
+        </div>
+        <label class="col-md-4 control-label" for="singlebutton"></label>
+        <div id="controlsSection" style="display:none;" class="col-md-4 center-block">
+         <button id="sensorDataButton" name="singlebutton" class="btn btn-success center-block">
+          <span class="glyphicon glyphicon-ok-circle"></span>  Get height from ground
+        </button>
+          <br>
+            <button id="disconnectButton" name="singlebutton" class="btn btn-default center-block">
+          <span class="glyphicon glyphicon-off"></span>  Disconnect
+        </button>
+
+            <div class="text-center">
+                <h3>Height Value:
+                <small id="sensorValue"></small>
+              </h3>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let device = null;
+
+        function getSupportedProperties(characteristic) {
+            let supportedProperties = [];
+            for (const p in characteristic.properties) {
+                if (characteristic.properties[p] === true) {
+                    supportedProperties.push(p.toUpperCase());
+                }
+            }
+            return '[' + supportedProperties.join(', ') + ']';
+        }
+        $('#scanButton').click(function(e) {
+            e.preventDefault();
+
+            console.log('Requesting any Bluetooth Device...');
+            navigator.bluetooth.requestDevice({
+                    // filters: [...] <- Prefer filters to save energy & show relevant devices.
+                    acceptAllDevices: true,
+                    optionalServices: ['c320df00-7891-11e5-8bcf-feff819cdc9f']
+                })
+                .then(device => {
+                    console.log('Connecting to GATT Server...');
+                    return device.gatt.connect();
+                })
+                .then(server => {
+                    device = server;
+                    $('#controlsSection').show();
+
+                })
+                .catch(error => {
+                    console.log('Argh! ' + error);
+                    alert(error);
+                });
+        });
+
+        $('#disconnectButton').click(function(e) {
+          device.disconnect();
+          $('#controlsSection').hide();
+        });
+
+        $('#sensorDataButton').click(function(e) {
+              $('#sensorValue').html('Loading...');
+              if (device && device.getPrimaryService) {
+                function handleBatteryLevelChanged(event) {
+                  if (event && event.target && event.target.value){
+                    console.log('buffer array', event.target.value.buffer);
+                      let arrayResult = new Uint8Array(event.target.value.buffer);
+                      let heightValue = ((arrayResult[12] << 8)| (arrayResult[11]  & 0xff));
+
+                      let binaryHeightValue = (heightValue>>> 0).toString(2);
+
+                      var [ signedValue ]  = new Int16Array(['0b'+binaryHeightValue]);
+
+                      console.log('parsed value: ', signedValue);
+                  }
+
+                  console.log('height from ground is ' + signedValue);
+                  $('#sensorValue').html(signedValue);
+                  }
+                 device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+                      .then(service => {
+
+                          return service.getCharacteristic('c320df01-7891-11e5-8bcf-feff819cdc9f');
+                      })
+                       .then(characteristic => {
+                            characteristic.startNotifications();
+
+                            characteristic.addEventListener('characteristicvaluechanged',
+                                            handleBatteryLevelChanged);
+                            packageWrite();
+
+                    })
+                    .catch(error => { console.log(error); });
+
+
+
+              }
+
+        }.bind(this))
+
+      function packageWrite(e) {
+            if (device) {
+                device.getPrimaryService('c320df00-7891-11e5-8bcf-feff819cdc9f')
+                    .then(service => service.getCharacteristic('c320df02-7891-11e5-8bcf-feff819cdc9f'))
+                    .then(characteristic => {
+                        // Get height
+                        var uint8 = new Uint8Array(3);
+                        uint8[0] = 17;
+                        uint8[1] = 144;
+                        uint8[2] = 87;
+
+                        return characteristic.writeValue(uint8);
+                    })
+
+            }
+
+        };
+    </script>
+</body>
+
+</html>
