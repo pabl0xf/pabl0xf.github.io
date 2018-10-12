@@ -197,6 +197,7 @@ var Command = function () {
 
     this.package = packageData;
     this.eventName = eventName;
+    this.handleNotification = this.handleNotification.bind(this);
   }
 
   _createClass(Command, [{
@@ -224,57 +225,38 @@ var Command = function () {
       return run;
     }()
   }, {
-    key: "sendBLECommand",
+    key: "handleNotification",
     value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(packageValue) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log("---- Running command: " + this.eventName);
-                _context2.prev = 1;
-                _context2.next = 4;
-                return Code.writeCharacteristic.writeValue(packageValue);
-
-              case 4:
-                return _context2.abrupt("return", _context2.sent);
-
-              case 7:
-                _context2.prev = 7;
-                _context2.t0 = _context2["catch"](1);
-
-                console.log("error in command " + this.eventName);
-                global.stopExecution();
-                if (_context2.t0) {
-                  console.log(_context2.t0);
-                }
-
-              case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 7]]);
+        }, _callee2, this);
       }));
 
-      function sendBLECommand(_x) {
+      function handleNotification() {
         return _ref2.apply(this, arguments);
       }
 
-      return sendBLECommand;
+      return handleNotification;
     }()
   }, {
-    key: "readBLEValue",
+    key: "sendBLECommand",
     value: function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(packageValue) {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                console.log("---- reading value for command: " + this.eventName);
+                console.log("---- Running command: " + this.eventName);
                 _context3.prev = 1;
                 _context3.next = 4;
-                return Code.readCharacteristic.readValue();
+                return Code.writeCharacteristic.writeValue(packageValue);
 
               case 4:
                 return _context3.abrupt("return", _context3.sent);
@@ -283,7 +265,7 @@ var Command = function () {
                 _context3.prev = 7;
                 _context3.t0 = _context3["catch"](1);
 
-                console.log("error reading value for command " + this.eventName);
+                console.log("error in command " + this.eventName);
                 global.stopExecution();
                 if (_context3.t0) {
                   console.log(_context3.t0);
@@ -297,8 +279,48 @@ var Command = function () {
         }, _callee3, this, [[1, 7]]);
       }));
 
-      function readBLEValue(_x2) {
+      function sendBLECommand(_x) {
         return _ref3.apply(this, arguments);
+      }
+
+      return sendBLECommand;
+    }()
+  }, {
+    key: "readBLEValue",
+    value: function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(packageValue) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                console.log("---- reading value for command: " + this.eventName);
+                _context4.prev = 1;
+                _context4.next = 4;
+                return Code.readCharacteristic.readValue();
+
+              case 4:
+                return _context4.abrupt("return", _context4.sent);
+
+              case 7:
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](1);
+
+                console.log("error reading value for command " + this.eventName);
+                global.stopExecution();
+                if (_context4.t0) {
+                  console.log(_context4.t0);
+                }
+
+              case 12:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[1, 7]]);
+      }));
+
+      function readBLEValue(_x2) {
+        return _ref4.apply(this, arguments);
       }
 
       return readBLEValue;
@@ -313,12 +335,12 @@ var Command = function () {
   }, {
     key: "getValue",
     value: function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                return _context4.abrupt("return", new Promise(function (resolve, reject) {
+                return _context5.abrupt("return", new Promise(function (resolve, reject) {
                   addEventListener(this.eventName, function (e) {
                     resolve(e.detail);
                   }, false);
@@ -326,14 +348,14 @@ var Command = function () {
 
               case 1:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function getValue() {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return getValue;
@@ -5328,41 +5350,40 @@ var GetBatteryPercentage = function (_Command) {
   }
 
   _createClass(GetBatteryPercentage, [{
+    key: "handleNotification",
+    value: function handleNotification(event) {
+      if (event && event.target && event.target.value) {
+        console.log('buffer array', event.target.value.buffer);
+        var arrayResult = new Uint8Array(event.target.value.buffer);
+        var batteryPorcentageValue = arrayResult[7] & 0xff;
+      }
+
+      var event = new CustomEvent(this.eventName, {
+        detail: batteryPorcentageValue
+      });
+      dispatchEvent(event);
+
+      Code.readCharacteristic.stopNotifications();
+      Code.readCharacteristic.removeEventListener('characteristicvaluechanged', this.handleNotification);
+      return;
+    }
+  }, {
     key: "run",
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, batteryPorcentageValue, event;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return this.sendBLECommand(this.package);
+                Code.readCharacteristic.startNotifications();
 
-              case 2:
-                _context.next = 4;
-                return this.readBLEValue();
+                Code.readCharacteristic.addEventListener('characteristicvaluechanged', this.handleNotification);
 
-              case 4:
-                value = _context.sent;
-
-                if (!(!value || !value.buffer)) {
-                  _context.next = 7;
-                  break;
-                }
+                this.sendBLECommand(this.package);
 
                 return _context.abrupt("return");
 
-              case 7:
-                arrayResult = new Uint8Array(value.buffer);
-                batteryPorcentageValue = arrayResult[7] & 0xff;
-                event = new CustomEvent(this.eventName, {
-                  detail: batteryPorcentageValue
-                });
-
-                dispatchEvent(event);
-
-              case 11:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -5515,64 +5536,103 @@ var GetGyroAngles = function (_Command) {
     _classCallCheck(this, GetGyroAngles);
 
     var sensorPackage = _sensorTypes.sensorAngles;
-    return _possibleConstructorReturn(this, (GetGyroAngles.__proto__ || Object.getPrototypeOf(GetGyroAngles)).call(this, sensorPackage, 'getGyroAngles'));
+    return _possibleConstructorReturn(this, (GetGyroAngles.__proto__ || Object.getPrototypeOf(GetGyroAngles)).call(this, sensorPackage, "getGyroAngles"));
   }
 
   _createClass(GetGyroAngles, [{
-    key: 'run',
+    key: "handleNotification",
     value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, gyroAngles, attitudeRoll, attitudePitch, attitudeYaw, binaryAtittudeYaw, _ref2, _ref3, signedValue, yawDegree, event;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(event) {
+        var gyroAngles, arrayResult, attitudeRoll, attitudePitch, attitudeYaw, binaryAtittudeYaw, _ref2, _ref3, signedValue, yawDegree;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
-
-              case 2:
-                _context.next = 4;
-                return Code.readCharacteristic.readValue();
-
-              case 4:
-                value = _context.sent;
-
-
-                //var arrayResult = this.removePackageHeader(value.buffer)
-
-                arrayResult = new Uint8Array(value.buffer);
-                gyroAngles = null;
-
-
-                if (arrayResult.length > 0) {
-                  attitudeRoll = arrayResult[1] << 8 | arrayResult[0] & 0xff;
-                  attitudePitch = arrayResult[3] << 8 | arrayResult[2] & 0xff;
-                  attitudeYaw = arrayResult[6] << 8 | arrayResult[5] & 0xff;
-                  binaryAtittudeYaw = (attitudeYaw >>> 0).toString(2);
-                  _ref2 = new Int16Array(['0b' + binaryAtittudeYaw]), _ref3 = _slicedToArray(_ref2, 1), signedValue = _ref3[0];
-                  yawDegree = signedValue >= 0 ? signedValue : 360 + signedValue;
-
-                  gyroAngles = { 'attitudeRoll': attitudeRoll,
-                    'attitudePitch': attitudePitch,
-                    'attitudeYaw': attitudeYaw,
-                    'yawDegree': yawDegree
-                  };
+                if (!(event && event.target && event.target.value)) {
+                  _context.next = 18;
+                  break;
                 }
+
+                gyroAngles = null;
+                arrayResult = new Uint8Array(event.target.value.buffer);
+
+                if (!(arrayResult.length > 0)) {
+                  _context.next = 18;
+                  break;
+                }
+
+                _context.next = 6;
+                return Code.readCharacteristic.stopNotifications();
+
+              case 6:
+                attitudeRoll = arrayResult[1] << 8 | arrayResult[0] & 0xff;
+                attitudePitch = arrayResult[3] << 8 | arrayResult[2] & 0xff;
+                attitudeYaw = arrayResult[6] << 8 | arrayResult[5] & 0xff;
+                binaryAtittudeYaw = (attitudeYaw >>> 0).toString(2);
+                _ref2 = new Int16Array(["0b" + binaryAtittudeYaw]), _ref3 = _slicedToArray(_ref2, 1), signedValue = _ref3[0];
+                yawDegree = signedValue >= 0 ? signedValue : 360 + signedValue;
+
+                gyroAngles = {
+                  attitudeRoll: attitudeRoll,
+                  attitudePitch: attitudePitch,
+                  attitudeYaw: attitudeYaw,
+                  yawDegree: yawDegree
+                };
+                console.log('gyroAngles............:', gyroAngles);
+                console.log('EVEEEENT NAME: ', this.eventName);
+                Code.readCharacteristic.removeEventListener("characteristicvaluechanged", this.handleNotification);
                 event = new CustomEvent(this.eventName, { detail: gyroAngles });
 
                 dispatchEvent(event);
 
-              case 10:
-              case 'end':
+              case 18:
+                return _context.abrupt("return");
+
+              case 19:
+              case "end":
                 return _context.stop();
             }
           }
         }, _callee, this);
       }));
 
-      function run() {
+      function handleNotification(_x) {
         return _ref.apply(this, arguments);
+      }
+
+      return handleNotification;
+    }()
+  }, {
+    key: "run",
+    value: function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return Code.readCharacteristic.startNotifications();
+
+              case 2:
+                Code.readCharacteristic.addEventListener('characteristicvaluechanged', this.handleNotification);
+
+                _context2.next = 5;
+                return this.sendBLECommand(this.package);
+
+              case 5:
+                return _context2.abrupt("return");
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function run() {
+        return _ref4.apply(this, arguments);
       }
 
       return run;

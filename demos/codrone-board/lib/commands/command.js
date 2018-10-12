@@ -2,10 +2,15 @@ export default class Command {
   constructor(packageData, eventName) {
     this.package = packageData;
     this.eventName = eventName;
+    this.handleNotification = this.handleNotification.bind(this);
   }
 
   async run() {
     console.log(this.package);
+  }
+
+  async handleNotification(){
+
   }
 
   async sendBLECommand(packageValue) {

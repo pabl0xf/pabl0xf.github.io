@@ -74,6 +74,7 @@ class ConnectionBox extends Component {
         })
         .then(characteristic => {
            Code.readCharacteristic = characteristic;
+
         })
         .catch(error => {
             console.log('Argh! ' + error);

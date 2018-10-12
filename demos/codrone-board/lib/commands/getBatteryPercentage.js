@@ -7,19 +7,34 @@ export default class GetBatteryPercentage extends Command {
     super(batteryPackage, "batteryPorcentage");
   }
 
+  handleNotification(event) {
+          if (event && event.target && event.target.value){
+            console.log('buffer array', event.target.value.buffer);
+              let arrayResult = new Uint8Array(event.target.value.buffer);
+              var batteryPorcentageValue = arrayResult[7] & 0xff;
+          }
+
+          var event = new CustomEvent(this.eventName, {
+            detail: batteryPorcentageValue
+          });
+          dispatchEvent(event);
+
+          Code.readCharacteristic.stopNotifications();
+          Code.readCharacteristic.removeEventListener('characteristicvaluechanged',
+          this.handleNotification);
+          return;
+
+  }
+
   async run() {
-    await this.sendBLECommand(this.package);
-    const value = await this.readBLEValue();
+    Code.readCharacteristic.startNotifications();
 
-    if (!value || !value.buffer) {
-      return;
-    }
+    Code.readCharacteristic.addEventListener('characteristicvaluechanged',
+                                          this.handleNotification);
 
-    var arrayResult = new Uint8Array(value.buffer);
-    let batteryPorcentageValue = arrayResult[7] & 0xff;
-    var event = new CustomEvent(this.eventName, {
-      detail: batteryPorcentageValue
-    });
-    dispatchEvent(event);
+    this.sendBLECommand(this.package);
+
+    return;
+
   }
 }
