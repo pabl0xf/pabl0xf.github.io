@@ -1717,7 +1717,7 @@ var CommandManager = function () {
                 this.runningCommand = true;
 
                 if (!(this.stack && this.stack.length > 0)) {
-                  _context.next = 16;
+                  _context.next = 17;
                   break;
                 }
 
@@ -1729,12 +1729,14 @@ var CommandManager = function () {
 
                 console.log('display command to run.......', commandToRun);
                 response = commandToRun.getValue();
+                _context.next = 12;
+                return commandToRun.run();
 
-                commandToRun.run();
-                _context.next = 13;
+              case 12:
+                _context.next = 14;
                 return response;
 
-              case 13:
+              case 14:
                 value = _context.sent;
 
 
@@ -1742,10 +1744,10 @@ var CommandManager = function () {
 
                 global.displayValue[commandOnStack] = value;
 
-              case 16:
+              case 17:
                 this.runningCommand = false;
 
-              case 17:
+              case 18:
               case 'end':
                 return _context.stop();
             }
@@ -1769,7 +1771,7 @@ var CommandManager = function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(this.stack && this.stack.length > 0)) {
-                  _context2.next = 13;
+                  _context2.next = 14;
                   break;
                 }
 
@@ -1781,12 +1783,14 @@ var CommandManager = function () {
 
                 console.log('display command to run.......', commandToRun);
                 response = commandToRun.getValue();
+                _context2.next = 9;
+                return commandToRun.run();
 
-                commandToRun.run();
-                _context2.next = 10;
+              case 9:
+                _context2.next = 11;
                 return response;
 
-              case 10:
+              case 11:
                 value = _context2.sent;
 
 
@@ -1794,15 +1798,15 @@ var CommandManager = function () {
 
                 global.displayValue[commandOnStack] = value;
 
-              case 13:
+              case 14:
                 if (!command) {
-                  _context2.next = 15;
+                  _context2.next = 16;
                   break;
                 }
 
                 return _context2.abrupt('return', command.run());
 
-              case 15:
+              case 16:
               case 'end':
                 return _context2.stop();
             }
@@ -5442,43 +5446,55 @@ var GetHeight = function (_Command) {
     _classCallCheck(this, GetHeight);
 
     var sensorPackage = _sensorTypes.sensorHeight;
-    return _possibleConstructorReturn(this, (GetHeight.__proto__ || Object.getPrototypeOf(GetHeight)).call(this, sensorPackage, 'getHeight'));
+    return _possibleConstructorReturn(this, (GetHeight.__proto__ || Object.getPrototypeOf(GetHeight)).call(this, sensorPackage, "getHeight"));
   }
 
   _createClass(GetHeight, [{
-    key: 'run',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var value, arrayResult, heightValue, binaryHeightValue, _ref2, _ref3, signedValue, event;
+    key: "handleNotification",
+    value: function handleNotification(event) {
+      if (event && event.target && event.target.value) {
+        console.log("buffer array", event.target.value.buffer);
+        var arrayResult = new Uint8Array(event.target.value.buffer);
+        var heightValue = 0;
+        if (arrayResult.length > 11) {
+          heightValue = arrayResult[12] << 8 | arrayResult[11] & 0xff;
 
+          var binaryHeightValue = (heightValue >>> 0).toString(2);
+
+          var _ref = new Int16Array(["0b" + binaryHeightValue]),
+              _ref2 = _slicedToArray(_ref, 1),
+              signedValue = _ref2[0];
+        }
+        Code.readCharacteristic.stopNotifications();
+
+        Code.readCharacteristic.removeEventListener("characteristicvaluechanged", this.handleNotification);
+
+        var event = new CustomEvent(this.eventName, { detail: signedValue });
+        dispatchEvent(event);
+        return;
+      }
+    }
+  }, {
+    key: "run",
+    value: function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Code.writeCharacteristic.writeValue(this.package);
+                return Code.readCharacteristic.startNotifications();
 
               case 2:
-                _context.next = 4;
-                return Code.readCharacteristic.readValue();
+                Code.readCharacteristic.addEventListener("characteristicvaluechanged", this.handleNotification);
+                _context.next = 5;
+                return this.sendBLECommand(this.package);
 
-              case 4:
-                value = _context.sent;
-                arrayResult = new Uint8Array(value.buffer);
-                heightValue = 0;
+              case 5:
+                return _context.abrupt("return");
 
-                if (arrayResult.length > 11) {
-                  heightValue = arrayResult[12] << 8 | arrayResult[11] & 0xff;
-
-                  binaryHeightValue = (heightValue >>> 0).toString(2);
-                  _ref2 = new Int16Array(['0b' + binaryHeightValue]), _ref3 = _slicedToArray(_ref2, 1), signedValue = _ref3[0];
-                }
-                event = new CustomEvent(this.eventName, { detail: signedValue });
-
-                dispatchEvent(event);
-
-              case 10:
-              case 'end':
+              case 6:
+              case "end":
                 return _context.stop();
             }
           }
@@ -5486,7 +5502,7 @@ var GetHeight = function (_Command) {
       }));
 
       function run() {
-        return _ref.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return run;
@@ -5550,7 +5566,7 @@ var GetGyroAngles = function (_Command) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(event && event.target && event.target.value)) {
-                  _context.next = 18;
+                  _context.next = 17;
                   break;
                 }
 
@@ -5558,7 +5574,7 @@ var GetGyroAngles = function (_Command) {
                 arrayResult = new Uint8Array(event.target.value.buffer);
 
                 if (!(arrayResult.length > 0)) {
-                  _context.next = 18;
+                  _context.next = 17;
                   break;
                 }
 
@@ -5579,17 +5595,16 @@ var GetGyroAngles = function (_Command) {
                   attitudeYaw: attitudeYaw,
                   yawDegree: yawDegree
                 };
-                console.log('gyroAngles............:', gyroAngles);
-                console.log('EVEEEENT NAME: ', this.eventName);
                 Code.readCharacteristic.removeEventListener("characteristicvaluechanged", this.handleNotification);
                 event = new CustomEvent(this.eventName, { detail: gyroAngles });
 
                 dispatchEvent(event);
-
-              case 18:
                 return _context.abrupt("return");
 
-              case 19:
+              case 17:
+                return _context.abrupt("return");
+
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -5615,7 +5630,7 @@ var GetGyroAngles = function (_Command) {
                 return Code.readCharacteristic.startNotifications();
 
               case 2:
-                Code.readCharacteristic.addEventListener('characteristicvaluechanged', this.handleNotification);
+                Code.readCharacteristic.addEventListener("characteristicvaluechanged", this.handleNotification);
 
                 _context2.next = 5;
                 return this.sendBLECommand(this.package);
@@ -29519,14 +29534,15 @@ global.stopExecution = function (skipForceLanding) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              console.log('EEEEEEEEEEMERGENCY STOP');
               emergencyStop = new _emergencyStop2.default();
-              _context.next = 3;
+              _context.next = 4;
               return _commandManager.commandManager.runCommand(emergencyStop);
 
-            case 3:
+            case 4:
               return _context.abrupt("return", _context.sent);
 
-            case 4:
+            case 5:
             case "end":
               return _context.stop();
           }

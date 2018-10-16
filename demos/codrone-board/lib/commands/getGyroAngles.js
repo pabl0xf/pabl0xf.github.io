@@ -28,14 +28,13 @@ export default class GetGyroAngles extends Command {
           attitudeYaw: attitudeYaw,
           yawDegree: yawDegree
         };
-        console.log('gyroAngles............:', gyroAngles);
-        console.log('EVEEEENT NAME: ', this.eventName);
         Code.readCharacteristic.removeEventListener(
           "characteristicvaluechanged",
           this.handleNotification
         );
         var event = new CustomEvent(this.eventName, { detail: gyroAngles });
         dispatchEvent(event);
+        return;
       }
     }
 
@@ -44,12 +43,12 @@ export default class GetGyroAngles extends Command {
 
   async run() {
     await Code.readCharacteristic.startNotifications();
-    Code.readCharacteristic.addEventListener('characteristicvaluechanged',
-                                          this.handleNotification);
+    Code.readCharacteristic.addEventListener(
+      "characteristicvaluechanged",
+      this.handleNotification
+    );
 
     await this.sendBLECommand(this.package);
-
-    //var value = await
 
     return;
   }

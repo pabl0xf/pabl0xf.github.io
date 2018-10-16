@@ -18,6 +18,7 @@ global.stopExecution = function(skipForceLanding) {
   if (Code.device != null && !skipForceLanding) {
     setTimeout(
       async function() {
+        console.log('EEEEEEEEEEMERGENCY STOP');
         var emergencyStop = new EmergencyStop();
         return await commandManager.runCommand(emergencyStop);
       }.bind(this),

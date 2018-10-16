@@ -40,7 +40,7 @@ class CommandManager {
 
       console.log('display command to run.......', commandToRun);
       var response = commandToRun.getValue();
-      commandToRun.run();
+      await commandToRun.run();
       var value = await response;
 
       value = this.getDisplayFormat(value, commandOnStack);
@@ -60,11 +60,11 @@ class CommandManager {
 
       console.log('display command to run.......', commandToRun);
       var response = commandToRun.getValue();
-      commandToRun.run();
+      await commandToRun.run();
       var value = await response;
 
       value = this.getDisplayFormat(value, commandOnStack);
-      
+
       global.displayValue[commandOnStack] = value;
     }
     if (command) {

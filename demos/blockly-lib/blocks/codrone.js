@@ -644,8 +644,8 @@ Blockly.Blocks["gotoheight_junior"] = {
           type: "field_number",
           name: "NUM1",
           value: 0,
-          max: 0,
-          min: 2000
+          min: 0,
+          max: 2000
         },
         {
           type: "field_image",
@@ -672,7 +672,9 @@ Blockly.Blocks["gotoheight2_junior"] = {
         {
           type: "field_number",
           name: "NUM1",
-          value: 0
+          value: 0,
+          min: 0,
+          max: 2000
         },
         {
           type: "field_image",
