@@ -53,7 +53,7 @@ class Burger extends React.Component {
     }
   }
 
-  handleForceLandingClick(el, skipLanding, eventChange) {
+  handleForceLanding(el, skipLanding, eventChange) {
     eventManager.removeAllEvents();
 
     global.stopExecution(skipLanding);
@@ -92,6 +92,41 @@ class Burger extends React.Component {
     }
   }
 
+  handleForceLandingClick(el, skipLanding, eventChange) {
+    eventManager.removeAllEvents();
+
+    global.stopExecution(false);
+
+    setTimeout(
+      async function() {
+       await global.emergencyStop(true);
+      }.bind(this),
+      100
+    );
+
+    if (global.blocksSaved && global.blocksSaved.length > 0) {
+      for (var i = 0; i < global.blocksSaved.length; i++) {
+        console.log(
+        "interval to be remove: ",
+        global.blocksSaved[i].blockInterval
+    );
+      if (global.blocksSaved[i].blockInterval) {
+        clearInterval(global.blocksSaved[i].blockInterval);
+      }
+      }
+    }
+
+    global.blockInterval = null;
+    global.RUN_ONLY_DISPLAY_BLOCKS = false;
+    global.DISPLAY_INTERVAL = false;
+
+    keyPressManager.removeKeyPressEvents();
+
+    if ($(".playButton").hasClass("disabled")) {
+      $(".playButton").removeClass("disabled");
+    }
+  }
+
   handleRunClick(el) {
     if (!Code.device && !this.state.debug) {
       alert("CoDrone is not connected!");
@@ -112,14 +147,14 @@ class Burger extends React.Component {
     $(document).on(
       "stopExternalEvent",
       function() {
-        this.handleForceLandingClick(null, true);
+        this.handleForceLanding(null, true);
       }.bind(this)
     );
 
     $(document).on(
       "eventChangeExternalEvent",
       function() {
-        this.handleForceLandingClick(null, true, true);
+        this.handleForceLanding(null, true, true);
       }.bind(this)
     );
   }

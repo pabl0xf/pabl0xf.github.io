@@ -14,17 +14,6 @@ var flightInteface = {};
 global.stopExecution = function(skipForceLanding) {
   global.loopInProgress = false;
   global.RUNNING = false;
-
-  if (Code.device != null && !skipForceLanding) {
-    setTimeout(
-      async function() {
-        console.log('EEEEEEEEEEMERGENCY STOP');
-        var emergencyStop = new EmergencyStop();
-        return await commandManager.runCommand(emergencyStop);
-      }.bind(this),
-      100
-    );
-  }
 };
 
 global.takeoff = async function() {
@@ -72,8 +61,8 @@ global.land = async function() {
   return promiseCommand;
 };
 
-global.emergencyStop = async function() {
-  if (!global.RUNNING) {
+global.emergencyStop = async function(force) {
+  if (!global.RUNNING && !force) {
     return;
   }
   var emergencyStop = new EmergencyStop();
@@ -235,17 +224,17 @@ global.turnDegree = async function(direction, degree) {
 
       if (min > max) {
         if (min < angle.yawDegree || max > angle.yawDegree) {
+          global.loopInProgress = false;
           await global.hover(1);
           console.log("---- Running command: Ending turn", angle.yawDegree);
-          global.loopInProgress = false;
           resolve();
           return;
         }
       } else {
         if (min < angle.yawDegree && max > angle.yawDegree) {
+          global.loopInProgress = false;
           await global.hover(1);
           console.log("---- Running command: Ending turn2", angle.yawDegree);
-          global.loopInProgress = false;
           resolve();
           return;
         }

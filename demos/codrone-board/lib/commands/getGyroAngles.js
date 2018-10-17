@@ -4,7 +4,8 @@ import { sensorAngles } from "../types/sensorTypes.js";
 export default class GetGyroAngles extends Command {
   constructor() {
     var sensorPackage = sensorAngles;
-    super(sensorPackage, "getGyroAngles");
+    var randomNumb = Math.floor((Math.random() * 90000) + 1);
+    super(sensorPackage, 'getGyroAngles'+randomNumb);
   }
 
   async handleNotification(event) {
