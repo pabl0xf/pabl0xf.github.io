@@ -19,7 +19,7 @@ export default class Command {
       return await Code.writeCharacteristic.writeValue(packageValue);
     } catch (e) {
       console.log("error in command " + this.eventName);
-      global.stopExecution();
+      //global.stopExecution();
       if (e) {
         console.log(e);
       }
@@ -32,7 +32,7 @@ export default class Command {
       return await Code.readCharacteristic.readValue();
     } catch (e) {
       console.log("error reading value for command " + this.eventName);
-      global.stopExecution();
+      //global.stopExecution();
       if (e) {
         console.log(e);
       }

@@ -179,7 +179,7 @@ $exports.store = store;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -266,12 +266,12 @@ var Command = function () {
                 _context3.t0 = _context3["catch"](1);
 
                 console.log("error in command " + this.eventName);
-                global.stopExecution();
+                //global.stopExecution();
                 if (_context3.t0) {
                   console.log(_context3.t0);
                 }
 
-              case 12:
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -306,12 +306,12 @@ var Command = function () {
                 _context4.t0 = _context4["catch"](1);
 
                 console.log("error reading value for command " + this.eventName);
-                global.stopExecution();
+                //global.stopExecution();
                 if (_context4.t0) {
                   console.log(_context4.t0);
                 }
 
-              case 12:
+              case 11:
               case "end":
                 return _context4.stop();
             }
@@ -366,7 +366,6 @@ var Command = function () {
 }();
 
 exports.default = Command;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
 /* 7 */
@@ -33677,7 +33676,6 @@ var Burger = function (_React$Component) {
       if (skipLanding && global.DISPLAY_INTERVAL && !eventChange) {
         global.RUNNING = true;
         global.RUN_ONLY_DISPLAY_BLOCKS = true;
-        console.log('ruuuuuuuuuuuuuuun only interval');
         return;
       }
 
