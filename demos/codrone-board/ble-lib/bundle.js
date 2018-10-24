@@ -34185,7 +34185,7 @@ var ContentJupyter = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         { className: "content-panel content-5" },
-        _react2.default.createElement("iframe", { id: "iframeJupyter", src: "http://159.65.169.2:8888/notebooks/Untitled.ipynb" })
+        _react2.default.createElement("iframe", { id: "iframeJupyter", src: "https://forty2dev.com:8888/Untitled.ipynb" })
       );
     }
   }]);
