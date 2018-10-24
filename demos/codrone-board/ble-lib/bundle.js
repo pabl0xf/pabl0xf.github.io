@@ -34071,7 +34071,7 @@ var Panel = function (_React$Component4) {
         }, 3500);
       } else {
         document.getElementsByClassName('loader')[0].style.display = 'block';
-        document.getElementById('iframeJupyter')[0].style.visibility = 'hidden';
+        document.getElementById('iframeJupyter').style.visibility = 'hidden';
         document.getElementById('rightPanel-1').style.width = '50%';
       }
 
