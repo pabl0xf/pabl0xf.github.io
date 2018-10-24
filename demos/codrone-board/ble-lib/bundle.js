@@ -6125,7 +6125,7 @@ var ContentTutorials = function (_React$Component) {
     value: function componentDidMount() {
       // Update src to iframe
       // https://localhost:8000/  | basecamp.robolink.com/cwists/category
-      document.getElementById('iframeTutorials').src = 'https://basecamp.robolink.com/cwists/category';
+
     }
   }, {
     key: "render",
@@ -34039,6 +34039,9 @@ var Panel = function (_React$Component4) {
     key: "handleCloseClick",
     value: function handleCloseClick(el) {
       el.preventDefault();
+      document.getElementById('rightPanel-1').style.width = '50%';
+      document.getElementsByClassName('loader')[0].style.display = 'block';
+      document.getElementById('iframeJupyter').style.visibility = 'hidden';
       document.getElementById('rightPanel-1').classList.remove('active');
     }
   }, {
@@ -34056,6 +34059,22 @@ var Panel = function (_React$Component4) {
 
       el.currentTarget.classList.add('active');
 
+      if (panelId === '1') {
+        document.getElementById('iframeTutorials').src = 'https://basecamp.robolink.com/cwists/category';
+      }
+
+      if (panelId === '5') {
+        document.getElementById('rightPanel-1').style.width = '81%';
+        setTimeout(function () {
+          document.getElementsByClassName('loader')[0].style.display = 'none';
+          document.getElementById('iframeJupyter').style.visibility = 'visible';
+        }, 3500);
+      } else {
+        document.getElementsByClassName('loader')[0].style.display = 'block';
+        document.getElementById('iframeJupyter')[0].style.visibility = 'hidden';
+        document.getElementById('rightPanel-1').style.width = '50%';
+      }
+
       var activeTab = document.getElementsByClassName('content-panel active')[0];
       var contentTab = document.getElementsByClassName('content-' + panelId)[0];
 
@@ -34070,19 +34089,10 @@ var Panel = function (_React$Component4) {
       }
 
       document.getElementById('rightPanel-1').classList.add('active');
-      var codeString = 'import CoDrone\n\ndrone = CoDrone.Codrone()\ndrone.pair(drone.Nearest)\n\n';
+      var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
       var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
       var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
-      document.getElementById('iframeJupyter').src = 'http://192.168.3.198:8888/notebooks/Untitled1.ipynb?ek=' + encodedString;
-      // var str = h.replace(/(\r\n\t|\n|\r\t)/gm,"\\n");
-      // var p = document.getElementById('iframeTutorials')
-      // var t = p.contentWindow.document
-      // t.getElementById('header-container').style.display = 'none';
-      // t.getElementById('menus').style.display = 'none';
-      // var iframe_head = t.getElementsByTagName("head")[0];
-      // var script_elem = document.createElement('script');
-      // script_elem.textContent = "var cell = Jupyter.notebook.get_cell(0);cell.set_text('"+str+"')";
-      // iframe_head.appendChild(script_elem);
+      document.getElementById('iframeJupyter').src = 'https://forty2dev.com:8888/notebooks/Untitled.ipynb?ek=' + encodedString;
     }
   }, {
     key: "render",
@@ -34185,7 +34195,8 @@ var ContentJupyter = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         { className: "content-panel content-5" },
-        _react2.default.createElement("iframe", { id: "iframeJupyter", src: "https://forty2dev.com:8888/Untitled.ipynb" })
+        _react2.default.createElement("div", { className: "loader" }),
+        _react2.default.createElement("iframe", { id: "iframeJupyter", src: "https://forty2dev.com:8888/notebooks/Untitled.ipynb" })
       );
     }
   }]);
