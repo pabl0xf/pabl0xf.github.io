@@ -18,6 +18,10 @@
   fill: url("#img1");
 }
 
+#header-container {
+  display: none;
+}
+
 #show_var_data g> path:nth-child(2) {
     fill: #f29327;
 }
@@ -483,6 +487,11 @@ button {
 }
 
 #rightPanel-1 .content-1 iframe {
+  width: 100%;
+  height: 100%;
+}
+
+#rightPanel-1 .content-5 iframe {
   width: 100%;
   height: 100%;
 }

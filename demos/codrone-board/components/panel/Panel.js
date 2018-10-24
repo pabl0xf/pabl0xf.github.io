@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import ContentTutorials from './ContentTutorials.js';
+import ContentJupyter from './ContentJupyter.js';
 
 class ContentJavascript extends React.Component {
   render() {
@@ -19,17 +20,6 @@ class ContentPython extends React.Component {
       <div className="content-panel content-3">
         <h1 style={{textAlign: 'center'}}>Python</h1>
         <pre id="content_python" className="content"></pre>
-      </div>
-    );
-  }
-}
-
-class ContentArduino extends React.Component {
-  render() {
-    return (
-      <div className="content-panel content-5">
-        <h1 style={{textAlign: 'center'}}>Arduino</h1>
-        <pre id="content_arduino" className="content"></pre>
       </div>
     );
   }
@@ -92,6 +82,19 @@ class Panel extends React.Component {
     }
 
     document.getElementById('rightPanel-1').classList.add('active');
+    var codeString = 'import CoDrone\n\ndrone = CoDrone.Codrone()\ndrone.pair(drone.Nearest)\n\n'
+    var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
+    var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
+    document.getElementById('iframeJupyter').src = 'http://192.168.3.198:8888/notebooks/Untitled1.ipynb?ek='+encodedString
+    // var str = h.replace(/(\r\n\t|\n|\r\t)/gm,"\\n");
+    // var p = document.getElementById('iframeTutorials')
+    // var t = p.contentWindow.document
+    // t.getElementById('header-container').style.display = 'none';
+    // t.getElementById('menus').style.display = 'none';
+    // var iframe_head = t.getElementsByTagName("head")[0];
+    // var script_elem = document.createElement('script');
+    // script_elem.textContent = "var cell = Jupyter.notebook.get_cell(0);cell.set_text('"+str+"')";
+    // iframe_head.appendChild(script_elem);
   }
 
   render() {
@@ -107,7 +110,7 @@ class Panel extends React.Component {
           <ContentJavascript />
           <ContentPython />
           <ContentSensor />
-          <ContentArduino />
+          <ContentJupyter />
         </div>
     );
   }
