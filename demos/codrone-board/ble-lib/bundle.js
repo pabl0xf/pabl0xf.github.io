@@ -34159,7 +34159,7 @@ var Panel = function (_React$Component4) {
       var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
       var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
       var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
-      document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/Untitled1.ipynb?ek=' + encodedString;
+      document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?ek=' + encodedString;
     }
   }, {
     key: "render",
