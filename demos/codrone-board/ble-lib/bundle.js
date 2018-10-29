@@ -34243,7 +34243,6 @@ var ContentJupyter = function (_React$Component) {
       // Update src to iframe
       // https://localhost:8000/  | basecamp.robolink.com/cwists/category
 
-
     }
   }, {
     key: "render",
