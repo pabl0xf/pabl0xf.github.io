@@ -33420,6 +33420,10 @@ var ConnectionBox = function (_Component) {
         var zumiUrl = prompt("Please enter your zümi remote address: ");
         if (zumiUrl != null) {
           global.ZUMI_URL = zumiUrl;
+          $.event.trigger({
+            type: "zumiUrlChange",
+            message: ""
+          });
         } else {
           alert("Error: Adress is required!");
         }
@@ -34089,6 +34093,12 @@ var Panel = function (_React$Component4) {
   _createClass(Panel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      $(document).on("zumiUrlChange", function () {
+        var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
+        var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
+        var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
+        document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?ek=' + encodedString;
+      }.bind(this));
       window.addEventListener('resize', Code.onresize, false);
       Code.onresize();
     }
