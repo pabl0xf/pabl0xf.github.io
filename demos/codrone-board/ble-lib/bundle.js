@@ -33417,8 +33417,10 @@ var ConnectionBox = function (_Component) {
       var _this2 = this;
 
       if (global.DEVICE_TYPE === "zumi") {
-        global.ZUMI_URL = prompt("Please enter your zümi remote address: ");
-        if (zumiUrl != null) {} else {
+        var zumiUrl = prompt("Please enter your zümi remote address: ");
+        if (zumiUrl != null) {
+          global.ZUMI_URL = zumiUrl;
+        } else {
           alert("Error: Adress is required!");
         }
         return;
