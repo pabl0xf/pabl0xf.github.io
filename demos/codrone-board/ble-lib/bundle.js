@@ -28931,7 +28931,7 @@ var displayContents = function displayContents(contents) {
   Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
 };
 
-var addClassToCategories = function addClassToCategories() {
+Code.addClassToCategories = function () {
   var el = $(".blocklyTreeLabel");
   $.each(el, function (i, val) {
     var className = val.textContent.replace(" ", "-").toLowerCase();
@@ -29263,8 +29263,10 @@ Code.init = function () {
     $(".blocklyToolboxDiv").attr("role", "junior");
 
     Code.workspace.updateToolbox(toolboxXml);
-    addClassToCategories();
+    Code.addClassToCategories();
   });
+
+  $("#juniorZumiXmlBtn").click(function (e) {});
 
   $("#seniorXmlBtn").click(function (e) {
     $(".buttonTab").removeClass("active");
@@ -29273,7 +29275,7 @@ Code.init = function () {
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $(".blocklyToolboxDiv").attr("role", "senior");
     Code.workspace.updateToolbox(toolboxXml);
-    addClassToCategories();
+    Code.addClassToCategories();
   });
 
   $("#masterXmlBtn").click(function (e) {
@@ -29331,7 +29333,7 @@ Code.init = function () {
       menuEl.removeClass("active");
     }
   });
-  addClassToCategories();
+  Code.addClassToCategories();
   // var p = $('svg')[0];
   // p.children[0].innerHTML = p.children[0].innerHTML + '<pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" x=\"0\" y=\"-50\" width=\"150\" height=\"250\">\r\n<image xlink:href=\"https:\/\/localhost:8000\/src\/app\/images\/heartrate.gif\" width=\"150\" height=\"115\"><\/image> <\/pattern>'
 };
@@ -34323,6 +34325,18 @@ var SelectDevice = function (_React$Component) {
     key: "handleChange",
     value: function handleChange(el) {
       global.DEVICE_TYPE = el.target.value;
+      if (global.DEVICE_TYPE === 'zumi') {
+        $(".buttonTab").removeClass("active");
+        $('#juniorXmlBtn').addClass("active");
+        var toolboxText = document.getElementById("juniorZumiXml").outerHTML;
+        var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+        $(".blocklyToolboxDiv").attr("role", "junior");
+
+        Code.workspace.updateToolbox(toolboxXml);
+        Code.addClassToCategories();
+      } else {
+        $('#juniorXmlBtn').trigger("click");
+      }
     }
   }, {
     key: "render",
