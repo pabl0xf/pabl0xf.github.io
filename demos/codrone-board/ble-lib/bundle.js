@@ -33419,7 +33419,7 @@ var ConnectionBox = function (_Component) {
       var _this2 = this;
 
       if (global.DEVICE_TYPE === "zumi") {
-        var zumiUrl = prompt("Please enter your zümi remote address: ");
+        var zumiUrl = prompt("Please enter your Zümi remote address: ");
         if (zumiUrl != null) {
           global.ZUMI_URL = zumiUrl;
           $.event.trigger({
@@ -34356,7 +34356,7 @@ var SelectDevice = function (_React$Component) {
           _react2.default.createElement(
             "option",
             { value: "zumi" },
-            "Zumi"
+            "Z\xFCmi"
           )
         )
       );

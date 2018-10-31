@@ -920,6 +920,22 @@ button {
   background-image: url(images/icons/flight_var.svg);
 }
 
+.blocklyTreeLabel.engine {
+  background-image: url(images/icons/flight_commands_icon.svg);
+}
+
+.blocklyTreeLabel.infrared {
+  background-image: url(images/icons/status_checkers_icon.svg);
+}
+
+.blocklyTreeLabel.audio {
+  background-image: url(images/icons/sound_icon.svg);
+}
+
+.blocklyTreeLabel.personality {
+  background-image: url(images/icons/flight_seq_icon.svg);
+}
+
 .blocklyToolboxDiv
   .blocklyTreeRoot
   div[role="group"]
