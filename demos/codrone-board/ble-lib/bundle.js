@@ -29258,7 +29258,11 @@ Code.init = function () {
   $("#juniorXmlBtn").click(function (e) {
     $(".buttonTab").removeClass("active");
     $(this).addClass("active");
-    var toolboxText = document.getElementById("juniorXml").outerHTML;
+    if (global.DEVICE_TYPE === 'zumi') {
+      var toolboxText = document.getElementById("juniorZumiXml").outerHTML;
+    } else {
+      var toolboxText = document.getElementById("juniorXml").outerHTML;
+    }
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $(".blocklyToolboxDiv").attr("role", "junior");
 
@@ -29271,7 +29275,11 @@ Code.init = function () {
   $("#seniorXmlBtn").click(function (e) {
     $(".buttonTab").removeClass("active");
     $(this).addClass("active");
-    var toolboxText = document.getElementById("seniorXml").outerHTML;
+    if (global.DEVICE_TYPE === 'zumi') {
+      var toolboxText = document.getElementById("seniorZumiXml").outerHTML;
+    } else {
+      var toolboxText = document.getElementById("seniorXml").outerHTML;
+    }
     var toolboxXml = Blockly.Xml.textToDom(toolboxText);
     $(".blocklyToolboxDiv").attr("role", "senior");
     Code.workspace.updateToolbox(toolboxXml);

@@ -179,6 +179,11 @@ Blockly.Python["gotoheight_junior"] = function(block) {
   return "drone.go_to_height(" + arg0 + ")\n";
 };
 
+Blockly.Python["gotoheight2_junior"] = function(block) {
+  var arg0 = parseInt(block.getFieldValue("NUM1"));
+  return "drone.go_to_height(" + arg0 + ");\n";
+};
+
 Blockly.Python["gotoheight_senior"] = function(block) {
   var arg0 = parseInt(block.getFieldValue("NUM1"));
   return "drone.go_to_height(" + arg0 + ")\n";
