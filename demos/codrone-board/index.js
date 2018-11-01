@@ -15,10 +15,16 @@ import ConnectionBox from './components/connectionBox/ConnectionBox.js';
 import Burger from './components/menu/Menu.js';
 import ContentTutorials from './components/panel/ContentTutorials.js';
 import Panel from './components/panel/Panel.js';
+import SelectDevice from './components/SelectDevice.js';
 
 ReactDOM.render(
   <ConnectionBox />,
   document.getElementById('connectMenu')
+);
+
+ReactDOM.render(
+  <SelectDevice />,
+  document.getElementById('selectDevice')
 );
 
 ReactDOM.render(

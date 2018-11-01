@@ -872,7 +872,6 @@ button {
 
 .blocklyTreeLabel.computer-vision {
   background-image: url(images/icons/comp-vis.svg);
-  opacity: 0.5;
 }
 
 .blocklyTreeLabel.sensors {
@@ -934,6 +933,10 @@ button {
 
 .blocklyTreeLabel.personality {
   background-image: url(images/icons/flight_seq_icon.svg);
+}
+
+.blocklyTreeLabel.deep-learning {
+  background-image: url(images/icons/sensor_icon.svg);
 }
 
 .blocklyToolboxDiv
