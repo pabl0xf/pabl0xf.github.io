@@ -34402,21 +34402,21 @@ var MasterToolbox = function (_React$Component) {
     key: "toggleOption",
     value: function toggleOption(el) {
       var ul = el.target.parentElement;
-      var li = ul.getElementsByTagName('li');
-      var span = li[0].parentElement.getElementsByTagName('span');
+      var li = ul.getElementsByTagName("li");
+      var span = li[0].parentElement.getElementsByTagName("span");
 
-      if (span[0].classList[2] === 'glyphicon-triangle-bottom') {
-        span[0].classList.remove('glyphicon-triangle-bottom');
-        span[0].classList.add('glyphicon-triangle-top');
+      if (span[0].classList[2] === "glyphicon-triangle-bottom") {
+        span[0].classList.remove("glyphicon-triangle-bottom");
+        span[0].classList.add("glyphicon-triangle-top");
       } else {
-        span[0].classList.remove('glyphicon-triangle-top');
-        span[0].classList.add('glyphicon-triangle-bottom');
+        span[0].classList.remove("glyphicon-triangle-top");
+        span[0].classList.add("glyphicon-triangle-bottom");
       }
       for (var i = 0; i < li.length; i++) {
-        if (span[0].classList[2] === 'glyphicon-triangle-bottom') {
-          li[i].style.display = 'block';
+        if (span[0].classList[2] === "glyphicon-triangle-bottom") {
+          li[i].style.display = "block";
         } else {
-          li[i].style.display = 'none';
+          li[i].style.display = "none";
         }
       }
     }
@@ -34454,38 +34454,73 @@ var MasterToolbox = function (_React$Component) {
         _react2.default.createElement(
           "ul",
           null,
-          " Flight Commands (Start/Stop) ",
-          _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          _react2.default.createElement(
+            "div",
+            null,
+            " ",
+            "Flight Commands (Start/Stop)",
+            " ",
+            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          )
         ),
         _react2.default.createElement(
           "ul",
           null,
-          " Flight Commands (Movements) ",
-          _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          _react2.default.createElement(
+            "div",
+            null,
+            " ",
+            "Flight Commands (Movements)",
+            " ",
+            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          )
         ),
         _react2.default.createElement(
           "ul",
           null,
-          " Flight Variables ",
-          _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          _react2.default.createElement(
+            "div",
+            null,
+            " ",
+            "Flight Variables",
+            " ",
+            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          )
         ),
         _react2.default.createElement(
           "ul",
           null,
-          " LED ",
-          _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          _react2.default.createElement(
+            "div",
+            null,
+            " ",
+            "LED ",
+            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          )
         ),
         _react2.default.createElement(
           "ul",
           null,
-          " Status checkers ",
-          _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          _react2.default.createElement(
+            "div",
+            null,
+            " ",
+            "Status checkers",
+            " ",
+            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          )
         ),
         _react2.default.createElement(
           "ul",
           null,
-          " Sensors ",
-          _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          _react2.default.createElement(
+            "div",
+            null,
+            " ",
+            "Sensors",
+            " ",
+            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+          )
         )
       );
     }
