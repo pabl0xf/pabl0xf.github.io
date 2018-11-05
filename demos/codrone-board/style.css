@@ -246,7 +246,7 @@ button {
 }
 
 #content_blocks .title {
-  width: 185px;
+  width: 251px;
   position: absolute;
   z-index: 999;
   margin: 7px;
@@ -259,6 +259,7 @@ button {
   margin-top: 122px;
   padding-bottom: 90px;
   left: 0px;
+  width: 276px;
   height: auto !important;
   display: block;
   bottom: 0;
@@ -272,7 +273,7 @@ button {
 .injectionDiv:before {
   content: "";
   position: absolute;
-  width: 200px;
+  width: 276px;
   height: 111px;
   background: #e4e4e4;
   top: 0;
@@ -285,7 +286,7 @@ button {
   height: 40px;
   display: block;
   width: 120px;
-  left: 230px;
+  left: 287px;
   position: absolute;
   top: 16px;
   z-index: 999;
@@ -328,7 +329,7 @@ button {
   position: absolute;
   /*background: #efefef;*/
   padding: 20px 25px;
-  width: 200px;
+  width: 276px;
   top: 53px;
   background-color: rgba(255, 255, 255, 1);
   border: 1px solid #efefef;
@@ -373,7 +374,7 @@ button {
   z-index: 999;
   left: 2px;
   top: 100px;
-  width: 200px;
+  width: 276px;
 }
 
 #rightPanel-1 .content-1,
@@ -403,8 +404,9 @@ button {
     border-radius: 50%;
     width: 120px;
     height: 120px;
-    margin-top: 50px;
-    margin-left: 124px;
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
     animation: spin 2s linear infinite;
 }
 
@@ -511,9 +513,14 @@ button {
   width: 100%;
   height: 100%;
 }
+
 #iframeJupyter {
+  width: 100%;
+  height: 100%;
+  border: none;
   visibility: hidden;
 }
+
 #connectMenu button {
   background: #60c644;
   border-radius: 0;
@@ -731,13 +738,68 @@ button {
   transition: all 1s ease;
 }
 
+.master-toolbox {
+  height: 416px;
+  width: 276px;
+  position: absolute;
+  top: 10px;
+  z-index: 999999;
+  background-color: #F1F1F1;
+  top: 130px;
+}
+
+.master-toolbox ul {
+  margin-left:19px;
+  color: #9B9B9B;
+  font-family: Avenir;
+  font-size: 14px;
+  list-style-type: none;
+  padding-left: 0px;
+  margin-top: 15px;
+}
+
+.master-toolbox ul div{
+  cursor: pointer;
+}
+
+.master-toolbox ul li:nth-child(2) {
+  margin-top: 11px;
+}
+
+div.master-toolbox>ul>div>span.pull-right.glyphicon.glyphicon-triangle-bottom, .glyphicon-triangle-top {
+  margin-right: 30px;
+}
+
+.master-toolbox ul li {
+  margin-left:-19px;
+  padding-left: 35px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #636363;
+  font-family: Avenir;
+  background-color: #DCDCDC;
+}
+
+
+
+
+.master-workspace {
+  display: none;
+  position: absolute;
+  background-color: #9B9B9B;
+  left: 276px;
+  width: 95%;
+  height: 100%;
+  z-index: 9998;
+}
+
 #connectMenu {
   position: absolute;
   bottom: 0;
   left: 0;
   z-index: 999;
   background: #d7d7d7;
-  width: 200px;
+  width: 276px;
   border-top: 1px solid #ccc;
   height: auto;
   text-align: center;
@@ -983,7 +1045,7 @@ button {
   border-radius: inherit;
   height: 30px;
   background: #dcdcdc;
-  width: 31%;
+  width: 36%;
   padding-left: 15px;
   font-family: "futuralight";
   font-weight: 300;
@@ -1029,7 +1091,7 @@ button {
   border-right: 15px solid TRANSPARENT;
   border-bottom: 15px solid transparent;
   border-left: 15px solid #dcdcdc;
-  left: 62px;
+  left: 99px;
   top: 0;
   z-index: 999;
 }
@@ -1044,7 +1106,7 @@ button {
 }
 
 .drones-info input[type="range"]::-webkit-slider-runnable-track {
-  width: 200px;
+  width: 276px;
   height: 5px;
   background-color: transparent;
   border: none;
@@ -1064,7 +1126,7 @@ button {
   outline: none;
 }
 .drones-info input[type="range"]::-moz-range-track {
-  width: 200px;
+  width: 276px;
   height: 5px;
   background: #ddd;
   border: none;
@@ -1085,7 +1147,7 @@ button {
 }
 
 .drones-info input[type="range"]::-ms-track {
-  width: 200px;
+  width: 276px;
   height: 5px;
 
   /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */

@@ -68,7 +68,7 @@
   <div id="content_blocks" class="content">
     <div id="panel"></div>
     <div id="connectMenu"></div>
-
+    <div id="masterWorkspace"></div>
     <div class="title"><img src="./images/logo_blockyrobolink.svg" />
      <div style="height:88px;" id="selectDevice"></div>
 
@@ -77,7 +77,7 @@
 
       <button class="buttonTab active" id="juniorXmlBtn">junior</button>
       <button class="buttonTab" id="seniorXmlBtn">senior</button>
-      <button class="buttonTab" type="button" id="masterXmlBtn" style="color:gray;" disabled>master</button>
+      <button class="buttonTab" type="button" id="masterXmlBtn">master</button>
     </div>
     <div id="burgerMenu"></div>
   </div>
@@ -780,11 +780,10 @@
     <category name="%{BKY_CATFUNCTIONS}"  custom="PROCEDURE"></category>
   </xml>
 
-  <xml id="masterXml" style="display: none">
-    <category name="Flight Variables" >
-      <block type="setRoll_senior"></block>
-    </category>
-  </xml>
+  <div id="masterXml" style="display:none;">
+    
+  </div>
+
   <script src="ble-lib/bundle.js"></script>
 </body>
 </html>
