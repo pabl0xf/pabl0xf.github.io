@@ -14,6 +14,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "avenir-medium";
+  src: url("fonts/Avenir-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 #show_var_data path:nth-child(2) {
   fill: url("#img1");
 }
@@ -743,6 +750,7 @@ button {
   width: 276px;
   position: absolute;
   top: 10px;
+  font-family: "avenir-medium";
   z-index: 999999;
   background-color: #F1F1F1;
   top: 130px;
@@ -750,6 +758,7 @@ button {
 
 .master-toolbox ul {
   margin-left:19px;
+  font-family: "avenir-medium";
   color: #9B9B9B;
   font-family: Avenir;
   font-size: 14px;
@@ -760,6 +769,7 @@ button {
 
 .master-toolbox ul div{
   cursor: pointer;
+  font-family: "avenir-medium";
 }
 
 .master-toolbox ul li:nth-child(2) {
@@ -774,6 +784,7 @@ div.master-toolbox>ul>div>span.pull-right.glyphicon.glyphicon-triangle-bottom, .
   margin-left:-19px;
   padding-left: 35px;
   padding-top: 8px;
+  font-family: "avenir-medium";
   padding-bottom: 8px;
   color: #636363;
   font-family: Avenir;
@@ -1088,7 +1099,7 @@ div.master-toolbox>ul>div>span.pull-right.glyphicon.glyphicon-triangle-bottom, .
   width: 10px;
   height: 10px;
   border-top: 15px solid transparent;
-  border-right: 15px solid TRANSPARENT;
+  border-right: 0px solid TRANSPARENT;
   border-bottom: 15px solid transparent;
   border-left: 15px solid #dcdcdc;
   left: 99px;
