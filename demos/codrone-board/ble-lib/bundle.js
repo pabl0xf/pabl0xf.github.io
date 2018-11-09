@@ -5751,6 +5751,7 @@ global.DISPLAY_INTERVAL = false;
 global.KEY_PRESSED = -1;
 
 global.DEVICE_TYPE = 'codrone';
+global.BACKGROUND_RUNNING = false;
 global.ZUMI_URL = '';
 
 global.HOLD = { armCode: 0x41, eyeCode: 0x11 };
@@ -29308,7 +29309,7 @@ Code.init = function () {
     var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
     var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
     var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
-    document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?ek=' + encodedString;
+    document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?run=1&src=' + encodedString;
     setTimeout(function () {
       document.getElementsByClassName('loader')[0].style.display = 'none';
       document.getElementById('iframeJupyter').style.visibility = 'visible';
@@ -33835,6 +33836,14 @@ var Burger = function (_React$Component) {
   }, {
     key: "handleRunClick",
     value: function handleRunClick(el) {
+      if (global.DEVICE_TYPE === 'zumi') {
+        global.BACKGROUND_RUNNING = true;
+        $.event.trigger({
+          type: "zumiUrlChange",
+          message: ""
+        });
+      }
+
       if (!Code.device && !this.state.debug) {
         alert("CoDrone is not connected!");
         return;
@@ -34127,7 +34136,17 @@ var Panel = function (_React$Component4) {
         var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
         var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
         var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
-        document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?ek=' + encodedString;
+
+        var zumiUrl = null;
+        if (global.BACKGROUND_RUNNING) {
+          zumiUrl = global.ZUMI_URL + '/notebooks/blockly.ipynb?run=1&src=' + encodedString;
+        } else {
+          zumiUrl = global.ZUMI_URL + '/notebooks/blockly.ipynb?src=' + encodedString;
+        }
+
+        global.BACKGROUND_RUNNING = false;
+
+        document.getElementById('iframeJupyter').src = zumiUrl;
       }.bind(this));
       window.addEventListener('resize', Code.onresize, false);
       Code.onresize();
@@ -34136,9 +34155,12 @@ var Panel = function (_React$Component4) {
     key: "handleCloseClick",
     value: function handleCloseClick(el) {
       el.preventDefault();
-      document.getElementById('rightPanel-1').style.width = '50%';
-      document.getElementsByClassName('loader')[0].style.display = 'block';
-      document.getElementById('iframeJupyter').style.visibility = 'hidden';
+      // document.getElementById    // document.getElementById('rightPanel-1').style.width = '50%';
+      // document.getElementsByClassName('loader')[0].style.display = 'block';
+      // document.getElementById('iframeJupyter').style.visibility = 'hidden';
+      // document.getElementById('rightPanel-1').classList.remove('active');('rightPanel-1').style.width = '50%';
+      // document.getElementsByClassName('loader')[0].style.display = 'block';
+      // document.getElementById('iframeJupyter').style.visibility = 'hidden';
       document.getElementById('rightPanel-1').classList.remove('active');
     }
   }, {
