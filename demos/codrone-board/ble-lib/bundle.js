@@ -5751,6 +5751,8 @@ global.DISPLAY_INTERVAL = false;
 global.KEY_PRESSED = -1;
 
 global.DEVICE_TYPE = 'codrone';
+global.ZUMI_IMPORT_STATEMENT = 'import Zumi\n\nzumi = Zumi.Zumi()\nzumi.pair(zumi.Nearest)\n\n';
+global.CODRONE_IMPORT_STATEMENT = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
 global.BACKGROUND_RUNNING = false;
 global.ZUMI_URL = '';
 
@@ -29302,14 +29304,20 @@ Code.init = function () {
   });
 
   $("#masterXmlBtn").click(function (e) {
+    document.getElementById('iframeJupyter').src = '';
     $(".buttonTab").removeClass("active");
     $(this).addClass("active");
     $("#masterXml").show();
     $('.master-workspace').show();
-    var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
+    var codeString = '';
+    if (global.DEVICE_TYPE === 'zumi') {
+      codeString = ZUMI_IMPORT_STATEMENT;
+    } else {
+      codeString = CODRONE_IMPORT_STATEMENT;
+    }
     var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
     var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
-    document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?run=1&src=' + encodedString;
+    document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?&src=' + encodedString;
     setTimeout(function () {
       document.getElementsByClassName('loader')[0].style.display = 'none';
       document.getElementById('iframeJupyter').style.visibility = 'visible';
@@ -34133,7 +34141,7 @@ var Panel = function (_React$Component4) {
     key: "componentDidMount",
     value: function componentDidMount() {
       $(document).on("zumiUrlChange", function () {
-        var codeString = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
+        var codeString = ZUMI_IMPORT_STATEMENT;
         var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
         var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
 
