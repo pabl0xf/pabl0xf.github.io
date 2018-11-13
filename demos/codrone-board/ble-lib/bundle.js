@@ -28863,6 +28863,7 @@ global.callChangeExternalEvent = function () {
 };
 
 var refreshTabCode = function refreshTabCode(event) {
+  var importStatement = DEVICE_TYPE === 'codrone' ? CODRONE_IMPORT_STATEMENT : ZUMI_IMPORT_STATEMENT;
   if (event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE) {}
   if (event.type === Blockly.Events.CHANGE) {
     // Blockly.mainWorkspace.getAllBlocks().forEach(function(block){
@@ -28893,7 +28894,7 @@ var refreshTabCode = function refreshTabCode(event) {
       if (typeof PR.prettyPrintOne == "function") {
         code = content.textContent;
         code = PR.prettyPrintOne(code, "py");
-        content.innerHTML = "drone = CoDrone.CoDrone()\n" + "drone.pair()\n\n" + code;
+        content.innerHTML = importStatement + code;
       }
     } else if (content.id == "content_arduino") {
       code = Blockly.Python.workspaceToCode(Code.workspace);
@@ -28901,7 +28902,7 @@ var refreshTabCode = function refreshTabCode(event) {
       if (typeof PR.prettyPrintOne == "function") {
         code = content.textContent;
         code = PR.prettyPrintOne(code, "py");
-        content.innerHTML = "drone = CoDrone.CoDrone()\n" + "drone.pair()\n\n" + code;
+        content.innerHTML = importStatement + code;
       }
     }
   }
