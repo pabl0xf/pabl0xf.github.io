@@ -5750,11 +5750,11 @@ global.RUN_ONLY_DISPLAY_BLOCKS = false;
 global.DISPLAY_INTERVAL = false;
 global.KEY_PRESSED = -1;
 
-global.DEVICE_TYPE = 'codrone';
-global.ZUMI_IMPORT_STATEMENT = 'import Zumi\n\nzumi = Zumi.Zumi()\nzumi.pair(zumi.Nearest)\n\n';
-global.CODRONE_IMPORT_STATEMENT = 'import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n';
+global.DEVICE_TYPE = "codrone";
+global.ZUMI_IMPORT_STATEMENT = "import sys\nsys.path.insert(0,'/home/pi/zumi/lib')\nimport Engine as engine\nimport Infrared as infrared\nimport Personality as personality\n\n";
+global.CODRONE_IMPORT_STATEMENT = "import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n";
 global.BACKGROUND_RUNNING = false;
-global.ZUMI_URL = '';
+global.ZUMI_URL = "";
 
 global.HOLD = { armCode: 0x41, eyeCode: 0x11 };
 global.OFF = { armCode: 0x40, eyeCode: 0x10 };
@@ -28863,7 +28863,7 @@ global.callChangeExternalEvent = function () {
 };
 
 var refreshTabCode = function refreshTabCode(event) {
-  var importStatement = DEVICE_TYPE === 'codrone' ? CODRONE_IMPORT_STATEMENT : ZUMI_IMPORT_STATEMENT;
+  var importStatement = DEVICE_TYPE === "codrone" ? CODRONE_IMPORT_STATEMENT : ZUMI_IMPORT_STATEMENT;
   if (event.type === Blockly.Events.DELETE || event.type === Blockly.Events.CREATE) {}
   if (event.type === Blockly.Events.CHANGE) {
     // Blockly.mainWorkspace.getAllBlocks().forEach(function(block){
@@ -29273,8 +29273,10 @@ Code.init = function () {
 
   $("#juniorXmlBtn").click(function (e) {
     $(".buttonTab").removeClass("active");
+    $("#masterXml").hide();
+    $(".master-workspace").hide();
     $(this).addClass("active");
-    if (global.DEVICE_TYPE === 'zumi') {
+    if (global.DEVICE_TYPE === "zumi") {
       var toolboxText = document.getElementById("juniorZumiXml").outerHTML;
     } else {
       var toolboxText = document.getElementById("juniorXml").outerHTML;
@@ -29291,9 +29293,9 @@ Code.init = function () {
   $("#seniorXmlBtn").click(function (e) {
     $(".buttonTab").removeClass("active");
     $("#masterXml").hide();
-    $('.master-workspace').hide();
+    $(".master-workspace").hide();
     $(this).addClass("active");
-    if (global.DEVICE_TYPE === 'zumi') {
+    if (global.DEVICE_TYPE === "zumi") {
       var toolboxText = document.getElementById("seniorZumiXml").outerHTML;
     } else {
       var toolboxText = document.getElementById("seniorXml").outerHTML;
@@ -29305,23 +29307,30 @@ Code.init = function () {
   });
 
   $("#masterXmlBtn").click(function (e) {
-    document.getElementById('iframeJupyter').src = '';
+    document.getElementById("iframeJupyter").src = "";
     $(".buttonTab").removeClass("active");
     $(this).addClass("active");
     $("#masterXml").show();
-    $('.master-workspace').show();
-    var codeString = '';
-    if (global.DEVICE_TYPE === 'zumi') {
+    $(".master-workspace").show();
+    var codeString = "";
+    if (global.DEVICE_TYPE === "zumi") {
       codeString = ZUMI_IMPORT_STATEMENT;
     } else {
       codeString = CODRONE_IMPORT_STATEMENT;
     }
     var codeString = codeString + Blockly.Python.workspaceToCode(Code.workspace);
     var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
-    document.getElementById('iframeJupyter').src = global.ZUMI_URL + '/notebooks/blockly.ipynb?&src=' + encodedString;
+    var hostName = window.location.protocol + "//" + window.location.hostname;
+    var zumiUrl = null;
+
+    if (global.ZUMI_URL) {
+      document.getElementById("iframeJupyter").src = global.ZUMI_URL + "/notebooks/blockly.ipynb?src=" + encodedString;
+    } else {
+      document.getElementById("iframeJupyter").src = hostName + ":8080/notebooks/blockly.ipynb?&src=" + encodedString;
+    }
     setTimeout(function () {
-      document.getElementsByClassName('loader')[0].style.display = 'none';
-      document.getElementById('iframeJupyter').style.visibility = 'visible';
+      document.getElementsByClassName("loader")[0].style.display = "none";
+      document.getElementById("iframeJupyter").style.visibility = "visible";
     }.bind(this), 3500);
   });
 
@@ -34051,7 +34060,7 @@ var ContentJavascript = function (_React$Component) {
         { className: "content-panel content-2" },
         _react2.default.createElement(
           "h1",
-          { style: { textAlign: 'center' } },
+          { style: { textAlign: "center" } },
           "JavaScript"
         ),
         _react2.default.createElement("pre", { id: "content_javascript", className: "content" })
@@ -34079,7 +34088,7 @@ var ContentPython = function (_React$Component2) {
         { className: "content-panel content-3" },
         _react2.default.createElement(
           "h1",
-          { style: { textAlign: 'center' } },
+          { style: { textAlign: "center" } },
           "Python"
         ),
         _react2.default.createElement("pre", { id: "content_python", className: "content" })
@@ -34107,7 +34116,7 @@ var ContentSensor = function (_React$Component3) {
         { className: "content-panel content-4" },
         _react2.default.createElement(
           "h3",
-          { style: { textAlign: 'center' } },
+          { style: { textAlign: "center" } },
           "Sensor data as a right panel"
         ),
         _react2.default.createElement(
@@ -34147,17 +34156,20 @@ var Panel = function (_React$Component4) {
         var encodedString = window.btoa(unescape(encodeURIComponent(codeString)));
 
         var zumiUrl = null;
+        var hostName = window.location.protocol + "//" + window.location.hostname;
         if (global.BACKGROUND_RUNNING) {
-          zumiUrl = global.ZUMI_URL + '/notebooks/blockly.ipynb?run=1&src=' + encodedString;
+          zumiUrl = hostName + ":8080/notebooks/blockly.ipynb?run=1&src=" + encodedString;
         } else {
-          zumiUrl = global.ZUMI_URL + '/notebooks/blockly.ipynb?src=' + encodedString;
+          zumiUrl = hostName + ":8080/notebooks/blockly.ipynb?src=" + encodedString;
         }
 
         global.BACKGROUND_RUNNING = false;
-
-        document.getElementById('iframeJupyter').src = zumiUrl;
+        if (global.ZUMI_URL) {
+          zumiUrl = global.ZUMI_URL + "/notebooks/blockly.ipynb?src=" + encodedString;
+        }
+        document.getElementById("iframeJupyter").src = zumiUrl;
       }.bind(this));
-      window.addEventListener('resize', Code.onresize, false);
+      window.addEventListener("resize", Code.onresize, false);
       Code.onresize();
     }
   }, {
@@ -34170,7 +34182,7 @@ var Panel = function (_React$Component4) {
       // document.getElementById('rightPanel-1').classList.remove('active');('rightPanel-1').style.width = '50%';
       // document.getElementsByClassName('loader')[0].style.display = 'block';
       // document.getElementById('iframeJupyter').style.visibility = 'hidden';
-      document.getElementById('rightPanel-1').classList.remove('active');
+      document.getElementById("rightPanel-1").classList.remove("active");
     }
   }, {
     key: "handleClick",
@@ -34179,32 +34191,32 @@ var Panel = function (_React$Component4) {
       var panelId = el.currentTarget.dataset.panelId;
       var tab = el.currentTarget.dataset.tab;
 
-      var activeTabButton = document.getElementsByClassName('show-right-panel active')[0];
+      var activeTabButton = document.getElementsByClassName("show-right-panel active")[0];
 
       if (activeTabButton) {
-        activeTabButton.classList.remove('active');
+        activeTabButton.classList.remove("active");
       }
 
-      el.currentTarget.classList.add('active');
+      el.currentTarget.classList.add("active");
 
-      if (panelId === '1') {
-        document.getElementById('iframeTutorials').src = 'https://basecamp.robolink.com/cwists/category';
+      if (panelId === "1") {
+        document.getElementById("iframeTutorials").src = "https://basecamp.robolink.com/cwists/category";
       }
 
-      var activeTab = document.getElementsByClassName('content-panel active')[0];
-      var contentTab = document.getElementsByClassName('content-' + panelId)[0];
+      var activeTab = document.getElementsByClassName("content-panel active")[0];
+      var contentTab = document.getElementsByClassName("content-" + panelId)[0];
 
       if (activeTab) {
-        activeTab.classList.remove('active');
+        activeTab.classList.remove("active");
       }
 
-      contentTab.classList.add('active');
+      contentTab.classList.add("active");
 
       if (tab) {
         Code.tabClick(tab);
       }
 
-      document.getElementById('rightPanel-1').classList.add('active');
+      document.getElementById("rightPanel-1").classList.add("active");
     }
   }, {
     key: "render",
@@ -34214,30 +34226,53 @@ var Panel = function (_React$Component4) {
         { id: "rightPanel-1" },
         _react2.default.createElement(
           "a",
-          { href: "#", tabIndex: "-1", className: "close-right-panel", onClick: this.handleCloseClick },
+          {
+            href: "#",
+            tabIndex: "-1",
+            className: "close-right-panel",
+            onClick: this.handleCloseClick
+          },
           _react2.default.createElement("i", { className: "glyphicon glyphicon-remove" })
         ),
         _react2.default.createElement(
           "button",
-          { className: "show-right-panel", "data-panel-id": "1", onClick: this.handleClick },
+          {
+            className: "show-right-panel",
+            "data-panel-id": "1",
+            onClick: this.handleClick
+          },
           _react2.default.createElement("img", { className: "cap", src: "./images/icons/graduation-cap.svg" }),
           "Tuts"
         ),
         _react2.default.createElement(
           "button",
-          { className: "show-right-panel", "data-panel-id": "3", "data-tab": "python", onClick: this.handleClick },
+          {
+            className: "show-right-panel",
+            "data-panel-id": "3",
+            "data-tab": "python",
+            onClick: this.handleClick
+          },
           _react2.default.createElement("img", { src: "./images/icons/python_icon_cropped.png" }),
           "Python"
         ),
         _react2.default.createElement(
           "button",
-          { className: "show-right-panel", "data-panel-id": "2", "data-tab": "javascript", onClick: this.handleClick },
+          {
+            className: "show-right-panel",
+            "data-panel-id": "2",
+            "data-tab": "javascript",
+            onClick: this.handleClick
+          },
           _react2.default.createElement("img", { src: "./images/icons/javascript_icon.png" }),
           "Javascript"
         ),
         _react2.default.createElement(
           "button",
-          { className: "show-right-panel", "data-panel-id": "5", onClick: this.handleClick },
+          {
+            className: "show-right-panel",
+            "data-panel-id": "5",
+            onClick: this.handleClick
+          },
           _react2.default.createElement("img", { className: "arduino", src: "./images/icons/arduino_icon.png" }),
           "Arduino"
         ),
