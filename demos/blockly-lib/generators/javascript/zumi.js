@@ -33,8 +33,39 @@ Blockly.JavaScript["zumi_turn_degree_junior"] = function(block) {
   return "Engine.turnDegree(" + arg0 + ");\n";
 };
 
+Blockly.JavaScript["zumi_turn_left_junior"] = function(block) {
+  return "Engine.turnLeft();\n";
+};
+
+Blockly.JavaScript["zumi_turn_right_junior"] = function(block) {
+  return "Engine.turnRight();\n";
+};
+
+Blockly.JavaScript["zumi_forward_junior"] = function(block) {
+  return "Engine.forward();\n";
+};
+
+Blockly.JavaScript["zumi_forward_duration_junior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "Engine.forward(" + arg0 + ");\n";
+};
+
+Blockly.JavaScript["zumi_reverse_junior"] = function(block) {
+  return "Engine.reverse();\n";
+};
+
+Blockly.JavaScript["zumi_reverse_duration_junior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "Engine.reverse("+arg0+");\n";
+};
+
+Blockly.JavaScript["zumi_stop_junior"] = function(block) {
+  return "Engine.stop();\n";
+};
+
 Blockly.JavaScript["zumi_get_distance_junior"] = function(block) {
-  return ["await Infrared.getDistance()", Blockly.JavaScript.ORDER_FUNCTION_CALL];
+  var arg0 = block.getFieldValue("TYPE");
+  return ["Infrared.getDistance("+arg0+")", Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript["zumi_play_sound_junior"] = function(block) {
@@ -55,7 +86,78 @@ Blockly.JavaScript["zumi_face_detected_junior"] = function(block) {
   return "await faceDetected();\n";
 };
 
+Blockly.JavaScript["zumi_track_face_junior"] = function(block) {
+  return "await trackFace();\n";
+};
+
 Blockly.JavaScript["zumi_collect_smile_junior"] = function(block) {
+  var arg0 = block.getFieldValue("EMOTION");
+  return "await collectSmile();\n";
+};
+
+Blockly.JavaScript["zumi_turn_degree_senior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "Engine.turnDegree(" + arg0 + ");\n";
+};
+
+Blockly.JavaScript["zumi_turn_left_senior"] = function(block) {
+  return "Engine.turnLeft();\n";
+};
+
+Blockly.JavaScript["zumi_turn_right_senior"] = function(block) {
+  return "Engine.turnRight();\n";
+};
+
+Blockly.JavaScript["zumi_forward_senior"] = function(block) {
+  return "Engine.forward();\n";
+};
+
+Blockly.JavaScript["zumi_forward_duration_senior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "Engine.forward(" + arg0 + ");\n";
+};
+
+Blockly.JavaScript["zumi_reverse_senior"] = function(block) {
+  return "Engine.reverse();\n";
+};
+
+Blockly.JavaScript["zumi_reverse_duration_senior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "Engine.reverse("+arg0+");\n";
+};
+
+Blockly.JavaScript["zumi_stop_senior"] = function(block) {
+  return "Engine.stop();\n";
+};
+
+Blockly.JavaScript["zumi_get_distance_senior"] = function(block) {
+  var arg0 = block.getFieldValue("TYPE");
+  return ["Infrared.getDistance("+arg0+")", Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript["zumi_play_sound_senior"] = function(block) {
+  var arg0 = block.getFieldValue("SOUND");
+  return "await play_sound(" + arg0 + ");\n";
+};
+
+Blockly.JavaScript["zumi_personality_act_senior"] = function(block) {
+  var arg0 = block.getFieldValue("EMOTION");
+  return "await act(" + arg0 + ");\n";
+};
+
+Blockly.JavaScript["zumi_smile_detected_senior"] = function(block) {
+  return "await smileDetected();\n";
+};
+
+Blockly.JavaScript["zumi_face_detected_senior"] = function(block) {
+  return "await faceDetected();\n";
+};
+
+Blockly.JavaScript["zumi_track_face_senior"] = function(block) {
+  return "await trackFace();\n";
+};
+
+Blockly.JavaScript["zumi_collect_smile_senior"] = function(block) {
   var arg0 = block.getFieldValue("EMOTION");
   return "await collectSmile();\n";
 };

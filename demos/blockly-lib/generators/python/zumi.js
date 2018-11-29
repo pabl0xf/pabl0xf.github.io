@@ -30,11 +30,80 @@ goog.require("Blockly.Python");
 
 Blockly.Python["zumi_turn_degree_junior"] = function(block) {
   var arg0 = block.getFieldValue("NUM0");
-  return "Engine.turn_degree(" + arg0 + ")\n";
+  return "engine.turn_degree(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_turn_degree_senior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "engine.turn_degree(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_turn_left_junior"] = function(block) {
+  return "engine.turn_left()\n";
+};
+
+Blockly.Python["zumi_turn_left_senior"] = function(block) {
+  return "engine.turn_left()\n";
+};
+
+Blockly.Python["zumi_turn_right_junior"] = function(block) {
+  return "engine.turn_right()\n";
+};
+
+Blockly.Python["zumi_turn_right_senior"] = function(block) {
+  return "engine.turn_right()\n";
+};
+
+Blockly.Python["zumi_forward_junior"] = function(block) {
+  return "engine.forward()\n";
+};
+
+Blockly.Python["zumi_forward_senior"] = function(block) {
+  return "engine.forward()\n";
+};
+
+Blockly.Python["zumi_forward_duration_junior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "engine.forward(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_forward_duration_senior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "engine.forward(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_reverse_junior"] = function(block) {
+  return "engine.reverse()\n";
+};
+
+Blockly.Python["zumi_reverse_senior"] = function(block) {
+  return "engine.reverse()\n";
+};
+
+Blockly.Python["zumi_reverse_duration_junior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "engine.reverse(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_reverse_duration_senior"] = function(block) {
+  var arg0 = block.getFieldValue("NUM0");
+  return "engine.reverse(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_stop_junior"] = function(block) {
+  return "engine.stop()\n";
+};
+
+Blockly.Python["zumi_stop_senior"] = function(block) {
+  return "engine.stop()\n";
 };
 
 Blockly.Python["zumi_get_distance_junior"] = function(block) {
-  return ["Infrared.get_distance()", Blockly.Python.ORDER_FUNCTION_CALL];
+  var arg0 = block.getFieldValue("TYPE");
+  return [
+    "infrared.get_distance(" + arg0 + ")",
+    Blockly.Python.ORDER_FUNCTION_CALL
+  ];
 };
 
 Blockly.Python["zumi_play_sound_junior"] = function(block) {
@@ -44,17 +113,57 @@ Blockly.Python["zumi_play_sound_junior"] = function(block) {
 
 Blockly.Python["zumi_personality_act_junior"] = function(block) {
   var arg0 = block.getFieldValue("EMOTION");
-  return "Personality.act(" + arg0 + ");\n";
+  return "personality.act(" + arg0 + ")\n";
 };
 
 Blockly.Python["zumi_face_detected_junior"] = function(block) {
   return "DeepLearning.face_detected()\n";
 };
 
+Blockly.Python["zumi_track_face_junior"] = function(block) {
+  return "DeepLearning.track_face()\n";
+};
+
 Blockly.Python["zumi_smile_detected_junior"] = function(block) {
   return "DeepLearning.smile_detected()\n";
 };
+
 Blockly.Python["zumi_collect_smile_junior"] = function(block) {
+  var arg0 = block.getFieldValue("EMOTION");
+  return "DeepLearning.collect_smile()\n";
+};
+
+Blockly.Python["zumi_get_distance_senior"] = function(block) {
+  var arg0 = block.getFieldValue("TYPE");
+  return [
+    "infrared.get_distance(" + arg0 + ")",
+    Blockly.Python.ORDER_FUNCTION_CALL
+  ];
+};
+
+Blockly.Python["zumi_play_sound_senior"] = function(block) {
+  var arg0 = block.getFieldValue("SOUND");
+  return "Audio.play_sound(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_personality_act_senior"] = function(block) {
+  var arg0 = block.getFieldValue("EMOTION");
+  return "personality.act(" + arg0 + ")\n";
+};
+
+Blockly.Python["zumi_face_detected_senior"] = function(block) {
+  return "DeepLearning.face_detected()\n";
+};
+
+Blockly.Python["zumi_track_face_senior"] = function(block) {
+  return "DeepLearning.track_face()\n";
+};
+
+Blockly.Python["zumi_smile_detected_senior"] = function(block) {
+  return "DeepLearning.smile_detected()\n";
+};
+
+Blockly.Python["zumi_collect_smile_senior"] = function(block) {
   var arg0 = block.getFieldValue("EMOTION");
   return "DeepLearning.collect_smile()\n";
 };

@@ -29,8 +29,8 @@
   display: none;
 }
 
-#show_var_data g> path:nth-child(2) {
-    fill: #f29327;
+#show_var_data g > path:nth-child(2) {
+  fill: #f29327;
 }
 
 @font-face {
@@ -235,7 +235,54 @@ button {
 }
 
 .blocklyFlyout {
-  z-index: 999;
+  z-index: 99999999;
+}
+
+#cover-spin {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 99999999999;
+  display: none;
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#cover-spin::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 48%;
+  top: 40%;
+  width: 80px;
+  height: 80px;
+  border-style: solid;
+  border-color: white;
+  border-top-color: transparent;
+  border-width: 4px;
+  border-radius: 50%;
+  -webkit-animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 .alert {
@@ -406,20 +453,24 @@ button {
 }
 
 .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    margin-top: 20px;
-    text-align: center;
-    animation: spin 2s linear infinite;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 #rightPanel-1 {
@@ -524,8 +575,18 @@ button {
 #iframeJupyter {
   width: 84%;
   height: 100%;
+  position: absolute;
+  top: 0;
   border: none;
   visibility: hidden;
+}
+
+#iframeJupyterConsole {
+  width: 84%;
+  height: 100%;
+  border: none;
+  top: 21px;
+  position: absolute;
 }
 
 #connectMenu button {
@@ -752,14 +813,14 @@ button {
   top: 10px;
   font-family: "avenir-medium";
   z-index: 999999;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   top: 130px;
 }
 
 .master-toolbox ul {
-  margin-left:19px;
+  margin-left: 19px;
   font-family: "avenir-medium";
-  color: #9B9B9B;
+  color: #9b9b9b;
   font-family: Avenir;
   font-size: 14px;
   list-style-type: none;
@@ -767,7 +828,7 @@ button {
   margin-top: 15px;
 }
 
-.master-toolbox ul div{
+.master-toolbox ul div {
   cursor: pointer;
   font-family: "avenir-medium";
 }
@@ -776,28 +837,51 @@ button {
   margin-top: 11px;
 }
 
-div.master-toolbox>ul>div>span.pull-right.glyphicon.glyphicon-triangle-bottom, .glyphicon-triangle-top {
+div.master-toolbox
+  > ul
+  > div
+  > span.pull-right.glyphicon.glyphicon-triangle-bottom,
+.glyphicon-triangle-top {
   margin-right: 30px;
 }
 
 .master-toolbox ul li {
-  margin-left:-19px;
+  margin-left: -19px;
   padding-left: 35px;
   padding-top: 8px;
   font-family: "avenir-medium";
   padding-bottom: 8px;
   color: #636363;
   font-family: Avenir;
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
 }
 
+.jupyter-console {
+  position: absolute;
+  background-color: #000000;
+  left: 276px;
+  top: 70%;
+  width: 95%;
+  height: 200px;
+  z-index: 9993;
+}
 
+.jupyter-console p {
+  color: #fff;
+  margin-left: 5px;
+}
 
+#loaderConsole {
+  display: none;
+  position: absolute;
+  left: 35%;
+  top: 20px;
+}
 
 .master-workspace {
   display: none;
   position: absolute;
-  background-color: #9B9B9B;
+  background-color: #9b9b9b;
   left: 276px;
   width: 95%;
   height: 100%;
@@ -808,7 +892,7 @@ div.master-toolbox>ul>div>span.pull-right.glyphicon.glyphicon-triangle-bottom, .
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 999;
+  z-index: 9999991;
   background: #d7d7d7;
   width: 276px;
   border-top: 1px solid #ccc;
