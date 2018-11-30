@@ -176,6 +176,33 @@ $exports.store = store;
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -366,33 +393,6 @@ var Command = function () {
 }();
 
 exports.default = Command;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
 
 /***/ }),
 /* 8 */
@@ -897,7 +897,7 @@ var flyVars = {
 exports.dataLedMode = ledMode;
 exports.flyVariables = flyVars;
 exports.ledColorRGB = ledColorRGB;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 33 */
@@ -1891,7 +1891,7 @@ var CommandManager = function () {
 }();
 
 var commandManager = exports.commandManager = new CommandManager();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 39 */
@@ -2430,7 +2430,7 @@ var KeyPressManager = function () {
 }();
 
 var keyPressManager = exports.keyPressManager = new KeyPressManager();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 60 */
@@ -5326,7 +5326,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -5422,7 +5422,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -5528,7 +5528,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -5672,7 +5672,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -5922,7 +5922,7 @@ global.COLORS = {
   Violet: 135,
   Yellow: 139
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 151 */
@@ -5937,7 +5937,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -6018,7 +6018,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -6266,7 +6266,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 156 */
@@ -11507,7 +11507,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 354 */
@@ -29499,7 +29499,7 @@ document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
 
 window.addEventListener("load", Code.init);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 369 */
@@ -29543,7 +29543,7 @@ function dynamicClass(name) {
 global.runJS = function () {
   Code.runJS();
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 371 */
@@ -30358,7 +30358,7 @@ global.removeFlightIntervals = function () {
   clearInterval(flightInteface.goToHeightIntevalId);
   clearInterval(flightInteface.intervalId);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 372 */
@@ -30373,7 +30373,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -30444,7 +30444,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -30571,7 +30571,7 @@ var Go = function (_Command) {
 }(_command2.default);
 
 exports.default = Go;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 374 */
@@ -30586,7 +30586,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -30657,7 +30657,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -30728,7 +30728,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -30799,7 +30799,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -31440,7 +31440,7 @@ sequencesInteface.spiral = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.ma
     }
   }, _callee18, this);
 }));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 379 */
@@ -31568,7 +31568,7 @@ global.getYaw = function () {
 global.getThrottle = function () {
   return _data.flyVariables.throttle;
 }.bind(undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 380 */
@@ -32008,7 +32008,7 @@ global.resetDefaultLED = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark
     }
   }, _callee14, this);
 })).bind(undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 381 */
@@ -32023,7 +32023,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32104,7 +32104,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32185,7 +32185,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32271,7 +32271,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32582,7 +32582,7 @@ global.setWorkspaceInterval = function () {
     return _ref3.apply(this, arguments);
   };
 }();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 386 */
@@ -32597,7 +32597,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32683,7 +32683,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32767,7 +32767,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32853,7 +32853,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -32941,7 +32941,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -33027,7 +33027,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -33128,7 +33128,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _command = __webpack_require__(6);
+var _command = __webpack_require__(7);
 
 var _command2 = _interopRequireDefault(_command);
 
@@ -33235,7 +33235,7 @@ global.isCodeRunning = function () {
 global.getKeyPressed = function (arg) {
   return global.KEY_PRESSED == arg;
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 394 */
@@ -33270,7 +33270,7 @@ global.onEvent = function (eventType, callback) {
 global.onKeyPressEvent = function (keyCode, callback) {
    _keyPressManager.keyPressManager.addKeyPressCode(keyCode, callback);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 395 */
@@ -33354,7 +33354,7 @@ var LowBattery = function () {
 }();
 
 exports.default = LowBattery;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 396 */
@@ -33688,7 +33688,7 @@ var ConnectionBox = function (_Component) {
 }(_react.Component);
 
 exports.default = ConnectionBox;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 397 */
@@ -34017,7 +34017,7 @@ var Burger = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Burger;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 398 */
@@ -34306,7 +34306,7 @@ var Panel = function (_React$Component4) {
 }(_react2.default.Component);
 
 exports.default = Panel;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 399 */
@@ -34369,7 +34369,7 @@ var ContentJupyter = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = ContentJupyter;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 400 */
@@ -34443,7 +34443,7 @@ exports.default = MasterWorkspace;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(global) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -34470,17 +34470,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MasterToolbox = function (_React$Component) {
   _inherits(MasterToolbox, _React$Component);
 
-  function MasterToolbox() {
+  function MasterToolbox(props) {
     _classCallCheck(this, MasterToolbox);
 
-    return _possibleConstructorReturn(this, (MasterToolbox.__proto__ || Object.getPrototypeOf(MasterToolbox)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (MasterToolbox.__proto__ || Object.getPrototypeOf(MasterToolbox)).call(this, props));
+
+    _this.state = { typeDevice: "codrone", deviceType: 1 };
+    return _this;
   }
 
   _createClass(MasterToolbox, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.state = { typeDevice: "codrone" };
       this.toggleOption = this.toggleOption.bind(this);
+      $(document).on("OnMasterToolboxDeviceChange", function () {
+        if (global.DEVICE_TYPE === "zumi") {
+          this.setState({ deviceType: 2 });
+        } else {
+          this.setState({ deviceType: 1 });
+        }
+      }.bind(this));
     }
   }, {
     key: "toggleOption",
@@ -34507,106 +34516,240 @@ var MasterToolbox = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "master-toolbox" },
-        _react2.default.createElement(
-          "ul",
-          null,
+      if (this.state.deviceType == 1) {
+        return _react2.default.createElement(
+          "div",
+          { className: "master-toolbox" },
           _react2.default.createElement(
-            "div",
-            { onClick: this.toggleOption },
-            "Connection",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Connection",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "disconnect()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "pair()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "calibrate()"
+            )
           ),
           _react2.default.createElement(
-            "li",
-            { style: { display: "none" } },
-            "disconnect()"
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              null,
+              " ",
+              "Flight Commands (Start/Stop)",
+              " ",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            )
           ),
           _react2.default.createElement(
-            "li",
-            { style: { display: "none" } },
-            "pair()"
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              null,
+              " ",
+              "Flight Commands (Movements)",
+              " ",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            )
           ),
           _react2.default.createElement(
-            "li",
-            { style: { display: "none" } },
-            "calibrate()"
-          )
-        ),
-        _react2.default.createElement(
-          "ul",
-          null,
-          _react2.default.createElement(
-            "div",
+            "ul",
             null,
-            " ",
-            "Flight Commands (Start/Stop)",
-            " ",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
-          )
-        ),
-        _react2.default.createElement(
-          "ul",
-          null,
+            _react2.default.createElement(
+              "div",
+              null,
+              " ",
+              "Flight Variables",
+              " ",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            )
+          ),
           _react2.default.createElement(
-            "div",
+            "ul",
             null,
-            " ",
-            "Flight Commands (Movements)",
-            " ",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
-          )
-        ),
-        _react2.default.createElement(
-          "ul",
-          null,
+            _react2.default.createElement(
+              "div",
+              null,
+              " ",
+              "LED",
+              " ",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            )
+          ),
           _react2.default.createElement(
-            "div",
+            "ul",
             null,
-            " ",
-            "Flight Variables",
-            " ",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
-          )
-        ),
-        _react2.default.createElement(
-          "ul",
-          null,
+            _react2.default.createElement(
+              "div",
+              null,
+              " ",
+              "Status checkers",
+              " ",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            )
+          ),
           _react2.default.createElement(
-            "div",
+            "ul",
             null,
-            " ",
-            "LED ",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            _react2.default.createElement(
+              "div",
+              null,
+              " ",
+              "Sensors",
+              " ",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            )
           )
-        ),
-        _react2.default.createElement(
-          "ul",
-          null,
+        );
+      }
+      if (this.state.deviceType == 2) {
+        return _react2.default.createElement(
+          "div",
+          { className: "master-toolbox" },
           _react2.default.createElement(
-            "div",
+            "ul",
             null,
-            " ",
-            "Status checkers",
-            " ",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
-          )
-        ),
-        _react2.default.createElement(
-          "ul",
-          null,
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Engine",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "turn_degree()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "turn_left()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "turn_right()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "forward()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "reverse()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "stop()"
+            )
+          ),
           _react2.default.createElement(
-            "div",
+            "ul",
             null,
-            " ",
-            "Sensors",
-            " ",
-            _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Infrared",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "get_distance()"
+            )
+          ),
+          _react2.default.createElement(
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Audio",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "play()"
+            )
+          ),
+          _react2.default.createElement(
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Personality",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "act()"
+            )
+          ),
+          _react2.default.createElement(
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Computer Vision",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "face_detected()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "track_face()"
+            )
+          ),
+          _react2.default.createElement(
+            "ul",
+            null,
+            _react2.default.createElement(
+              "div",
+              { onClick: this.toggleOption },
+              "Deep Learning",
+              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "smile_detected()"
+            ),
+            _react2.default.createElement(
+              "li",
+              { style: { display: "none" } },
+              "collect_smile()"
+            )
           )
-        )
-      );
+        );
+      }
     }
   }]);
 
@@ -34614,6 +34757,7 @@ var MasterToolbox = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = MasterToolbox;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 402 */
@@ -34668,7 +34812,6 @@ var JupyterConsole = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         { className: "jupyter-console" },
-        _react2.default.createElement("div", { id: "loaderConsole", className: "loader" }),
         _react2.default.createElement(
           "p",
           null,
@@ -34735,17 +34878,20 @@ var SelectDevice = function (_React$Component) {
     key: "handleChange",
     value: function handleChange(el) {
       global.DEVICE_TYPE = el.target.value;
-      if (global.DEVICE_TYPE === 'zumi') {
-        $(".buttonTab").removeClass("active");
-        $('#juniorXmlBtn').addClass("active");
+      $.event.trigger({
+        type: "OnMasterToolboxDeviceChange",
+        message: ""
+      });
+      if (global.DEVICE_TYPE === "zumi") {
         var toolboxText = document.getElementById("juniorZumiXml").outerHTML;
         var toolboxXml = Blockly.Xml.textToDom(toolboxText);
         $(".blocklyToolboxDiv").attr("role", "junior");
+        $("#juniorXmlBtn").trigger("click");
 
         Code.workspace.updateToolbox(toolboxXml);
         Code.addClassToCategories();
       } else {
-        $('#juniorXmlBtn').trigger("click");
+        $("#juniorXmlBtn").trigger("click");
       }
     }
   }, {
@@ -34777,7 +34923,7 @@ var SelectDevice = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SelectDevice;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ })
 /******/ ]);
