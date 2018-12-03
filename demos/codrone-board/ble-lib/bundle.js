@@ -5754,7 +5754,7 @@ global.DEVICE_TYPE = "codrone";
 global.ZUMI_IMPORT_STATEMENT = "import sys\nsys.path.insert(0,'/home/pi/zumi/lib')\nimport Engine as engine\nimport Infrared as infrared\nimport Personality as personality\n\n";
 global.CODRONE_IMPORT_STATEMENT = "import CoDrone\n\ndrone = CoDrone.CoDrone()\ndrone.pair(drone.Nearest)\n\n";
 global.BACKGROUND_RUNNING = false;
-global.ZUMI_CURRENT_VIEW = "Junior";
+global.ZUMI_CURRENT_VIEW = "junior";
 global.ZUMI_URL = "";
 
 global.HOLD = { armCode: 0x41, eyeCode: 0x11 };
@@ -29279,7 +29279,7 @@ Code.init = function () {
   }
 
   $("#juniorXmlBtn").click(function (e) {
-    global.ZUMI_CURRENT_VIEW = "Junior";
+    global.ZUMI_CURRENT_VIEW = "junior";
     $(".buttonTab").removeClass("active");
     $("#masterXml").hide();
     $(".master-workspace").hide();
@@ -29299,7 +29299,7 @@ Code.init = function () {
   $("#juniorZumiXmlBtn").click(function (e) {});
 
   $("#seniorXmlBtn").click(function (e) {
-    global.ZUMI_CURRENT_VIEW = "Senior";
+    global.ZUMI_CURRENT_VIEW = "senior";
     $(".buttonTab").removeClass("active");
     $("#masterXml").hide();
     $(".master-workspace").hide();
@@ -29316,7 +29316,8 @@ Code.init = function () {
   });
 
   $("#masterXmlBtn").click(function (e) {
-    global.ZUMI_CURRENT_VIEW = "Master";
+    global.ZUMI_CURRENT_VIEW = "master";
+    Blockly.hideChaff();
     //document.getElementById("iframeJupyter").src = "";
     $(".buttonTab").removeClass("active");
     $(this).addClass("active");
@@ -34476,6 +34477,8 @@ var MasterToolbox = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (MasterToolbox.__proto__ || Object.getPrototypeOf(MasterToolbox)).call(this, props));
 
     _this.state = { typeDevice: "codrone", deviceType: 1 };
+    _this.toggleOption = _this.toggleOption.bind(_this);
+    _this.toggleFromIcon = _this.toggleFromIcon.bind(_this);
     return _this;
   }
 
@@ -34514,6 +34517,12 @@ var MasterToolbox = function (_React$Component) {
       }
     }
   }, {
+    key: "toggleFromIcon",
+    value: function toggleFromIcon(el) {
+      var elementDivContainer = { target: el.target.parentElement };
+      this.toggleOption(elementDivContainer);
+    }
+  }, {
     key: "render",
     value: function render() {
       if (this.state.deviceType == 1) {
@@ -34527,7 +34536,10 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Connection",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
@@ -34630,7 +34642,10 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Engine",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
@@ -34670,7 +34685,10 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Infrared",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
@@ -34685,12 +34703,15 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Audio",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
               { style: { display: "none" } },
-              "play()"
+              "play_sound()"
             )
           ),
           _react2.default.createElement(
@@ -34700,7 +34721,10 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Personality",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
@@ -34715,7 +34739,10 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Computer Vision",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
@@ -34735,7 +34762,10 @@ var MasterToolbox = function (_React$Component) {
               "div",
               { onClick: this.toggleOption },
               "Deep Learning",
-              _react2.default.createElement("span", { className: "pull-right glyphicon glyphicon-triangle-top" })
+              _react2.default.createElement("span", {
+                onClick: this.toggleFromIcon,
+                className: "pull-right glyphicon glyphicon-triangle-top"
+              })
             ),
             _react2.default.createElement(
               "li",
@@ -34882,17 +34912,8 @@ var SelectDevice = function (_React$Component) {
         type: "OnMasterToolboxDeviceChange",
         message: ""
       });
-      if (global.DEVICE_TYPE === "zumi") {
-        var toolboxText = document.getElementById("juniorZumiXml").outerHTML;
-        var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-        $(".blocklyToolboxDiv").attr("role", "junior");
-        $("#juniorXmlBtn").trigger("click");
-
-        Code.workspace.updateToolbox(toolboxXml);
-        Code.addClassToCategories();
-      } else {
-        $("#juniorXmlBtn").trigger("click");
-      }
+      var currentTab = "#" + global.ZUMI_CURRENT_VIEW + "XmlBtn";
+      $(currentTab).trigger("click");
     }
   }, {
     key: "render",

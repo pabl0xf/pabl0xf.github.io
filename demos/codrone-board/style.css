@@ -807,7 +807,8 @@ button {
 }
 
 .master-toolbox {
-  height: 465px;
+  height: calc(100% - 203px);
+  overflow-y: auto;
   width: 275px;
   position: absolute;
   top: 10px;
@@ -882,7 +883,7 @@ div.master-toolbox
   display: none;
   position: absolute;
   background-color: #9b9b9b;
-  left: 276px;
+  left: 275px;
   width: 95%;
   height: 100%;
   z-index: 9998;
