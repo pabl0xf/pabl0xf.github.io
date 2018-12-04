@@ -34892,17 +34892,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SelectDevice = function (_React$Component) {
   _inherits(SelectDevice, _React$Component);
 
-  function SelectDevice() {
+  function SelectDevice(props) {
     _classCallCheck(this, SelectDevice);
 
-    return _possibleConstructorReturn(this, (SelectDevice.__proto__ || Object.getPrototypeOf(SelectDevice)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (SelectDevice.__proto__ || Object.getPrototypeOf(SelectDevice)).call(this, props));
+
+    var paramGetZumi = location.search.split("zumi=")[1];
+    var deviceType = paramGetZumi ? "zumi" : "codrone";
+    _this.state = { typeDevice: deviceType };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(SelectDevice, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.state = { typeDevice: "codrone" };
-      this.handleChange = this.handleChange.bind(this);
+      if (this.state.typeDevice === "zumi") {
+        this.handleChange({ target: { value: "zumi" } });
+        setTimeout(function () {
+          var currentTab = "#" + global.ZUMI_CURRENT_VIEW + "XmlBtn";
+          $(currentTab).trigger("click");
+        }.bind(this), 400);
+      }
     }
   }, {
     key: "handleChange",
@@ -34924,10 +34935,13 @@ var SelectDevice = function (_React$Component) {
         { style: { height: "88px" } },
         _react2.default.createElement(
           "select",
-          { onChange: this.handleChange },
+          {
+            onChange: this.handleChange,
+            defaultValue: this.state.typeDevice
+          },
           _react2.default.createElement(
             "option",
-            { value: "codrone", defaultValue: selectedOptionId },
+            { value: "codrone" },
             "CoDrone"
           ),
           _react2.default.createElement(

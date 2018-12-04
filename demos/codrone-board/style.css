@@ -822,7 +822,6 @@ button {
   margin-left: 19px;
   font-family: "avenir-medium";
   color: #9b9b9b;
-  font-family: Avenir;
   font-size: 14px;
   list-style-type: none;
   padding-left: 0px;
@@ -853,7 +852,6 @@ div.master-toolbox
   font-family: "avenir-medium";
   padding-bottom: 8px;
   color: #636363;
-  font-family: Avenir;
   background-color: #dcdcdc;
 }
 
