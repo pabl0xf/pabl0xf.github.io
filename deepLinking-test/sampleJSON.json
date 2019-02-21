@@ -1,0 +1,30 @@
+{
+  "sections": [
+    {
+      "title": "Popular VOD",
+      "tiles": [
+        {
+          "title": "MLK: The Assassination Tapes",
+          "subtitle": "he assassination of Dr. Martin Luther King Jr. was all caught on film",
+          "image_ratio": "16by9",
+          "image_url": "https://kanvas.smithsoniandigital.com/mlk-the-assassination-tapes/00/1544463357/0_0_141155_00_3840x2160/435x245.jpg",
+          "action_data": "{\"idItem\": \"474d65c52647491fb36680b455b733fe\", \"typeItem\": \"ShowContentItem\"}",
+          "is_playable": true
+        }
+      ]
+    },
+    {
+      "title": "VOD recommended",
+      "tiles": [
+        {
+          "title": "True Stories: Hollywood's",
+          "subtitle": "True Stories: Hollywood's...",
+          "image_ratio": "1by1",
+          "image_url": "https://kanvas.smithsoniandigital.com/the-real-story/seasons/4/episodes/140631/eps01/1537212720/679_4_140631_eps01_hd/1920x800.jpg",
+          "action_data": "{\"idItem\": \"0870a406033a440fbf632ca54d400446\", \"typeItem\": \"PlaylistContentItem\", \"idCollection\": \"bd32c88c5a584d09960350d06ffe06ab\", \"typeCollection\": \"PlaylistCollection\"}",
+          "is_playable": true
+        }
+      ]
+    }
+  ]
+}
