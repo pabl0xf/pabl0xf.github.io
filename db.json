@@ -1,4 +1,4 @@
-{
+{"device": {
  "updatedAt": "",
  "createdAt": "", 
  "isActive": true,
@@ -8,5 +8,5 @@
  "manufacturer": "samsung",
  "model": "SM-G955F", 
  "platform": "Android",
- "uuid": "2fb3a0558b6096dc"
+ "uuid": "2fb3a0558b6096dc" }
 }
