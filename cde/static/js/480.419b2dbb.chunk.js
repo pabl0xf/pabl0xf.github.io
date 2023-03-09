@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcodrone_blockly=self.webpackChunkcodrone_blockly||[]).push([[480],{1480:function(e,c,o){e.exports=o.p+"static/media/sr_flight_commands.624973ae77fde76eb9e0.xml"}}]);
