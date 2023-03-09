@@ -7,12 +7,12 @@
   "short_name": "codrone",
   "icons": [
     {
-        "src": "/logo192.png",
+        "src": "/cde/logo192.png",
         "sizes": "192x192",
         "type": "image/png"
     },
     {
-        "src": "/logo512.png",
+        "src": "/cde/logo512.png",
         "sizes": "512x512",
         "type": "image/png"
     }],
