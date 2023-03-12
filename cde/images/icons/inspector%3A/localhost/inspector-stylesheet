@@ -1,0 +1,17 @@
+.ant-upload-list-item-info {}
+
+.ant-upload .ant-tooltip-open {
+    display: none;
+}
+
+.ant-upload-list-item.ant-tooltip-open {
+    background: red;
+}
+
+.ant-upload-list-item.ant-tooltip-content {
+    background: red;
+}
+
+.ant-upload-list-picture-card-container .ant-tooltip-content {
+    background: red;
+}
